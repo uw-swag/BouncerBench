@@ -1,0 +1,16 @@
+openai
+ollama
+pydantic
+python-dotenv
+pandas
+tqdm
+pygit2
+instructor
+jupyter
+datasets
+kaleido==0.2.1
+eval_type_backport
+scikit-learn
+scipy
+plotly
+matplotlib

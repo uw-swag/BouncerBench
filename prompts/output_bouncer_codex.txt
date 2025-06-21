@@ -1,0 +1,19 @@
+Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. 
+
+You have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.
+
+You cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.
+
+Your objective is to determine if the patch correctly addresses the issue described.
+
+Please explain your reasoning and choose one of the following labels based on your evaluation:
+
+CORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.
+
+CORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.
+
+BROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.
+
+INCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.
+
+Patches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.

@@ -1,0 +1,17 @@
+Imagine that you are an experienced software engineer who has been instructed to create a PR that successfully resolves the GitHub issue supplied. 
+
+You have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.
+
+Your objective is to determine if the issue description is well-specified enough for a meaningful attempt at a solution?
+
+Please explain your choice and pick one of the following labels based on your analysis:
+
+WELL_SPECIFIED: The issue is well-specified and it is clear what is required for a successful solution.
+
+REASONABLY_SPECIFIED: There are some blanks to fill in about the issue, but there is a sensible interpretation of what is required for a successful solution.
+
+VAGUE: The issue is vague and there is room for ambiguity. It is unclear what a successful solution would look like.
+
+IMPOSSIBLE_TO_SOLVE: It is almost impossible to understand what you are being asked to do without further information
+
+Tickets that are labeled VAGUE and IMPOSSIBLE_TO_SOLVE will be considered not specified enough for an attempt at a solution and discarded
