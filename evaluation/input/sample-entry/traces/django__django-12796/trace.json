@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior (makemigrations always runs loader.check_consistent_history and thus requires a live DB), pinpoints the code location, and specifies the desired enhancement (add a command\u2010line flag to skip the consistency check or gracefully handle a missing connection). While implementation details like exact flag naming can be decided by the contributor, the scope and acceptance criteria are unambiguous and actionable."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear failing test case, explains the current vs. desired behavior, and even suggests exactly where and how to adjust the code (detect `view_class` in ResolverMatch.__init__). There\u2019s no ambiguity about what needs to change or how to verify the fix."
+}

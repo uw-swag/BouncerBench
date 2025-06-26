@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/backends/base/schema.py b/django/db/backends/base/schema.py\nindex 40a3426cbb..3c64535582 100644\n--- a/django/db/backends/base/schema.py\n+++ b/django/db/backends/base/schema.py\n@@ -1378,6 +1378,7 @@\n         # - adding only a db_column and the column name is not changed\n         non_database_attrs = [\n             \"blank\",\n+            \"choices\",\n             \"db_column\",\n             \"editable\",\n             \"error_messages\",\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAlterField operation should be noop when adding/changing choices on SQLite.\nDescription\n\t\nwhile writing a test case for #33470 i found that for sqlite, even a seemingly db-transparent change like adding choices still generates sql (new table + insert + drop + rename) even though this shouldn't be needed. on e.g. postgres the same migration generates no sql\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_myukf851l",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The issue is that \u201cchoices\u201d is a purely Python\u2010level construct and should not trigger a schema change on SQLite. By adding \u201cchoices\u201d to the non_database_attrs list, AlterField will correctly ignore changes to choices alone and emit no SQL on SQLite, just as it does for other database\u2010transparent attributes. The patch is minimal and focused, with no unrelated modifications.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the failure scenario, reproduction steps, the specific pytest versions involved, the error traceback, and even pinpoints the offending commit and root cause. It\u2019s obvious what needs to be changed (handle array-valued `new` in the sentinel check), so it\u2019s well-specified for a solution."
+}

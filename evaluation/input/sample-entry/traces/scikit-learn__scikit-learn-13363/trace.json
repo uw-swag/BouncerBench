@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal code snippet to reproduce the error, the exact traceback, expected vs. actual behavior, and environment versions. It clearly states when and why the UnboundLocalError occurs (when return_intercept=True) and what the correct output should be, making it straightforward to triage and fix."
+}

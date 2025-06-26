@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, the exact error traceback, the expected vs. actual behavior, and system information. It is clear that when grouping on a Table with a SkyCoord column, aggregate() tries to call .groups on each element, which fails. The desired behavior (skip non-aggregable columns or provide meaningful aggregation for SkyCoord) is unambiguous. This is well-specified and ready for implementation."
+}

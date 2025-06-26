@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired feature (an option to preserve input dtypes in pandas DataFrame outputs), gives a minimal reproducible example, and even sketches how to extend the existing SetOutputMixin API. While some implementation details (e.g. naming of the new flag, edge\u2010cases across various transformers) will need filling in, there\u2019s a sensible interpretation and path forward. Thus it\u2019s reasonably specified."
+}

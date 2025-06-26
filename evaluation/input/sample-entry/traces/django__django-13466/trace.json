@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear code examples, steps to reproduce (both via CLI and call_command), the exact error traceback, and the expected behavior (that --flag should work when calling via call_command). It\u2019s straightforward what needs fixing (handling store_true flags in call_command with mutually exclusive groups), so it\u2019s well-specified."
+}

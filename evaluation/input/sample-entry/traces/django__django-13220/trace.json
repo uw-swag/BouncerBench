@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear enough to implement an __eq__ override on ValidationError: compare the stored error messages (and/or message_dict) as unordered collections rather than by insertion order. While some details (e.g. handling of codes/params) aren\u2019t spelled out, the core requirement (order-independent equality of messages) is straightforward to interpret and implement."
+}

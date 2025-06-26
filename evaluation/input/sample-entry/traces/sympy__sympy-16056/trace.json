@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the problem (mixed use of `\\mathrm` vs. `\\text`), gives pros/cons of each, and even suggests adding a single helper function and a configuration switch to pick the standard. While it doesn\u2019t nail down the exact API or default setting name, the scope and desired behavior are clear enough to begin designing a solution (e.g. adding a `print_text` helper in the LaTeX printer class with a new setting)."
+}

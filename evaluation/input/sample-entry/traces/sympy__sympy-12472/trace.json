@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the incorrect behavior (splitting a non-real factor outside of sqrt), provides a concrete example, and even references the PR where it was fixed. The fix needed is simply to add a regression test to ensure this case stays correct. That makes it well-specified for a meaningful attempt at a solution."
+}

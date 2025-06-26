@@ -1,0 +1,41 @@
+{
+  "input": "The issue clearly describes the problem (JSONField values shown as Python dict repr when readonly in the admin), gives an example, identifies the exact location for a patch (django.contrib.admin.utils.display_for_field), and even proposes using JSONField.prepare_value rather than json.dumps. It\u2019s straightforward to implement and test. ",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/admin/utils.py b/django/contrib/admin/utils.py\nindex e4ddc8f017..0ffa003355 100644\n--- a/django/contrib/admin/utils.py\n+++ b/django/contrib/admin/utils.py\n@@ -396,10 +396,13 @@ def display_for_field(value, field, empty_value_display):\n         return formats.number_format(value, field.decimal_places)\n     elif isinstance(field, (models.IntegerField, models.FloatField)):\n         return formats.number_format(value)\n     elif isinstance(field, models.FileField) and value:\n         return format_html('<a href=\"{}\">{}</a>', value.url, value)\n+    elif isinstance(field, models.JSONField):\n+        form_field = field.formfield()\n+        return form_field.prepare_value(value)\n     else:\n         return display_for_value(value, empty_value_display)\n \n \n def display_for_value(value, empty_value_display, boolean=False):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nJSONField are not properly displayed in admin when they are readonly.\nDescription\n\t\nJSONField values are displayed as dict when readonly in the admin.\nFor example, {\"foo\": \"bar\"} would be displayed as {'foo': 'bar'}, which is not valid JSON.\nI believe the fix would be to add a special case in django.contrib.admin.utils.display_for_field to call the prepare_value of the JSONField (not calling json.dumps directly to take care of the InvalidJSONInput case).\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_fskjnq1qr",
+      "status": "completed",
+      "call_id": "call_BVxeMJCo5uUb3VmikeSu7Y0q",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '350,430p' django/contrib/admin/utils.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_BVxeMJCo5uUb3VmikeSu7Y0q",
+      "output": "{\"output\":\"                label = attr.fget.short_description\\n            elif callable(attr):\\n                if attr.__name__ == \\\"<lambda>\\\":\\n                    label = \\\"--\\\"\\n                else:\\n                    label = pretty_name(attr.__name__)\\n            else:\\n                label = pretty_name(name)\\n    except FieldIsAForeignKeyColumnName:\\n        label = pretty_name(name)\\n        attr = name\\n\\n    if return_attr:\\n        return (label, attr)\\n    else:\\n        return label\\n\\n\\ndef help_text_for_field(name, model):\\n    help_text = \\\"\\\"\\n    try:\\n        field = _get_non_gfk_field(model._meta, name)\\n    except (FieldDoesNotExist, FieldIsAForeignKeyColumnName):\\n        pass\\n    else:\\n        if hasattr(field, 'help_text'):\\n            help_text = field.help_text\\n    return help_text\\n\\n\\ndef display_for_field(value, field, empty_value_display):\\n    from django.contrib.admin.templatetags.admin_list import _boolean_icon\\n\\n    if getattr(field, 'flatchoices', None):\\n        return dict(field.flatchoices).get(value, empty_value_display)\\n    # BooleanField needs special-case null-handling, so it comes before the\\n    # general null test.\\n    elif isinstance(field, models.BooleanField):\\n        return _boolean_icon(value)\\n    elif value is None:\\n        return empty_value_display\\n    elif isinstance(field, models.DateTimeField):\\n        return formats.localize(timezone.template_localtime(value))\\n    elif isinstance(field, (models.DateField, models.TimeField)):\\n        return formats.localize(value)\\n    elif isinstance(field, models.DecimalField):\\n        return formats.number_format(value, field.decimal_places)\\n    elif isinstance(field, (models.IntegerField, models.FloatField)):\\n        return formats.number_format(value)\\n    elif isinstance(field, models.FileField) and value:\\n        return format_html('<a href=\\\"{}\\\">{}</a>', value.url, value)\\n    else:\\n        return display_for_value(value, empty_value_display)\\n\\n\\ndef display_for_value(value, empty_value_display, boolean=False):\\n    from django.contrib.admin.templatetags.admin_list import _boolean_icon\\n\\n    if boolean:\\n        return _boolean_icon(value)\\n    elif value is None:\\n        return empty_value_display\\n    elif isinstance(value, bool):\\n        return str(value)\\n    elif isinstance(value, datetime.datetime):\\n        return formats.localize(timezone.template_localtime(value))\\n    elif isinstance(value, (datetime.date, datetime.time)):\\n        return formats.localize(value)\\n    elif isinstance(value, (int, decimal.Decimal, float)):\\n        return formats.number_format(value)\\n    elif isinstance(value, (list, tuple)):\\n        return ', '.join(str(v) for v in value)\\n    else:\\n        return str(value)\\n\\n\\nclass NotRelationField(Exception):\\n    pass\\n\\n\\ndef get_model_from_relation(field):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_a816ul4hq",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch adds a JSONField branch in display_for_field and delegates rendering to field.formfield().prepare_value(value), which produces valid JSON and leverages built\u2010in handling (including InvalidJSONInput) exactly as described in the issue. It\u2019s minimal and doesn\u2019t introduce unrelated changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

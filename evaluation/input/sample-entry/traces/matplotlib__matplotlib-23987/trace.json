@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear reproduction snippet, actual vs expected behavior, Matplotlib version, and platform details. It\u2019s clear what the bug is (a warning issued despite constrained_layout=False) and how to reproduce it, so no further clarification is needed."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a clear reproduction case with minimal models and code, identifies the root cause in Query.get_aggregation, and even suggests a precise conditional change. The desired behavior and fix are unambiguous, making this issue WELL_SPECIFIED."
+}

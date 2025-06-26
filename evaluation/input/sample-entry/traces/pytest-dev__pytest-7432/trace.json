@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the regression (expected vs actual output), gives minimal repro code, pytest versions, command lines to reproduce, and even points to the likely buggy function in the codebase. All necessary context is provided for a developer to start working on a fix."
+}

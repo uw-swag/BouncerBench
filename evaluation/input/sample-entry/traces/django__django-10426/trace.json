@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that the Django management command \u2018showmigrations\u2019 is missing the same app_label validation that has already been added to other commands (per issues #29469, #29518, #29506). It\u2019s obvious what needs to be done: replicate the existing validation logic in showmigrations (likely by calling the same validation helper). A Django contributor can locate the command\u2019s code, see how other commands validate the app_label, and insert the same checks here. This is sufficiently and precisely specified."
+}

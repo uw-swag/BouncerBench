@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what\u2019s needed (an xarray.cross wrapper around numpy.cross, with DataArray.cross methods), provides example code/usage, and lays out the expected behavior. Some API details (e.g. default spatial-dim detection, 2-value support) are left open, but there is a straightforward interpretation to implement a first pass. "
+}

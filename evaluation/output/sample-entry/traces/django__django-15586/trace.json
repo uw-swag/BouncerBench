@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/conf/global_settings.py b/django/conf/global_settings.py\nindex 40b34bb71c..b5b21fd8ba 100644\n--- a/django/conf/global_settings.py\n+++ b/django/conf/global_settings.py\n@@ -219,7 +219,20 @@ EMAIL_TIMEOUT = None\n # List of strings representing installed apps.\n INSTALLED_APPS = []\n \n-TEMPLATES = []\n+TEMPLATES = [\n+    {\n+        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n+        'DIRS': [],\n+        'OPTIONS': {\n+            'loaders': [\n+                ('django.template.loaders.cached.Loader', [\n+                    'django.template.loaders.filesystem.Loader',\n+                    'django.template.loaders.app_directories.Loader',\n+                ]),\n+            ],\n+        },\n+    },\n+]\n \n # Default form rendering class.\n FORM_RENDERER = \"django.forms.renderers.DjangoTemplates\"\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nEnable cached template loader in development.\nDescription\n\t \n\t\t(last modified by Carlton Gibson)\n\t \nFollowing the changes to allow auto-reloading cached templates in #25791, there was discussion on \u200bPR 15140 to enable the cached template loader by default even in development. \n(Folks not wanting that would specify loaders.)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_ni3wy4ul2",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe issue asked for turning on the cached template loader by default (even in development) while still letting projects override loaders if they wish. This patch simply replaces the empty default TEMPLATES list with a single DjangoTemplates backend whose OPTIONS explicitly wrap the filesystem and app-directories loaders in the cached.Loader. It doesn\u2019t touch unrelated settings or add extra bells and whistles, and it leaves context_processors and other OPTIONS at their engine defaults. Projects that need different loader setups can still provide their own TEMPLATES setting. This directly and minimally implements the requested behavior.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

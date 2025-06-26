@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (permission codenames can exceed the 100-char limit when model names are long), gives an example, and asks for a Django system check to catch or warn about it. While the exact check ID/message format isn\u2019t spelled out, there\u2019s enough context and precedent in Django\u2019s checks framework to implement it unambiguously."
+}

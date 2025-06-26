@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the exact versions involved, steps to reproduce, current vs. expected behavior, and the concrete objective (allow disabling the \u201cbad-option-value\u201d warning so that mixed Pylint versions don\u2019t fail). That is sufficient to start writing and testing a fix in Pylint\u2019s disable-directive logic."
+}

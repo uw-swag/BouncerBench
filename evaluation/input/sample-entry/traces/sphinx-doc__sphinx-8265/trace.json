@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a specific rendering bug in Sphinx/HTML docs (tuple default args losing parentheses), includes reproduction steps (Dockerfile), actual vs expected output, links to the project and docs, environment details, and a screenshot. There\u2019s no ambiguity about what needs fixing."
+}

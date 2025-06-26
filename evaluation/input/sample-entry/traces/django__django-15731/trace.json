@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (inspect.signature on manager/queryset methods only shows (*args, **kwargs)), provides a minimal repro, pinpoints the exact code location in manager.py, explains why metadata isn\u2019t propagated, and even suggests using functools.wraps. All requirements for a solution are explicit."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies specific functions (acoth, acsc, asec) whose MathML tags are misnamed, shows the current output and the desired output for each, and implicitly points to the MathML printer mapping that needs updating. There\u2019s no ambiguity about what needs changing or how success is measured."
+}

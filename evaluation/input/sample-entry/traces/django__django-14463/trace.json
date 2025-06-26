@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the desired feature\u2014adding support for table- and column-level comments via new model/Meta options\u2014but leaves out implementation details (supported backends, SQL syntax, integration with migrations/tests). There is a sensible interpretation of the goal, but significant gaps remain, making it reasonably specified rather than fully or impossibly specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug in how symbol entries are split into two \"Symbols\" sections in the HTML index (one before and one after the letter entries), both sharing the same anchor so that the second link is broken. The desired outcome is implicit\u2014treat all symbol entries as a single section with a unique anchor\u2014so while implementation details and context (e.g. code snippets, version) are missing, the high-level problem and expected fix are clear enough for a developer to proceed. "
+}

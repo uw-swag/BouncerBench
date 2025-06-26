@@ -1,0 +1,3 @@
+{
+  "trace": "The issue contains a clear description of the problem, minimal reproducible code, expected vs. actual behavior, environment details, and even a pointer to the relevant code path. It is sufficiently specified to start working on a fix."
+}

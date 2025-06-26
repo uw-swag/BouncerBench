@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the failure (ImportError for py.__.test.item), how to reproduce it (running bin/py.bench), and the py version in use. While it doesn\u2019t specify the Sympy version or environment in detail, it\u2019s straightforward to reproduce and to infer that imports need updating for newer py versions. Thus it\u2019s reasonably specified for implementing a fix."
+}

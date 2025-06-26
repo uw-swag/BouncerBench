@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes exact pylint errors, the relevant code snippet, link to full source, environment/versions, and a clear question about whether those abstract methods need implementation (or how to suppress warnings). That\u2019s enough to start a PR overriding the missing methods or adding appropriate no-op stubs or suppressions. The requirements and context are clear."
+}

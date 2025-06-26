@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear description of the problem (polyval on timedelta64 coords), minimal reproducible code, expected vs actual outputs, and environment details. There\u2019s no ambiguity about what needs fixing or how to reproduce, making it well-specified."
+}

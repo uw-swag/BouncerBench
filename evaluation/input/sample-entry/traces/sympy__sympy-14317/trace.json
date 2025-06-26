@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unexpected ordering in the LaTeX printer, shows input/output examples, and states the desired behavior (same descending\u2010degree order as str/pretty). That\u2019s enough to implement and test a fix in the LaTeX printer, so it\u2019s well\u2010specified."
+}

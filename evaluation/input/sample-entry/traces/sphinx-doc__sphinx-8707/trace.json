@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete reproduction (make clean singlehtml html), the environment, and the precise divergence in behavior (viewcode works on a fresh html build but not when preceded by singlehtml). It also states the expected rule (\u201calways enabled for HTML builds except singlehtml and epub\u201d), so an engineer can write and test a fix. There are minor gaps (no logs or error dumps), but enough to attempt a solution."
+}

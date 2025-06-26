@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (invalid placement of <properties> in JUnit XML), gives reproduction steps, points to pytest\u2019s junitxml.py, and indicates the intended correction (move or remove those tags under <testcase>). While the exact implementation details (e.g. aggregating properties, handling multiple testcases) will require judgment calls, there\u2019s enough context to make a sensible fix."
+}

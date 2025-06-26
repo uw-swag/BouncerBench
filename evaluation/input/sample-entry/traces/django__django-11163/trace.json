@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior (fields=[] returns all fields) and the desired behavior (fields=[] should return {}). It pinpoints the exact code conditional (`if fields and f.name not in fields`) and proposes the precise change (`if fields is not None and f.name not in fields`). This is enough to implement and test the fix unambiguously."
+}

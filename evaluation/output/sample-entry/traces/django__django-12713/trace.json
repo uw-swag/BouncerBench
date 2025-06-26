@@ -1,0 +1,64 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/admin/options.py b/django/contrib/admin/options.py\nindex 69a5fbf..b3c4020 100644\n--- a/django/contrib/admin/options.py\n+++ b/django/contrib/admin/options.py\n@@ -250,15 +250,16 @@ class BaseModelAdmin(metaclass=forms.MediaDefiningClass):\n         db = kwargs.get('using')\n \n         autocomplete_fields = self.get_autocomplete_fields(request)\n-        if db_field.name in autocomplete_fields:\n-            kwargs['widget'] = AutocompleteSelectMultiple(db_field.remote_field, self.admin_site, using=db)\n-        elif db_field.name in self.raw_id_fields:\n-            kwargs['widget'] = widgets.ManyToManyRawIdWidget(db_field.remote_field, self.admin_site, using=db)\n-        elif db_field.name in [*self.filter_vertical, *self.filter_horizontal]:\n-            kwargs['widget'] = widgets.FilteredSelectMultiple(\n-                db_field.verbose_name,\n-                db_field.name in self.filter_vertical\n-            )\n+        if 'widget' not in kwargs:\n+            if db_field.name in autocomplete_fields:\n+                kwargs['widget'] = AutocompleteSelectMultiple(db_field.remote_field, self.admin_site, using=db)\n+            elif db_field.name in self.raw_id_fields:\n+                kwargs['widget'] = widgets.ManyToManyRawIdWidget(db_field.remote_field, self.admin_site, using=db)\n+            elif db_field.name in [*self.filter_vertical, *self.filter_horizontal]:\n+                kwargs['widget'] = widgets.FilteredSelectMultiple(\n+                    db_field.verbose_name,\n+                    db_field.name in self.filter_vertical\n+                )\n \n         if 'queryset' not in kwargs:\n             queryset = self.get_field_queryset(db, db_field, request)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAllow overridding widget in formfield_for_manytomany().\nDescription\n\t \n\t\t(last modified by Mariusz Felisiak)\n\t \nIt does not work when I set widget param to function formfield_for_manytomany().\nThis is different from the formfield_for_foreignkey() function.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_ucdqx6l8y",
+    "status": "completed",
+    "call_id": "call_oqAKkCSs9FoDK1w6gU5Dr1jx",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def formfield_for_manytomany\\\" -n django/contrib/admin/options.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_oqAKkCSs9FoDK1w6gU5Dr1jx",
+    "output": "{\"output\":\"242:    def formfield_for_manytomany(self, db_field, request, **kwargs):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_u48tysyjk",
+    "status": "completed",
+    "call_id": "call_hOPaN78IbnX0wxZH4s70ds4a",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"formfield_for_foreignkey\\\" -n django/contrib/admin/options.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_hOPaN78IbnX0wxZH4s70ds4a",
+    "output": "{\"output\":\"153:                formfield = self.formfield_for_foreignkey(db_field, request, **kwargs)\\n218:    def formfield_for_foreignkey(self, db_field, request, **kwargs):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_2ul6t8o76",
+    "status": "completed",
+    "call_id": "call_CMEadMmsQegRB9S6ViFVQvjf",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '200,300p' django/contrib/admin/options.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_CMEadMmsQegRB9S6ViFVQvjf",
+    "output": "{\"output\":\"                    include_blank=db_field.blank,\\n                    blank_choice=[('', _('None'))]\\n                )\\n        return db_field.formfield(**kwargs)\\n\\n    def get_field_queryset(self, db, db_field, request):\\n        \\\"\\\"\\\"\\n        If the ModelAdmin specifies ordering, the queryset should respect that\\n        ordering.  Otherwise don't specify the queryset, let the field decide\\n        (return None in that case).\\n        \\\"\\\"\\\"\\n        related_admin = self.admin_site._registry.get(db_field.remote_field.model)\\n        if related_admin is not None:\\n            ordering = related_admin.get_ordering(request)\\n            if ordering is not None and ordering != ():\\n                return db_field.remote_field.model._default_manager.using(db).order_by(*ordering)\\n        return None\\n\\n    def formfield_for_foreignkey(self, db_field, request, **kwargs):\\n        \\\"\\\"\\\"\\n        Get a form Field for a ForeignKey.\\n        \\\"\\\"\\\"\\n        db = kwargs.get('using')\\n\\n        if 'widget' not in kwargs:\\n            if db_field.name in self.get_autocomplete_fields(request):\\n                kwargs['widget'] = AutocompleteSelect(db_field.remote_field, self.admin_site, using=db)\\n            elif db_field.name in self.raw_id_fields:\\n                kwargs['widget'] = widgets.ForeignKeyRawIdWidget(db_field.remote_field, self.admin_site, using=db)\\n            elif db_field.name in self.radio_fields:\\n                kwargs['widget'] = widgets.AdminRadioSelect(attrs={\\n                    'class': get_ul_class(self.radio_fields[db_field.name]),\\n                })\\n                kwargs['empty_label'] = _('None') if db_field.blank else None\\n\\n        if 'queryset' not in kwargs:\\n            queryset = self.get_field_queryset(db, db_field, request)\\n            if queryset is not None:\\n                kwargs['queryset'] = queryset\\n\\n        return db_field.formfield(**kwargs)\\n\\n    def formfield_for_manytomany(self, db_field, request, **kwargs):\\n        \\\"\\\"\\\"\\n        Get a form Field for a ManyToManyField.\\n        \\\"\\\"\\\"\\n        # If it uses an intermediary model that isn't auto created, don't show\\n        # a field in admin.\\n        if not db_field.remote_field.through._meta.auto_created:\\n            return None\\n        db = kwargs.get('using')\\n\\n        autocomplete_fields = self.get_autocomplete_fields(request)\\n        if db_field.name in autocomplete_fields:\\n            kwargs['widget'] = AutocompleteSelectMultiple(db_field.remote_field, self.admin_site, using=db)\\n        elif db_field.name in self.raw_id_fields:\\n            kwargs['widget'] = widgets.ManyToManyRawIdWidget(db_field.remote_field, self.admin_site, using=db)\\n        elif db_field.name in [*self.filter_vertical, *self.filter_horizontal]:\\n            kwargs['widget'] = widgets.FilteredSelectMultiple(\\n                db_field.verbose_name,\\n                db_field.name in self.filter_vertical\\n            )\\n\\n        if 'queryset' not in kwargs:\\n            queryset = self.get_field_queryset(db, db_field, request)\\n            if queryset is not None:\\n                kwargs['queryset'] = queryset\\n\\n        form_field = db_field.formfield(**kwargs)\\n        if (isinstance(form_field.widget, SelectMultiple) and\\n                not isinstance(form_field.widget, (CheckboxSelectMultiple, AutocompleteSelectMultiple))):\\n            msg = _('Hold down \u201cControl\u201d, or \u201cCommand\u201d on a Mac, to select more than one.')\\n            help_text = form_field.help_text\\n            form_field.help_text = format_lazy('{} {}', help_text, msg) if help_text else msg\\n        return form_field\\n\\n    def get_autocomplete_fields(self, request):\\n        \\\"\\\"\\\"\\n        Return a list of ForeignKey and/or ManyToMany fields which should use\\n        an autocomplete widget.\\n        \\\"\\\"\\\"\\n        return self.autocomplete_fields\\n\\n    def get_view_on_site_url(self, obj=None):\\n        if obj is None or not self.view_on_site:\\n            return None\\n\\n        if callable(self.view_on_site):\\n            return self.view_on_site(obj)\\n        elif self.view_on_site and hasattr(obj, 'get_absolute_url'):\\n            # use the ContentType lookup if view_on_site is True\\n            return reverse('admin:view_on_site', kwargs={\\n                'content_type_id': get_content_type_for_model(obj).pk,\\n                'object_id': obj.pk\\n            })\\n\\n    def get_empty_value_display(self):\\n        \\\"\\\"\\\"\\n        Return the empty_value_display set on ModelAdmin or AdminSite.\\n        \\\"\\\"\\\"\\n        try:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_uu0co9kxb",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch simply wraps the existing widget assignments in a guard that skips them when the caller has already provided a `widget` in `kwargs`, mirroring the `formfield_for_foreignkey()` logic. This change directly allows user\u2010supplied widgets to take precedence without altering any other behavior or adding unrelated changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

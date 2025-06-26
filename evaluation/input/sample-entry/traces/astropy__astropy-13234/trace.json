@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a concrete, minimal repro with code, shows the exact traceback and pinpoints that having a field named \u201cname\u201d in a structured column breaks the ECSV round\u2010trip. It suggests exactly where in the serialization machinery to look (in serialize.py) and even sketches a possible tweak to the YAML format. While it doesn\u2019t spell out every line of the patch, the bug, its cause, and a fix direction are clear. Thus it\u2019s reasonably specified for someone familiar with the Astropy serialization code to implement a solution."
+}

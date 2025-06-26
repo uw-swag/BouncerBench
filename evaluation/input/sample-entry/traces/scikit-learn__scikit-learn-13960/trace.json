@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the desired behavior (sparse support in IncrementalPCA), provides minimal reproduction code, shows the exact error, and even outlines a concrete patch strategy. A maintainer can directly work from this to implement and test the feature."
+}

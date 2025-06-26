@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a reproducible bug (code snippet, expected vs. actual behavior) and even suggests how bulk_update should handle ForeignKey fields (translate \u201cchild\u201d to \u201cchild_id\u201d). With model definitions, example code, and desired outcome all spelled out, it\u2019s actionable and unambiguous."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear description of the problem (ARDRegression suddenly produces much larger coefficient errors under SciPy 1.3.0), provides exact environment versions, minimal code to reproduce on a single seed, scripts to batch-test over 1,000 seeds, and sample outputs (including histograms and summary statistics). This is more than enough to attempt to reproduce and debug the regression, making the task well-specified."
+}

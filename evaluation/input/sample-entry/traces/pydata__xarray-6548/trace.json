@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (KeyError when passing an unnamed coord to xr.polyval), provides a minimal reproducible example, the expected versus actual behavior, and context for how it should work. A fix or documentation change can be scoped directly from this information."
+}

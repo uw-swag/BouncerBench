@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a minimal reproducible example, the exact exception and stack trace, and even pinpoints the suspicious comparison between CoordSystem objects and string keys in the Dijkstra path-building logic. The desired behavior (indirect transforms should route through the intermediate system instead of raising) is clear. A developer has all the information needed to implement and verify a fix."
+}

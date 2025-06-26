@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the bug (density=True ignores the given range), provides minimal reproducible code, shows actual vs expected output, and even bisects the problematic commit. It\u2019s fully actionable."
+}

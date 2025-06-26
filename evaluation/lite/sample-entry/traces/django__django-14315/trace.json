@@ -1,0 +1,54 @@
+{
+  "input": "The ticket clearly explains the symptom (runshell dropping os.environ), the root cause (postgresql client returning an empty dict instead of None), and even points to the problematic commit. While you\u2019ll need to inspect the linked commit and code to implement the precise fix (e.g. change the env fallback to test \u201cis not None\u201d rather than truthiness), the desired behavior and location are unambiguous. This is reasonably well-specified for a practical fix.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/backends/base/client.py b/django/db/backends/base/client.py\nindex 339f1e863c..d9b22adbd8 100644\n--- a/django/db/backends/base/client.py\n+++ b/django/db/backends/base/client.py\n@@ -21,6 +21,11 @@ class BaseDatabaseClient:\n \n     def runshell(self, parameters):\n         args, env = self.settings_to_cmd_args_env(self.connection.settings_dict, parameters)\n-        if env:\n+        if env is None:\n+            # None indicates we should use os.environ as is\n+            env = os.environ\n+        elif env:\n+            # If env is a non-empty dict, merge it with os.environ\n             env = {**os.environ, **env}\n+        # If env is an empty dict, use it as is (no environment variables)\n         subprocess.run(args, env=env, check=True)\ndiff --git a/django/db/backends/postgresql/client.py b/django/db/backends/postgresql/client.py\nindex 3effab65a8..bc12a52fd4 100644\n--- a/django/db/backends/postgresql/client.py\n+++ b/django/db/backends/postgresql/client.py\n@@ -36,21 +36,24 @@ class DatabaseClient(BaseDatabaseClient):\n             args += [dbname]\n         args.extend(parameters)\n \n-        env = {}\n-        if passwd:\n-            env['PGPASSWORD'] = str(passwd)\n-        if service:\n-            env['PGSERVICE'] = str(service)\n-        if sslmode:\n-            env['PGSSLMODE'] = str(sslmode)\n-        if sslrootcert:\n-            env['PGSSLROOTCERT'] = str(sslrootcert)\n-        if sslcert:\n-            env['PGSSLCERT'] = str(sslcert)\n-        if sslkey:\n-            env['PGSSLKEY'] = str(sslkey)\n-        if passfile:\n-            env['PGPASSFILE'] = str(passfile)\n+        env = None  # Return None to indicate we want to inherit os.environ\n+        if any([passwd, service, sslmode, sslrootcert, sslcert, sslkey, passfile]):\n+            # Only create a new env dict if we have PostgreSQL-specific variables\n+            env = {}\n+            if passwd:\n+                env['PGPASSWORD'] = str(passwd)\n+            if service:\n+                env['PGSERVICE'] = str(service)\n+            if sslmode:\n+                env['PGSSLMODE'] = str(sslmode)\n+            if sslrootcert:\n+                env['PGSSLROOTCERT'] = str(sslrootcert)\n+            if sslcert:\n+                env['PGSSLCERT'] = str(sslcert)\n+            if sslkey:\n+                env['PGSSLKEY'] = str(sslkey)\n+            if passfile:\n+                env['PGPASSFILE'] = str(passfile)\n         return args, env\n \n     def runshell(self, parameters):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ndatabase client runshell doesn't respect os.environ values in some cases\nDescription\n\t \n\t\t(last modified by Konstantin Alekseev)\n\t \npostgresql client returns empty dict instead of None for env\nas a result os.environ is not used and empty env passed\nto subprocess.\nBug introduced in \u200bhttps://github.com/django/django/commit/bbe6fbb8768e8fb1aecb96d51c049d7ceaf802d3#diff-e98866ed4d445fbc94bb60bedffd5d8cf07af55dca6e8ffa4945931486efc3eeR23-R26\nPR \u200bhttps://github.com/django/django/pull/14315\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_2b7xsnn6b",
+      "status": "completed",
+      "call_id": "call_xdZHgeDkM54hZ6hcEx015Ays",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,50p' django/db/backends/base/client.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_xdZHgeDkM54hZ6hcEx015Ays",
+      "output": "{\"output\":\"import os\\nimport subprocess\\n\\n\\nclass BaseDatabaseClient:\\n    \\\"\\\"\\\"Encapsulate backend-specific methods for opening a client shell.\\\"\\\"\\\"\\n    # This should be a string representing the name of the executable\\n    # (e.g., \\\"psql\\\"). Subclasses must override this.\\n    executable_name = None\\n\\n    def __init__(self, connection):\\n        # connection is an instance of BaseDatabaseWrapper.\\n        self.connection = connection\\n\\n    @classmethod\\n    def settings_to_cmd_args_env(cls, settings_dict, parameters):\\n        raise NotImplementedError(\\n            'subclasses of BaseDatabaseClient must provide a '\\n            'settings_to_cmd_args_env() method or override a runshell().'\\n        )\\n\\n    def runshell(self, parameters):\\n        args, env = self.settings_to_cmd_args_env(self.connection.settings_dict, parameters)\\n        if env:\\n            env = {**os.environ, **env}\\n        subprocess.run(args, env=env, check=True)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_qp9r2y2sn",
+      "status": "completed",
+      "call_id": "call_ZN6RtlSMc0lbBBL9Ur7BRWpw",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,50p' django/db/backends/postgresql/client.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_ZN6RtlSMc0lbBBL9Ur7BRWpw",
+      "output": "{\"output\":\"import signal\\n\\nfrom django.db.backends.base.client import BaseDatabaseClient\\n\\n\\nclass DatabaseClient(BaseDatabaseClient):\\n    executable_name = 'psql'\\n\\n    @classmethod\\n    def settings_to_cmd_args_env(cls, settings_dict, parameters):\\n        args = [cls.executable_name]\\n        options = settings_dict.get('OPTIONS', {})\\n\\n        host = settings_dict.get('HOST')\\n        port = settings_dict.get('PORT')\\n        dbname = settings_dict.get('NAME')\\n        user = settings_dict.get('USER')\\n        passwd = settings_dict.get('PASSWORD')\\n        passfile = options.get('passfile')\\n        service = options.get('service')\\n        sslmode = options.get('sslmode')\\n        sslrootcert = options.get('sslrootcert')\\n        sslcert = options.get('sslcert')\\n        sslkey = options.get('sslkey')\\n\\n        if not dbname and not service:\\n            # Connect to the default 'postgres' db.\\n            dbname = 'postgres'\\n        if user:\\n            args += ['-U', user]\\n        if host:\\n            args += ['-h', host]\\n        if port:\\n            args += ['-p', str(port)]\\n        if dbname:\\n            args += [dbname]\\n        args.extend(parameters)\\n\\n        env = {}\\n        if passwd:\\n            env['PGPASSWORD'] = str(passwd)\\n        if service:\\n            env['PGSERVICE'] = str(service)\\n        if sslmode:\\n            env['PGSSLMODE'] = str(sslmode)\\n        if sslrootcert:\\n            env['PGSSLROOTCERT'] = str(sslrootcert)\\n        if sslcert:\\n            env['PGSSLCERT'] = str(sslcert)\\n        if sslkey:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_apr8j4joq",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch changes the default Postgres client call so that when no PG\u2010specific env vars are set, settings_to_cmd_args_env returns None (not an empty dict). BaseDatabaseClient.runshell now treats None as \u201cinherit os.environ,\u201d a nonempty dict as \u201cmerge on top of os.environ,\u201d and an explicit empty dict as \u201cclear environment.\u201d This fully restores the intended behavior\u2014os.environ is used when no overrides are provided\u2014without touching unrelated code. No key edge cases from the issue are left out.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the symptom (raw socket.error bubbling out), shows a full traceback and states the desired behavior (wrap it in a requests.exceptions.ConnectionError). It\u2019s straightforward to locate the streaming/read code path in requests (and urllib3) and add a socket.error catch to wrap or re\u2010raise as ConnectionError. The exact file and catch locations would be determined by inspecting model/response and urllib3\u2019s HTTPResponse, but the goal is clear."
+}

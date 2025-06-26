@@ -1,0 +1,3 @@
+{
+  "trace": "The feature request is clear in its intent (add public setters for .xy1, .xy2, and .slope properties on the AxLine artist, with mutual exclusivity between point\u2010pair vs. point\u2010and\u2010slope modes). Although it leaves out low\u2010level implementation details (error messages, exact internal field names), there\u2019s a sensible interpretation and enough direction to draft a solution against the existing codebase."
+}

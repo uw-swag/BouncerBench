@@ -1,0 +1,3 @@
+{
+  "trace": "The report merely notes that get_image_dimensions() crashes on missing files but gives no context\u2014no code references, language, library, or desired behavior (exception vs return value). Without knowing the expected API contract or environment, there\u2019s ambiguity about how to handle non\u2010existent images. Thus the issue is too vague for a clear implementation."
+}

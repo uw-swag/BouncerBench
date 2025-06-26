@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the unexpected behavior (setting session.headers['Accept-Encoding'] = None still sends 'Accept-Encoding: None'), the expected behavior (treat None as removal of the header), and a working workaround (del session.headers[...] ). It points to the relevant docs and gives enough context on where the fix needs to occur (header preparation machinery). While low-level implementation details aren\u2019t spelled out, there\u2019s a clear bug to address and a desired outcome, so it\u2019s reasonably specified."
+}

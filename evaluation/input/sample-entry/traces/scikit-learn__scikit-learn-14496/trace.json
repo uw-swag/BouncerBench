@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug scenario, pinpoints the lines of code (l439 & l440) where min_samples remains a float, shows the resulting TypeError, and even proposes a minimal change (casting with int(round(...))) to fix it. All necessary details are present for a straightforward implementation and test, making it WELL_SPECIFIED."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request merely states \u201cadd support for C++20 requires clauses\u201d without specifying the target codebase (presumably a parser like Doxygen), providing example code, pointing out the current vs. expected behavior, or detailing how the feature should integrate with existing functionality. There isn\u2019t enough context to draft a meaningful PR."
+}

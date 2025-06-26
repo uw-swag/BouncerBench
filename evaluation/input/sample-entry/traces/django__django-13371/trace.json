@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a reproducible bug (PicklingError on django.db.models.query.Row instances returned by values_list(named=True)), shows example code and error, and states the desired outcome (Row should be pickleable so things like cacheops will work). It\u2019s straightforward for a developer to locate the Row class and add or adjust its __reduce__ implementation (or module assignment) to support pickling. This is a well\u2010scoped, self\u2010contained fix."
+}

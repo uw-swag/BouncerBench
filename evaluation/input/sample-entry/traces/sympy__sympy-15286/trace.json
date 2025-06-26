@@ -1,0 +1,3 @@
+{
+  "trace": "The description conflates multiple features (recognition of elliptic integrals, new ellipse\u2010equation method, faster circumference routine, collinearity check, renaming of methods) and refers to several issue numbers and a PR. There isn\u2019t a single clear \u201cdo X, Y, Z\u201d requirement; the scope is all over the place. It\u2019s too ambiguous to know what specific change a solution should implement."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the Django upgrade introduced a new validation error (E028) when two models in different apps/databases share the same db_table, gives the exact error, the Django versions involved, and the intended behavior (allow same table names on separate databases). While we don\u2019t have full router code or settings, there\u2019s a clear actionable problem and expected outcome, so it\u2019s reasonably specified for a developer to propose a solution (e.g. adjust validation to respect database routers or add an opt\u2010out)."
+}

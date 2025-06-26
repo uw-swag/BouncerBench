@@ -1,0 +1,54 @@
+{
+  "input": "The report clearly demonstrates the incorrect behavior with reproducible examples and points to the relevant code in compiler.py. It\u2019s obvious what the ORM should be doing (resetting or updating the selected columns for each values()/values_list() call), but it doesn\u2019t prescribe exactly how to implement that fix. You\u2019d need to inspect the Query and QuerySet internals to apply the change. Hence it\u2019s not fully spelled out, but there\u2019s enough information to work towards a solution.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py\nindex 08d7faf194..b7255dc4af 100644\n--- a/django/db/models/sql/query.py\n+++ b/django/db/models/sql/query.py\n@@ -2042,8 +2042,6 @@ class Query(BaseExpression):\n             extra_names = []\n             annotation_names = []\n             if not self.extra and not self.annotations:\n-                # Shortcut - if there are no extra or annotations, then\n-                # the values() clause must be just field names.\n                 field_names = list(fields)\n             else:\n                 self.default_cols = False\n@@ -2062,6 +2060,11 @@ class Query(BaseExpression):\n         self.values_select = tuple(field_names)\n         self.add_fields(field_names, True)\n \n+        # Handle combined queries (e.g., union)\n+        if hasattr(self, 'combined_queries'):\n+            for query in self.combined_queries:\n+                query.set_values(fields)\n+\n     @property\n     def annotation_select(self):\n         \"\"\"\ndiff --git a/run_test.py b/run_test.py\nnew file mode 100644\nindex 0000000000..b7b93f18e4\n--- /dev/null\n+++ b/run_test.py\n@@ -0,0 +1,53 @@\n+import os\n+import os\n+import sys\n+import django\n+from django.conf import settings\n+from django.test.runner import DiscoverRunner\n+from django.db import connection\n+\n+if __name__ == '__main__':\n+    # Add the directory containing custom_migration_operations to sys.path\n+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'tests')))\n+\n+    # Configure test settings\n+    settings.configure(\n+        DEBUG=False,\n+        SECRET_KEY='django-insecure-test-key-do-not-use-in-production',\n+        DATABASES={\n+            'default': {\n+                'ENGINE': 'django.db.backends.sqlite3',\n+                'NAME': ':memory:',\n+            }\n+        },\n+        INSTALLED_APPS=[\n+            'django.contrib.contenttypes',\n+            'django.contrib.auth',\n+            'tests',\n+        ],\n+        ROOT_URLCONF=[],\n+        MIGRATION_MODULES={\n+            'tests': None,  # Disable migrations for the 'tests' app\n+        },\n+    )\n+\n+    # Set up Django\n+    django.setup()\n+\n+    # Import the models after Django setup\n+    from tests.queries.models import Number, ReservedName\n+\n+    # Create the necessary tables\n+    with connection.schema_editor() as schema_editor:\n+        schema_editor.create_model(Number)\n+        schema_editor.create_model(ReservedName)\n+\n+    # Create a test runner\n+    test_runner = DiscoverRunner(verbosity=2, interactive=False)\n+\n+    # Run the test\n+    test_case = 'tests.queries.test_qs_combinators.QuerySetSetOperationTests.test_union_with_values_list_column_change'\n+    failures = test_runner.run_tests([test_case])\n+\n+    # Exit with non-zero status if there were failures\n+    exit(bool(failures))\ndiff --git a/tests/queries/test_qs_combinators.py b/tests/queries/test_qs_combinators.py\nindex 3902db59e2..cf1981454f 100644\n--- a/tests/queries/test_qs_combinators.py\n+++ b/tests/queries/test_qs_combinators.py\n@@ -225,3 +225,16 @@ class QuerySetSetOperationTests(TestCase):\n         qs1 = Number.objects.all()\n         qs2 = Number.objects.intersection(Number.objects.filter(num__gt=1))\n         self.assertEqual(qs1.difference(qs2).count(), 2)\n+\n+    def test_union_with_values_list_column_change(self):\n+        ReservedName.objects.create(name='a', order=2)\n+        qs1 = ReservedName.objects.all()\n+        # First, get all columns\n+        result1 = qs1.union(qs1).values_list('name', 'order').get()\n+        self.assertEqual(result1, ('a', 2))\n+        # Now, change the list of columns\n+        result2 = qs1.union(qs1).values_list('order').get()\n+        self.assertEqual(result2, (2,))\n+        # Check with values() as well\n+        result3 = qs1.union(qs1).values('order').get()\n+        self.assertEqual(result3, {'order': 2})\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nComposed queries cannot change the list of columns with values()/values_list().\nDescription\n\t\nComposed queries cannot change the list of columns when values()/values_list() is evaluated multiple times, e.g.\n>>> ReservedName.objects.create(name='a', order=2)\n>>> qs1 = ReservedName.objects.all()\n>>> print(qs1.union(qs1).values_list('name', 'order').get())\n('a', 2)\n>>> print(qs1.union(qs1).values_list('order').get())\n('a', 2)\n(see \u200bcompiler.py#L428-L433).\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_2o1zilf2q",
+      "status": "completed",
+      "call_id": "call_6JLKI2ytOTwcnxxpKWbp8NUo",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class Query\\\" -n django/db/models/sql/query.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_6JLKI2ytOTwcnxxpKWbp8NUo",
+      "output": "{\"output\":\"145:class Query(BaseExpression):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_7f0m4f3l6",
+      "status": "completed",
+      "call_id": "call_zNqSUDlj5rO8V1IFaQP2ACRd",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"combined_queries\\\" -n django\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_zNqSUDlj5rO8V1IFaQP2ACRd",
+      "output": "{\"output\":\"django/db/models/sql/compiler.py:414:            for query in self.query.combined_queries if not query.is_empty()\\ndjango/db/models/sql/compiler.py:417:            for query, compiler in zip(self.query.combined_queries, compilers):\\ndjango/db/models/sql/query.py:215:        self.combined_queries = ()\\ndjango/db/models/query.py:934:        clone.query.combined_queries = (self.query,) + tuple(qs.query for qs in other_qs)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_pt1dn6lk9",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The change in Query.set_values to recurse into each combined_queries correctly propagates the new values() or values_list() column list to every branch of a UNION/INTERSECT/EXCEPT, which fixes the core issue. However, the patch also introduces a standalone run_test.py harness (and duplicate imports) that is unrelated to Django\u2019s normal test structure; this extra file isn\u2019t needed to address the bug and would not be merged into the core codebase. Because the fix itself is correct but the patch bundle includes unrelated changes, it isn\u2019t a precise submission.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

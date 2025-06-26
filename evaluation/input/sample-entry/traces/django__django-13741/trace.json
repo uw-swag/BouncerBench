@@ -1,0 +1,3 @@
+{
+  "trace": "The issue identifies a concrete change (setting disabled=True by default on ReadOnlyPasswordHashField), explains why (so clean_password isn\u2019t required, preventing unintended edits), points to the relevant code path and docs, and has a clear success criterion. This is actionable without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket includes a minimal reproducible example showing the discrepancy, a clear statement of desired unified behavior, and even a link to an existing patch to adapt. It\u2019s sufficiently detailed to implement and test the fix without further clarification."
+}

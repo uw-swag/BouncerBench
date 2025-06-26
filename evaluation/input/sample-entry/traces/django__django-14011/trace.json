@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a regression in LiveServerTestCase\u2019s threaded server support (DB connections left open, race on shutdown), gives reproduction steps, environment, related commits/issues, and a workaround. It\u2019s not a complete patch spec, but there\u2019s a clear target for a fix (ensure each thread/server closes DB connections or waits for shutdown), so you can meaningfully work on it."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the discrepancy in how durable atomic blocks are handled between TestCase and TransactionTestCase, why durability checks are currently disabled, and proposes a concrete approach (marking TestCase transactions and adjusting the durability check) along with a PoC patch for reference. The root cause, desired change, and scope are all well-defined, making it straightforward to implement a solution."
+}

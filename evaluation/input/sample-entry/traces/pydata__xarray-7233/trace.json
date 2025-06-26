@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a surprising behavior in `ds.coarsen(...).construct(...)` \u2013 non-dimensional coordinate variables get demoted to data variables, despite being coordinates before. It includes a minimal reproducible example, the expected versus actual output, and pinpoints exactly what needs to change (i.e. preserve coordinate status through the coarsen.construct operation). This is sufficient to write a PR to fix the bug."
+}

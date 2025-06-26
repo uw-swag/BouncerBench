@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a high-level design idea (replace a boolean flag with a tag-based attribute) but gives no concrete guidance on where and how to implement it in the codebase, how to handle backwards compatibility, what tests or documentation updates are needed, etc. It\u2019s unclear what exactly the PR should change and how to validate it, so it\u2019s too vague for a meaningful implementation attempt."
+}

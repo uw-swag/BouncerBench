@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s wrong (Django admin\u2019s JSONField widget uses json.dumps with default ensure_ascii=True, escaping Chinese chars) and even points to a concrete fix (use json.dumps(..., ensure_ascii=False)). The exact behavior, reproduction steps, and desired behavior are all stated, so it\u2019s well-specified."
+}

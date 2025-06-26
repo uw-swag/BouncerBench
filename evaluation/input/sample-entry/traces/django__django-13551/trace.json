@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the sequence that leads to a stale but still-valid reset token after an email change, pins the exact code location (PasswordResetTokenGenerator._make_hash_value()), and even proposes the precise change (include user.email in the hash). While it notes that AbstractBaseUser doesn\u2019t require an email field, this is a straightforward edge-case to handle (e.g. using getattr). Overall, it\u2019s unambiguous what needs to be done for a correct fix."
+}

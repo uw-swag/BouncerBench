@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the missing window\u2010function support in older SQLite versions, provides reproducer code, the Django versions/branches affected, and the desired behavior (an explicit, documented error rather than an obscure OperationalError). It\u2019s evident where and how to implement version checks and raise a proper NotSupportedError. Therefore it\u2019s well-specified."
+}

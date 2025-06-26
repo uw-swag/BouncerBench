@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the need for a formset option to prevent creation of new objects (an \"edit-only\" mode). While it doesn\u2019t spell out the exact API or validation behavior, the goal is unambiguous and implementable by adding a flag (e.g. can_add=False) that rejects extra forms. Thus it\u2019s reasonably specified."
+}

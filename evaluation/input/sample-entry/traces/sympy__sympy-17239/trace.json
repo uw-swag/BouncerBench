@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the wrong-printed outputs for various language printers, identifies which printers are failing (glsl, jscode, julia, mathematica, octave, rust) and notes that C/Fortran printers work because they override `_print_Relational`. It\u2019s straightforward to implement the missing overrides in those printers (mirror the C/Fortran implementations, handling \u2018==\u2019, \u2018!=\u2019, \u2018<\u2019, etc.). While it doesn\u2019t include code snippets for each printer\u2019s internals, there\u2019s a sensible interpretation of what change is needed for a successful fix."
+}

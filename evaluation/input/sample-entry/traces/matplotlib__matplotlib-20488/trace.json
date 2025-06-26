@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the exact test that\u2019s failing, provides the stack trace, the involved files, and hints at a recent PR (#18458) and potential numpy changes. While it doesn\u2019t include the full test code or a proposed fix, there\u2019s enough context (test name, failure mode, code locations) for a developer with access to the repository to reproduce, diagnose and address the failure. Thus it\u2019s reasonably specified."
+}

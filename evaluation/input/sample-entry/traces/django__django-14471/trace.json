@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly describes the existing behavior in CsrfViewMiddleware, where a badly formatted CSRF cookie triggers unnecessary token generation and comparison. It lays out the intended behavior (rejecting requests immediately in process_view, preserving old behavior in process_request), references the related exception type (InvalidTokenFormat) and points to where changes should occur (_get_token(), process_request(), process_view()). This is precise enough to implement without further clarification."
+}

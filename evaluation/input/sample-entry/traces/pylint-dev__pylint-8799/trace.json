@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (Pylint still takes several seconds even with all checks disabled) and the desired behavior (immediately return if there are no checks to run). While it doesn\u2019t pin down the exact code location, any Pylint contributor can sensibly interpret this as adding a short\u2010circuit in the main run logic when disable=all is in effect. That makes it reasonably specified for implementation."
+}

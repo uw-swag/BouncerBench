@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the codegen bug (missing multiplication sign before the imaginary unit in Octave code), gives an example of the problem (\"sqrt(3)i\" \u2192 error), and specifies the desired behavior (emit \"sqrt(3)*i\"). That\u2019s enough to implement the fix in the Octave code printer."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps, the exact error, the implicated code location (`req.method = method.upper()`), and the expected behavior (using a Unicode method name shouldn\u2019t leak Unicode into the header and cause a decode error). It\u2019s straightforward to implement a fix (e.g. coerce the method to a byte string), and there\u2019s no ambiguity about success criteria."
+}

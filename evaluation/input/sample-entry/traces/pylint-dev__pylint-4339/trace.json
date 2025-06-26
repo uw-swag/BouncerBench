@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the goal (allow Pylint run under tox/CI to write all output to a single file, e.g. HTML), and even points to the previously removed `--file-output` option and similar features in flake8 for guidance. While some implementation details (exact flag names, file naming conventions, default formats) will need to be decided, the overall task\u2014reintroduce or add a file\u2010output option to Pylint\u2014is unambiguous and actionable."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, describes the incorrect SQL versus expected SQL, and pinpoints when the bug happens. However, the precise fix (warning vs. alias rewriting vs. query wrapping) is left open, so while it\u2019s actionable, you\u2019ll have to fill in some design details. Therefore it\u2019s reasonably specified."
+}

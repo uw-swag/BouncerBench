@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what is missing (support for reversed() via a __reversed__ method) and how to implement it (add __reversed__ to iterate in reverse order). That is straightforward with no ambiguity about requirements or behavior."
+}

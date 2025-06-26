@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (missing __repr__ override), shows how to reproduce it, and specifies the exact expected output. A developer can locate the classes in model_selection/_split.py and implement __repr__ accordingly. The requirements are unambiguous and actionable."
+}

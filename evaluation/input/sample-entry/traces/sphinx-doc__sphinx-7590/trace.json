@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the broken feature (user-defined literal suffixes in the C++ domain), gives a minimal repro, points to the exact location in Sphinx\u2019s C++ parser, and requests that UDLs be supported. While low-level implementation details (e.g. the regex to change) aren\u2019t spelled out, the intent and scope are clear enough to start coding and add the feature. This makes it reasonably specified rather than vague or impossible."
+}

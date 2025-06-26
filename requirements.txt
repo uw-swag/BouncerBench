@@ -1,0 +1,6 @@
+pydantic
+pyyaml
+rich
+datasets
+pandas
+scikit-learn

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a concrete reproducible test case, the exact error message and stack trace, and even pinpoints the suspect function (`split_exclude`). With full access to the codebase and knowledge of Django\u2019s ORM internals, one can write a fix to carry annotations through `exclude`. This is enough information to attempt a proper solution."
+}

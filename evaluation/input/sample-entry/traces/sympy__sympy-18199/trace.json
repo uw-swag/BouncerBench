@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that when a mod p == 0, the function should return x=0 as a root (and indeed the only solution) but currently does not. It even gives a concrete example (`nthroot_mod(289, 5, 17)`). The change required is unambiguous: add a special-case check for a % p == 0 and return [0]."
+}

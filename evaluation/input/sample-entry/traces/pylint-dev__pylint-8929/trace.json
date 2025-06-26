@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives precise reproduction steps, current vs. expected behavior, command-line switches, sample outputs, and version info. It\u2019s clear that the JSON formatter should include the overall score when --score=y is passed. There\u2019s no ambiguity about what to change, so it\u2019s well-specified."
+}

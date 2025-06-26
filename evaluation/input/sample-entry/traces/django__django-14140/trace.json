@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the current deconstruct behavior, reproduces the error with a non-tuple child (Exists expression), and even sketches two viable fixes: remove the single-child special case or guard by checking for 2-tuples.  The desired behavior (deconstruct with args for non-keyword children) is unambiguous, so a developer can implement and test a fix directly."
+}

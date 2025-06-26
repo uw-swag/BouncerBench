@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (refresh_from_db() not clearing a GenericForeignKey cache), provides a minimal reproduction in tests, points to the relevant code in Django, and defines the expected behavior (that refresh_from_db() should clear GFK caches). This is sufficient to start a fix and write a test, so it\u2019s well\u2010specified."
+}

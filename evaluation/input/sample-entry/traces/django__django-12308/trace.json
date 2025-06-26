@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (JSONField values shown as Python dict repr when readonly in the admin), gives an example, identifies the exact location for a patch (django.contrib.admin.utils.display_for_field), and even proposes using JSONField.prepare_value rather than json.dumps. It\u2019s straightforward to implement and test. "
+}

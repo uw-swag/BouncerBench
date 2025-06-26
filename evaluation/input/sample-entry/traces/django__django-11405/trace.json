@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description points out a mutability bug with reverse() altering the original ordering but doesn\u2019t clearly specify the intended correct behavior or the precise code change needed (e.g. where to clone lists, what the API contract should be, whether tests or code should change). There\u2019s no detail on the expected immutability guarantees or how reverse() should behave internally, making the requirements ambiguous."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear: in Django\u2019s FormSet implementation, add a CSS class named \u201cnonform\u201d to the <ul> wrapper for non-form errors (just as Form.non_field_errors adds \u201cnonfield\u201d), and update the documentation accordingly. The scope and desired change are unambiguous, and a direct mirror of existing behavior for forms, so it\u2019s well enough specified to implement."
+}

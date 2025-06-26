@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired feature (allow nested relations in FilteredRelation conditions), provides an example of the current error, and indicates expected behavior. While implementation details are not fleshed out, there\u2019s no ambiguity about what success looks like."
+}

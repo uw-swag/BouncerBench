@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the inconsistent alias conventions (\u2018Col%d\u2019 vs \u2018col%d\u2019), points to the exact code locations, and shows a failing SQL example. It\u2019s unambiguous what needs to change (make both alias generators use the same casing), even if the chosen case (upper or lower) must be picked. This is enough to draft a concrete fix."
+}

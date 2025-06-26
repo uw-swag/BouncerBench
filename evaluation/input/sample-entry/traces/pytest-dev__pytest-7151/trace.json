@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the regression (cleanup functions not called on failure), provides minimal reproducible example code, pytest versions showing both broken and working behavior, environment details, and explicitly states the expected vs. actual behavior. This is sufficient to attempt a fix."
+}

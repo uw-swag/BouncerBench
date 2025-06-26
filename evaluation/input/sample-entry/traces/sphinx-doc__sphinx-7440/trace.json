@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows a Sphinx \u201cduplicate term\u201d error, pinpoints the glossary file and line range, and gives repro steps. While it doesn\u2019t mandate exactly whether to drop or rename one of the two \u2018mysql\u2019 entries (or alter Sphinx\u2019s case-sensitivity), it\u2019s evident what must be done: resolve the duplicate by choosing one entry or making them case-distinct. You can open doc/glossary.rst at the given lines, inspect the two definitions, and apply the needed change. This is sufficiently clear to begin work."
+}

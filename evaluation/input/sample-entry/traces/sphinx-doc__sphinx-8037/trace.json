@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives full context (versions, traceback), a minimal reproduction (clone repo + make html), the exact code snippet that trips the C++ parser, and the expected outcome. It\u2019s clear what is wrong and what needs fixing, so it\u2019s well-specified."
+}

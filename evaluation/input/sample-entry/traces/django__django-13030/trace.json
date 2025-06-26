@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines a reproducible problem (NULL values ending up in the SQL IN list during prefetch), gives example models and queries, and states the exact desired behavior (filter out NULL IDs before building the IN clause). An experienced Django contributor would know where to hook in, write the necessary code change, and add tests. This is sufficiently detailed to be tackled without further clarification."
+}

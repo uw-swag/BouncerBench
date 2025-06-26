@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear description of the failure (KeyError on __wrapped__), full environment details (Python versions, pytest, OS), a minimal reproducer via a GitHub repo, exact reproduction steps and traceback. That is sufficient to begin diagnosing and fixing the bug."
+}

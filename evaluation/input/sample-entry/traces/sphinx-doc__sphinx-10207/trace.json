@@ -1,0 +1,3 @@
+{
+  "trace": "The description actually bundles three distinct tickets (keyboard shortcut `/`, napoleon attribute formatting, and autodoc dict abbreviation) and never focuses on one. Even the first (\u201c/ focuses search\u201d) is only a brief feature request with no details on which templates or JS to update, what selectors to use, or how to toggle it. Because the scope and requirements are unclear and muddled across multiple issues, it\u2019s too vague to implement without further clarification."
+}

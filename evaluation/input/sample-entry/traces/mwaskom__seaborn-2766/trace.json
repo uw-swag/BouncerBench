@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the deprecation warning, shows the traceback, points to the upstream PR (#2466) that fixes it on master, and asks to cut a patch release including that change. The scope and required action (release a new version) are unambiguous."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproducible code, shows the expected behavior under 1.0 versus the broken behavior under 1.1, and clearly identifies the regression (hstack of zero\u2010row matrices should sum column counts). A developer can write a fix to restore the old output, so the issue is well\u2010specified."
+}

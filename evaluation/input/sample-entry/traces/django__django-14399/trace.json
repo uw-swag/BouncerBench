@@ -1,0 +1,3 @@
+{
+  "trace": "The request is to enhance the Django Hypercorn ASGI docs with guidance on serving static files\u2014specifically by recommending and demonstrating the use of WhiteNoise. While the exact text or code snippets aren\u2019t spelled out, the goal is clear (add a section to the ASGI/Hypercorn docs), there is precedent (existing WhiteNoise usage patterns in Django), and the scope (documentation updates) is moderate. Thus, it\u2019s reasonably specified: a developer can sensibly interpret what\u2019s needed and draft an appropriate docs patch."
+}

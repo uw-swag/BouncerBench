@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to be done\u2014wrap the list_editable processing inside changelist_view in a DB transaction\u2014but it doesn\u2019t point to exact lines or include tests or edge cases. A developer familiar with Django\u2019s admin code can locate the changelist_view, add an atomic block, and write tests. It\u2019s not fully detailed, but it\u2019s interpretable without further info."
+}

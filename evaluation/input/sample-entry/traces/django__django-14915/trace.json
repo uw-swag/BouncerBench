@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the upgrade context, the overriding code, the exact error, and why it occurs (a ModelChoiceIteratorValue isn\u2019t hashable for membership testing against a dict). There\u2019s enough detail to propose a fix (e.g. use the underlying value or key instead), so it\u2019s well-specified."
+}

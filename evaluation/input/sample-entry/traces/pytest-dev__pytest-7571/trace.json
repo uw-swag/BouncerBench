@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the expected behavior (log level restored after test), shows a minimal reproducible example, references the relevant documentation, and contrasts the behavior between versions. It\u2019s obvious what needs to be fixed."
+}

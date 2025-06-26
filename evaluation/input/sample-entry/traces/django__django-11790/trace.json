@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what is wrong (the username field on AuthenticationForm no longer sets the maxlength HTML attribute), points to the specific commit that regressed it, and links to discussion threads for context. A developer can locate the form in code, add the missing maxlength attribute (using the field\u2019s max_length), and write a test for it. This is sufficiently detailed for a meaningful fix."
+}

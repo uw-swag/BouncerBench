@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies a missing dependency (joblib) in the show_versions utility (or issue template) for scikit-learn versions >0.20. While it doesn\u2019t spell out the exact file paths or code snippets to update, it\u2019s straightforward to locate the show_versions implementation and add joblib to the reported dependencies. This makes a reasonable interpretation possible without further clarification."
+}

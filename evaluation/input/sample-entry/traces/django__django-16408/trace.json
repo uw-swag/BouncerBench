@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description of the failing behavior, a minimal reproducible test case, and the expected vs. actual output. While it doesn\u2019t prescribe exactly which part of the ORM code to change, it provides enough detail to reproduce the bug and reason about the fix. Therefore it\u2019s reasonably specified."
+}

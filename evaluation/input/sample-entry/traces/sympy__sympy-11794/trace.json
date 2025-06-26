@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement provides almost no context or detail\u2014there\u2019s no description of what a \u201cSingularity Function\u201d is in this codebase, what ASCII printing entails, sample inputs/outputs, target API, or language specifics. Without these details, it\u2019s unclear how to proceed or what a successful implementation would look like."
+}

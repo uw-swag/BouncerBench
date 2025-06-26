@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the specific Sphinx configuration, the decorated-__init__ symptom, the commit that introduced the break, the exact line where the lookup fails (using obj.__globals__), and why that fails for wrapped functions. There\u2019s a concrete root cause and desired behavior, so a developer can jump in and propose a fix (e.g. follow __wrapped__ to recover the real function\u2019s globals)."
+}

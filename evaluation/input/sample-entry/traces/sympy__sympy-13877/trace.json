@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives concrete reproduction steps, the exact error traceback, and even suggests a likely root cause (Bareiss being applied to non-integer entries). While it doesn\u2019t spell out exactly how to fix it, it\u2019s clear what to reproduce, diagnose, and address (e.g. detect non-integer/symbolic entries and choose a different determinant algorithm)."
+}

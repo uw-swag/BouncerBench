@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket provides minimal reproducible models, Django versions, exact querysets, and both the actual and expected SQL output. The root cause is clearly identified (self-referential FK triggering an extra JOIN and incorrect default ordering). It\u2019s unambiguous what the correct behavior should be, so the issue is well-specified."
+}

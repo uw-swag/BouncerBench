@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/seaborn/_core/scales.py b/seaborn/_core/scales.py\nindex 9be3959..5e1e493 100644\n--- a/seaborn/_core/scales.py\n+++ b/seaborn/_core/scales.py\n@@ -348,7 +348,7 @@ class ContinuousBase(Scale):\n                 vmin, vmax = new.norm\n             vmin, vmax = axis.convert_units((vmin, vmax))\n             a = forward(vmin)\n-            b = forward(vmax) - forward(vmin)\n+            b = forward(int(vmax)) - forward(int(vmin))\n \n             def normalize(x):\n                 return (x - a) / b\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nColor mapping fails with boolean data\n```python\r\nso.Plot([\"a\", \"b\"], [1, 2], color=[True, False]).add(so.Bar())\r\n```\r\n```python-traceback\r\n---------------------------------------------------------------------------\r\nTypeError                                 Traceback (most recent call last)\r\n...\r\nFile ~/code/seaborn/seaborn/_core/plot.py:841, in Plot._plot(self, pyplot)\r\n    838 plotter._compute_stats(self, layers)\r\n    840 # Process scale spec for semantic variables and coordinates computed by stat\r\n--> 841 plotter._setup_scales(self, common, layers)\r\n    843 # TODO Remove these after updating other methods\r\n    844 # ---- Maybe have debug= param that attaches these when True?\r\n    845 plotter._data = common\r\n\r\nFile ~/code/seaborn/seaborn/_core/plot.py:1252, in Plotter._setup_scales(self, p, common, layers, variables)\r\n   1250     self._scales[var] = Scale._identity()\r\n   1251 else:\r\n-> 1252     self._scales[var] = scale._setup(var_df[var], prop)\r\n   1254 # Everything below here applies only to coordinate variables\r\n   1255 # We additionally skip it when we're working with a value\r\n   1256 # that is derived from a coordinate we've already processed.\r\n   1257 # e.g., the Stat consumed y and added ymin/ymax. In that case,\r\n   1258 # we've already setup the y scale and ymin/max are in scale space.\r\n   1259 if axis is None or (var != coord and coord in p._variables):\r\n\r\nFile ~/code/seaborn/seaborn/_core/scales.py:351, in ContinuousBase._setup(self, data, prop, axis)\r\n    349 vmin, vmax = axis.convert_units((vmin, vmax))\r\n    350 a = forward(vmin)\r\n--> 351 b = forward(vmax) - forward(vmin)\r\n    353 def normalize(x):\r\n    354     return (x - a) / b\r\n\r\nTypeError: numpy boolean subtract, the `-` operator, is not supported, use the bitwise_xor, the `^` operator, or the logical_xor function instead.\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_2gqnmp1y9",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch forces both vmin and vmax through int() before applying forward, which fixes boolean data (True/False \u2192 1/0) but also silently truncates any continuous floating inputs (e.g. 0.5 \u2192 0), corrupting real-valued scales. It also applies this to all ContinuousBase scales without checking for boolean dtype. A correct fix would only coerce booleans to numeric (or cast forward\u2019s result to float) when needed, not indiscriminately cast all domain values to int. Therefore the patch is over-broad and misses key aspects.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

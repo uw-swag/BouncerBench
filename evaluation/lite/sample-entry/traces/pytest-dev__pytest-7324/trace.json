@@ -1,0 +1,171 @@
+{
+  "input": "The report simply shows an assertion failure in a debug build when calling `Expression.compile(\"False\")`, but provides no context on what `Expression` is or how pytest ties in, and no clear specification of the desired behavior or fix. There isn\u2019t enough information to develop a targeted solution.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/changelog/7324.bugfix.rst b/changelog/7324.bugfix.rst\nnew file mode 100644\nindex 000000000..d5b484244\n--- /dev/null\n+++ b/changelog/7324.bugfix.rst\n@@ -0,0 +1,3 @@\n+Fixed an issue where pytest would crash the interpreter on debug builds for Python 3.8+ when compiling expressions like 'False'. The `_safe_compile` method in `AssertionRewritingHook` now handles these special cases correctly.\n+\n+\ndiff --git a/src/_pytest/assertion/rewrite.py b/src/_pytest/assertion/rewrite.py\nindex cec0c5501..705c02070 100644\n--- a/src/_pytest/assertion/rewrite.py\n+++ b/src/_pytest/assertion/rewrite.py\n@@ -74,6 +74,23 @@ class AssertionRewritingHook(importlib.abc.MetaPathFinder, importlib.abc.Loader)\n         self.session = session\n         self._session_paths_checked = False\n \n+    # This method handles the compilation of special constants (True, False, None)\n+    # differently in debug mode to avoid crashes on Python 3.8+ debug builds.\n+    # It creates appropriate AST nodes for these constants instead of compiling them directly.\n+    def _safe_compile(self, source, filename, mode):\n+        if __debug__:\n+            # In debug mode, handle special cases\n+            if source in ('True', 'False', 'None'):\n+                if sys.version_info >= (3, 8):\n+                    node = ast.Constant(value=eval(source), kind=None, lineno=1, col_offset=0)\n+                else:\n+                    node = ast.NameConstant(value=eval(source), lineno=1, col_offset=0)\n+                expr = ast.Expression(body=node)\n+                expr.lineno = 1\n+                expr.col_offset = 0\n+                return compile(expr, filename, mode)\n+        return compile(source, filename, mode)\n+\n     # Indirection so we can mock calls to find_spec originated from the hook during testing\n     _find_spec = importlib.machinery.PathFinder.find_spec\n \n@@ -165,6 +182,7 @@ class AssertionRewritingHook(importlib.abc.MetaPathFinder, importlib.abc.Loader)\n                     self._writing_pyc = False\n         else:\n             state.trace(\"found cached rewritten pyc for {}\".format(fn))\n+        # We don't use _safe_compile here because the code object has already been compiled\n         exec(co, module.__dict__)\n \n     def _early_rewrite_bailout(self, name: str, state: \"AssertionState\") -> bool:\n@@ -265,7 +283,6 @@ class AssertionRewritingHook(importlib.abc.MetaPathFinder, importlib.abc.Loader)\n     def _warn_already_imported(self, name: str) -> None:\n         from _pytest.warning_types import PytestAssertRewriteWarning\n         from _pytest.warnings import _issue_warning_captured\n-\n         _issue_warning_captured(\n             PytestAssertRewriteWarning(\n                 \"Module already imported so cannot be rewritten: %s\" % name\ndiff --git a/testing/test_debug_assertion.py b/testing/test_debug_assertion.py\nnew file mode 100644\nindex 000000000..37d77d2cc\n--- /dev/null\n+++ b/testing/test_debug_assertion.py\n@@ -0,0 +1,26 @@\n+import pytest\n+from _pytest.assertion.rewrite import AssertionRewritingHook\n+from unittest.mock import Mock\n+\n+def test_safe_compile_false_expression():\n+    mock_config = Mock()\n+    hook = AssertionRewritingHook(mock_config)\n+    \n+    # Test compilation of 'False' expression\n+    try:\n+        code = hook._safe_compile('False', '<string>', 'eval')\n+        result = eval(code)\n+        assert result is False\n+    except Exception as e:\n+        pytest.fail(f'Compilation of \"False\" failed: {e}')\n+\n+    # Test compilation of normal code\n+    try:\n+        code = hook._safe_compile('1 + 1', '<string>', 'eval')\n+        result = eval(code)\n+        assert result == 2\n+    except Exception as e:\n+        pytest.fail(f'Compilation of normal code failed: {e}')\n+\n+if __name__ == '__main__':\n+    pytest.main([__file__])\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nPytest crashes the interpreter on debug build for 3.8+\nShort reproducer\r\n```py\r\n>>> Expression.compile(\"False\")\r\npython: Python/compile.c:3559: compiler_nameop: Assertion `!_PyUnicode_EqualToASCIIString(name, \"None\") && !_PyUnicode_EqualToASCIIString(name, \"True\") && !_PyUnicode_EqualToASCIIString(name, \"False\")' failed.\r\n[1]    29440 abort (core dumped)  python\r\n```\r\n\r\nRelated issue for improvement of this behavior: [bpo-40870](https://bugs.python.org/issue40870)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_dm8zcgqxk",
+      "status": "completed",
+      "call_id": "call_z7v9THHzFIdvpxmmVKHy5YEA",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _safe_compile\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_z7v9THHzFIdvpxmmVKHy5YEA",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_v28im0j4x",
+      "status": "completed",
+      "call_id": "call_JYkmk4G7eZf1x4HO31WpX4eK",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,50p' src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_JYkmk4G7eZf1x4HO31WpX4eK",
+      "output": "{\"output\":\"\\\"\\\"\\\"Rewrite assertion AST to produce nice error messages\\\"\\\"\\\"\\nimport ast\\nimport errno\\nimport functools\\nimport importlib.abc\\nimport importlib.machinery\\nimport importlib.util\\nimport io\\nimport itertools\\nimport marshal\\nimport os\\nimport struct\\nimport sys\\nimport tokenize\\nimport types\\nfrom typing import Callable\\nfrom typing import Dict\\nfrom typing import IO\\nfrom typing import List\\nfrom typing import Optional\\nfrom typing import Sequence\\nfrom typing import Set\\nfrom typing import Tuple\\nfrom typing import Union\\n\\nfrom _pytest._io.saferepr import saferepr\\nfrom _pytest._version import version\\nfrom _pytest.assertion import util\\nfrom _pytest.assertion.util import (  # noqa: F401\\n    format_explanation as _format_explanation,\\n)\\nfrom _pytest.compat import fspath\\nfrom _pytest.compat import TYPE_CHECKING\\nfrom _pytest.config import Config\\nfrom _pytest.main import Session\\nfrom _pytest.pathlib import fnmatch_ex\\nfrom _pytest.pathlib import Path\\nfrom _pytest.pathlib import PurePath\\nfrom _pytest.store import StoreKey\\n\\nif TYPE_CHECKING:\\n    from _pytest.assertion import AssertionState  # noqa: F401\\n\\n\\nassertstate_key = StoreKey[\\\"AssertionState\\\"]()\\n\\n\\n# pytest caches rewritten pycs in pycache dirs\\nPYTEST_TAG = \\\"{}-pytest-{}\\\".format(sys.implementation.cache_tag, version)\\nPYC_EXT = \\\".py\\\" + (__debug__ and \\\"c\\\" or \\\"o\\\")\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_f73bsk9u0",
+      "status": "completed",
+      "call_id": "call_itDkWl9lIuoSTqPTSOzeaITV",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"compile(.*filename\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_itDkWl9lIuoSTqPTSOzeaITV",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_fcehxdzkw",
+      "status": "completed",
+      "call_id": "call_xI9MHzRfptuD4IsDOFnDqJP8",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"compile( *source\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_xI9MHzRfptuD4IsDOFnDqJP8",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_y75b15yyx",
+      "status": "completed",
+      "call_id": "call_eQSjbwvBcls7L8U2tBUH5JXT",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"compile(\\\\\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_eQSjbwvBcls7L8U2tBUH5JXT",
+      "output": "{\"output\":\"bash: -c: line 1: unexpected EOF while looking for matching `\\\"'\\nbash: -c: line 2: syntax error: unexpected end of file\\n\",\"metadata\":{\"exit_code\":2,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_oc2aynsc2",
+      "status": "completed",
+      "call_id": "call_zEgoUhhpXv8WBxgwUMDs4oJi",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"_safe_compile\\\" -n src\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_zEgoUhhpXv8WBxgwUMDs4oJi",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_dnktyxsy2",
+      "status": "completed",
+      "call_id": "call_QfuW4vRTJck055JTEKjLRP5X",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '50,160p' src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_QfuW4vRTJck055JTEKjLRP5X",
+      "output": "{\"output\":\"PYC_EXT = \\\".py\\\" + (__debug__ and \\\"c\\\" or \\\"o\\\")\\nPYC_TAIL = \\\".\\\" + PYTEST_TAG + PYC_EXT\\n\\n\\nclass AssertionRewritingHook(importlib.abc.MetaPathFinder, importlib.abc.Loader):\\n    \\\"\\\"\\\"PEP302/PEP451 import hook which rewrites asserts.\\\"\\\"\\\"\\n\\n    def __init__(self, config: Config) -> None:\\n        self.config = config\\n        try:\\n            self.fnpats = config.getini(\\\"python_files\\\")\\n        except ValueError:\\n            self.fnpats = [\\\"test_*.py\\\", \\\"*_test.py\\\"]\\n        self.session = None  # type: Optional[Session]\\n        self._rewritten_names = set()  # type: Set[str]\\n        self._must_rewrite = set()  # type: Set[str]\\n        # flag to guard against trying to rewrite a pyc file while we are already writing another pyc file,\\n        # which might result in infinite recursion (#3506)\\n        self._writing_pyc = False\\n        self._basenames_to_check_rewrite = {\\\"conftest\\\"}\\n        self._marked_for_rewrite_cache = {}  # type: Dict[str, bool]\\n        self._session_paths_checked = False\\n\\n    def set_session(self, session: Optional[Session]) -> None:\\n        self.session = session\\n        self._session_paths_checked = False\\n\\n    # Indirection so we can mock calls to find_spec originated from the hook during testing\\n    _find_spec = importlib.machinery.PathFinder.find_spec\\n\\n    def find_spec(\\n        self,\\n        name: str,\\n        path: Optional[Sequence[Union[str, bytes]]] = None,\\n        target: Optional[types.ModuleType] = None,\\n    ) -> Optional[importlib.machinery.ModuleSpec]:\\n        if self._writing_pyc:\\n            return None\\n        state = self.config._store[assertstate_key]\\n        if self._early_rewrite_bailout(name, state):\\n            return None\\n        state.trace(\\\"find_module called for: %s\\\" % name)\\n\\n        # Type ignored because mypy is confused about the `self` binding here.\\n        spec = self._find_spec(name, path)  # type: ignore\\n        if (\\n            # the import machinery could not find a file to import\\n            spec is None\\n            # this is a namespace package (without `__init__.py`)\\n            # there's nothing to rewrite there\\n            # python3.5 - python3.6: `namespace`\\n            # python3.7+: `None`\\n            or spec.origin == \\\"namespace\\\"\\n            or spec.origin is None\\n            # we can only rewrite source files\\n            or not isinstance(spec.loader, importlib.machinery.SourceFileLoader)\\n            # if the file doesn't exist, we can't rewrite it\\n            or not os.path.exists(spec.origin)\\n        ):\\n            return None\\n        else:\\n            fn = spec.origin\\n\\n        if not self._should_rewrite(name, fn, state):\\n            return None\\n\\n        return importlib.util.spec_from_file_location(\\n            name,\\n            fn,\\n            loader=self,\\n            submodule_search_locations=spec.submodule_search_locations,\\n        )\\n\\n    def create_module(\\n        self, spec: importlib.machinery.ModuleSpec\\n    ) -> Optional[types.ModuleType]:\\n        return None  # default behaviour is fine\\n\\n    def exec_module(self, module: types.ModuleType) -> None:\\n        assert module.__spec__ is not None\\n        assert module.__spec__.origin is not None\\n        fn = Path(module.__spec__.origin)\\n        state = self.config._store[assertstate_key]\\n\\n        self._rewritten_names.add(module.__name__)\\n\\n        # The requested module looks like a test file, so rewrite it. This is\\n        # the most magical part of the process: load the source, rewrite the\\n        # asserts, and load the rewritten source. We also cache the rewritten\\n        # module code in a special pyc. We must be aware of the possibility of\\n        # concurrent pytest processes rewriting and loading pycs. To avoid\\n        # tricky race conditions, we maintain the following invariant: The\\n        # cached pyc is always a complete, valid pyc. Operations on it must be\\n        # atomic. POSIX's atomic rename comes in handy.\\n        write = not sys.dont_write_bytecode\\n        cache_dir = get_cache_dir(fn)\\n        if write:\\n            ok = try_makedirs(cache_dir)\\n            if not ok:\\n                write = False\\n                state.trace(\\\"read only directory: {}\\\".format(cache_dir))\\n\\n        cache_name = fn.name[:-3] + PYC_TAIL\\n        pyc = cache_dir / cache_name\\n        # Notice that even if we're in a read-only directory, I'm going\\n        # to check for a cached pyc. This may not be optimal...\\n        co = _read_pyc(fn, pyc, state.trace)\\n        if co is None:\\n            state.trace(\\\"rewriting {!r}\\\".format(fn))\\n            source_stat, co = _rewrite_test(fn, self.config)\\n            if write:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_t73vyonim",
+      "status": "completed",
+      "call_id": "call_Qx53uJ4SbqczmZRjY0uzPKfz",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _rewrite_test\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_Qx53uJ4SbqczmZRjY0uzPKfz",
+      "output": "{\"output\":\"350:def _rewrite_test(fn: Path, config: Config) -> Tuple[os.stat_result, types.CodeType]:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_jpff88yvo",
+      "status": "completed",
+      "call_id": "call_6Y5RpXfWpV7qZQ1fJQ0wXM32",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"compile(.*rewrite\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_6Y5RpXfWpV7qZQ1fJQ0wXM32",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_sxg1n0veg",
+      "status": "completed",
+      "call_id": "call_V1M4FGpmEpYixDLfQaFD3Awz",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _rewrite_test\\\" -n src/_pytest/assertion/rewrite.py -n\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_V1M4FGpmEpYixDLfQaFD3Awz",
+      "output": "{\"output\":\"350:def _rewrite_test(fn: Path, config: Config) -> Tuple[os.stat_result, types.CodeType]:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_scaadeeyp",
+      "status": "completed",
+      "call_id": "call_eJRfZepV5Ql907TDRDr7RGZo",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"compile(\\\" -n src/_pytest/assertion/rewrite.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_eJRfZepV5Ql907TDRDr7RGZo",
+      "output": "{\"output\":\"358:    co = compile(tree, fn_, \\\"exec\\\", dont_inherit=True)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_pvtm4tre8",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch adds a new `_safe_compile` helper and tests it in isolation, but never actually uses it in the real assertion rewrite workflow\u2014none of the existing calls to `compile()` in `rewrite.py` are redirected to `_safe_compile`. Moreover, it guards on the Python `__debug__` constant (which is tied to the -O flag, not a C debug\u2010build) so it won\u2019t activate under the intended debug\u2010build scenario. In short, the fix never plugs into the code path that crashes and misdetects the \u201cdebug\u201d context. </EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

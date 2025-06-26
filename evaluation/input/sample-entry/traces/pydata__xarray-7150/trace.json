@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal, self\u2010contained reproducer, clear code samples for saving and loading, the exact traceback, and a precise description of the mismatch between calling the multi\u2010index decode inside the backend vs. afterward. The expected behavior is unambiguous, and all necessary details (environment, versions, functions) are provided. This is sufficient to attempt a targeted fix in xarray\u2019s open_dataset/backend logic."
+}

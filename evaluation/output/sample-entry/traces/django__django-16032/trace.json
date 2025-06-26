@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py\nindex 250c6ee..1feefb9 100644\n--- a/django/db/models/sql/query.py\n+++ b/django/db/models/sql/query.py\n@@ -1910,6 +1910,9 @@ class Query(BaseExpression):\n                 getattr(expr, \"get_external_cols\", None)\n             ):\n                 yield from expr.get_external_cols()\n+            # Ensure that annotated and aliased expressions are handled properly\n+            elif hasattr(expr, 'expression'):\n+                yield from cls._gen_cols([expr.expression], include_external)\n             elif hasattr(expr, \"get_source_expressions\"):\n                 yield from cls._gen_cols(\n                     expr.get_source_expressions(),\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\n__in doesn't clear selected fields on the RHS when QuerySet.alias() is used after annotate().\nDescription\n\t\nHere is a test case to reproduce the bug, you can add this in tests/annotations/tests.py\n\tdef test_annotation_and_alias_filter_in_subquery(self):\n\t\tlong_books_qs = (\n\t\t\tBook.objects.filter(\n\t\t\t\tpages__gt=400,\n\t\t\t)\n\t\t\t.annotate(book_annotate=Value(1))\n\t\t\t.alias(book_alias=Value(1))\n\t\t)\n\t\tpublisher_books_qs = (\n\t\t\tPublisher.objects.filter(\n\t\t\t\tbook__in=long_books_qs\n\t\t\t)\n\t\t\t.values(\"name\")\n\t\t)\n\t\tself.assertCountEqual(\n\t\t\tpublisher_books_qs,\n\t\t\t[\n\t\t\t\t{'name': 'Apress'},\n\t\t\t\t{'name': 'Sams'},\n\t\t\t\t{'name': 'Prentice Hall'},\n\t\t\t\t{'name': 'Morgan Kaufmann'}\n\t\t\t]\n\t\t)\nYou should get this error:\ndjango.db.utils.OperationalError: sub-select returns 10 columns - expected 1\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_8tcag8xvs",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe change adds a special case to strip off any wrapper expressions (aliases or annotations) by unwrapping their `.expression` and continuing the column-gen walk on the inner expression. In a subquery for `__in`, `include_external` is false, so annotation and alias wrappers get flattened down to the real column (usually the primary key), and the annotation/alias expressions themselves don\u2019t emit any columns. That restores the expected \u201cone column\u201d sub-select without pulling in every annotated and aliased field. It\u2019s a minimal, targeted fix and doesn\u2019t touch unrelated logic.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the specific warning ('Inline interpreted text or phrase reference start-string without end-string') triggered by Sphinx Napoleon when a dataclass field docstring\u2019s first line contains a reference, provides minimal reproducible examples (one failing, one passing), and lists environment and extensions. It is sufficiently detailed to attempt a fix."
+}

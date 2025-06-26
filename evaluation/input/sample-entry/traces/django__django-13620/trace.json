@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s happening (nargs='+\u2019 in an exclusive required group blows up when passed as a list or repeatedly), shows code examples, and implicitly states the desired behavior (accept a Python list or multiple --foo flags and yield the full list). There\u2019s enough detail to attempt a fix, though not every edge case or desired API nuance is spelled out. Hence it\u2019s reasonably specified."
+}

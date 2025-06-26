@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example, shows actual vs expected behavior, pinpoints the root cause (incorrect precision propagation in evalf with subs), and even suggests a specific fix (apply subs before evalf). This is enough to start coding a PR."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what new functionality is needed (a hook to customize the class bases list), references an existing similar hook (`autodoc-process-signature`), proposes a concrete API signature with all parameters, and even offers two implementation options. There\u2019s enough detail to write the code and integrate it into the event system without further clarification."
+}

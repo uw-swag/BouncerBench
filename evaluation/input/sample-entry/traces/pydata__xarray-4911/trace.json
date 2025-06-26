@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the unexpected eager evaluation when using sum with min_count on a lazy array, provides a minimal reproducible example, expected vs actual behavior, and environment details. A developer can directly see what needs fixing (making sum/min_count lazy or documenting the limitation)."
+}

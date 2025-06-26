@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly defines what needs to be changed\u2014add a comments (or item_comments) argument to feed.add_item() in syndication.views and render it in the output feed\u2014so there\u2019s no ambiguity about the desired API or functionality."
+}

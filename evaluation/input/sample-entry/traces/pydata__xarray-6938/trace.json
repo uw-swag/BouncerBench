@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unexpected in-place modification of the original Dataset by swap_dims, provides a minimal, complete, and verifiable example showing actual versus expected behavior, and includes environment details. A maintainer can reproduce the problem and knows the desired behavior, making it well-specified."
+}

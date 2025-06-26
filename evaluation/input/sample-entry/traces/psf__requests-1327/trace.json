@@ -1,0 +1,3 @@
+{
+  "trace": "The issue accurately describes a bug (adapter lookup order being arbitrary) and outlines several possible solution approaches, but it never commits to a single actionable fix. It asks \u201cWhat should we do?\u201d rather than specifying which solution to implement, what the API contract should be, or providing concrete acceptance criteria and tests. There\u2019s ambiguity around the required behavior, backward compatibility guarantees, and design choice. As a result, it\u2019s too open-ended for a straightforward PR implementation without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the Django ORM calls, the resulting SQL, and the discrepancy (GROUP BY using the base field instead of the ExpressionWrapper expression). It provides reproduction steps, the SQL output, and the expected behavior. This is sufficient to craft a fix or further tests."
+}

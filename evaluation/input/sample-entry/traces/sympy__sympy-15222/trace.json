@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is just a brief code snippet and an expectation without any context or detail on the intended semantics of Subs.subs, the version of SymPy, or which parts of the internal state should be mutable vs. immutable. There\u2019s no specification of how substitutions on Subs objects ought to work in general, nor any clear requirements or edge\u2010case definitions. This lack of detail makes it impossible to proceed confidently on a fix\u2014there\u2019s too much ambiguity about desired behavior. "
+}

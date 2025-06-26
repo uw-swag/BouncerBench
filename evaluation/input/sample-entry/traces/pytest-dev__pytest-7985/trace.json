@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states \u201cDeprecate `--strict`\u201d and complains about removing and reintroducing it, but provides no details on what behavior is expected, how to implement the deprecation, what warnings or removals are needed, or any acceptance criteria. There\u2019s not enough context to write a meaningful patch without further clarification."
+}

@@ -1,0 +1,64 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/django/conf/global_settings.py b/django/conf/global_settings.py\nindex 09c9b95d26..8bb59a4037 100644\n--- a/django/conf/global_settings.py\n+++ b/django/conf/global_settings.py\n@@ -637,6 +637,6 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = False\n SECURE_HSTS_PRELOAD = False\n SECURE_HSTS_SECONDS = 0\n SECURE_REDIRECT_EXEMPT = []\n-SECURE_REFERRER_POLICY = None\n+SECURE_REFERRER_POLICY = 'same-origin'\n SECURE_SSL_HOST = None\n SECURE_SSL_REDIRECT = False\ndiff --git a/docs/ref/settings.txt b/docs/ref/settings.txt\nindex b4a5bdc48f..e7a6b0946f 100644\n--- a/docs/ref/settings.txt\n+++ b/docs/ref/settings.txt\n@@ -2395,11 +2395,12 @@ from URL paths, so patterns shouldn't include them, e.g.\n \n .. versionadded:: 3.0\n \n-Default: ``None``\n+Default: ``'same-origin'``\n \n If configured, the :class:`~django.middleware.security.SecurityMiddleware` sets\n the :ref:`referrer-policy` header on all responses that do not already have it\n-to the value provided.\n+to the value provided. The default value 'same-origin' is set to make Django\n+applications leak less information to third-party sites.\n \n .. setting:: SECURE_SSL_HOST\n \ndiff --git a/docs/releases/3.1.txt b/docs/releases/3.1.txt\nindex 4a165156e1..108e2fd167 100644\n--- a/docs/releases/3.1.txt\n+++ b/docs/releases/3.1.txt\n@@ -56,6 +56,10 @@ Minor features\n   instead of deprecated ``PASSWORD_RESET_TIMEOUT_DAYS``, which will be removed\n   in Django 4.0.\n \n+* The default value of :setting:`SECURE_REFERRER_POLICY` is changed from ``None``\n+  to ``'same-origin'``. This makes Django sites more secure by default, preventing\n+  information leakage to third-party sites.\n+\n :mod:`django.contrib.contenttypes`\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAdd secure default SECURE_REFERRER_POLICY / Referrer-policy header\nDescription\n\t\n#29406 added the ability for the SECURE_REFERRER_POLICY setting to set Referrer-Policy, released in Django 3.0.\nI propose we change the default for this to \"same-origin\" to make Django applications leak less information to third party sites.\nThe main risk of breakage here would be linked websites breaking, if they depend on verification through the Referer header. This is a pretty fragile technique since it can be spoofed.\nDocumentation: \u200bhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy\nThe MDN support grid is out of date: \u200bhttps://caniuse.com/#search=Referrer-Policy\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_vjc1cenly",
+    "status": "completed",
+    "call_id": "call_QrUpEj8mCQx3v2XcpnbBaqma",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"SECURE_REFERRER_POLICY\\\" -n django\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_QrUpEj8mCQx3v2XcpnbBaqma",
+    "output": "{\"output\":\"django/conf/global_settings.py:640:SECURE_REFERRER_POLICY = None\\ndjango/core/checks/security/base.py:18:    \\\"SECURE_REFERRER_POLICY, and SECURE_SSL_REDIRECT settings will have no \\\"\\ndjango/core/checks/security/base.py:106:    'You have not set the SECURE_REFERRER_POLICY setting. Without this, your '\\ndjango/core/checks/security/base.py:113:    'You have set the SECURE_REFERRER_POLICY setting to an invalid value.',\\ndjango/core/checks/security/base.py:216:        if settings.SECURE_REFERRER_POLICY is None:\\ndjango/core/checks/security/base.py:219:        if isinstance(settings.SECURE_REFERRER_POLICY, str):\\ndjango/core/checks/security/base.py:220:            values = {v.strip() for v in settings.SECURE_REFERRER_POLICY.split(',')}\\ndjango/core/checks/security/base.py:222:            values = set(settings.SECURE_REFERRER_POLICY)\\ndjango/middleware/security.py:18:        self.referrer_policy = settings.SECURE_REFERRER_POLICY\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_a78r069yd",
+    "status": "completed",
+    "call_id": "call_88YeXL0ofUHClixaLkAFEw1Q",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '200,260p' django/core/checks/security/base.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_88YeXL0ofUHClixaLkAFEw1Q",
+    "output": "{\"output\":\"def check_xframe_deny(app_configs, **kwargs):\\n    passed_check = (\\n        not _xframe_middleware() or\\n        settings.X_FRAME_OPTIONS == 'DENY'\\n    )\\n    return [] if passed_check else [W019]\\n\\n\\n@register(Tags.security, deploy=True)\\ndef check_allowed_hosts(app_configs, **kwargs):\\n    return [] if settings.ALLOWED_HOSTS else [W020]\\n\\n\\n@register(Tags.security, deploy=True)\\ndef check_referrer_policy(app_configs, **kwargs):\\n    if _security_middleware():\\n        if settings.SECURE_REFERRER_POLICY is None:\\n            return [W022]\\n        # Support a comma-separated string or iterable of values to allow fallback.\\n        if isinstance(settings.SECURE_REFERRER_POLICY, str):\\n            values = {v.strip() for v in settings.SECURE_REFERRER_POLICY.split(',')}\\n        else:\\n            values = set(settings.SECURE_REFERRER_POLICY)\\n        if not values <= REFERRER_POLICY_VALUES:\\n            return [E023]\\n    return []\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_md7084w7l",
+    "status": "completed",
+    "call_id": "call_o3W1UxKBEdSrpRwLLorGLK5S",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,200p' django/middleware/security.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_o3W1UxKBEdSrpRwLLorGLK5S",
+    "output": "{\"output\":\"import re\\n\\nfrom django.conf import settings\\nfrom django.http import HttpResponsePermanentRedirect\\nfrom django.utils.deprecation import MiddlewareMixin\\n\\n\\nclass SecurityMiddleware(MiddlewareMixin):\\n    def __init__(self, get_response=None):\\n        self.sts_seconds = settings.SECURE_HSTS_SECONDS\\n        self.sts_include_subdomains = settings.SECURE_HSTS_INCLUDE_SUBDOMAINS\\n        self.sts_preload = settings.SECURE_HSTS_PRELOAD\\n        self.content_type_nosniff = settings.SECURE_CONTENT_TYPE_NOSNIFF\\n        self.xss_filter = settings.SECURE_BROWSER_XSS_FILTER\\n        self.redirect = settings.SECURE_SSL_REDIRECT\\n        self.redirect_host = settings.SECURE_SSL_HOST\\n        self.redirect_exempt = [re.compile(r) for r in settings.SECURE_REDIRECT_EXEMPT]\\n        self.referrer_policy = settings.SECURE_REFERRER_POLICY\\n        self.get_response = get_response\\n\\n    def process_request(self, request):\\n        path = request.path.lstrip(\\\"/\\\")\\n        if (self.redirect and not request.is_secure() and\\n                not any(pattern.search(path)\\n                        for pattern in self.redirect_exempt)):\\n            host = self.redirect_host or request.get_host()\\n            return HttpResponsePermanentRedirect(\\n                \\\"https://%s%s\\\" % (host, request.get_full_path())\\n            )\\n\\n    def process_response(self, request, response):\\n        if (self.sts_seconds and request.is_secure() and\\n                'Strict-Transport-Security' not in response):\\n            sts_header = \\\"max-age=%s\\\" % self.sts_seconds\\n            if self.sts_include_subdomains:\\n                sts_header = sts_header + \\\"; includeSubDomains\\\"\\n            if self.sts_preload:\\n                sts_header = sts_header + \\\"; preload\\\"\\n            response['Strict-Transport-Security'] = sts_header\\n\\n        if self.content_type_nosniff:\\n            response.setdefault('X-Content-Type-Options', 'nosniff')\\n\\n        if self.xss_filter:\\n            response.setdefault('X-XSS-Protection', '1; mode=block')\\n\\n        if self.referrer_policy:\\n            # Support a comma-separated string or iterable of values to allow\\n            # fallback.\\n            response.setdefault('Referrer-Policy', ','.join(\\n                [v.strip() for v in self.referrer_policy.split(',')]\\n                if isinstance(self.referrer_policy, str) else self.referrer_policy\\n            ))\\n\\n        return response\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_jgomwedc8",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch changes the default setting in global_settings, updates the documentation, and notes the release-note change exactly as proposed. The middleware and system checks already handle a string default correctly, so no further code changes are needed. No unrelated changes or missing pieces are present.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug (invalid Fortran syntax for sign(x)), points to the correct Fortran signature, and even suggests how to generate sign(1, x) or sign(1d0, x) based on context. While some type\u2010and zero\u2010case details need filling in, there\u2019s a straightforward, sensible fix. It\u2019s thus reasonably specified for an implementation."
+}

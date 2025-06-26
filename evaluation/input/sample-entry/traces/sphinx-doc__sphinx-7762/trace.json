@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the hardcoded header in linkcheck.py (with a direct link), describes the problem (GitHub\u2019s 406 response), and specifies the high\u2010level solution (make HTTP headers configurable). An implementer can design a conf.py option and hook it into the existing requests setup. This is precise enough for a meaningful PR."
+}

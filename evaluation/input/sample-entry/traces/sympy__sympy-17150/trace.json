@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly reproduces the bug (calling log(Rational(408,499), 2) yields zoo), gives the expected result, points to the exact code location, and even suggests concrete code changes. A developer could implement and test the fix without needing further clarification."
+}

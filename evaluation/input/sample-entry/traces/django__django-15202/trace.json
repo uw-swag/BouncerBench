@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows a malformed URL input causing a ValueError deep in the URL parsing logic rather than the form field logic, and the expected behavior is that URLField.clean should catch that and raise a ValidationError. While it doesn\u2019t prescribe the exact code change, there\u2019s a straightforward fix (catch ValueError in clean and re-raise as ValidationError), so it\u2019s sufficiently defined for a meaningful implementation."
+}

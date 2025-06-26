@@ -1,0 +1,3 @@
+{
+  "trace": "The request is for a makemigrations warning when a field has a callable default (especially on unique fields) because the callable is only invoked once during migration. However, the description omits key details: it doesn\u2019t show the unique=True setting in the example, it doesn\u2019t specify exactly when the warning should fire (all callables vs. only on unique fields), what the warning text should be, or how it should integrate with Django\u2019s checks framework. Without these details a clear implementation cannot be scoped."
+}

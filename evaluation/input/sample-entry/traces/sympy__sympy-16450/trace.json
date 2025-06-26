@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, shows the current vs. desired behavior (finite gets dropped), and specifies that posify should preserve the \u2018finite\u2019 assumption (and possibly others). It\u2019s clear what to change in the code (carry over the finite assumption to the new symbol), even if the exact implementation details must be discovered by reading the posify code. Thus it\u2019s reasonably specified for someone familiar with the codebase to implement a fix."
+}

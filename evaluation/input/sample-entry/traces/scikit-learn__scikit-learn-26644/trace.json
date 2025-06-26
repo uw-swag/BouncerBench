@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies which function to change (inspect.partial_dependence), what new parameter to add (sample_weight), and how it should alter behavior (use weighted averages instead of arithmetic means for aggregated curves). The scope and intent are well defined, though implementation details (e.g. argument validation, test cases) would need fleshing out. Overall, it\u2019s a sensible, actionable feature request."
+}

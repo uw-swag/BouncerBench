@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the current behavior (clearsessions writes to stderr if clear_expired() isn\u2019t implemented) and the desired change (raise CommandError instead). It identifies exactly which command and method are affected and what the replacement behavior should be, so a developer can implement the fix without additional information."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear reproduction case with the exact code snippet that triggers the IndexError in the StrPrinter for an unevaluated Mul, including the full error message. While it doesn\u2019t explicitly state the expected output, it\u2019s obvious that the printer should not crash and should instead render the expression (e.g. \u201cx**(-2)*3**(-1)\u201d). A developer can replicate the failure, find the call to _coeff_isneg, and add the necessary guard. Thus it\u2019s specified enough for a meaningful attempt at a fix."
+}

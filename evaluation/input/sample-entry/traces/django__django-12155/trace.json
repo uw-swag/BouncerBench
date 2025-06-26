@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly outlines the bug\u2014docstrings without a blank first line cause a zero indent calculation, leading to a rendering error. It shows the offending code in trim_docstring, reproduces the error, and even offers a precise one-line change to skip the first line. That makes it straightforward to implement a fix."
+}

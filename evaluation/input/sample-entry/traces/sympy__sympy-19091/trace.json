@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a bug in the ordering of tensor contraction vs. metric application and even pinpoints the relevant code, but it does not propose a concrete, self\u2010contained change or design for fixing it. Instead it calls for a broad refactor of the tensor representation without specifying how. That leaves too much ambiguity for a direct implementation."
+}

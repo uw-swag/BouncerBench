@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the buggy behavior (size argument ignored when smaller than the supplied list), provides a minimal reproducer, and specifies the desired outcome (raise an exception). There is no ambiguity about what change is expected, so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug (parse_expr with evaluate=False still evaluates relational expressions), shows concrete input/output examples, and specifies the correct expected behavior. A developer familiar with parse_expr can write a fix based on this information."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue only provides a long Sphinx stack trace without any minimal reproducible example, sample config, or pointers to the problematic code/type hints. We cannot reproduce the error or know what annotation triggered __args__ to be a non\u2010iterable type. It\u2019s too vague to attempt a meaningful fix without further details."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description is extremely brief and lacks key details such as the ORM or migration framework being used, sample model definitions, migration commands or code snippets, the exact behavior observed versus expected, error messages, and steps to reproduce. Without this context, it\u2019s unclear what needs to be changed or how the migrations are implemented, making a meaningful solution impossible."
+}

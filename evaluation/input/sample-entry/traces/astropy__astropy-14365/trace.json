@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (ascii.qdp parser only accepts uppercase commands), the desired behavior (case-insensitive command matching), provides a minimal reproducible example, expected outcome, and environment details. There\u2019s a straightforward interpretation of what needs to change in the code (make command matching case-insensitive), so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a UnicodeDecodeError in Django\u2019s debug template, pinpoints an ellipsis character change, and offers two workarounds (reverting to three dots or explicitly opening the file with utf-8). But it never clearly states the desired fix: should Django templates be read with a forced utf-8 encoding or should the character be reverted? It also lacks reproduction steps, environment details, and a clear specification of the expected behavior. As written, it\u2019s more a question about historical intent than a concrete bug report. Therefore it\u2019s too ambiguous to implement a PR."
+}

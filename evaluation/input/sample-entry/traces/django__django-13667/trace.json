@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior of QuerySet.exists(), the desired SQL transformation for union queries, and why it\u2019s needed. It provides concrete examples and constraints (only union, not intersection/difference). With knowledge of Django\u2019s QuerySet and SQL compiler, one can implement the optimization. Thus it is well-specified for a meaningful solution."
+}

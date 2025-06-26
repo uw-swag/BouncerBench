@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the desired behavior (only interpolate runs of NaNs whose total length is \u2264 limit, leaving larger runs untouched) and points to how current behavior falls short. While implementation details (argument name, backward-compatibility handling, internal API shape) aren\u2019t spelled out, the feature\u2019s intent and success criteria are unambiguous. You could sensibly design a new flag or adjust `limit` semantics to meet this, so it\u2019s reasonably specified."
+}

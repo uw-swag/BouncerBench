@@ -1,0 +1,4 @@
+{
+  "input": "The issue clearly defines the buggy behavior (nested \\frac parsing drops necessary grouping), shows the malformed output vs. the expected output, includes reproducible code examples, and lists tested versions. A contributor can implement and verify the correct bracket insertion for nested fractions without additional context.",
+  "output": null
+}

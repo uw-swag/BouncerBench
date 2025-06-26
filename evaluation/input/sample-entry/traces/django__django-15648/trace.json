@@ -1,0 +1,3 @@
+{
+  "trace": "The issue points out a TypeError when decorated methods are resolved via __get_dynamic_attr and suggests removing one of the two invocation paths (attr(item) vs attr()), but it doesn\u2019t clearly define which path to remove, how it should behave for all cases, or how the Feed view should work post-change. There\u2019s not enough context on the existing codebase, expected behavior, or which functions are affected, making it unclear what a complete solution would involve."
+}

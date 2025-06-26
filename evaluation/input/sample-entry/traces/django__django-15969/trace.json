@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter describes the exact SQL behavior, the models used, and the performance impact, but they never define what \u201cfix\u201d they actually want (a code change in Django\u2019s collector, different ORM usage, documentation update, etc.). It reads more like a support question about why SET_NULL is implemented this way rather than a clearly specified bug or feature request with acceptance criteria. The lack of a defined resolution path makes it ambiguous whether a code change or documentation tweak would satisfy the issue, so it\u2019s too vague to frame a PR around."
+}

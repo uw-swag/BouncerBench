@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what to change (default scheme in URLField.to_python should be switched from \"http\" to \"https\") and even points to the exact code lines. A developer can implement, test, and update docs accordingly. There\u2019s no ambiguity about the desired behavior."
+}

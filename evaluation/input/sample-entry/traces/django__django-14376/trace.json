@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states which parameters are deprecated (\u2018db\u2019 and \u2018passwd\u2019), where in the code (django/db/backends/mysql/base.py, lines 202\u2013205) they\u2019re used, what the new names are (\u2018database\u2019 and \u2018password\u2019), and that supported Django versions already require a mysqlclient version that accepts the new names. Implementing the change is straightforward and unambiguous."
+}

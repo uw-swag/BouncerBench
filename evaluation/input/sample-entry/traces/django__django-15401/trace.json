@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a change in Django\u2019s ORM behavior\u2014preventing unsaved related object instances from being used in filters\u2014and asks what the intended behavior should be and whether it\u2019s documented. However, it doesn\u2019t specify exactly how to enforce this (e.g., warning vs. exception, at which points in the API, deprecation timeline, which relationship types), nor offer implementation guidance or concrete acceptance criteria. As stated, it\u2019s more of a high-level question than a detailed spec for coding, so it\u2019s too vague to begin implementation without further clarification."
+}

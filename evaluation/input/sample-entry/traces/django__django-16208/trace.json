@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that when using Django\u2019s database backend logging, BEGIN is already logged, but COMMIT and ROLLBACK are not. The fix is simply to add logging calls for commits and rollbacks in the DatabaseWrapper or cursor wrapper (e.g. in commit() and rollback() methods) at the appropriate log level. While it doesn\u2019t specify exact log format or level, it\u2019s straightforward to infer from existing log entries. This is a reasonably specified ticket that can be implemented without further clarification."
+}

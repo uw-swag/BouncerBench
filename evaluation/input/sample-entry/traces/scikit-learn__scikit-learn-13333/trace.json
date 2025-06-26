@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that the docstring for `n_quantiles` in `QuantileTransformer` should explain that values above the number of training samples are redundant (i.e. capped at `n_samples`), and illustrates this with concrete code examples. The change is limited to improving documentation, and the scope and desired behavior are unambiguous."
+}

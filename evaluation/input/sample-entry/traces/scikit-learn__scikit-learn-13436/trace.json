@@ -1,0 +1,3 @@
+{
+  "trace": "This is a broad feature-improvement request without concrete requirements or acceptance criteria. It points out that the current repr is confusing and suggests a high-level idea (trim per outer step) but lacks detail on exactly how the repr should change or examples of desired output. There\u2019s no clear spec for a solution, making it too vague to implement directly."
+}

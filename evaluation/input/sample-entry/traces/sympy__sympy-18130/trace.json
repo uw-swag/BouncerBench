@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly reproducible with a minimal code snippet: calling ImageSet(Lambda(n,n**2 - 1), Integers).intersect(Integers) returns an empty set when it should return the same image set (or its integer values). While the expected result isn\u2019t explicitly stated, the intention is evident and there is enough information to start diagnosing the diophantine\u2010solver interaction that leads to the empty result. This makes the issue reasonably specified."
+}

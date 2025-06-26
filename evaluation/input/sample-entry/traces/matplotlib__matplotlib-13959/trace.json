@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current inconsistent behavior (x/y are flattened but c isn\u2019t), gives concrete examples of what works vs. what fails, and states the desired outcome (treat c the same way as x/y by allowing any shape that flattens to the right length).  While it doesn\u2019t pinpoint the exact lines to change in the library, it provides enough detail for a developer familiar with scatter()\u2019s implementation to implement and verify a fix."
+}

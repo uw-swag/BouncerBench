@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the missing validation (fields named in UniqueConstraint aren\u2019t checked for existence) and references the expected behavior (raise E012 as unique_together does). An experienced Django contributor can locate the analogous unique_together checks in the codebase, add the same validation to UniqueConstraint, and write tests based on the provided demonstration. While it doesn\u2019t hand-hold through exact file paths, the requirements and expected outcome are unambiguous."
+}

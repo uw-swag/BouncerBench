@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes the problem: LassoCV\u2019s \u201cprecompute=True\u201d option is ignored for the final fit because the code unconditionally sets `model.precompute = False`. They show where in the code this happens, demonstrate the performance impact, and point out exactly what behavior they expect (to honor the user\u2019s `precompute` setting for the final fit/Gram-matrix precomputation). That gives enough detail to propose a concrete fix: preserve `precompute` instead of forcing it to False (e.g. remove or guard that assignment)."
+}

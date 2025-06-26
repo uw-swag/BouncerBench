@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (roc_curve sometimes returns thresholds >1 when passed probabilities), shows a minimal failing test, points to the offending code snippet, and even suggests a possible workaround (clipping). While it doesn\u2019t prescribe an exact fix, there\u2019s a sensible path forward for a PR (add a check on input range or adjust the +1 behavior for probability estimates and add the suggested test), so it\u2019s reasonably specified."
+}

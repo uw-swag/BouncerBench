@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a concrete, reproducible scenario (a Django management command using a mutually exclusive argparse group with both options sharing the same `dest`), shows the code that works on the command line but fails when using `call_command()`, and clearly states the two failure modes. There\u2019s no missing context about what the command is supposed to do or how it\u2019s being invoked via `call_command`. The expected vs. actual behavior is unambiguous, so you could start implementing or testing a fix right away."
+}

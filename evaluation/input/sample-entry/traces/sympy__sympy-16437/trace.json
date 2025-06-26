@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly shows the misbehavior of Float parsing when underscores are used (with input, actual output, and expected output) and even points to the upstream mpmath source. It\u2019s unambiguous what needs to be done (treat underscores as digit separators and ignore them when parsing)."
+}

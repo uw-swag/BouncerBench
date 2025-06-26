@@ -1,0 +1,3 @@
+{
+  "trace": "This issue clearly describes the crash, provides full reproduction steps (clone, install, make linkcheck), shows the stack trace and environment details, and states the expected outcome. A developer can reproduce the error reliably and knows exactly what needs fixing (prevent the task_done()/queue errors), so it\u2019s well-specified for a solution attempt."
+}

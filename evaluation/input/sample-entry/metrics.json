@@ -1,0 +1,9 @@
+{
+    "model": "Sample Entry",
+    "img_src": "static/images/bouncerbench.svg",
+    "link": "https://www.bouncerbench.com",
+    "I_Score": 0.271,
+    "F_m": 0.592,
+    "R_b": 26.8,
+    "FNR_a": 5.4
+}

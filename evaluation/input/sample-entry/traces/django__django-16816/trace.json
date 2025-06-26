@@ -1,0 +1,3 @@
+{
+  "trace": "The report notes that the existing \u201cE108\u201d system\u2010check doesn\u2019t catch an invalid list_display value and suggests it be extended, but it never shows the relevant E108 code, doesn\u2019t include the models or admin code, and even omits the reproduction link. There\u2019s no clear definition of what E108 currently checks or exactly how it should be changed, so it\u2019s too underspecified to implement a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report simply notes a new warning after upgrading Sphinx and asks where numref logic changed, but gives no minimal repro, no example tables, and no config details. It\u2019s unclear what specific code paths or setup triggers it, so there isn\u2019t enough to jump in with a concrete fix."
+}

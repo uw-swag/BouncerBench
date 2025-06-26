@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is just a brief feature request without details on the new option\u2019s name, flags, behavior nuances, or test coverage. While you can guess at the intent\u2014adding a CLI flag to remove content types for apps no longer in INSTALLED_APPS\u2014there\u2019s no specification of how it should work, what edge cases to cover, or how success is measured. It\u2019s too sparse to start coding unambiguously."
+}

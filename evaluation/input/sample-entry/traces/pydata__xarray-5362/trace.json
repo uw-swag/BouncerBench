@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the inconsistent behavior, a minimal reproducible example, and the expected behavior (raising an error when a non-existent dimension is passed). It is straightforward to implement a check for missing dimensions in the weighted reducer and raise an error accordingly. All necessary details are provided."
+}

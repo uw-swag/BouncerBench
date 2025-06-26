@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints a clear bug (exception repr shows an itertools.chain object instead of the actual items) and the intended fix (materialize the iterator into a list or tuple so the repr is informative) is obvious. While implementation details aren\u2019t spelled out, there\u2019s a straightforward, sensible way to correct it, so the spec is reasonably complete."
+}

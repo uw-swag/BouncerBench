@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly shows the current behavior\u2014`annotate(Count('chapters')).count()` still includes the annotation in the SQL even though it isn\u2019t used\u2014and states the desired outcome: strip out annotations not referenced by filters, orderings, or other annotations when executing `count()`. There\u2019s even precedent in Django\u2019s own ignoring of `select_related` in count queries. While the implementation details (how exactly to detect \u201cused\u201d annotations) aren\u2019t spelled out line by line, the goal and constraints are clear enough for a developer to devise a solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal repro, the current behavior and the expected behavior (commutativity of &/| between Q and Exists). It even points to the missing __rand__ implementation on Q or the need to return NotImplemented instead of raising in __and__, so it\u2019s clear what change is needed. This is WELL_SPECIFIED."
+}

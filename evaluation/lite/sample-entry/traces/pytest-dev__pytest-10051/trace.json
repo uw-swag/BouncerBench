@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes a bug in caplog.clear() replacing the records list instead of clearing it, shows exactly where in the code it diverges from caplog.get_records(), provides a minimal reproduction, and specifies the expected behavior (that get_records and records remain in sync after clear). This is enough detail for a straightforward fix in the existing codebase.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/src/_pytest/logging.py b/src/_pytest/logging.py\nindex a4f4214b1..521a42fb8 100644\n--- a/src/_pytest/logging.py\n+++ b/src/_pytest/logging.py\n@@ -442,6 +442,11 @@ class LogCaptureFixture:\n         \"\"\"Reset the list of log records and the captured log text.\"\"\"\n         self.handler.reset()\n\n+        records_by_phase = self._item.stash.get(caplog_records_key, {})\n+        if records_by_phase is not None:\n+            for phase in records_by_phase:\n+                records_by_phase[phase].clear()\n+\n     def set_level(self, level: Union[int, str], logger: Optional[str] = None) -> None:\n         \"\"\"Set the level of a logger for the duration of a test.\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ncaplog.get_records and caplog.clear conflict\n# Description\r\n\r\n`caplog.get_records()` gets decoupled from actual caplog records when `caplog.clear()` is called. As a result, after `caplog.clear()` is called, `caplog.get_records()` is frozen: it does not get cleared, nor does it get new records.\r\n\r\nDuring test set up it is [set to the same list](https://github.com/pytest-dev/pytest/blob/28e8c8582ea947704655a3c3f2d57184831336fd/src/_pytest/logging.py#L699) as `caplog.records`, but the latter gets [replaced rather than cleared](https://github.com/pytest-dev/pytest/blob/28e8c8582ea947704655a3c3f2d57184831336fd/src/_pytest/logging.py#L345) in `caplog.clear()`, which diverges the two objects.\r\n\r\n# Reproductive example\r\n```python\r\nimport logging\r\n\r\ndef test(caplog) -> None:\r\n    def verify_consistency() -> None:\r\n        assert caplog.get_records(\"call\") == caplog.records\r\n\r\n    verify_consistency()\r\n    logging.warning(\"test\")\r\n    verify_consistency()\r\n    caplog.clear()\r\n    verify_consistency()  # fails: assert [<LogRecord: ...y, 8, \"test\">] == []\r\n```\r\n\r\n# Environment details\r\nArch Linux, Python 3.9.10:\r\n```\r\nPackage    Version\r\n---------- -------\r\nattrs      21.4.0\r\niniconfig  1.1.1\r\npackaging  21.3\r\npip        22.0.4\r\npluggy     1.0.0\r\npy         1.11.0\r\npyparsing  3.0.8\r\npytest     7.1.1\r\nsetuptools 60.10.0\r\ntomli      2.0.1\r\nwheel      0.37.1\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_d0yudg37i",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch augments `LogCaptureFixture.clear()` by also emptying the per\u2010phase record lists stored in the test item\u2019s stash under `caplog_records_key`. This restores the original coupling between `caplog.clear()` (which resets the handler\u2019s `records` list) and `caplog.get_records()` (which reads from the stash lists), so after `clear()` both will be empty and new records will flow into both in sync. It makes no unrelated changes and exactly fixes the divergence described in the issue.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

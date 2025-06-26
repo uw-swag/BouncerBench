@@ -1,0 +1,93 @@
+{
+  "input": "The report notes that `latex(Mul(6, S.Half, evaluate=False))` emits \u201c6 1/2\u201d without the usual number-separating space, but it never states what the correct LaTeX string should look like or how much spacing is expected. It assumes familiarity with internal printer settings (\u201cnumbersep\u201d) but gives no example of the desired output. Without an explicit \u201cexpected vs. actual\u201d or a precise spec for the spacing, it\u2019s unclear what code change will satisfy the report. Thus it\u2019s too vague to implement directly.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/printing/latex.py b/sympy/printing/latex.py\nindex 43f9e6ad8d..578abae390 100644\n--- a/sympy/printing/latex.py\n+++ b/sympy/printing/latex.py\n@@ -546,7 +546,9 @@ def convert_args(args):\n         # XXX: _print_Pow calls this routine with instances of Pow...\n         if isinstance(expr, Mul):\n             args = expr.args\n-            if args[0] is S.One or any(isinstance(arg, Number) for arg in args[1:]):\n+            # Check for numeric terms that would normally be combined\n+            numeric_count = sum(1 for arg in args if isinstance(arg, Number))\n+            if numeric_count > 1 or args[0] is S.One:\n                 return convert_args(args)\n \n         include_parens = False\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nIncorrect latex with unevaluated Mul\n`latex(Mul(6, S.Half, evaluate=False))` gives `6 1/2`, so there is no `numbersep`.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_06rpr3r93",
+      "status": "completed",
+      "call_id": "call_c4KqRwXtnVBcEb9R23cgITBi",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '500,580p' sympy/printing/latex.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_c4KqRwXtnVBcEb9R23cgITBi",
+      "output": "{\"output\":\"        from sympy.physics.units import Quantity\\n        from sympy.simplify import fraction\\n        separator = self._settings['mul_symbol_latex']\\n        numbersep = self._settings['mul_symbol_latex_numbers']\\n\\n        def convert(expr):\\n            if not expr.is_Mul:\\n                return str(self._print(expr))\\n            else:\\n                if self.order not in ('old', 'none'):\\n                    args = expr.as_ordered_factors()\\n                else:\\n                    args = list(expr.args)\\n\\n                # If quantities are present append them at the back\\n                args = sorted(args, key=lambda x: isinstance(x, Quantity) or\\n                              (isinstance(x, Pow) and\\n                               isinstance(x.base, Quantity)))\\n\\n                return convert_args(args)\\n\\n        def convert_args(args):\\n                _tex = last_term_tex = \\\"\\\"\\n\\n                for i, term in enumerate(args):\\n                    term_tex = self._print(term)\\n\\n                    if self._needs_mul_brackets(term, first=(i == 0),\\n                                                last=(i == len(args) - 1)):\\n                        term_tex = r\\\"\\\\left(%s\\\\right)\\\" % term_tex\\n\\n                    if _between_two_numbers_p[0].search(last_term_tex) and \\\\\\n                            _between_two_numbers_p[1].match(term_tex):\\n                        # between two numbers\\n                        _tex += numbersep\\n                    elif _tex:\\n                        _tex += separator\\n\\n                    _tex += term_tex\\n                    last_term_tex = term_tex\\n                return _tex\\n\\n        # Check for unevaluated Mul. In this case we need to make sure the\\n        # identities are visible, multiple Rational factors are not combined\\n        # etc so we display in a straight-forward form that fully preserves all\\n        # args and their order.\\n        # XXX: _print_Pow calls this routine with instances of Pow...\\n        if isinstance(expr, Mul):\\n            args = expr.args\\n            if args[0] is S.One or any(isinstance(arg, Number) for arg in args[1:]):\\n                return convert_args(args)\\n\\n        include_parens = False\\n        if _coeff_isneg(expr):\\n            expr = -expr\\n            tex = \\\"- \\\"\\n            if expr.is_Add:\\n                tex += \\\"(\\\"\\n                include_parens = True\\n        else:\\n            tex = \\\"\\\"\\n\\n        numer, denom = fraction(expr, exact=True)\\n\\n        if denom is S.One and Pow(1, -1, evaluate=False) not in expr.args:\\n            # use the original expression here, since fraction() may have\\n            # altered it when producing numer and denom\\n            tex += convert(expr)\\n\\n        else:\\n            snumer = convert(numer)\\n            sdenom = convert(denom)\\n            ldenom = len(sdenom.split())\\n            ratio = self._settings['long_frac_ratio']\\n            if self._settings['fold_short_frac'] and ldenom <= 2 and \\\\\\n                    \\\"^\\\" not in sdenom:\\n                # handle short fractions\\n                if self._needs_mul_brackets(numer, last=False):\\n                    tex += r\\\"\\\\left(%s\\\\right) / %s\\\" % (snumer, sdenom)\\n                else:\\n                    tex += r\\\"%s / %s\\\" % (snumer, sdenom)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_0wxs4zokk",
+      "status": "completed",
+      "call_id": "call_b18xavrtHdKEycZKfUV6TJUk",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"mul_symbol_latex\\\" -n sympy/printing/latex.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_b18xavrtHdKEycZKfUV6TJUk",
+      "output": "{\"output\":\"187:            self._settings['mul_symbol_latex'] = \\\\\\n190:            self._settings['mul_symbol_latex'] = \\\\\\n193:            self._settings['mul_symbol_latex_numbers'] = \\\\\\n198:                self._settings['mul_symbol_latex_numbers'] = \\\\\\n201:                self._settings['mul_symbol_latex_numbers'] = \\\\\\n450:        separator = self._settings['mul_symbol_latex_numbers']\\n502:        separator = self._settings['mul_symbol_latex']\\n503:        numbersep = self._settings['mul_symbol_latex_numbers']\\n2349:        mul_symbol = self._settings['mul_symbol_latex']\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_0rknfhqd4",
+      "status": "completed",
+      "call_id": "call_0ye52cJjQTmJinKyveHwlb3d",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"mul_symbol_latex_numbers\\\" -n sympy/printing/latex.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_0ye52cJjQTmJinKyveHwlb3d",
+      "output": "{\"output\":\"193:            self._settings['mul_symbol_latex_numbers'] = \\\\\\n198:                self._settings['mul_symbol_latex_numbers'] = \\\\\\n201:                self._settings['mul_symbol_latex_numbers'] = \\\\\\n450:        separator = self._settings['mul_symbol_latex_numbers']\\n503:        numbersep = self._settings['mul_symbol_latex_numbers']\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_tucdmmsz4",
+      "status": "completed",
+      "call_id": "call_pnmi7P2pJ4Y3HtiLY7gh70xU",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"_between_two_numbers_p\\\" -n sympy/printing/latex.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_pnmi7P2pJ4Y3HtiLY7gh70xU",
+      "output": "{\"output\":\"116:_between_two_numbers_p = (\\n531:                    if _between_two_numbers_p[0].search(last_term_tex) and \\\\\\n532:                            _between_two_numbers_p[1].match(term_tex):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_zis7dgfq7",
+      "status": "completed",
+      "call_id": "call_iNqrGMmZdlb9IPZS7vZ2qNto",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,200p' sympy/printing/latex.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_iNqrGMmZdlb9IPZS7vZ2qNto",
+      "output": "{\"output\":\"\\\"\\\"\\\"\\nA Printer which converts an expression into its LaTeX equivalent.\\n\\\"\\\"\\\"\\n\\nfrom typing import Any, Dict\\n\\nimport itertools\\n\\nfrom sympy.core import Add, Float, Mod, Mul, Number, S, Symbol\\nfrom sympy.core.alphabets import greeks\\nfrom sympy.core.containers import Tuple\\nfrom sympy.core.function import _coeff_isneg, AppliedUndef, Derivative\\nfrom sympy.core.operations import AssocOp\\nfrom sympy.core.sympify import SympifyError\\nfrom sympy.logic.boolalg import true\\n\\n# sympy.printing imports\\nfrom sympy.printing.precedence import precedence_traditional\\nfrom sympy.printing.printer import Printer, print_function\\nfrom sympy.printing.conventions import split_super_sub, requires_partial\\nfrom sympy.printing.precedence import precedence, PRECEDENCE\\n\\nimport mpmath.libmp as mlib\\nfrom mpmath.libmp import prec_to_dps\\n\\nfrom sympy.core.compatibility import default_sort_key\\nfrom sympy.utilities.iterables import has_variety\\n\\nimport re\\n\\n# Hand-picked functions which can be used directly in both LaTeX and MathJax\\n# Complete list at\\n# https://docs.mathjax.org/en/latest/tex.html#supported-latex-commands\\n# This variable only contains those functions which sympy uses.\\naccepted_latex_functions = ['arcsin', 'arccos', 'arctan', 'sin', 'cos', 'tan',\\n                            'sinh', 'cosh', 'tanh', 'sqrt', 'ln', 'log', 'sec',\\n                            'csc', 'cot', 'coth', 're', 'im', 'frac', 'root',\\n                            'arg',\\n                            ]\\n\\ntex_greek_dictionary = {\\n    'Alpha': 'A',\\n    'Beta': 'B',\\n    'Gamma': r'\\\\Gamma',\\n    'Delta': r'\\\\Delta',\\n    'Epsilon': 'E',\\n    'Zeta': 'Z',\\n    'Eta': 'H',\\n    'Theta': r'\\\\Theta',\\n    'Iota': 'I',\\n    'Kappa': 'K',\\n    'Lambda': r'\\\\Lambda',\\n    'Mu': 'M',\\n    'Nu': 'N',\\n    'Xi': r'\\\\Xi',\\n    'omicron': 'o',\\n    'Omicron': 'O',\\n    'Pi': r'\\\\Pi',\\n    'Rho': 'P',\\n    'Sigma': r'\\\\Sigma',\\n    'Tau': 'T',\\n    'Upsilon': r'\\\\Upsilon',\\n    'Phi': r'\\\\Phi',\\n    'Chi': 'X',\\n    'Psi': r'\\\\Psi',\\n    'Omega': r'\\\\Omega',\\n    'lamda': r'\\\\lambda',\\n    'Lamda': r'\\\\Lambda',\\n    'khi': r'\\\\chi',\\n    'Khi': r'X',\\n    'varepsilon': r'\\\\varepsilon',\\n    'varkappa': r'\\\\varkappa',\\n    'varphi': r'\\\\varphi',\\n    'varpi': r'\\\\varpi',\\n    'varrho': r'\\\\varrho',\\n    'varsigma': r'\\\\varsigma',\\n    'vartheta': r'\\\\vartheta',\\n}\\n\\nother_symbols = {'aleph', 'beth', 'daleth', 'gimel', 'ell', 'eth', 'hbar',\\n                     'hslash', 'mho', 'wp'}\\n\\n# Variable name modifiers\\nmodifier_dict = {\\n    # Accents\\n    'mathring': lambda s: r'\\\\mathring{'+s+r'}',\\n    'ddddot': lambda s: r'\\\\ddddot{'+s+r'}',\\n    'dddot': lambda s: r'\\\\dddot{'+s+r'}',\\n    'ddot': lambda s: r'\\\\ddot{'+s+r'}',\\n    'dot': lambda s: r'\\\\dot{'+s+r'}',\\n    'check': lambda s: r'\\\\check{'+s+r'}',\\n    'breve': lambda s: r'\\\\breve{'+s+r'}',\\n    'acute': lambda s: r'\\\\acute{'+s+r'}',\\n    'grave': lambda s: r'\\\\grave{'+s+r'}',\\n    'tilde': lambda s: r'\\\\tilde{'+s+r'}',\\n    'hat': lambda s: r'\\\\hat{'+s+r'}',\\n    'bar': lambda s: r'\\\\bar{'+s+r'}',\\n    'vec': lambda s: r'\\\\vec{'+s+r'}',\\n    'prime': lambda s: \\\"{\\\"+s+\\\"}'\\\",\\n    'prm': lambda s: \\\"{\\\"+s+\\\"}'\\\",\\n    # Faces\\n    'bold': lambda s: r'\\\\boldsymbol{'+s+r'}',\\n    'bm': lambda s: r'\\\\boldsymbol{'+s+r'}',\\n    'cal': lambda s: r'\\\\mathcal{'+s+r'}',\\n    'scr': lambda s: r'\\\\mathscr{'+s+r'}',\\n    'frak': lambda s: r'\\\\mathfrak{'+s+r'}',\\n    # Brackets\\n    'norm': lambda s: r'\\\\left\\\\|{'+s+r'}\\\\right\\\\|',\\n    'avg': lambda s: r'\\\\left\\\\langle{'+s+r'}\\\\right\\\\rangle',\\n    'abs': lambda s: r'\\\\left|{'+s+r'}\\\\right|',\\n    'mag': lambda s: r'\\\\left|{'+s+r'}\\\\right|',\\n}\\n\\ngreek_letters_set = frozenset(greeks)\\n\\n_between_two_numbers_p = (\\n    re.compile(r'[0-9][} ]*$'),  # search\\n    re.compile(r'[{ ]*[-+0-9]'),  # match\\n)\\n\\n\\ndef latex_escape(s):\\n    \\\"\\\"\\\"\\n    Escape a string such that latex interprets it as plaintext.\\n\\n    We can't use verbatim easily with mathjax, so escaping is easier.\\n    Rules from https://tex.stackexchange.com/a/34586/41112.\\n    \\\"\\\"\\\"\\n    s = s.replace('\\\\\\\\', r'\\\\textbackslash')\\n    for c in '&%$#_{}':\\n        s = s.replace(c, '\\\\\\\\' + c)\\n    s = s.replace('~', r'\\\\textasciitilde')\\n    s = s.replace('^', r'\\\\textasciicircum')\\n    return s\\n\\n\\nclass LatexPrinter(Printer):\\n    printmethod = \\\"_latex\\\"\\n\\n    _default_settings = {\\n        \\\"full_prec\\\": False,\\n        \\\"fold_frac_powers\\\": False,\\n        \\\"fold_func_brackets\\\": False,\\n        \\\"fold_short_frac\\\": None,\\n        \\\"inv_trig_style\\\": \\\"abbreviated\\\",\\n        \\\"itex\\\": False,\\n        \\\"ln_notation\\\": False,\\n        \\\"long_frac_ratio\\\": None,\\n        \\\"mat_delim\\\": \\\"[\\\",\\n        \\\"mat_str\\\": None,\\n        \\\"mode\\\": \\\"plain\\\",\\n        \\\"mul_symbol\\\": None,\\n        \\\"order\\\": None,\\n        \\\"symbol_names\\\": {},\\n        \\\"root_notation\\\": True,\\n        \\\"mat_symbol_style\\\": \\\"plain\\\",\\n        \\\"imaginary_unit\\\": \\\"i\\\",\\n        \\\"gothic_re_im\\\": False,\\n        \\\"decimal_separator\\\": \\\"period\\\",\\n        \\\"perm_cyclic\\\": True,\\n        \\\"parenthesize_super\\\": True,\\n        \\\"min\\\": None,\\n        \\\"max\\\": None,\\n    }  # type: Dict[str, Any]\\n\\n    def __init__(self, settings=None):\\n        Printer.__init__(self, settings)\\n\\n        if 'mode' in self._settings:\\n            valid_modes = ['inline', 'plain', 'equation',\\n                           'equation*']\\n            if self._settings['mode'] not in valid_modes:\\n                raise ValueError(\\\"'mode' must be one of 'inline', 'plain', \\\"\\n                                 \\\"'equation' or 'equation*'\\\")\\n\\n        if self._settings['fold_short_frac'] is None and \\\\\\n                self._settings['mode'] == 'inline':\\n            self._settings['fold_short_frac'] = True\\n\\n        mul_symbol_table = {\\n            None: r\\\" \\\",\\n            \\\"ldot\\\": r\\\" \\\\,.\\\\, \\\",\\n            \\\"dot\\\": r\\\" \\\\cdot \\\",\\n            \\\"times\\\": r\\\" \\\\times \\\"\\n        }\\n        try:\\n            self._settings['mul_symbol_latex'] = \\\\\\n                mul_symbol_table[self._settings['mul_symbol']]\\n        except KeyError:\\n            self._settings['mul_symbol_latex'] = \\\\\\n                self._settings['mul_symbol']\\n        try:\\n            self._settings['mul_symbol_latex_numbers'] = \\\\\\n                mul_symbol_table[self._settings['mul_symbol'] or 'dot']\\n        except KeyError:\\n            if (self._settings['mul_symbol'].strip() in\\n                    ['', ' ', '\\\\\\\\', '\\\\\\\\,', '\\\\\\\\:', '\\\\\\\\;', '\\\\\\\\quad']):\\n                self._settings['mul_symbol_latex_numbers'] = \\\\\\n                    mul_symbol_table['dot']\\n            else:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_zwcxl6eda",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe change tightens the \u201cunevaluated\u2010Mul\u201d detection so that we only invoke the raw `convert_args` formatter when there is more than one numeric factor (or an explicit leading 1), which is exactly the case for `Mul(6, \u00bd, evaluate=False)`.  That forces the special two\u2010number separator (\u201c\u22c5\u201d) to appear between the 6 and \u00bd, fixing the missing `numbersep` without touching any unrelated code paths.  The patch is minimal, focused on the one conditional, and matches the issue description exactly.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates a reproducible failure case (calling xr.where with a scalar and keep_attrs=True) and includes the relevant code snippet and error traceback. Although it lacks a formal \u201cexpected outcome\u201d description or a complete verifiable example with attributes, the intended behavior (no IndexError, and preserving x\u2019s attributes) is straightforward to infer. Thus it\u2019s reasonably specified for implementation."
+}

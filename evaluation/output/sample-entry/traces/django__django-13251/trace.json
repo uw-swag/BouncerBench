@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/query.py b/django/db/models/query.py\nindex 07d6ffd4ca..0f444efd96 100644\n--- a/django/db/models/query.py\n+++ b/django/db/models/query.py\n@@ -949,7 +949,7 @@ class QuerySet:\n         self._not_support_combined_queries('exclude')\n         return self._filter_or_exclude(True, *args, **kwargs)\n \n-    def _filter_or_exclude(self, negate, *args, **kwargs):\n+    def _filter_or_exclude(self, negated, *args, **kwargs):\n         if args or kwargs:\n             assert not self.query.is_sliced, \\\n                 \"Cannot filter a query once a slice has been taken.\"\n@@ -957,9 +957,9 @@ class QuerySet:\n         clone = self._chain()\n         if self._defer_next_filter:\n             self._defer_next_filter = False\n-            clone._deferred_filter = negate, args, kwargs\n+            clone._deferred_filter = negated, args, kwargs\n         else:\n-            clone._filter_or_exclude_inplace(negate, *args, **kwargs)\n+            clone._filter_or_exclude_inplace(negated, *args, **kwargs)\n         return clone\n \n     def _filter_or_exclude_inplace(self, negate, *args, **kwargs):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nFiltering on a field named `negate` raises a TypeError\nDescription\n\t\nFiltering on a model with a field named negate raises a TypeError.\nFor example:\nclass Foo(models.Model):\n\tnegate = models.BooleanField()\nFoo.objects.filter(negate=True)\nraises TypeError: _filter_or_exclude() got multiple values for argument 'negate'\nnegate is not documented as a reserved argument for .filter(). I'm currently using .filter(negate__exact=True) as a workaround.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_7j2f8pohk",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe root cause was that `_filter_or_exclude(self, negate, *args, **kwargs)` already has a parameter named `negate`, so a user filter kwarg `negate=True` collided with it. By renaming the internal parameter to `negated`, the positional flag no longer conflicts with the user\u2019s `negate` field, and the patch only updates the minimal references (`_deferred_filter` and the inplace call) without touching unrelated code. This cleanly fixes the collision without side effects.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

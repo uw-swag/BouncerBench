@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states a general goal (use typographic punctuation) without specifying the scope (which files/strings), how to apply the changes (manually, via a script or linter), or acceptance criteria. It\u2019s unclear what a complete solution would entail."
+}

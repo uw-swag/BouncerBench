@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides clear, minimal repro steps, full stack traces pinpointing exactly where pytest is wrongly forwarding a \u201cpath\u201d keyword into __init__, and even points to the offending lines in _pytest/nodes.py. A developer can jump straight to the failing from_parent/_create logic and remove or pop the unexpected \u201cpath\u201d arg before calling the node __init__. No additional clarification is needed."
+}

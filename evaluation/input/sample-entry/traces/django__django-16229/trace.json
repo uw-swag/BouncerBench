@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a concrete, minimal reproduction (models, admin form, and request steps), describes the unexpected behavior versus the expected (validation bypassed and field reset on re-submit), and even hints at a workaround. While the precise expected behavior could be spelled out a bit more formally, there\u2019s enough here to reproduce/diagnose and propose a fix. Thus this is reasonably specified."
+}

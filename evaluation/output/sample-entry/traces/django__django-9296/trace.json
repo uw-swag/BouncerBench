@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/django/core/paginator.py b/django/core/paginator.py\nindex 1f92da5d4f..aac91e37fd 100644\n--- a/django/core/paginator.py\n+++ b/django/core/paginator.py\n@@ -124,6 +124,16 @@ class Paginator:\n                 stacklevel=3\n             )\n \n+    def __iter__(self):\n+        \"\"\"\n+        Iterate through all pages of the Paginator.\n+        \n+        This allows using the Paginator object directly in a for loop,\n+        yielding Page objects for each page.\n+        \"\"\"\n+        for page_num in self.page_range:\n+            yield self.page(page_num)\n+\n \n class Page(collections.abc.Sequence):\n \ndiff --git a/test_paginator.py b/test_paginator.py\nnew file mode 100644\nindex 0000000000..cfe6d26211\n--- /dev/null\n+++ b/test_paginator.py\n@@ -0,0 +1,18 @@\n+from django.core.paginator import Paginator\n+\n+# Create a list of items\n+items = list(range(1, 21))  # 20 items\n+\n+# Create a Paginator\n+paginator = Paginator(items, 5)  # 5 items per page\n+\n+# Old method (using page_range)\n+print(\"Old method (using page_range):\")\n+for page_num in paginator.page_range:\n+    page = paginator.page(page_num)\n+    print(f\"Page {page_num}: {list(page)}\")\n+\n+# New method (using __iter__)\n+print(\"\\nNew method (using __iter__):\")\n+for page in paginator:\n+    print(f\"Page {page.number}: {list(page)}\")\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nPaginator just implement the __iter__ function\nDescription\n\t \n\t\t(last modified by Alex Gaynor)\n\t \nRight now, when you want to iter into all the pages of a Paginator object you to use the page_range function. It would be more logical and naturel to use the normal python of doing that by implementing the iter function like that:\ndef __iter__(self):\n\tfor page_num in self.page_range:\n\t\tyield self.page(page_num)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_brex8lsrm",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe patch adds exactly the `__iter__` method to `Paginator` as requested\u2014yielding each page in `page_range`\u2014and does so without touching unrelated code. The new test file demonstrates the behavior but doesn\u2019t introduce extra logic or miss any core aspect of simple iteration. This cleanly satisfies the issue\u2019s requirement.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

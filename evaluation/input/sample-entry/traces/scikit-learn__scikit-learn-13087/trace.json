@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the function to change (`calibration_curve`), exactly what new argument semantics are wanted (accepting an explicit sequence of bin edges, analogous to `np.histogram`), why it\u2019s needed (skewed predictions lead to empty bins), and even includes a minimal working hack for reference. The scope, API change, and expected behavior are all unambiguous, so it\u2019s well-specified."
+}

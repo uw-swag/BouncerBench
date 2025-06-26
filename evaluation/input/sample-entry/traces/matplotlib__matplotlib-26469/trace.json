@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired behavior (switch PdfPages.keep_empty default from True to False, stop generating invalid zero-page PDFs, and deprecate the keep_empty option). However, some implementation details\u2014such as the deprecation timeline, exact warning messages, and versioning\u2014are left \"TBD,\" so while the high-level change is clear, the finer points still need to be defined. Thus it\u2019s reasonably specified."
+}

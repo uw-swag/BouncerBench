@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly calls for replacing Django\u2019s custom escape implementation with the stdlib html.escape, provides rationale, links, perf data and notes the one semantic change (hex vs decimal entity). It\u2019s straightforward to implement, test and document, though you\u2019ll need to handle or explicitly accept the single\u2010quote encoding change and update tests/docs accordingly. Thus it\u2019s reasonably specified."
+}

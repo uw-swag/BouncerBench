@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the new parameters (e.g. `independent=True` or `drop_first` plus a `baseline`), describes exactly how many columns to emit, gives a concrete usage example and expected output, and points out interaction with existing options (e.g. `handle_missing='ignore'`). There\u2019s enough detail to implement and test this feature without further clarification."
+}

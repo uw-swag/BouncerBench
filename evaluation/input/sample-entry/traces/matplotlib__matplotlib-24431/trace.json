@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (eventplot accepts a list of colors but not a list of alpha values), provides minimal reproducible code snippets, the exact error message, and the expected analogous behavior (support per-line alpha the same way per-line colors are supported). This is concrete enough to implement and test a fix."
+}

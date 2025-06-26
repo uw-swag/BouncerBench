@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the root issue (the metaclass only checks inspect.isfunction and skips properties) and what behavior is broken (docstring inheritance for @property). While it doesn\u2019t show the full code, it\u2019s straightforward to locate the inspect.isfunction check in the metaclass and extend it to also recognize properties (e.g. isinstance(attr, property) or using inspect.isdatadescriptor). That\u2019s enough to implement a targeted fix."
+}

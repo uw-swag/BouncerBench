@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly describes the precise commands, DB alias, migration being rolled back, and the observed vs intended behavior (legacy name field ending up null). While it doesn\u2019t include the exact migration code, it\u2019s obvious what needs to happen (the backwards data migration for 0002 must populate the legacy name on non-default DBs). Therefore it\u2019s reasonably specified and actionable.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/contenttypes/migrations/0002_remove_content_type_name.py b/django/contrib/contenttypes/migrations/0002_remove_content_type_name.py\nindex 3bee3a864f..abc1672f67 100644\n--- a/django/contrib/contenttypes/migrations/0002_remove_content_type_name.py\n+++ b/django/contrib/contenttypes/migrations/0002_remove_content_type_name.py\n@@ -2,13 +2,14 @@ from django.db import migrations, models\n \n \n def add_legacy_name(apps, schema_editor):\n+    db_alias = schema_editor.connection.alias\n     ContentType = apps.get_model(\"contenttypes\", \"ContentType\")\n-    for ct in ContentType.objects.all():\n+    for ct in ContentType.objects.using(db_alias).all():\n         try:\n             ct.name = apps.get_model(ct.app_label, ct.model)._meta.object_name\n         except LookupError:\n             ct.name = ct.model\n-        ct.save()\n+        ct.save(using=db_alias)\n \n \n class Migration(migrations.Migration):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nUnapplying ContentType migration 0002 does not populate legacy name field on non-default database\nDescription\n\t\nGiven a database with the alias other that has all contenttypes migrations applied, roll the state back to initial:\n$ manage.py migrate --database=other contenttypes 0001\nAll ContentType rows in the other database will be null instead of their intended value.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_4rw61uk6m",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe original reverse\u2010migration helper always used the default DB, so \u201cmigrate --database=other\u201d never populated names in the \u201cother\u201d database. By grabbing schema_editor.connection.alias and doing both the query and save with .using(db_alias), the function now correctly runs against whichever database is being migrated without touching any other alias. There are no extra unrelated changes, and all edge\u2010cases around alias resolution are covered by schema_editor.connection.alias.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

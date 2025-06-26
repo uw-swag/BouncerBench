@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear description of the bug (model evaluation with MagUnit parameters fails), a minimal reproducer, the full traceback, the suspect code location, and expected behavior. That is sufficient detail to start coding a fix, so it\u2019s WELL_SPECIFIED."
+}

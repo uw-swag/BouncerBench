@@ -1,0 +1,3 @@
+{
+  "trace": "The request pinpoints a single error code (admin.E202) in Django\u2019s admin, describes the exact circumstances that trigger it (an inline with multiple foreign keys to the same parent), and states precisely how the message should change (recommend specifying fk_name). That is enough context to locate the check in contrib/admin/options.py and adjust the error text accordingly."
+}

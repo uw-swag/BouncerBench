@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a warning about inherited primary keys in Django 3.2 alpha and asserts it\u2019s a bug, but it doesn\u2019t include any code samples, model definitions, or specific steps to reproduce. Without at least a minimal example showing how the primary key is declared on the base class, how the subclass is defined, and how the check logic in Django is falling short, it\u2019s impossible to craft a precise fix. We don\u2019t know exactly which parts of Django\u2019s model-checking logic need changing. More details (reproducer, code snippets, expected vs. actual behavior) are required."
+}

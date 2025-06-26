@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a specific bug in replace_named_groups(): the final named capture isn\u2019t processed if the pattern doesn\u2019t end with a slash. An explicit example is given, along with a workaround and a pointer to the downstream use case. While the exact implementation details aren\u2019t in the description, the root cause (regex only matching groups followed by \u2018/\u2019) and the expected behavior (also match groups at end of string) are unambiguous. A PR can therefore be scoped to extend the regex to handle end-of-input as well as a trailing slash."
+}

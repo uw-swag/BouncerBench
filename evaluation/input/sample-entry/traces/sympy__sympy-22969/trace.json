@@ -1,0 +1,3 @@
+{
+  "trace": "The issue identifies a real problem (the beam waist formula ignores refractive index) and points to the exact code location, but it does not specify how the refractive index should be introduced, what API changes are required, or what the corrected formula should be. There\u2019s no clear specification of inputs/outputs or test cases. Without additional details, a meaningful PR cannot be scoped, so the ticket is too vague."
+}

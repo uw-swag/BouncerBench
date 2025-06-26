@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints a specific bug in Django\u2019s deletion logic, references the exact file and line range, and clearly states the desired behavior (clear the instance\u2019s PK after delete when there are no related objects). While the exact code snippet and tests aren\u2019t provided, the change is easily inferable and the location is unambiguous. This is reasonably specified for a PR."
+}

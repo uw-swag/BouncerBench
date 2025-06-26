@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states a high\u2010level goal (\u201ckeep temp dirs only for failing tests\u201d and \u201cleave root\u2010level retention unchanged\u201d) but omits the precise behavior to implement, details on which fixtures or methods to change, and how to handle edge cases. It even refers to an external comment for the \u201cfull proposal\u201d rather than embedding the specifics here, making it ambiguous what exactly the code change should be. You can infer intent, but it\u2019s not specified enough to start coding unambiguously."
+}

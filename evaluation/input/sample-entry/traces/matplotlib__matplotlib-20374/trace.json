@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example (conf.py, index.rst, a.rst, b.rst), clear reproduction steps, the observed vs. desired behavior, and even a concrete proposal (\u201cif a plot directive has :context:, always mark it out\u2010of\u2010date so it\u2019s rerun when the file is recompiled\u201d). That is enough to implement and test a fix in plot_directive\u2019s out_of_date() logic."
+}

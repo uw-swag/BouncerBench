@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a mismatch in behavior between an __in lookup and an exact lookup on a JSONField key transform, gives example queries and results, and states the expected behavior. While details like Django/DB versions are missing, there\u2019s a clear bug to fix and enough context to implement and test a solution. A sensible interpretation of the required fix is available without further clarification."
+}

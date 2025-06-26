@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired feature: support PostgreSQL service aliases (via pg_service.conf) in Django\u2019s DATABASES settings, without duplicating the database name, and suggests possible CONFIG formats (either as an OPTIONS key or a new SERVICE key). While there are some minor implementation details left (e.g. exact integration points in Django\u2019s backend code, validation errors, docs), the intent and scope are well defined and unambiguous. A developer can reasonably proceed with coding and PR submission."
+}

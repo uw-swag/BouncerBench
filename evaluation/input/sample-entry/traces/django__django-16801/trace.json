@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies exactly what logic needs changing \u2013 ImageField\u2019s post_init hook should only be connected when width_field or height_field are in use \u2013 and why, so an engineer can confidently implement and test the fix."
+}

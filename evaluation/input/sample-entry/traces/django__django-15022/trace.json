@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the symptom (exploding JOINs when using multi\u2010word admin searches across a related model), gives models and counts to reproduce the performance blowup, and states that a patch exists to dedupe those joins. While the exact patch code isn\u2019t included, the bug and goal (avoid repeated identical JOIN clauses) are clear enough to implement a fix. This makes the issue reasonably specified for someone familiar with Django\u2019s ORM and admin search logic."
+}

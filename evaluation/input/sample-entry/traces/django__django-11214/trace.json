@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (CheckConstraint with a Q(...__in=range()) keeps flipping because range is serialized to a tuple), includes a minimal reproduction repo, shows the broken migration output, and even outlines possible correct fixes. There\u2019s no ambiguity about the problem or the goal\u2014preventing spurious Remove/Add migrations\u2014so it\u2019s well-specified."
+}

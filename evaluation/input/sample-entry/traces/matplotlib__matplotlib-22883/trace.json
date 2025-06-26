@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what\u2019s wrong (strings meant as f-strings are missing the `f` prefix), points to the exact file and line in the repo, and the fix is unambiguous (add the `f` prefix). It lacks an inline code snippet but gives a direct link, so one can inspect and correct it without additional clarification."
+}

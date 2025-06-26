@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (no regional translation leads to English fallback) and the desired behavior (fall back to the generic language code, e.g. \"de\" when \"de-ch\" isn\u2019t found). There\u2019s a straightforward implementation: detect missing locale file and retry with the base language. This is well-specified enough for a direct solution."
+}

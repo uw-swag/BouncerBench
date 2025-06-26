@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly outlines model definitions, reproduction steps, and what\u2019s going wrong (GenericForeignKey prefetch returns None when the primary key is a UUID). While it lacks environment/version details, it provides enough code and steps to reproduce and understand the expected behavior, making it reasonably specified."
+}

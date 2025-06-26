@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the environment (Windows), the steps to reproduce (upgrade from pytest 5.1.1 to 5.1.2 and run pytest), the specific error message, and the root cause (path is being lowercased, breaking imports). It\u2019s straightforward to write or adjust a test and then fix the code path normalization. All required details for a meaningful solution are present."
+}

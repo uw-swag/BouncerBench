@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives only a high-level demand (\u201cremove ifequal\u201d) without any context: which template language, where in the codebase, how to handle backward compatibility or tests, or what specific changes are needed. There\u2019s no spec on usage, dependencies, or migration path. It\u2019s unclear what a successful solution would look like, so it\u2019s too vague to implement directly."
+}

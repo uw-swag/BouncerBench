@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes a regression in euclidean_distances from v0.20.3 to v0.21.1 on a specific float32 dataset, provides environment details, a minimal reproducible script plus the actual data and expected vs. actual results. It\u2019s fully actionable for debugging and fixing."
+}

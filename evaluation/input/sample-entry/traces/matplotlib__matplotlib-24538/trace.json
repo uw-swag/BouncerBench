@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies that the Legend.legendHandles attribute is undocumented and proposes either adding documentation for it, providing a get_legendHandles() method, or pointing to ax.get_legend_handles_labels() from the legend docs. The scope (Matplotlib legend docs and possibly the Legend class API) and the desired changes are clear, even if you\u2019d need to locate the exact doc files and coding conventions. Thus it is reasonably specified for a PR."
+}

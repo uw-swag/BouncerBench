@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the missing format label (\u201cascii.latex\u201d) and what needs to be done (register the existing Cosmology IO write method under that alias). While it doesn\u2019t spell out the exact file and line numbers, for anyone familiar with the Cosmology I/O registry it\u2019s a straightforward change. Thus it\u2019s reasonably specified."
+}

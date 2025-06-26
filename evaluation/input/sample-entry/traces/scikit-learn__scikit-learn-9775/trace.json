@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the function to change (sklearn.manifold._t_sne.trustworthiness), the behavior to replace (a boolean precomputed flag) and the desired new API (a metric parameter that accepts 'precomputed' or custom callables). There is a straightforward analogy to existing scikit-learn patterns (e.g. in pairwise and neighbors modules) for implementing this. While minor details (deprecation timing, exact signature, tests) would need filling in, the core requirement is clear and actionable."
+}

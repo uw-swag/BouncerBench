@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducible example, clear description of the actual vs expected behavior, and all relevant environment details. It\u2019s unambiguous what needs fixing: constrained layout must reserve enough space for wrapped titles."
+}

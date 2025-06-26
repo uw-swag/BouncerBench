@@ -1,0 +1,3 @@
+{
+  "trace": "The issue lays out a single clear example of the desired behavior (re\u2010ordering the args of Derivative so that f(y), which is not a free symbol of f(x,y), ends up after the x\u2019s), and points at the specific sorting routine (_sort_variable_count) that must be tweaked. While you\u2019d have to read the existing implementation to fill in details, it\u2019s straightforward to see what change is wanted (group the free symbols of the function first, then any other args). That makes it reasonably\u2014though not exhaustively\u2014specified."
+}

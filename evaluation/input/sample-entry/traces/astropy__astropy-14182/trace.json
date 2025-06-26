@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the missing feature (support for the `header_rows` parameter in the RestructuredText writer), shows example code and the resulting error, and notes how the fixed-width writer already handles it. It\u2019s obvious what needs to be implemented to resolve the issue."
+}

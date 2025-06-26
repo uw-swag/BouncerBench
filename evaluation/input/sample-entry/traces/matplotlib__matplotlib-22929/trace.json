@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides clear reproduction steps for three distinct cases, shows the exact error traceback (including file and line numbers), notes version and environment, and even suggests desired behavior for each case. There is no ambiguity about what needs to be changed in the bar_label implementation to handle NaN values in data and/or error arrays."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps, the exact change that triggers the bug, expected vs actual behavior, and a minimal default project setup. That provides enough context to reproduce and debug the issue without further details."
+}

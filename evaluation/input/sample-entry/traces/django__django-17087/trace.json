@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a minimal reproducible example, shows the exact wrong migration output, and clearly states what the correct behavior should be (include the nested class in the import path). It\u2019s clear what needs fixing in the migration code generator, so the requirements are well-specified."
+}

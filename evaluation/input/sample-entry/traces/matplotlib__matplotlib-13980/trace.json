@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, clear description of the unexpected versus expected behavior, environment and version details, and a concrete fix (default radial lower bound should be zero). It\u2019s straightforward to implement and validate, so it\u2019s well-specified."
+}

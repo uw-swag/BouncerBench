@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly specifies desired behavior\u2014a rewrite/simplification rule so that factorial(n) % n (and more generally factorial(n) % k for 1 \u2264 k \u2264 n) automatically reduces to 0 when n and k are positive integers. The current (undesired) behavior and the needed change are concrete and actionable. No further clarification is required to implement this enhancement."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that ordering fields from Meta.ordering are still being added to the GROUP BY clause (after a prior commit only removed them from ORDER BY), and that this leads to incorrect aggregation. It references the specific commit, ticket, and a PR with a failing test case. While it doesn\u2019t spell out the exact code patch, there is enough context\u2014what to detect (Meta.ordering fields), where (group-by generation), and how (exclude them)\u2014to make a sensible, implementable fix. Hence it\u2019s reasonably specified."
+}

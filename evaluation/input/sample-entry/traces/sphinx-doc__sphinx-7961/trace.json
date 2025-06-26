@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is simply a high-level feature request (\u201cSupport MathJax 3.0\u201d) without any acceptance criteria, scope definition, or concrete pointers to what modifications are required in the Sphinx codebase. There\u2019s no specification of config changes, compatibility guarantees, or testing strategy. As written it\u2019s a discussion starter rather than a well\u2010scoped ticket for implementation."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear reproduction command (`pytest --doctest-modules __init__.py`), describes the incorrect single-test collection behavior, points to the exact code region and commit that introduced the change, and links failing tests. The desired outcome (collect all doctests in an __init__.py module) is obvious. This is enough detail to begin implementing a fix."
+}

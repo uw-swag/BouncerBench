@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, points to the failing code in evalf_mul (in sympy/core/evalf.py), and even suggests the exact change (add an else: raise NotImplementedError for the missing reprec/imprec branches). This is concrete enough to implement and test a fix without further clarification."
+}

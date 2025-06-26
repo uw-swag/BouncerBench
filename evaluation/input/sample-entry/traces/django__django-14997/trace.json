@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example: model definition, migration steps, SQLite backend, and full error trace. The failure is clearly isolated to remaking the table with a unique constraint in SQLite, so an engineer can reproduce and identify the root cause. This is well-specified for a fix."
+}

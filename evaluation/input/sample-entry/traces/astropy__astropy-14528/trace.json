@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (zero-dimensional arrays leading to corrupt FITS files), provides a minimal reproducible example, states the expected behavior (no silent corruption), and lists environment details. It is straightforward to implement validation (e.g. reject or reshape 0-D data) or emit an error, so it is well specified."
+}

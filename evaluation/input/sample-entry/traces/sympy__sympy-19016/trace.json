@@ -1,0 +1,3 @@
+{
+  "trace": "The request to implement is_finite_set on Range is clear: just add a @property that returns self.size.is_finite, and add tests. The follow-up about fixing sup/inf for symbolic endpoints is mentioned but lacks a clear spec for desired behavior. Overall there\u2019s enough here to start and deliver the is_finite_set feature, but the second part is underspecified."
+}

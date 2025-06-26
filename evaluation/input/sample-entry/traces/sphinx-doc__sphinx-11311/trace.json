@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior and its drawbacks, and it proposes concrete changes: auto-registering subclasses of desc_sig_element via __init_subclass__, enhancing the fallback transform to carry over a _sig_node_type attribute, and defining how custom translators should be detected and handled. While some implementation details (e.g. exact error conditions or integration hooks) are left to the implementer, the overall feature scope and mechanics are well laid out and can be turned into a PR without further clarification."
+}

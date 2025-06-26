@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly describes the failing use case (subtracting two DateTimeFields via F-expressions plus a zero timedelta) and the desired behavior (infer a DurationField output without needing an ExpressionWrapper). While it doesn\u2019t spell out the exact code changes, it\u2019s a concrete bug/feature request with a specific example and expected result, so a contributor can sensibly implement it."
+}

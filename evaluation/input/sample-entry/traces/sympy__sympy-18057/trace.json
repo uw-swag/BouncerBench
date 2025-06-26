@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates the bad behavior (eval'ing arbitrary reprs in __eq__), gives minimal repro cases and traces, and indicates the high\u2010level fix (stop sympifying unknown objects in __eq__ so you don\u2019t eval their repr). There\u2019s still room for design detail (e.g. exactly when to return NotImplemented vs False), but the bug and desired outcome are clear enough to make a meaningful PR."
+}

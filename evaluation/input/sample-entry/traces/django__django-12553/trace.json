@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines what needs to change (increase the default salt size in Django\u2019s BasePasswordHasher from ~71 bits to ~131 bits), cites a specific PR with the proposed patch, and provides authoritative references. It\u2019s straightforward where and how to implement the change, so it\u2019s well-specified."
+}

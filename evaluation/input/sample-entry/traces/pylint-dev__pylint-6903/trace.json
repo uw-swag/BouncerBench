@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete scenario (\u2013jobs=0 in Kubernetes leads to _query_cpu() returning 0), points to the exact lines of code, shows the failure, and even suggests a minimal fallback fix (or 1). It\u2019s clear what change is needed for a successful resolution."
+}

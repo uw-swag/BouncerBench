@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what\u2019s wrong (set_output doesn\u2019t apply to the remainder estimator), provides minimal reproducible code, shows expected vs. actual output, and even points to the exact location in the source. A PR can be drafted to include the remainder in set_output()."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the bug (set_visible not hiding 3D subplot), provides minimal reproducible code, actual vs expected outcomes, Matplotlib version, backend, and Python version. This is sufficient to reproduce, diagnose, and implement a fix."
+}

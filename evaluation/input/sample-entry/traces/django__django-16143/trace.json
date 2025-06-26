@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the problem (lack of root\u2010cause context in TransactionManagementError), points to the exact location in Django\u2019s code (validate_no_broken_transaction in django/db/backends/__init__.py), and describes the desired behavior (track and display the exception that triggered needs_rollback). While it doesn\u2019t prescribe every implementation detail, there\u2019s a sensible interpretation of what\u2019s needed (store the initial exception in the atomic context and include it in the error message). This makes it reasonably specified for a contributor familiar with Django\u2019s transaction machinery."
+}

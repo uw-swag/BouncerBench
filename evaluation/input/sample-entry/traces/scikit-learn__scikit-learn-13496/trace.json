@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired feature (exposing a warm_start parameter in IsolationForest.__init__), how it currently behaves, what changes to make (add parameter, docs, tests, examples), and even gives sample docstring text. There is a direct mapping to code changes, documentation updates, and tests, so it is well-specified."
+}

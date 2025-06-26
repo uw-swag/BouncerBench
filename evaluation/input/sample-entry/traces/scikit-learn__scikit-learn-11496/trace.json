@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug in the SimpleImputer when handling sparse matrices with explicit zeros. It includes minimal reproducible code, the actual and expected outputs, and indicates exactly what the behavior should be. This is sufficient to scope a fix and write tests, so it is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies exactly where the wrong program name is used (in the CommandParser constructor) and what change is needed (pass prog=self.prog_name). There\u2019s no ambiguity about desired behavior or context, so it\u2019s ready for implementation."
+}

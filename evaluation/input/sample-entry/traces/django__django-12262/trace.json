@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly describes the broken behavior with concrete examples (wrong exception for keyword\u2010only args with defaults and duplicate keywords), shows expected vs. actual, and scopes the problem to Django\u2019s template tag parsing (simple_tag and inclusion_tag). An implementer can locate the signature\u2010parsing code and fix it accordingly. This is well\u2010specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue text actually mixes two separate requests\u2014adding a special-case evaluation for polylog(2,1/2) and fixing the exp_polar behavior in the expansion of polylog(1,z)\u2014without a clear single scope or concrete spec for either. It\u2019s not clear which change is the focus or exactly how they want the exp_polar removed. That makes it ambiguous what a complete solution entails."
+}

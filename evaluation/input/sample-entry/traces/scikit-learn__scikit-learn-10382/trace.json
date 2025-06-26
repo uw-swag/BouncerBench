@@ -1,0 +1,3 @@
+{
+  "trace": "The provided issue text actually bundles two separate concerns (a dtype bug in TfidfVectorizer and an enhancement request for FitFailedWarning messages). The first is clear and reproducible, but the second is a loosely defined feature request without concrete acceptance criteria. Since it mixes two distinct topics and the enhancement lacks precise requirements, the overall description is too vague for a single, well-scoped PR."
+}

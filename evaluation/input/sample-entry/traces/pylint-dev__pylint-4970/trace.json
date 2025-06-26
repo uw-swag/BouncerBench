@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (setting min-similarity-lines to 0 still runs duplicate-code checks, treating every line as a duplicate), the desired behavior (treat 0 as \u201cdisable this check\u201d), and even references existing conventions in other linters. There\u2019s a single, obvious code change: short-circuit or skip the duplicate-code plugin when the threshold is 0. That makes it well-specified."
+}

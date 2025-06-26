@@ -1,0 +1,3 @@
+{
+  "trace": "The report only shows an import, a one-line call and an UnboundLocalError; it doesn\u2019t include the implementation of kernS, the Sympy version, expected behavior, or any context about how kern should be set. Without those details it\u2019s unclear what the function is meant to do or how to fix it. This makes the issue too vague to act on directly."
+}

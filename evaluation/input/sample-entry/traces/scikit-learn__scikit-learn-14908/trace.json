@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states where to change the error message (in DummyClassifier.fit), shows the current exception and the desired enhanced message with both the provided constant and valid classes. It includes a code snippet, expected output, and context. This is sufficient to implement a concrete fix."
+}

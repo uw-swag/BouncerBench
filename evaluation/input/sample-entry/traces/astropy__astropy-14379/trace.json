@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior of Angle.to_string and the desired change (adding a space or making space-inclusion configurable/default). The feature request is concrete and actionable, even if some minor details (keyword name, default behavior) would need to be decided. Overall it is sufficiently specified to implement a solution."
+}

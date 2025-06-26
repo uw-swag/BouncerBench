@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps, explicit expected vs. actual behavior, and points to the relevant code location for adjustment. A developer can directly act on this to remove the extra redirect when the \u201cnext\u201d URL is unsafe."
+}

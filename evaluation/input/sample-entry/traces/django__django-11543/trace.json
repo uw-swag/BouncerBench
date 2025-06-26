@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug (runserver with --nothreading never closes a keep-alive socket, blocking further connections), the environment, and the expected behavior (close the connection so new requests aren\u2019t starved). While it doesn\u2019t prescribe specific code changes, it\u2019s straightforward to locate the WSGI server loop in Django\u2019s base HTTP server and enforce a connection close when threading is disabled. "
+}

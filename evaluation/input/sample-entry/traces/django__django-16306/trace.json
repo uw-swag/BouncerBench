@@ -1,0 +1,3 @@
+{
+  "trace": "The issue points directly to a specific method in the codebase, cites exact line numbers, describes the unnecessary work in the \"happy path,\" and proposes a concrete change (short-circuit return from the cache with KeyError handling). There\u2019s enough detail to locate the code, understand the current and desired behavior, and implement a fix without further clarification."
+}

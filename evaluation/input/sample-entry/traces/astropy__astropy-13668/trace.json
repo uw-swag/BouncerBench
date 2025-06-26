@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows crashes in wcslint when invoking WCS on certain valid FITS headers and provides example files and error messages, but it does not clearly specify what the desired fix or change should be\u2014whether to adjust how wcslint calls WCS, to catch specific exceptions, or to modify WCS internals to avoid malloc errors. There\u2019s no concrete proposal or acceptance criteria for the patch, leaving multiple possible interpretations of a \u201csuccessful solution.\u201d"
+}

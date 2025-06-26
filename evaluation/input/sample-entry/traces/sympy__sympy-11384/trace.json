@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what\u2019s wrong (fps prints like a standard series instead of its own FormalPowerSeries representation) and what behavior is desired (show the internal FormalPowerSeries(...) form on print, and on failure throw an exception instead of returning the original function). There\u2019s enough here to identify the methods to change (printer hooks and error handling in fps), even though exact code details aren\u2019t provided. Hence it\u2019s reasonably specified."
+}

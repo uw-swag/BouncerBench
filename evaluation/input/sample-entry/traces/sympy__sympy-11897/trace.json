@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired behavior (LaTeX output should match the pretty printer except when LaTeX can improve things), provides concrete examples of mismatches, and indicates assumptions shouldn\u2019t affect printing. While it doesn\u2019t prescribe exactly which code to change, a SymPy developer can sensibly interpret and work toward a solution. Thus it is reasonably specified."
+}

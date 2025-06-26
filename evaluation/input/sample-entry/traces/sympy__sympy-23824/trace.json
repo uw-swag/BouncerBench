@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes what\u2019s wrong (leading uncontracted \u03b3-matrices are being reinserted in reverse order), provides minimal reproducible code illustrating the incorrect vs. expected behavior, points to the exact function (`kahane_simplify`) and even pinpoints the simple loop-order fix. This is sufficient for a direct implementation of the correction."
+}

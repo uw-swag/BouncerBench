@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that the method signature should drop the redundant \u201cusing\u201d parameter (now inferred via self.connection.alias) and shows current and desired signatures, plus mentions existing internal usages. There\u2019s a straightforward refactoring task\u2014update the method signature and adjust all callers and references\u2014so it\u2019s well-specified."
+}

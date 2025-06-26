@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (UserCreationForm.save() omits save_m2m, so ManyToMany data isn\u2019t saved), pinpoints the root cause and expected behavior, and even suggests the fix (call save_m2m when commit=True). It\u2019s straightforward to write a PR to add that call and update/add tests. No further clarification is needed."
+}

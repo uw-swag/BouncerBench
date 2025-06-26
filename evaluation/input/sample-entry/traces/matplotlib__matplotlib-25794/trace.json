@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the conflicting kwargs (linewidth vs. linewidths and edgecolor vs. edgecolors), describes the current behavior (plural forms documented but singular take precedence), and the desired change (raise when both are provided). The scope is narrow and the implementation steps (check for both keys in kwargs and raise) are unambiguous."
+}

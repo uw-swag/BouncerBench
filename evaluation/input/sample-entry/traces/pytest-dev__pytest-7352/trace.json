@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows where the error occurs (in pytest\u2019s tmpdir numbered-dir cleanup, specifically in pathlib.py) and suggests a concrete mitigation (use a random suffix rather than sequential numbering, or at least guard against missing .lock files). While tests/acceptance criteria aren\u2019t spelled out, there\u2019s enough context (stack trace, prior issue, code location) to author a reasonable fix and test. This makes it REASONABLY_SPECIFIED rather than fully \u201cwell-specified.\u201d"
+}

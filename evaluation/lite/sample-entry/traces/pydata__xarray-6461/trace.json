@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly demonstrates a reproducible failure case (calling xr.where with a scalar and keep_attrs=True) and includes the relevant code snippet and error traceback. Although it lacks a formal \u201cexpected outcome\u201d description or a complete verifiable example with attributes, the intended behavior (no IndexError, and preserving x\u2019s attributes) is straightforward to infer. Thus it\u2019s reasonably specified for implementation.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/xarray/core/computation.py b/xarray/core/computation.py\nindex 2ac1578..aa6b9c1 100644\n--- a/xarray/core/computation.py\n+++ b/xarray/core/computation.py\n@@ -1829,7 +1829,7 @@ def where(cond, x, y, keep_attrs=None):\n     if keep_attrs is True:\n         # keep the attributes of x, the second parameter, by default to\n         # be consistent with the `where` method of `DataArray` and `Dataset`\n-        keep_attrs = lambda attrs, context: attrs[1]\n+        keep_attrs = lambda attrs, context: attrs[1] if len(attrs) > 1 else {}\n \n     # alignment for three arguments is complicated, so don't support it yet\n     return apply_ufunc(\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nxr.where with scalar as second argument fails with keep_attrs=True\n### What happened?\n\n``` python\r\nimport xarray as xr\r\n\r\nxr.where(xr.DataArray([1, 2, 3]) > 0, 1, 0)\r\n```\r\n\r\nfails with\r\n\r\n```\r\n   1809 if keep_attrs is True:\r\n   1810     # keep the attributes of x, the second parameter, by default to\r\n   1811     # be consistent with the `where` method of `DataArray` and `Dataset`\r\n-> 1812     keep_attrs = lambda attrs, context: attrs[1]\r\n   1814 # alignment for three arguments is complicated, so don't support it yet\r\n   1815 return apply_ufunc(\r\n   1816     duck_array_ops.where,\r\n   1817     cond,\r\n   (...)\r\n   1823     keep_attrs=keep_attrs,\r\n   1824 )\r\n\r\nIndexError: list index out of range\r\n```\r\n\r\nThe workaround is to pass `keep_attrs=False`\n\n### What did you expect to happen?\n\n_No response_\n\n### Minimal Complete Verifiable Example\n\n_No response_\n\n### Relevant log output\n\n_No response_\n\n### Anything else we need to know?\n\n_No response_\n\n### Environment\n\nxarray 2022.3.0\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_u0qi3fsbz",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe original bug was that when only the condition (cond) is array-backed and both \u201cx\u201d and \u201cy\u201d are scalars, the attrs list coming into keep_attrs has length 1, so attrs[1] throws an IndexError. The patch simply checks for that case and returns an empty dict instead of indexing out of range. It does not affect the normal cases (when x is an array or both x and y are arrays) and doesn\u2019t introduce any unrelated changes. Thus it precisely fixes the one-off error without overreaching.\n</EXPLANATION>\n<LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

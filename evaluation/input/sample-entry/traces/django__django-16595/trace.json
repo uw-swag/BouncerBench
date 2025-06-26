@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (optimizer drops all except AddField) and the desired behavior (also collapse consecutive AlterField operations), provides concrete examples of input and expected optimizer output, and even suggests a patch. There\u2019s no ambiguity about what needs to be changed or tested, making it well-specified."
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/src/_pytest/pathlib.py b/src/_pytest/pathlib.py\nindex def5fa94b..ab0b8135c 100644\n--- a/src/_pytest/pathlib.py\n+++ b/src/_pytest/pathlib.py\n@@ -490,7 +490,18 @@ def import_path(\n         raise ImportError(path)\n \n     if mode is ImportMode.importlib:\n-        module_name = module_name_from_path(path, root)\n+        # First try to find if this is part of a package\n+        pkg_path = resolve_package_path(path)\n+        if pkg_path is not None:\n+            # This is part of a package, use package-relative module name\n+            pkg_root = pkg_path.parent\n+            names = list(path.with_suffix(\"\").relative_to(pkg_root).parts)\n+            if names[-1] == \"__init__\":\n+                names.pop()\n+            module_name = \".\".join(names)\n+        else:\n+            # Not part of a package, use root-relative module name\n+            module_name = module_name_from_path(path, root)\n \n         for meta_importer in sys.meta_path:\n             spec = meta_importer.find_spec(module_name, [str(path.parent)])\n@@ -724,3 +735,4 @@ def copytree(source: Path, target: Path) -> None:\n             shutil.copyfile(x, newx)\n         elif x.is_dir():\n             newx.mkdir(exist_ok=True)\n+\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\n7.0.0 regression: Existence of conftest.py messes up package discovery with importlib + pythonpath mode (ModuleNotFoundError: No module named 'tests.<test-packages>')\nConsider the following demo project:\r\n\r\n**`setup.cfg`**\r\n```ini\r\n# The idea is to use `pythonpath = .` to enable imports from the `tests` folder\r\n# like `import tests.<subpackages>`.\r\n# Note that all involved directories have proper __init__.py, and importing e.g.\r\n# `import tests.subpath.helper` works from a Python REPL.\r\n[tool:pytest]\r\npythonpath = .\r\naddopts =\r\n    --import-mode importlib\r\n```\r\n\r\n**`tests/__init__.py`**\r\n```python\r\n# just empty\r\n```\r\n\r\n**`tests/conftest.py`** (existence of this file breaks package discovery)\r\n```python\r\n# just empty\r\n```\r\n\r\n**`tests/subpath/__init__.py`**\r\n```python\r\n# just empty\r\n```\r\n\r\n**`tests/subpath/helper.py`**\r\n```python\r\n# just empty\r\n```\r\n\r\n**`tests/subpath/test_something.py`**\r\n```python\r\nimport tests.subpath.helper\r\n\r\n\r\ndef test_something():\r\n    assert True\r\n```\r\n\r\npytest (version 7.0.0) errors with:\r\n\r\n```\r\n______________________________________________________________________________________________________________________________________________ ERROR collecting tests/subpath/test_something.py _______________________________________________________________________________________________________________________________________________\r\nImportError while importing test module '/tmp/demo_project/tests/subpath/test_something.py'.\r\nHint: make sure your test modules/packages have valid Python names.\r\nTraceback:\r\ntests/subpath/test_something.py:1: in <module>\r\n    import tests.subpath.helper\r\nE   ModuleNotFoundError: No module named 'tests.subpath'; 'tests' is not a package\r\n=========================================================================================================================================================== short test summary info ===========================================================================================================================================================\r\nERROR tests/subpath/test_something.py\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n============================================================================================================================================================== 1 error in 0.08s ===============================================================================================================================================================\r\n```\r\n\r\nWhat's particularly surprising: The example works, when renaming the `conftest.py` to e.g. `conftest2.py`. I.e., it seems that the existence of the `conftest.py` implies that it is no longer possible to import from `tests`. Imports like this used to work with pre 7 pytest versions in `importlib` mode despite the existence of a `conftest.py`.\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_6adimuw6e",
+    "status": "completed",
+    "call_id": "call_CGExoGFCX91H5D451N35VUxZ",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def resolve_package_path\\\" -n src/_pytest/pathlib.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_CGExoGFCX91H5D451N35VUxZ",
+    "output": "{\"output\":\"615:def resolve_package_path(path: Path) -> Optional[Path]:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_0fqnolsgo",
+    "status": "completed",
+    "call_id": "call_ynh0gi2b7GjTEDS3K7ZA4DWO",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '580,630p' src/_pytest/pathlib.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_ynh0gi2b7GjTEDS3K7ZA4DWO",
+    "output": "{\"output\":\"    \\\"\\\"\\\"\\n    path = path.with_suffix(\\\"\\\")\\n    try:\\n        relative_path = path.relative_to(root)\\n    except ValueError:\\n        # If we can't get a relative path to root, use the full path, except\\n        # for the first part (\\\"d:\\\\\\\\\\\" or \\\"/\\\" depending on the platform, for example).\\n        path_parts = path.parts[1:]\\n    else:\\n        # Use the parts for the relative path to the root path.\\n        path_parts = relative_path.parts\\n\\n    return \\\".\\\".join(path_parts)\\n\\n\\ndef insert_missing_modules(modules: Dict[str, ModuleType], module_name: str) -> None:\\n    \\\"\\\"\\\"\\n    Used by ``import_path`` to create intermediate modules when using mode=importlib.\\n\\n    When we want to import a module as \\\"src.tests.test_foo\\\" for example, we need\\n    to create empty modules \\\"src\\\" and \\\"src.tests\\\" after inserting \\\"src.tests.test_foo\\\",\\n    otherwise \\\"src.tests.test_foo\\\" is not importable by ``__import__``.\\n    \\\"\\\"\\\"\\n    module_parts = module_name.split(\\\".\\\")\\n    while module_name:\\n        if module_name not in modules:\\n            module = ModuleType(\\n                module_name,\\n                doc=\\\"Empty module created by pytest's importmode=importlib.\\\",\\n            )\\n            modules[module_name] = module\\n        module_parts.pop(-1)\\n        module_name = \\\".\\\".join(module_parts)\\n\\n\\ndef resolve_package_path(path: Path) -> Optional[Path]:\\n    \\\"\\\"\\\"Return the Python package path by looking for the last\\n    directory upwards which still contains an __init__.py.\\n\\n    Returns None if it can not be determined.\\n    \\\"\\\"\\\"\\n    result = None\\n    for parent in itertools.chain((path,), path.parents):\\n        if parent.is_dir():\\n            if not parent.joinpath(\\\"__init__.py\\\").is_file():\\n                break\\n            if not parent.name.isidentifier():\\n                break\\n            result = parent\\n    return result\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_izhppjwve",
+    "status": "completed",
+    "call_id": "call_1PgqsmhwiR0NdHRPUgJ3yoku",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '450,540p' src/_pytest/pathlib.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_1PgqsmhwiR0NdHRPUgJ3yoku",
+    "output": "{\"output\":\"    (for example \\\"/tests1/test_foo.py\\\" and \\\"/tests2/test_foo.py\\\").\\n    \\\"\\\"\\\"\\n\\n\\ndef import_path(\\n    p: Union[str, \\\"os.PathLike[str]\\\"],\\n    *,\\n    mode: Union[str, ImportMode] = ImportMode.prepend,\\n    root: Path,\\n) -> ModuleType:\\n    \\\"\\\"\\\"Import and return a module from the given path, which can be a file (a module) or\\n    a directory (a package).\\n\\n    The import mechanism used is controlled by the `mode` parameter:\\n\\n    * `mode == ImportMode.prepend`: the directory containing the module (or package, taking\\n      `__init__.py` files into account) will be put at the *start* of `sys.path` before\\n      being imported with `__import__.\\n\\n    * `mode == ImportMode.append`: same as `prepend`, but the directory will be appended\\n      to the end of `sys.path`, if not already in `sys.path`.\\n\\n    * `mode == ImportMode.importlib`: uses more fine control mechanisms provided by `importlib`\\n      to import the module, which avoids having to use `__import__` and muck with `sys.path`\\n      at all. It effectively allows having same-named test modules in different places.\\n\\n    :param root:\\n        Used as an anchor when mode == ImportMode.importlib to obtain\\n        a unique name for the module being imported so it can safely be stored\\n        into ``sys.modules``.\\n\\n    :raises ImportPathMismatchError:\\n        If after importing the given `path` and the module `__file__`\\n        are different. Only raised in `prepend` and `append` modes.\\n    \\\"\\\"\\\"\\n    mode = ImportMode(mode)\\n\\n    path = Path(p)\\n\\n    if not path.exists():\\n        raise ImportError(path)\\n\\n    if mode is ImportMode.importlib:\\n        module_name = module_name_from_path(path, root)\\n\\n        for meta_importer in sys.meta_path:\\n            spec = meta_importer.find_spec(module_name, [str(path.parent)])\\n            if spec is not None:\\n                break\\n        else:\\n            spec = importlib.util.spec_from_file_location(module_name, str(path))\\n\\n        if spec is None:\\n            raise ImportError(f\\\"Can't find module {module_name} at location {path}\\\")\\n        mod = importlib.util.module_from_spec(spec)\\n        sys.modules[module_name] = mod\\n        spec.loader.exec_module(mod)  # type: ignore[union-attr]\\n        insert_missing_modules(sys.modules, module_name)\\n        return mod\\n\\n    pkg_path = resolve_package_path(path)\\n    if pkg_path is not None:\\n        pkg_root = pkg_path.parent\\n        names = list(path.with_suffix(\\\"\\\").relative_to(pkg_root).parts)\\n        if names[-1] == \\\"__init__\\\":\\n            names.pop()\\n        module_name = \\\".\\\".join(names)\\n    else:\\n        pkg_root = path.parent\\n        module_name = path.stem\\n\\n    # Change sys.path permanently: restoring it at the end of this function would cause surprising\\n    # problems because of delayed imports: for example, a conftest.py file imported by this function\\n    # might have local imports, which would fail at runtime if we restored sys.path.\\n    if mode is ImportMode.append:\\n        if str(pkg_root) not in sys.path:\\n            sys.path.append(str(pkg_root))\\n    elif mode is ImportMode.prepend:\\n        if str(pkg_root) != sys.path[0]:\\n            sys.path.insert(0, str(pkg_root))\\n    else:\\n        assert_never(mode)\\n\\n    importlib.import_module(module_name)\\n\\n    mod = sys.modules[module_name]\\n    if path.name == \\\"__init__.py\\\":\\n        return mod\\n\\n    ignore = os.environ.get(\\\"PY_IGNORE_IMPORTMISMATCH\\\", \\\"\\\")\\n    if ignore != \\\"1\\\":\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_k5uh72xxj",
+    "status": "completed",
+    "call_id": "call_jEPlCZwTy9LucHtlvvtPSuDt",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def module_name_from_path\\\" -n src/_pytest/pathlib.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_jEPlCZwTy9LucHtlvvtPSuDt",
+    "output": "{\"output\":\"574:def module_name_from_path(path: Path, root: Path) -> str:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_eujvlh4rp",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The fix back-ports the same package\u2010name logic used in \u201cprepend/append\u201d mode into the \u201cimportlib\u201d branch: it calls resolve_package_path(), builds a true dotted module path (including the tests package when __init__.py is present), and only falls back to module_name_from_path() if no package is detected. That directly targets the regression whereby pytest ignored __init__.py in importlib mode (thus dropping the \u201ctests\u201d prefix when conftest.py was present). There are no other unrelated changes, and all existing importlib behaviors (including insert_missing_modules) remain untouched. This neatly restores pre-7.0 behavior without over-or under-fixing. </EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

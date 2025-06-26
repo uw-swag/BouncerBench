@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete repro (code snippet), the exact SQL that\u2019s being generated, the database feature in play (PostgreSQL\u2019s DISTINCT ON), and clearly states the undesirable outcome and desired behavior (either raise an informative error or actually generate the intended per-post delete). That\u2019s all the detail you need to write a test case and implement the fix, so the request is well-specified."
+}

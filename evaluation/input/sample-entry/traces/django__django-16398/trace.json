@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a very terse pointer to a commit and a code line, but no reproduction steps, expected vs actual behavior, or concrete patch context. It\u2019s unclear what the symptom is, how to reproduce it, or exactly what change is needed (beyond a vague suggestion to use partial). More detail is needed for a meaningful fix."
+}

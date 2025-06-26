@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the failure (invalid legacy session data triggering a BadSignature/Incorrect padding and causing a 500), the stack trace down to Django\u2019s session decode routines, and the context (upgrading to Django 3.1, stale cookie on staging). While it doesn\u2019t mandate an exact patch, it\u2019s clear what must be done (catch legacy\u2010decode errors and fall back to an empty session). This is enough to craft and verify a fix."
+}

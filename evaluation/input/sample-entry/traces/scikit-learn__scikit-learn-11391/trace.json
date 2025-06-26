@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes when and how the bug occurs (using a string missing_value on a numeric array), shows the traceback, and points to the shared helper _get_mask as the right place to add a dtype\u2010compatibility check. While it doesn\u2019t spell out the exact error message or tests, there is a sensible interpretation: detect mismatched types between X and missing_values in _get_mask and raise a clear ValueError. This is enough to attempt a targeted fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a minimal, self\u2010contained reproduction (zero\u2010height figure), exact error message, and environment details. The failure mode is clear (libpng crash), and the desired outcome (no crash or a graceful error) is implicit. This is enough to code up a fix or validation check."
+}

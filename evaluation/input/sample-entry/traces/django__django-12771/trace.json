@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear in its intent\u2014to change ModelState.fields (and similarly .indexes and .constraints) from a List[Tuple[str, Field]] to a Dict[str, Field] now that insertion ordering is guaranteed. You know where these attributes live, why the change is needed, and what the desired end state is. Some implementation details (tests, serialization, backward compatibility) will need to be filled in during coding, but there\u2019s a sensible interpretation of the requirements and a straightforward path forward."
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/admin/sites.py b/django/contrib/admin/sites.py\nindex 61be31d890..7efb7d5bf2 100644\n--- a/django/contrib/admin/sites.py\n+++ b/django/contrib/admin/sites.py\n@@ -451,11 +451,14 @@ class AdminSite:\n                 match = resolve(\"%s/\" % request.path_info, urlconf)\n             except Resolver404:\n                 pass\n             else:\n                 if getattr(match.func, \"should_append_slash\", True):\n-                    return HttpResponsePermanentRedirect(\"%s/\" % request.path)\n+                    redirect_url = \"%s/\" % request.path\n+                    if request.META.get('QUERY_STRING'):\n+                        redirect_url = \"%s?%s\" % (redirect_url, request.META['QUERY_STRING'])\n+                    return HttpResponsePermanentRedirect(redirect_url)\n         raise Http404\n \n     def _build_app_dict(self, request, label=None):\n         \"\"\"\n         Build the app dictionary. The optional `label` parameter filters models\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAdminSite.catch_all_view() drops query string in redirects\nDescription\n\t\n#31747 introduced AdminSite.catch_all_view(). However, in the process it broke the ability to redirect with settings.APPEND_SLASH = True when there are query strings.\nProvided URL: \u200bhttp://127.0.0.1:8000/admin/auth/foo?id=123\nExpected redirect: \u200bhttp://127.0.0.1:8000/admin/auth/foo/?id=123\nActual redirect: \u200bhttp://127.0.0.1:8000/admin/auth/foo/\nThis seems to be because the redirect in question does not include the query strings (such as via request.META['QUERY_STRING']):\nreturn HttpResponsePermanentRedirect(\"%s/\" % request.path)\n\u200bhttps://github.com/django/django/blob/c57ff9ba5e251cd4c2761105a6046662c08f951e/django/contrib/admin/sites.py#L456\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_1mojuaxh4",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe patch directly restores the dropped query string by checking METADATA['QUERY_STRING'] and appending it to the new slash-terminated path. It matches the issue\u2019s example (turning `/admin/auth/foo?id=123` into `/admin/auth/foo/?id=123`), introduces no unrelated changes, and handles only the case where APPEND_SLASH redirection applies.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

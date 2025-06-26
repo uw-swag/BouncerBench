@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a concrete bug (Rationals.contains(0.5) returns False but should return True) and states the intended behavior (\u201cRationals should contain all floating\u2010point numbers\u201d). While you may need to decide how to treat infinities/nan, there is a straightforward, unambiguous implementation path (e.g. detect Float inputs and convert via as_integer_ratio or similar). Thus it\u2019s sufficiently specified for a meaningful PR."
+}

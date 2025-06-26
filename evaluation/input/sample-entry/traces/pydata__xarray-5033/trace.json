@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the desired feature\u2014allow passing a callable directly as the `engine` parameter to bypass the normal string\u2010based backend lookup\u2014so there\u2019s a clear, sensible interpretation of what to implement. Some API details (e.g. callable signature and integration with xarray\u2019s existing backend hooks) would need to be filled in, but the high\u2010level behavior is unambiguous."
+}

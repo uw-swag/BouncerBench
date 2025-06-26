@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides minimal reproducible code, the erroneous behavior, error message, and environment detail. It clearly describes the bug (a dimension name collision with a keyword argument in .loc) and demonstrates how to reproduce it, so you can directly implement and validate a fix. This makes it well specified."
+}

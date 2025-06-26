@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (MathJax 3 needs a config script before loading but Sphinx always injects MathJax asynchronously), shows the relevant code path, and suggests three concrete ways to fix it (allow raw config strings, switch to \u2018defer\u2019 by default, or expose the async/defer flag to users). While the exact config API still needs to be designed, there\u2019s enough detail to make a targeted PR."
+}

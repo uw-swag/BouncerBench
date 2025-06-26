@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear bug summary, minimal reproducible example, actual vs. expected behavior, and even points to the exact lines in the codebase and a suggested fix. It is straightforward to implement the change, write a test, and verify the fix. Therefore it is well-specified."
+}

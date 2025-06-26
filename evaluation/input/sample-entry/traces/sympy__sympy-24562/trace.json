@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives concrete reproduction steps (call Rational('0.5', '100') under Python 3.11 + Sympy 1.11.1), shows the incorrect vs expected result, and even notes the behavior change from Sympy 1.8. That is sufficient to reproduce and diagnose the bug."
+}

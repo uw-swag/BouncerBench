@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducible example, clear description of expected vs. actual behavior, and a traceback. It\u2019s unambiguous what change is needed (support passing a DataArray to ds.merge, just as the top\u2010level merge does)."
+}

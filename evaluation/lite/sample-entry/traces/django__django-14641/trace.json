@@ -1,0 +1,132 @@
+{
+  "input": "The issue clearly identifies the exact lines of code in BoundField.initial() that need to be moved, and specifies precisely under which block in BaseForm.get_initial_for_field() they should be placed. The desired refactoring is unambiguous and actionable based on the provided links and context.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/forms/boundfield.py b/django/forms/boundfield.py\nindex 54f9e9a64f..51fd21e98d 100644\n--- a/django/forms/boundfield.py\n+++ b/django/forms/boundfield.py\n@@ -228,13 +228,7 @@ class BoundField:\n \n     @cached_property\n     def initial(self):\n-        data = self.form.get_initial_for_field(self.field, self.name)\n-        # If this is an auto-generated default date, nix the microseconds for\n-        # standardized handling. See #22502.\n-        if (isinstance(data, (datetime.datetime, datetime.time)) and\n-                not self.field.widget.supports_microseconds):\n-            data = data.replace(microsecond=0)\n-        return data\n+        return self.form.get_initial_for_field(self.field, self.name)\n \n     def build_widget_attrs(self, attrs, widget=None):\n         widget = widget or self.field.widget\ndiff --git a/django/forms/forms.py b/django/forms/forms.py\nindex ac6ef667d9..c86a0d3758 100644\n--- a/django/forms/forms.py\n+++ b/django/forms/forms.py\n@@ -475,6 +475,8 @@ class BaseForm:\n         value = self.initial.get(field_name, field.initial)\n         if callable(value):\n             value = value()\n+        if isinstance(value, (datetime.datetime, datetime.time)) and not field.widget.supports_microseconds:\n+            value = value.replace(microsecond=0)\n         return value\n \n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nMove special-case logic in BoundField.initial() to BaseForm.get_initial_for_field()\nDescription\n\t\nThis is another follow-up to ticket #32920.\nCurrently, BoundField.initial() has logic to special-case time and datetime objects:\n\u200bhttps://github.com/django/django/blob/f5669fd7b568cf8a3eda1e65c1c6fb583c7b177d/django/forms/boundfield.py#L217-L219\nI noticed that this logic can be moved to BaseForm.get_initial_for_field(), and in particular under the if callable(value) block:\n\u200bhttps://github.com/django/django/blob/f5669fd7b568cf8a3eda1e65c1c6fb583c7b177d/django/forms/forms.py#L496-L497\nEventually, I think it could make sense to go further and move some of this logic to a new method of the Field class, which could permit the special-casing to be handled by overriding in sub-classes that use times and datetimes.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_0xw921klx",
+      "status": "completed",
+      "call_id": "call_eI2KMYIHxSBZa0f66BYiV60F",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,50p' django/forms/forms.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_eI2KMYIHxSBZa0f66BYiV60F",
+      "output": "{\"output\":\"\\\"\\\"\\\"\\nForm classes\\n\\\"\\\"\\\"\\n\\nimport copy\\n\\nfrom django.core.exceptions import NON_FIELD_ERRORS, ValidationError\\nfrom django.forms.fields import Field, FileField\\nfrom django.forms.utils import ErrorDict, ErrorList\\nfrom django.forms.widgets import Media, MediaDefiningClass\\nfrom django.utils.datastructures import MultiValueDict\\nfrom django.utils.functional import cached_property\\nfrom django.utils.html import conditional_escape, html_safe\\nfrom django.utils.safestring import mark_safe\\nfrom django.utils.translation import gettext as _\\n\\nfrom .renderers import get_default_renderer\\n\\n__all__ = ('BaseForm', 'Form')\\n\\n\\nclass DeclarativeFieldsMetaclass(MediaDefiningClass):\\n    \\\"\\\"\\\"Collect Fields declared on the base classes.\\\"\\\"\\\"\\n    def __new__(mcs, name, bases, attrs):\\n        # Collect fields from current class and remove them from attrs.\\n        attrs['declared_fields'] = {\\n            key: attrs.pop(key) for key, value in list(attrs.items())\\n            if isinstance(value, Field)\\n        }\\n\\n        new_class = super().__new__(mcs, name, bases, attrs)\\n\\n        # Walk through the MRO.\\n        declared_fields = {}\\n        for base in reversed(new_class.__mro__):\\n            # Collect fields from base class.\\n            if hasattr(base, 'declared_fields'):\\n                declared_fields.update(base.declared_fields)\\n\\n            # Field shadowing.\\n            for attr, value in base.__dict__.items():\\n                if value is None and attr in declared_fields:\\n                    declared_fields.pop(attr)\\n\\n        new_class.base_fields = declared_fields\\n        new_class.declared_fields = declared_fields\\n\\n        return new_class\\n\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_0mlgryuph",
+      "status": "completed",
+      "call_id": "call_HF9eVBEkXhMWl3HxilgJN8zW",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def get_initial_for_field\\\" -n django/forms/forms.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_HF9eVBEkXhMWl3HxilgJN8zW",
+      "output": "{\"output\":\"470:    def get_initial_for_field(self, field, field_name):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_pf04jbpl4",
+      "status": "completed",
+      "call_id": "call_G7cKzL3783yLFPNSR8rW8upu",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"import datetime\\\" -n django/forms/forms.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_G7cKzL3783yLFPNSR8rW8upu",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_cvrx6ino3",
+      "status": "completed",
+      "call_id": "call_6tILxZKzivk3w8pT3Yojx8gV",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '450,550p' django/forms/forms.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_6tILxZKzivk3w8pT3Yojx8gV",
+      "output": "{\"output\":\"        \\\"\\\"\\\"\\n        Return True if the form needs to be multipart-encoded, i.e. it has\\n        FileInput, or False otherwise.\\n        \\\"\\\"\\\"\\n        return any(field.widget.needs_multipart_form for field in self.fields.values())\\n\\n    def hidden_fields(self):\\n        \\\"\\\"\\\"\\n        Return a list of all the BoundField objects that are hidden fields.\\n        Useful for manual form layout in templates.\\n        \\\"\\\"\\\"\\n        return [field for field in self if field.is_hidden]\\n\\n    def visible_fields(self):\\n        \\\"\\\"\\\"\\n        Return a list of BoundField objects that aren't hidden fields.\\n        The opposite of the hidden_fields() method.\\n        \\\"\\\"\\\"\\n        return [field for field in self if not field.is_hidden]\\n\\n    def get_initial_for_field(self, field, field_name):\\n        \\\"\\\"\\\"\\n        Return initial data for field on form. Use initial data from the form\\n        or the field, in that order. Evaluate callable values.\\n        \\\"\\\"\\\"\\n        value = self.initial.get(field_name, field.initial)\\n        if callable(value):\\n            value = value()\\n        return value\\n\\n\\nclass Form(BaseForm, metaclass=DeclarativeFieldsMetaclass):\\n    \\\"A collection of Fields, plus their associated data.\\\"\\n    # This is a separate class from BaseForm in order to abstract the way\\n    # self.fields is specified. This class (Form) is the one that does the\\n    # fancy metaclass stuff purely for the semantic sugar -- it allows one\\n    # to define a form using declarative syntax.\\n    # BaseForm itself has no way of designating self.fields.\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_diiwyirte",
+      "status": "completed",
+      "call_id": "call_KoBercygpK2mElGbHW7QcuhE",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class Field\\\" -n django/forms/fields.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_KoBercygpK2mElGbHW7QcuhE",
+      "output": "{\"output\":\"47:class Field:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_w7nlyp5jw",
+      "status": "completed",
+      "call_id": "call_fgi1R6kWhdSG6GnL9vNXxrBz",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '200,270p' django/forms/boundfield.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_fgi1R6kWhdSG6GnL9vNXxrBz",
+      "output": "{\"output\":\"    @property\\n    def is_hidden(self):\\n        \\\"\\\"\\\"Return True if this BoundField's widget is hidden.\\\"\\\"\\\"\\n        return self.field.widget.is_hidden\\n\\n    @property\\n    def auto_id(self):\\n        \\\"\\\"\\\"\\n        Calculate and return the ID attribute for this BoundField, if the\\n        associated Form has specified auto_id. Return an empty string otherwise.\\n        \\\"\\\"\\\"\\n        auto_id = self.form.auto_id  # Boolean or string\\n        if auto_id and '%s' in str(auto_id):\\n            return auto_id % self.html_name\\n        elif auto_id:\\n            return self.html_name\\n        return ''\\n\\n    @property\\n    def id_for_label(self):\\n        \\\"\\\"\\\"\\n        Wrapper around the field widget's `id_for_label` method.\\n        Useful, for example, for focusing on this field regardless of whether\\n        it has a single widget or a MultiWidget.\\n        \\\"\\\"\\\"\\n        widget = self.field.widget\\n        id_ = widget.attrs.get('id') or self.auto_id\\n        return widget.id_for_label(id_)\\n\\n    @cached_property\\n    def initial(self):\\n        data = self.form.get_initial_for_field(self.field, self.name)\\n        # If this is an auto-generated default date, nix the microseconds for\\n        # standardized handling. See #22502.\\n        if (isinstance(data, (datetime.datetime, datetime.time)) and\\n                not self.field.widget.supports_microseconds):\\n            data = data.replace(microsecond=0)\\n        return data\\n\\n    def build_widget_attrs(self, attrs, widget=None):\\n        widget = widget or self.field.widget\\n        attrs = dict(attrs)  # Copy attrs to avoid modifying the argument.\\n        if widget.use_required_attribute(self.initial) and self.field.required and self.form.use_required_attribute:\\n            attrs['required'] = True\\n        if self.field.disabled:\\n            attrs['disabled'] = True\\n        return attrs\\n\\n    @property\\n    def widget_type(self):\\n        return re.sub(r'widget$|input$', '', self.field.widget.__class__.__name__.lower())\\n\\n\\n@html_safe\\nclass BoundWidget:\\n    \\\"\\\"\\\"\\n    A container class used for iterating over widgets. This is useful for\\n    widgets that have choices. For example, the following can be used in a\\n    template:\\n\\n    {% for radio in myform.beatles %}\\n      <label for=\\\"{{ radio.id_for_label }}\\\">\\n        {{ radio.choice_label }}\\n        <span class=\\\"radio\\\">{{ radio.tag }}</span>\\n      </label>\\n    {% endfor %}\\n    \\\"\\\"\\\"\\n    def __init__(self, parent_widget, data, renderer):\\n        self.parent_widget = parent_widget\\n        self.data = data\\n        self.renderer = renderer\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_9c2xgz6er",
+      "status": "completed",
+      "call_id": "call_HHKHcNO9ewABE4KbLGqT1e0T",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,50p' django/forms/boundfield.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_HHKHcNO9ewABE4KbLGqT1e0T",
+      "output": "{\"output\":\"import datetime\\nimport re\\n\\nfrom django.core.exceptions import ValidationError\\nfrom django.forms.utils import flatatt, pretty_name\\nfrom django.forms.widgets import Textarea, TextInput\\nfrom django.utils.functional import cached_property\\nfrom django.utils.html import conditional_escape, format_html, html_safe\\nfrom django.utils.safestring import mark_safe\\nfrom django.utils.translation import gettext_lazy as _\\n\\n__all__ = ('BoundField',)\\n\\n\\n@html_safe\\nclass BoundField:\\n    \\\"A Field plus data\\\"\\n    def __init__(self, form, field, name):\\n        self.form = form\\n        self.field = field\\n        self.name = name\\n        self.html_name = form.add_prefix(name)\\n        self.html_initial_name = form.add_initial_prefix(name)\\n        self.html_initial_id = form.add_initial_prefix(self.auto_id)\\n        if self.field.label is None:\\n            self.label = pretty_name(name)\\n        else:\\n            self.label = self.field.label\\n        self.help_text = field.help_text or ''\\n\\n    def __str__(self):\\n        \\\"\\\"\\\"Render this field as an HTML widget.\\\"\\\"\\\"\\n        if self.field.show_hidden_initial:\\n            return self.as_widget() + self.as_hidden(only_initial=True)\\n        return self.as_widget()\\n\\n    @cached_property\\n    def subwidgets(self):\\n        \\\"\\\"\\\"\\n        Most widgets yield a single subwidget, but others like RadioSelect and\\n        CheckboxSelectMultiple produce one subwidget for each choice.\\n\\n        This property is cached so that only one database query occurs when\\n        rendering ModelChoiceFields.\\n        \\\"\\\"\\\"\\n        id_ = self.field.widget.attrs.get('id') or self.auto_id\\n        attrs = {'id': id_} if id_ else {}\\n        attrs = self.build_widget_attrs(attrs)\\n        return [\\n            BoundWidget(self.field.widget, widget, self.form.renderer)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_cy9n9n6e1",
+      "status": "completed",
+      "call_id": "call_gWa75dXAFsipRMnlkPGZgEGc",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"import datetime\\\" -n django/forms\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_gWa75dXAFsipRMnlkPGZgEGc",
+      "output": "{\"output\":\"django/forms/boundfield.py:1:import datetime\\ndjango/forms/widgets.py:6:import datetime\\ndjango/forms/fields.py:6:import datetime\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_thkavams8",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe patch successfully moves the microsecond\u2010stripping logic out of BoundField.initial() into BaseForm.get_initial_for_field(), as intended by the issue. However, it introduces a reference to datetime.datetime and datetime.time in forms.py without adding an import for datetime, so the new code won\u2019t even compile. Because of this missing import, the patch is fundamentally broken.\n</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

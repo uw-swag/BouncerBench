@@ -1,0 +1,3 @@
+{
+  "trace": "The report indicates tests are being skipped with pytest 4.6.0 and links to the CI log, but it doesn\u2019t include which tests are skipped, example output, or a self-contained reproduction. There\u2019s no clear description of actual vs expected behavior, markers, or test code, making it ambiguous what needs fixing. In its current form it\u2019s too vague for a stand-alone fix."
+}

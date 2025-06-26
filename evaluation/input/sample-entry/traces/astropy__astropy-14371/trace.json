@@ -1,0 +1,3 @@
+{
+  "trace": "The request is straightforward: modify the existing is_O3 function (link and line numbers provided) to accept a user-specified absolute tolerance (atol) or, by default, derive that tolerance from the matrix\u2019s dtype (e.g. via numpy.finfo). It clearly pinpoints which magic constant (1e-15) to replace, where to change the code, and what behavior is expected, so a concrete implementation can be written without further clarification."
+}

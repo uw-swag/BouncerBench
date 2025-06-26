@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/fields/files.py b/django/db/models/fields/files.py\n--- a/django/db/models/fields/files.py\n+++ b/django/db/models/fields/files.py\n@@ -295,8 +295,10 @@\n         if kwargs.get(\"max_length\") == 100:\n             del kwargs[\"max_length\"]\n         kwargs[\"upload_to\"] = self.upload_to\n-        if self.storage is not default_storage:\n-            kwargs[\"storage\"] = getattr(self, \"_storage_callable\", self.storage)\n+        if hasattr(self, \"_storage_callable\"):\n+            kwargs[\"storage\"] = self._storage_callable\n+        elif self.storage is not default_storage:\n+            kwargs[\"storage\"] = self.storage\n         return name, path, args, kwargs\n \n     def get_internal_type(self):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nCallable storage on FileField fails to deconstruct when it returns default_storage\nDescription\n\t\nIf the storage argument on a FileField is set to a callable that returns default_storage, it is omitted from the deconstructed form of the field, rather than being included as a reference to the callable as expected.\nFor example, given a model definition:\nfrom django.core.files.storage import FileSystemStorage, default_storage\nfrom django.db import models\nimport random\nother_storage = FileSystemStorage(location='/media/other')\ndef get_storage():\n\treturn random.choice([default_storage, other_storage])\nclass MyModel(models.Model):\n\tmy_file = models.FileField(storage=get_storage)\nrepeatedly running makemigrations will randomly generate a migration that alternately includes or omits storage=myapp.models.get_storage on the FileField definition.\nThis case was overlooked in the fix for #31941 - the deconstruct method tests if self.storage is not default_storage to determine whether to add the storage kwarg, but at this point self.storage is the evaluated version, so it wrongly returns false for a callable that returns default_storage.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_59mj9bdtq",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe root of the issue was that deconstruct() only added a storage=\u2026 kwarg when self.storage != default_storage, but by that point any callable that returned default_storage had already been replaced by the default_storage instance. Moving the \u201ccallable\u201d check first ensures that if the user passed in a storage callable, that original callable is always captured in migrations\u2014regardless of what it returns. The fallback to the old \u201cinstance \u2260 default\u201d check for non\u2010callable storages is left untouched. This is a minimal, targeted change that exactly fixes the described bug without side effects.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes concrete, minimal code examples that reproduce the inconsistent behavior, and it\u2019s clear that all three test cases should return the trivial solution (0,0). The expected behavior is unambiguous, so no further clarification is needed to attempt a fix."
+}

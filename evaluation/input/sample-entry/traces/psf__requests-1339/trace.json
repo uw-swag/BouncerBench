@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear description of the bug (CaseInsensitiveDict storing mixed-case keys incorrectly), includes a minimal repro script, shows actual vs expected output, and even points to the exact method and a one-line fix. That is sufficient to implement and test a solution without further clarification."
+}

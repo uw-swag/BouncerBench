@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates the problem with concrete examples (matched vs. unmatched vs. empty-list queries), shows the current vs. expected behavior, even points to the exact code paths (EmptyResultSet in lookups.py and get_aggregation in query.py) and suggests how the exception handler might be extended for Coalesce. There\u2019s no missing context and the fix scope is narrow and obvious. This is WELL_SPECIFIED."
+}

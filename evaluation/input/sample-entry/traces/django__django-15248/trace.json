@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a desired feature (propagate delete origin info to signals) and its motivation, but it lacks specifics on the API changes (signal arguments, naming, behavior), implementation approach, and edge cases. Without guidance on how to expose the \"origin\" or integrate with existing signal machinery, important details are left unclear, making it too vague to start a concrete PR."
+}

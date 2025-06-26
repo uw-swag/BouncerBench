@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the desired feature\u2014a context manager to temporarily swap in a different version set of constants (e.g. astropyconst13) for the code block within the with-statement. While it doesn\u2019t spell out edge cases (nesting behavior, threading, error handling), the core API and behavior are unambiguous and can be implemented in a straightforward way. Thus it\u2019s reasonably specified for a first pass at a solution."
+}

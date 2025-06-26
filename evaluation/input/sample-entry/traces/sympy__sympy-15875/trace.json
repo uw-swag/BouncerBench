@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a concrete failing example (Add of complex terms that sum to zero incorrectly returns False) and the desired behavior (is_zero must be True or None but never wrong). It specifies where in the code this applies (Add\u2019s is_zero logic on complex terms) and even includes a test snippet. That is enough to craft a fix and a test/PR, so the spec is reasonably clear."
+}

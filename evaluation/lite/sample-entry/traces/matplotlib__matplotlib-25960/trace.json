@@ -1,0 +1,210 @@
+{
+  "input": "The issue clearly demonstrates that the wspace/hspace parameters passed to Figure.subfigures are ignored, provides minimal reproducing code, shows actual vs expected behavior, and even references the code location to fix (merging wspace/hspace into the internal GridSpec). The requirements for a solution are unambiguous.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/lib/matplotlib/figure.py b/lib/matplotlib/figure.py\nindex dab2bc4a5a..4703318be2 100644\n--- a/lib/matplotlib/figure.py\n+++ b/lib/matplotlib/figure.py\n@@ -1582,7 +1582,8 @@ default: %(va)s\n             If not given, all rows will have the same height.\n         \"\"\"\n         gs = GridSpec(nrows=nrows, ncols=ncols, figure=self,\n-                      wspace=wspace, hspace=hspace,\n+                      wspace=wspace if wspace is not None else plt.rcParams['figure.subplot.wspace'],\n+                      hspace=hspace if hspace is not None else plt.rcParams['figure.subplot.hspace'],\n                       width_ratios=width_ratios,\n                       height_ratios=height_ratios)\n \ndiff --git a/lib/matplotlib/gridspec.py b/lib/matplotlib/gridspec.py\nindex c86a527ef5..08125b6144 100644\n--- a/lib/matplotlib/gridspec.py\n+++ b/lib/matplotlib/gridspec.py\n@@ -178,8 +178,8 @@ class GridSpecBase:\n             right = subplot_params.right\n             bottom = subplot_params.bottom\n             top = subplot_params.top\n-            wspace = subplot_params.wspace\n-            hspace = subplot_params.hspace\n+            wspace = self.wspace if self.wspace is not None else subplot_params.wspace\n+            hspace = self.hspace if self.hspace is not None else subplot_params.hspace\n         tot_width = right - left\n         tot_height = top - bottom\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\n[Bug]: wspace and hspace in subfigures not working\n### Bug summary\n\n`wspace` and `hspace` in `Figure.subfigures` do nothing.\n\n### Code for reproduction\n\n```python\nimport matplotlib.pyplot as plt\r\n\r\nfigs = plt.figure().subfigures(2, 2, wspace=0, hspace=0)\r\nfor fig in figs.flat:\r\n    fig.subplots().plot([1, 2])\r\nplt.show()\n```\n\n\n### Actual outcome\n\nSame figure independently of the values of hspace and wspace.\n\n### Expected outcome\n\nhttps://github.com/matplotlib/matplotlib/blob/b3bd929cf07ea35479fded8f739126ccc39edd6d/lib/matplotlib/figure.py#L1550-L1554\n\n### Additional information\n\n_No response_\n\n### Operating system\n\nOS/X\n\n### Matplotlib Version\n\n3.7.1\n\n### Matplotlib Backend\n\nMacOSX\n\n### Python version\n\nPython 3.10.9\n\n### Jupyter version\n\n_No response_\n\n### Installation\n\nconda\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_13pknfab5",
+      "status": "completed",
+      "call_id": "call_KC4Jg0kR8O6OvUBvx9PT86uc",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R 'GridSpec' -n lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_KC4Jg0kR8O6OvUBvx9PT86uc",
+      "output": "{\"output\":\"53:from matplotlib.gridspec import GridSpec\\n861:            `~matplotlib.gridspec.GridSpec` constructor used to create\\n1384:        This assumes that ``axs`` are from the same `.GridSpec`, so that\\n1445:        This assumes that ``axs`` are from the same `.GridSpec`, so that\\n1504:        Return a `.GridSpec` that has this figure as a parent.  This allows\\n1517:        `.GridSpec`\\n1522:            Keyword arguments are passed to `.GridSpec`.\\n1542:        gs = GridSpec(nrows=nrows, ncols=ncols, figure=self, **kwargs)\\n1584:        gs = GridSpec(nrows=nrows, ncols=ncols, figure=self,\\n1832:        This is a helper function to build complex GridSpec layouts visually.\\n1915:            Dictionary with keywords passed to the `.GridSpec` constructor used\\n2026:            gs : GridSpec\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_4q7vtjmum",
+      "status": "completed",
+      "call_id": "call_TRnl5awjtsiA54y7TLyYuEDo",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '150,210p' lib/matplotlib/gridspec.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_TRnl5awjtsiA54y7TLyYuEDo",
+      "output": "{\"output\":\"        ----------\\n        fig : `~matplotlib.figure.Figure`\\n            The figure the grid should be applied to. The subplot parameters\\n            (margins and spacing between subplots) are taken from *fig*.\\n        raw : bool, default: False\\n            If *True*, the subplot parameters of the figure are not taken\\n            into account. The grid spans the range [0, 1] in both directions\\n            without margins and there is no space between grid cells. This is\\n            used for constrained_layout.\\n\\n        Returns\\n        -------\\n        bottoms, tops, lefts, rights : array\\n            The bottom, top, left, right positions of the grid cells in\\n            figure coordinates.\\n        \\\"\\\"\\\"\\n        nrows, ncols = self.get_geometry()\\n\\n        if raw:\\n            left = 0.\\n            right = 1.\\n            bottom = 0.\\n            top = 1.\\n            wspace = 0.\\n            hspace = 0.\\n        else:\\n            subplot_params = self.get_subplot_params(fig)\\n            left = subplot_params.left\\n            right = subplot_params.right\\n            bottom = subplot_params.bottom\\n            top = subplot_params.top\\n            wspace = subplot_params.wspace\\n            hspace = subplot_params.hspace\\n        tot_width = right - left\\n        tot_height = top - bottom\\n\\n        # calculate accumulated heights of columns\\n        cell_h = tot_height / (nrows + hspace*(nrows-1))\\n        sep_h = hspace * cell_h\\n        norm = cell_h * nrows / sum(self._row_height_ratios)\\n        cell_heights = [r * norm for r in self._row_height_ratios]\\n        sep_heights = [0] + ([sep_h] * (nrows-1))\\n        cell_hs = np.cumsum(np.column_stack([sep_heights, cell_heights]).flat)\\n\\n        # calculate accumulated widths of rows\\n        cell_w = tot_width / (ncols + wspace*(ncols-1))\\n        sep_w = wspace * cell_w\\n        norm = cell_w * ncols / sum(self._col_width_ratios)\\n        cell_widths = [r * norm for r in self._col_width_ratios]\\n        sep_widths = [0] + ([sep_w] * (ncols-1))\\n        cell_ws = np.cumsum(np.column_stack([sep_widths, cell_widths]).flat)\\n\\n        fig_tops, fig_bottoms = (top - cell_hs).reshape((-1, 2)).T\\n        fig_lefts, fig_rights = (left + cell_ws).reshape((-1, 2)).T\\n        return fig_bottoms, fig_tops, fig_lefts, fig_rights\\n\\n    @staticmethod\\n    def _check_gridspec_exists(figure, nrows, ncols):\\n        \\\"\\\"\\\"\\n        Check if the figure already has a gridspec with these dimensions,\\n        or create a new one\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_37oimg0ic",
+      "status": "completed",
+      "call_id": "call_DOH5Q3eaAkHTevOgTKb4Aj7m",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1530,1600p' lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_DOH5Q3eaAkHTevOgTKb4Aj7m",
+      "output": "{\"output\":\"        Adding a subplot that spans two rows::\\n\\n            fig = plt.figure()\\n            gs = fig.add_gridspec(2, 2)\\n            ax1 = fig.add_subplot(gs[0, 0])\\n            ax2 = fig.add_subplot(gs[1, 0])\\n            # spans two rows:\\n            ax3 = fig.add_subplot(gs[:, 1])\\n\\n        \\\"\\\"\\\"\\n\\n        _ = kwargs.pop('figure', None)  # pop in case user has added this...\\n        gs = GridSpec(nrows=nrows, ncols=ncols, figure=self, **kwargs)\\n        return gs\\n\\n    def subfigures(self, nrows=1, ncols=1, squeeze=True,\\n                   wspace=None, hspace=None,\\n                   width_ratios=None, height_ratios=None,\\n                   **kwargs):\\n        \\\"\\\"\\\"\\n        Add a set of subfigures to this figure or subfigure.\\n\\n        A subfigure has the same artist methods as a figure, and is logically\\n        the same as a figure, but cannot print itself.\\n        See :doc:`/gallery/subplots_axes_and_figures/subfigures`.\\n\\n        .. note::\\n            The *subfigure* concept is new in v3.4, and the API is still provisional.\\n\\n        Parameters\\n        ----------\\n        nrows, ncols : int, default: 1\\n            Number of rows/columns of the subfigure grid.\\n\\n        squeeze : bool, default: True\\n            If True, extra dimensions are squeezed out from the returned\\n            array of subfigures.\\n\\n        wspace, hspace : float, default: None\\n            The amount of width/height reserved for space between subfigures,\\n            expressed as a fraction of the average subfigure width/height.\\n            If not given, the values will be inferred from a figure or\\n            rcParams when necessary.\\n\\n        width_ratios : array-like of length *ncols*, optional\\n            Defines the relative widths of the columns. Each column gets a\\n            relative width of ``width_ratios[i] / sum(width_ratios)``.\\n            If not given, all columns will have the same width.\\n\\n        height_ratios : array-like of length *nrows*, optional\\n            Defines the relative heights of the rows. Each row gets a\\n            relative height of ``height_ratios[i] / sum(height_ratios)``.\\n            If not given, all rows will have the same height.\\n        \\\"\\\"\\\"\\n        gs = GridSpec(nrows=nrows, ncols=ncols, figure=self,\\n                      wspace=wspace, hspace=hspace,\\n                      width_ratios=width_ratios,\\n                      height_ratios=height_ratios)\\n\\n        sfarr = np.empty((nrows, ncols), dtype=object)\\n        for i in range(ncols):\\n            for j in range(nrows):\\n                sfarr[j, i] = self.add_subfigure(gs[j, i], **kwargs)\\n\\n        if squeeze:\\n            # Discarding unneeded dimensions that equal 1.  If we only have one\\n            # subfigure, just return it instead of a 1-element array.\\n            return sfarr.item() if sfarr.size == 1 else sfarr.squeeze()\\n        else:\\n            # Returned axis array will be always 2-d, even if nrows=ncols=1.\\n            return sfarr\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_178rnqce6",
+      "status": "completed",
+      "call_id": "call_q5She2HBI4GSqdrzXuKzCqLg",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class GridSpec\\\" -n lib/matplotlib/gridspec.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_q5She2HBI4GSqdrzXuKzCqLg",
+      "output": "{\"output\":\"26:class GridSpecBase:\\n318:class GridSpec(GridSpecBase):\\n476:class GridSpecFromSubplotSpec(GridSpecBase):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_k2gsptne4",
+      "status": "completed",
+      "call_id": "call_q0Uhkz0TL5M5I64oNaZsAmqN",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '318,380p' lib/matplotlib/gridspec.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_q0Uhkz0TL5M5I64oNaZsAmqN",
+      "output": "{\"output\":\"class GridSpec(GridSpecBase):\\n    \\\"\\\"\\\"\\n    A grid layout to place subplots within a figure.\\n\\n    The location of the grid cells is determined in a similar way to\\n    `~.figure.SubplotParams` using *left*, *right*, *top*, *bottom*, *wspace*\\n    and *hspace*.\\n\\n    Indexing a GridSpec instance returns a `.SubplotSpec`.\\n    \\\"\\\"\\\"\\n    def __init__(self, nrows, ncols, figure=None,\\n                 left=None, bottom=None, right=None, top=None,\\n                 wspace=None, hspace=None,\\n                 width_ratios=None, height_ratios=None):\\n        \\\"\\\"\\\"\\n        Parameters\\n        ----------\\n        nrows, ncols : int\\n            The number of rows and columns of the grid.\\n\\n        figure : `.Figure`, optional\\n            Only used for constrained layout to create a proper layoutgrid.\\n\\n        left, right, top, bottom : float, optional\\n            Extent of the subplots as a fraction of figure width or height.\\n            Left cannot be larger than right, and bottom cannot be larger than\\n            top. If not given, the values will be inferred from a figure or\\n            rcParams at draw time. See also `GridSpec.get_subplot_params`.\\n\\n        wspace : float, optional\\n            The amount of width reserved for space between subplots,\\n            expressed as a fraction of the average axis width.\\n            If not given, the values will be inferred from a figure or\\n            rcParams when necessary. See also `GridSpec.get_subplot_params`.\\n\\n        hspace : float, optional\\n            The amount of height reserved for space between subplots,\\n            expressed as a fraction of the average axis height.\\n            If not given, the values will be inferred from a figure or\\n            rcParams when necessary. See also `GridSpec.get_subplot_params`.\\n\\n        width_ratios : array-like of length *ncols*, optional\\n            Defines the relative widths of the columns. Each column gets a\\n            relative width of ``width_ratios[i] / sum(width_ratios)``.\\n            If not given, all columns will have the same width.\\n\\n        height_ratios : array-like of length *nrows*, optional\\n            Defines the relative heights of the rows. Each row gets a\\n            relative height of ``height_ratios[i] / sum(height_ratios)``.\\n            If not given, all rows will have the same height.\\n\\n        \\\"\\\"\\\"\\n        self.left = left\\n        self.bottom = bottom\\n        self.right = right\\n        self.top = top\\n        self.wspace = wspace\\n        self.hspace = hspace\\n        self.figure = figure\\n\\n        super().__init__(nrows, ncols,\\n                         width_ratios=width_ratios,\\n                         height_ratios=height_ratios)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_s7uwn4utw",
+      "status": "completed",
+      "call_id": "call_N6lALMosF5cRwZ2jtugnCcEG",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def get_subplot_params\\\" -n lib/matplotlib\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_N6lALMosF5cRwZ2jtugnCcEG",
+      "output": "{\"output\":\"lib/matplotlib/gridspec.pyi:24:    def get_subplot_params(self, figure: Figure | None = ...) -> SubplotParams: ...\\nlib/matplotlib/gridspec.py:80:    def get_subplot_params(self, figure=None):\\nlib/matplotlib/gridspec.py:412:    def get_subplot_params(self, figure=None):\\nlib/matplotlib/gridspec.py:508:    def get_subplot_params(self, figure=None):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0.1}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_fu7jk0iez",
+      "status": "completed",
+      "call_id": "call_oW5gCHqyPTusSZYDDGwMzYLU",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def subplots\\\" -n lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_oW5gCHqyPTusSZYDDGwMzYLU",
+      "output": "{\"output\":\"798:    def subplots(self, nrows=1, ncols=1, *, sharex=False, sharey=False,\\n1315:    def subplots_adjust(self, left=None, bottom=None, right=None, top=None,\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_rjr0or7v3",
+      "status": "completed",
+      "call_id": "call_WqMTny3fLABupn2uwetDNs38",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"import matplotlib.pyplot\\\" -n lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_WqMTny3fLABupn2uwetDNs38",
+      "output": "{\"output\":\"3209:            import matplotlib.pyplot as plt\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_wj8m6tf7t",
+      "status": "completed",
+      "call_id": "call_tB6zLnTvO5cGFvTCo7y2FVvJ",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1300,1380p' lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_tB6zLnTvO5cGFvTCo7y2FVvJ",
+      "output": "{\"output\":\"                    and ax.get_subplotspec()):\\n                cax, kwargs = cbar.make_axes_gridspec(ax, **kwargs)\\n            else:\\n                cax, kwargs = cbar.make_axes(ax, **kwargs)\\n            # make_axes calls add_{axes,subplot} which changes gca; undo that.\\n            fig.sca(current_ax)\\n            cax.grid(visible=False, which='both', axis='both')\\n\\n        NON_COLORBAR_KEYS = [  # remove kws that cannot be passed to Colorbar\\n            'fraction', 'pad', 'shrink', 'aspect', 'anchor', 'panchor']\\n        cb = cbar.Colorbar(cax, mappable, **{\\n            k: v for k, v in kwargs.items() if k not in NON_COLORBAR_KEYS})\\n        cax.figure.stale = True\\n        return cb\\n\\n    def subplots_adjust(self, left=None, bottom=None, right=None, top=None,\\n                        wspace=None, hspace=None):\\n        \\\"\\\"\\\"\\n        Adjust the subplot layout parameters.\\n\\n        Unset parameters are left unmodified; initial values are given by\\n        :rc:`figure.subplot.[name]`.\\n\\n        Parameters\\n        ----------\\n        left : float, optional\\n            The position of the left edge of the subplots,\\n            as a fraction of the figure width.\\n        right : float, optional\\n            The position of the right edge of the subplots,\\n            as a fraction of the figure width.\\n        bottom : float, optional\\n            The position of the bottom edge of the subplots,\\n            as a fraction of the figure height.\\n        top : float, optional\\n            The position of the top edge of the subplots,\\n            as a fraction of the figure height.\\n        wspace : float, optional\\n            The width of the padding between subplots,\\n            as a fraction of the average Axes width.\\n        hspace : float, optional\\n            The height of the padding between subplots,\\n            as a fraction of the average Axes height.\\n        \\\"\\\"\\\"\\n        if (self.get_layout_engine() is not None and\\n                not self.get_layout_engine().adjust_compatible):\\n            _api.warn_external(\\n                \\\"This figure was using a layout engine that is \\\"\\n                \\\"incompatible with subplots_adjust and/or tight_layout; \\\"\\n                \\\"not calling subplots_adjust.\\\")\\n            return\\n        self.subplotpars.update(left, bottom, right, top, wspace, hspace)\\n        for ax in self.axes:\\n            if ax.get_subplotspec() is not None:\\n                ax._set_position(ax.get_subplotspec().get_position(self))\\n        self.stale = True\\n\\n    def align_xlabels(self, axs=None):\\n        \\\"\\\"\\\"\\n        Align the xlabels of subplots in the same subplot column if label\\n        alignment is being done automatically (i.e. the label position is\\n        not manually set).\\n\\n        Alignment persists for draw events after this is called.\\n\\n        If a label is on the bottom, it is aligned with labels on Axes that\\n        also have their label on the bottom and that have the same\\n        bottom-most subplot row.  If the label is on the top,\\n        it is aligned with labels on Axes with the same top-most row.\\n\\n        Parameters\\n        ----------\\n        axs : list of `~matplotlib.axes.Axes`\\n            Optional list of (or `~numpy.ndarray`) `~matplotlib.axes.Axes`\\n            to align the xlabels.\\n            Default is to align all Axes on the figure.\\n\\n        See Also\\n        --------\\n        matplotlib.figure.Figure.align_ylabels\\n        matplotlib.figure.Figure.align_labels\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_7fanj1g0s",
+      "status": "completed",
+      "call_id": "call_J45P9Aay9Gh1WODrHBPTJRwt",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,60p' lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_J45P9Aay9Gh1WODrHBPTJRwt",
+      "output": "{\"output\":\"\\\"\\\"\\\"\\n`matplotlib.figure` implements the following classes:\\n\\n`Figure`\\n    Top level `~matplotlib.artist.Artist`, which holds all plot elements.\\n    Many methods are implemented in `FigureBase`.\\n\\n`SubFigure`\\n    A logical figure inside a figure, usually added to a figure (or parent\\n    `SubFigure`) with `Figure.add_subfigure` or `Figure.subfigures` methods\\n    (provisional API v3.4).\\n\\n`SubplotParams`\\n    Control the default spacing between subplots.\\n\\nFigures are typically created using pyplot methods `~.pyplot.figure`,\\n`~.pyplot.subplots`, and `~.pyplot.subplot_mosaic`.\\n\\n.. plot::\\n    :include-source:\\n\\n    fig, ax = plt.subplots(figsize=(2, 2), facecolor='lightskyblue',\\n                           layout='constrained')\\n    fig.suptitle('Figure')\\n    ax.set_title('Axes', loc='left', fontstyle='oblique', fontsize='medium')\\n\\nSome situations call for directly instantiating a `~.figure.Figure` class,\\nusually inside an application of some sort (see :ref:`user_interfaces` for a\\nlist of examples) .  More information about Figures can be found at\\n:ref:`figure_explanation`.\\n\\\"\\\"\\\"\\n\\nfrom contextlib import ExitStack\\nimport inspect\\nimport itertools\\nimport logging\\nfrom numbers import Integral\\n\\nimport numpy as np\\n\\nimport matplotlib as mpl\\nfrom matplotlib import _blocking_input, backend_bases, _docstring, projections\\nfrom matplotlib.artist import (\\n    Artist, allow_rasterization, _finalize_rasterization)\\nfrom matplotlib.backend_bases import (\\n    DrawEvent, FigureCanvasBase, NonGuiException, MouseButton, _get_renderer)\\nimport matplotlib._api as _api\\nimport matplotlib.cbook as cbook\\nimport matplotlib.colorbar as cbar\\nimport matplotlib.image as mimage\\n\\nfrom matplotlib.axes import Axes\\nfrom matplotlib.gridspec import GridSpec\\nfrom matplotlib.layout_engine import (\\n    ConstrainedLayoutEngine, TightLayoutEngine, LayoutEngine,\\n    PlaceHolderLayoutEngine\\n)\\nimport matplotlib.legend as mlegend\\nfrom matplotlib.patches import Rectangle\\nfrom matplotlib.text import Text\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_i754xfgb8",
+      "status": "completed",
+      "call_id": "call_Vlo9DZ8el8MX4vrcOf1LaGBP",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"import matplotlib\\\\.pyplot\\\" -n lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_Vlo9DZ8el8MX4vrcOf1LaGBP",
+      "output": "{\"output\":\"3209:            import matplotlib.pyplot as plt\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_ludlaa1yo",
+      "status": "completed",
+      "call_id": "call_njlQAL4oJ9HqPNf7hGSXTt6a",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class SubplotSpec\\\" -n lib/matplotlib/gridspec.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_njlQAL4oJ9HqPNf7hGSXTt6a",
+      "output": "{\"output\":\"531:class SubplotSpec:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_rbfpbxs5p",
+      "status": "completed",
+      "call_id": "call_KwHVEo5RqZ86oFNe0KtwwmRi",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"plt\\\\.\\\" -n lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_KwHVEo5RqZ86oFNe0KtwwmRi",
+      "output": "{\"output\":\"22:    fig, ax = plt.subplots(figsize=(2, 2), facecolor='lightskyblue',\\n616:            fig = plt.figure()\\n745:            fig = plt.figure()\\n792:        # this is to support plt.subplot's re-selection logic\\n887:            fig = plt.figure()\\n1015:    # version of this function because the method name differs (plt.figlegend)\\n1018:    #    \\\"fig.legend(\\\" -> \\\"plt.figlegend\\\" for the code examples\\n1019:    #    \\\"ax.plot\\\" -> \\\"plt.plot\\\" for consistency in using pyplot when able\\n1090:            fig, (ax1, ax2) = plt.subplots(1, 2)\\n1391:            fig, axs = plt.subplots(1, 2)\\n1452:            fig, axs = plt.subplots(2, 1)\\n1532:            fig = plt.figure()\\n2152:        fig = plt.figure()\\n2971:            f = plt.figure()\\n2976:            plt.show()\\n3211:            allnums = plt.get_fignums()\\n3213:            backend = plt._get_backend_mod()\\n3216:            plt.draw_if_interactive()\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_jchtpb2j0",
+      "status": "completed",
+      "call_id": "call_Qsvfk6Uw5ptkhOund51sr96p",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '3180,3250p' lib/matplotlib/figure.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_Qsvfk6Uw5ptkhOund51sr96p",
+      "output": "{\"output\":\"\\n        # discard any changes to the dpi due to pixel ratio changes\\n        state[\\\"_dpi\\\"] = state.get('_original_dpi', state['_dpi'])\\n\\n        # add version information to the state\\n        state['__mpl_version__'] = mpl.__version__\\n\\n        # check whether the figure manager (if any) is registered with pyplot\\n        from matplotlib import _pylab_helpers\\n        if self.canvas.manager in _pylab_helpers.Gcf.figs.values():\\n            state['_restore_to_pylab'] = True\\n        return state\\n\\n    def __setstate__(self, state):\\n        version = state.pop('__mpl_version__')\\n        restore_to_pylab = state.pop('_restore_to_pylab', False)\\n\\n        if version != mpl.__version__:\\n            _api.warn_external(\\n                f\\\"This figure was saved with matplotlib version {version} and \\\"\\n                f\\\"is unlikely to function correctly.\\\")\\n\\n        self.__dict__ = state\\n\\n        # re-initialise some of the unstored state information\\n        FigureCanvasBase(self)  # Set self.canvas.\\n\\n        if restore_to_pylab:\\n            # lazy import to avoid circularity\\n            import matplotlib.pyplot as plt\\n            import matplotlib._pylab_helpers as pylab_helpers\\n            allnums = plt.get_fignums()\\n            num = max(allnums) + 1 if allnums else 1\\n            backend = plt._get_backend_mod()\\n            mgr = backend.new_figure_manager_given_figure(num, self)\\n            pylab_helpers.Gcf._set_new_active_manager(mgr)\\n            plt.draw_if_interactive()\\n\\n        self.stale = True\\n\\n    def add_axobserver(self, func):\\n        \\\"\\\"\\\"Whenever the Axes state change, ``func(self)`` will be called.\\\"\\\"\\\"\\n        # Connect a wrapper lambda and not func itself, to avoid it being\\n        # weakref-collected.\\n        self._axobservers.connect(\\\"_axes_change_event\\\", lambda arg: func(arg))\\n\\n    def savefig(self, fname, *, transparent=None, **kwargs):\\n        \\\"\\\"\\\"\\n        Save the current figure.\\n\\n        Call signature::\\n\\n          savefig(fname, *, dpi='figure', format=None, metadata=None,\\n                  bbox_inches=None, pad_inches=0.1,\\n                  facecolor='auto', edgecolor='auto',\\n                  backend=None, **kwargs\\n                 )\\n\\n        The available output formats depend on the backend being used.\\n\\n        Parameters\\n        ----------\\n        fname : str or path-like or binary file-like\\n            A path, or a Python file-like object, or\\n            possibly some backend-dependent object such as\\n            `matplotlib.backends.backend_pdf.PdfPages`.\\n\\n            If *format* is set, it determines the output format, and the file\\n            is saved as *fname*.  Note that *fname* is used verbatim, and there\\n            is no attempt to make the extension, if any, of *fname* match\\n            *format*, and no extension is appended.\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_2o5zy0uv0",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The root of the bug is that GridSpec was ignoring its own `self.wspace`/`self.hspace` and always pulling from the figure\u2019s SubplotParams. The change in `gridspec.py` correctly switches to use `self.wspace` and `self.hspace` when they are not `None`, which would honor the values passed to `Figure.subfigures`. However, the companion change in `figure.py` introduces a reference to `plt.rcParams` without importing `plt` (the module\u2010level namespace in `figure.py` does not include `matplotlib.pyplot as plt`), so it will raise a `NameError`. Moreover, that defaulting to `plt.rcParams` at the callsite is redundant (GridSpec already falls back on SubplotParams, which themselves default from rcParams). Because of the missing import and unneeded complexity, the patch as given is not correct and precise.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

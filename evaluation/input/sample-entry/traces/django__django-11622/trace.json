@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (unhelpful TypeError when invalid data is passed to numeric fields) and the desired outcome (display the field name in the exception). While implementation details (exact exception type, message format, and which methods to patch) are not spelled out, a Django core contributor can reasonably infer that the change belongs in the Field.to_python() or related casting logic for AutoField/FloatField/IntegerField. This is sufficient for a meaningful attempt at a solution."
+}

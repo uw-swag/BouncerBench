@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes the current workflow (setting sys.argv, calling run_pyreverse, catching SystemExit) and the desired API (a pylint.pyreverse() function with named parameters). While the exact implementation details (e.g. how output constants like pylint.PNG are defined) aren\u2019t spelled out, there\u2019s a clear, sensible interpretation of what\u2019s needed: add a new entry-point wrapper to pyreverse. This makes the issue reasonably specified for an implementer to proceed."
+}

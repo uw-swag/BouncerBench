@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what changed (the implicit use of the request variable in admin templates), why it needs documenting, and where those changes should go (release notes with a deprecation warning, admin docs, and a system check warning). While you\u2019ll need to locate the exact files/sections in the codebase, the scope and requirements are sufficiently laid out to author a PR."
+}

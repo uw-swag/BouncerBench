@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives reproducible code, shows the current (undesired) output and clearly implies the desired behaviour (i.e. add parentheses around a negated MatrixSymbol in a product). It\u2019s evident where in the LaTeX printer the change must go. This is well\u2010specified."
+}

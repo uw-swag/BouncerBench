@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the failure of decompogen on Min/Max, provides a before-and-after example (input and expected output), and specifies that Min/Max support should be added. There\u2019s enough detail (error trace, desired behavior) to implement and test a solution."
+}

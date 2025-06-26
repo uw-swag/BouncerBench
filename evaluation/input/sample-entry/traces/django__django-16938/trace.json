@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example (models, custom manager, serialization call), the exact exception and stack trace, and a clear description of the undesired behavior (select_related in the custom manager colliding with the serializers\u2019 use of only()/deferred fields). A developer has enough information to reproduce and diagnose the issue or propose a fix, so it is well-specified."
+}

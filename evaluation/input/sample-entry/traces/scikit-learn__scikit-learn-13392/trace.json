@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (add a common multi-output test for classifiers and regressors that support it) and points to where the redundant tests must be removed, with an example snippet. While it doesn\u2019t list every estimator or exact test file to modify, it provides enough context (link to prior discussion, example code, expected behavior) for an experienced engineer to implement and integrate the new common test suite. Hence it is reasonably specified."
+}

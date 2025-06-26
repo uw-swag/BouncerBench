@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states that when using `junit_family=xunit2` pytest still emits the legacy single-<testsuite> XML without the wrapping `<testsuites>` root element. It provides sample output and describes exactly what\u2019s wrong. An engineer familiar with pytest\u2019s junitxml plugin can infer that the xunit2 reporter must be changed to wrap its output in `<testsuites>\u2026</testsuites>`. Although the exact attribute values on the new root aren\u2019t spelled out, it\u2019s a small, well-known adjustment mirroring the existing legacy behavior. Thus, it\u2019s reasonably specified for a PR."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (pylint\u2019s --fail-under swallows other non-zero statuses) and the desired feature (an option, e.g. --fail-on, to trigger failure on specific issue codes or categories). While some implementation details (exact CLI syntax, exit codes) aren\u2019t rigidly defined, the overall goal and behavior are unambiguous. A developer can reasonably interpret and implement the requested option."
+}

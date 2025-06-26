@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states that nested floor/ceiling calls aren\u2019t fully simplified, shows a tiny REPL snippet, but gives no context (which system/language/library, where in the code, expected output vs. actual) or clear specification of the change required. There\u2019s not enough detail on the environment, API, or desired behavior to attempt a meaningful fix."
+}

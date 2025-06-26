@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the environment (Django 3.1, ASGI/uvicorn), the exact behavior observed (first middleware\u2019s process_response sees a coroutine, downstream ones see HttpResponse), and provides minimal reproducible steps. The expected versus actual behavior is unambiguous, so you can craft a fix or deeper investigation based on this description."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the bug (PEP 585 generics not rendering), how to reproduce it, the expected behavior, the relevant source file and lines, and even suggests a concrete fix. All information needed to implement and verify the solution is provided."
+}

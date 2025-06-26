@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear repro (code + screenshot) and a concise description of the problem (Singularity function powers mis-printing in the qtconsole), but doesn\u2019t explicitly state the expected versus actual output in text or mention versions of Sympy/qtconsole. You can make a sensible fix (tweak the printing routines) but you\u2019d have to infer some details. Hence it\u2019s reasonably specified rather than fully self-contained."
+}

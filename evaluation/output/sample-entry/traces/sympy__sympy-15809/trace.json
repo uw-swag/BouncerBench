@@ -1,0 +1,51 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/functions/elementary/miscellaneous.py b/sympy/functions/elementary/miscellaneous.py\nindex 5f9fe73c5c..94e855c335 100644\n--- a/sympy/functions/elementary/miscellaneous.py\n+++ b/sympy/functions/elementary/miscellaneous.py\n@@ -340,7 +340,8 @@ def real_root(arg, n=None, evaluate=None):\n class MinMaxBase(Expr, LatticeOp):\n     def __new__(cls, *args, **assumptions):\n         if not args:\n-            raise ValueError(\"The Max/Min functions must have arguments.\")\n+            from sympy import oo\n+            return -oo if cls == Max else oo\n \n         args = (sympify(arg) for arg in args)\n \ndiff --git a/sympy/functions/elementary/tests/test_miscellaneous.py b/sympy/functions/elementary/tests/test_miscellaneous.py\nindex 00dc946005..eadf1e3ea6 100644\n--- a/sympy/functions/elementary/tests/test_miscellaneous.py\n+++ b/sympy/functions/elementary/tests/test_miscellaneous.py\n@@ -18,6 +18,7 @@\n \n def test_Min():\n     from sympy.abc import x, y, z\n+    from sympy.core.numbers import oo\n     n = Symbol('n', negative=True)\n     n_ = Symbol('n_', negative=True)\n     nn = Symbol('nn', nonnegative=True)\n@@ -85,7 +86,9 @@ def test_Min():\n     assert Min(p, p_).func is Min\n \n     # lists\n-    raises(ValueError, lambda: Min())\n+    # Test zero-argument case\n+    from sympy import oo\n+    assert Min() == oo  # empty Min returns infinity\n     assert Min(x, y) == Min(y, x)\n     assert Min(x, y, z) == Min(z, y, x)\n     assert Min(x, Min(y, z)) == Min(z, y, x)\n@@ -142,6 +145,7 @@ def test_Min():\n \n def test_Max():\n     from sympy.abc import x, y, z\n+    from sympy.core.numbers import oo\n     n = Symbol('n', negative=True)\n     n_ = Symbol('n_', negative=True)\n     nn = Symbol('nn', nonnegative=True)\n@@ -156,7 +160,9 @@ def test_Max():\n \n     # lists\n \n-    raises(ValueError, lambda: Max())\n+    # Test zero-argument case\n+    from sympy import oo\n+    assert Max() == -oo  # empty Max returns negative infinity\n     assert Max(x, y) == Max(y, x)\n     assert Max(x, y, z) == Max(z, y, x)\n     assert Max(x, Max(y, z)) == Max(z, y, x)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nZero-argument Min() and Max()\nRight now `Min()` and `Max()` with no arguments raise `ValueError: The Max/Min functions must have arguments.`. It might be mathematically more convenient to have them return `oo` and `-oo`, respectively. See https://en.wikipedia.org/wiki/Empty_set#Extended_real_numbers for why these are valid answers mathematically. \n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_1pvpran2h",
+    "status": "completed",
+    "call_id": "call_HAZmUiCvJgCdatHV00lAZdOp",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '300,360p' sympy/functions/elementary/miscellaneous.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_HAZmUiCvJgCdatHV00lAZdOp",
+    "output": "{\"output\":\"    -2\\n\\n    If one creates a non-principal root and applies real_root, the\\n    result will not be real (so use with caution):\\n\\n    >>> root(-8, 3, 2)\\n    -2*(-1)**(2/3)\\n    >>> real_root(_)\\n    -2*(-1)**(2/3)\\n\\n\\n    See Also\\n    ========\\n\\n    sympy.polys.rootoftools.rootof\\n    sympy.core.power.integer_nthroot\\n    root, sqrt\\n    \\\"\\\"\\\"\\n    from sympy.functions.elementary.complexes import Abs, im, sign\\n    from sympy.functions.elementary.piecewise import Piecewise\\n    if n is not None:\\n        return Piecewise(\\n            (root(arg, n, evaluate=evaluate), Or(Eq(n, S.One), Eq(n, S.NegativeOne))),\\n            (Mul(sign(arg), root(Abs(arg), n, evaluate=evaluate), evaluate=evaluate),\\n            And(Eq(im(arg), S.Zero), Eq(Mod(n, 2), S.One))),\\n            (root(arg, n, evaluate=evaluate), True))\\n    rv = sympify(arg)\\n    n1pow = Transform(lambda x: -(-x.base)**x.exp,\\n                      lambda x:\\n                      x.is_Pow and\\n                      x.base.is_negative and\\n                      x.exp.is_Rational and\\n                      x.exp.p == 1 and x.exp.q % 2)\\n    return rv.xreplace(n1pow)\\n\\n###############################################################################\\n############################# MINIMUM and MAXIMUM #############################\\n###############################################################################\\n\\n\\nclass MinMaxBase(Expr, LatticeOp):\\n    def __new__(cls, *args, **assumptions):\\n        if not args:\\n            raise ValueError(\\\"The Max/Min functions must have arguments.\\\")\\n\\n        args = (sympify(arg) for arg in args)\\n\\n        # first standard filter, for cls.zero and cls.identity\\n        # also reshape Max(a, Max(b, c)) to Max(a, b, c)\\n        try:\\n            args = frozenset(cls._new_args_filter(args))\\n        except ShortCircuit:\\n            return cls.zero\\n\\n        if assumptions.pop('evaluate', True):\\n            # remove redundant args that are easily identified\\n            args = cls._collapse_arguments(args, **assumptions)\\n\\n        # find local zeros\\n        args = cls._find_localzeros(args, **assumptions)\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_tiyd73br7",
+    "status": "completed",
+    "call_id": "call_jLoxX3pdD6CLBVmi0WfmsR3t",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class Max\\\" -n sympy/functions/elementary/miscellaneous.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_jLoxX3pdD6CLBVmi0WfmsR3t",
+    "output": "{\"output\":\"645:class Max(MinMaxBase, Application):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_abdjqha1w",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch replaces the ValueError on empty arguments by returning +\u221e for Min and \u2013\u221e for Max, matching the mathematical convention in the issue. It only changes the one branch and adds matching tests, with no extraneous modifications. Name lookup for Max works at runtime, so the cls check is sound. The tests correctly assert Min()==oo and Max()==-oo. Thus it precisely fixes the reported behavior and adds the minimal necessary tests.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

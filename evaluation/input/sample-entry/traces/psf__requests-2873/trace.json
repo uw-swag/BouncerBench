@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a concrete reproduction (code that hangs), a clear expected result (get a 405 error), and even points out the one-line workaround (seeking back to zero). While it doesn\u2019t spell out exactly which patch to make, there\u2019s a straightforward, sensible fix\u2014automatically rewind seekable file-like bodies to 0 or compute a content-length\u2014so an engineer can write a test and implement the change. Hence it\u2019s reasonably specified."
+}

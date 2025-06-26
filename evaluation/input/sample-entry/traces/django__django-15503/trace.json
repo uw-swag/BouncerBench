@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear problem statement, a minimal reproducible example (model, test case, expected vs. actual output), versions and backends tested, and a precise description of the lookup methods to fix. It\u2019s straightforward to write a PR to make numeric JSON keys work on the mentioned backends."
+}

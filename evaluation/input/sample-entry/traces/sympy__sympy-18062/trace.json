@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints a clear and reproducible bug: calling imageset on a Lambda with a constant plus I*n drops the constant term. It shows the input, actual output, and the intended behavior (i.e. retaining the constant). This is sufficient to write and test a fix, so it is well-specified."
+}

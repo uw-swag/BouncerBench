@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unexpected failure: transforming an empty list on a string\u2010fitted LabelEncoder raises a TypeError, while it should simply return an empty array. It includes environment details, minimal repro code, the stack trace, and the expected behavior. There is no guesswork about what needs to be done (e.g. add a special empty\u2010input case in transform)."
+}

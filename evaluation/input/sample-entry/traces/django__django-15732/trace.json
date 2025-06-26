@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the erroneous unique_together on the PK, shows the resulting duplicate unique constraints, and specifies the database. While it omits exact Django/migration versions and model code, there\u2019s enough context to sensibly interpret the fix needed (adjust migration constraint-dropping logic or ignore PKs)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducible example, a clear description of the expected behavior (a working roundtrip of stack/unstack on single-dim variables), and the actual error message. It\u2019s straightforward to reproduce and to know when it\u2019s fixed, so it\u2019s well-specified."
+}

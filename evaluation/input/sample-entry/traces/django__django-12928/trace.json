@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly spells out the feature request (add an `autoreload` flag alongside `cache_templates` in the TEMPLATES settings, defaulting to DEBUG, so that template changes flush the cache without restarting the server) and even points to a related patch (#25788) for guidance. While you\u2019d still need to fill in the implementation details in the template\u2010loader code (file\u2010watching, cache\u2010clearing logic, tests, etc.), the overall goal and API are unambiguous and actionable."
+}

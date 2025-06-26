@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that Quantity instances don\u2019t currently accept the `where` argument in their `.mean` (and related reduction) methods, identifies the NumPy version where `where` was introduced, and proposes adding support. While it doesn\u2019t lay out exact implementation details or tests, the request and desired behavior are unambiguous and provide enough context for a developer to begin work. Hence it is reasonably specified."
+}

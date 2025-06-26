@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly lays out the bug (Python\u2019s `re` engine chokes on `\\p{Han}` in the configured regex), shows reproducing steps, config, error trace, expected behavior, and environment. While it doesn\u2019t prescribe exactly how to implement support (e.g. swapping to the `regex` module or custom parsing), it\u2019s unambiguous what a successful fix must do: allow Unicode property escapes in Pylint\u2019s regex settings without throwing. Thus there\u2019s enough here to craft a PR."
+}

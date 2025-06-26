@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the root problem (positional args misuse), proposes the exact signature change (adding a keyword-only \u2018*\u2019), and justifies why. While it doesn\u2019t spell out every doc/test update or deprecation timeline, there\u2019s enough detail to start implementing the new keyword-only signature, add appropriate warnings or deprecation notes, and update documentation. That makes it reasonably specified for a meaningful PR."
+}

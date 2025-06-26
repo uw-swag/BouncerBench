@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes exact code snippets, the observed (wrong) behavior, what they tried (simplify, powsimp, powdenest, local_dict, transformations), and the precise desired outcome (expr1 - expr2 \u2192 0).  It\u2019s clear what needs to be fixed and tested. "
+}

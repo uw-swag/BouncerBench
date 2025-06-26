@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducer, the exact error, environment (main branch), and the user\u2019s intent (consistent kwarg support or a clearer error). It\u2019s clear what\u2019s broken and why, and there\u2019s a sensible fix (either alias which\u2192minor or improve the error message). Some details (exact expected signature change) are left to implementation judgment, but the scope is well bounded."
+}

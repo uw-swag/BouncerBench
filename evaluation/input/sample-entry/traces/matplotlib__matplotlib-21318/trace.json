@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the error, provides minimal reproducible code, the differing behavior between versions, the expected vs actual outcome, and environment details. A developer can directly attempt a fix or workaround based on this information."
+}

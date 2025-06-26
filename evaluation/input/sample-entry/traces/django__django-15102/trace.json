@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly describes the problem (startproject copies all permission bits, ignoring the user\u2019s umask), gives reproduction steps and the failure scenario, and states the desired behavior (honor the umask when creating project files). A developer can reasonably locate the file-creation logic in startproject and adjust it to respect umask. Thus it\u2019s well-specified."
+}

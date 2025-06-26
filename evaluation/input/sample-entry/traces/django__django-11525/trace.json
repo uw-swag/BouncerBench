@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the broken behavior (passing a list of email strings instead of (name, email) tuples), the desired change (validate and raise an early error when ADMINS/MANAGERS is mis-formatted), and the context (mail_admins/mail_managers). While it doesn\u2019t call out the exact exception class or tests, the intended format and point of failure are clear enough to implement a fix following existing conventions (e.g. raising ImproperlyConfigured)."
+}

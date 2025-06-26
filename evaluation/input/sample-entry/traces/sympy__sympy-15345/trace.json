@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the function in question (`mathematica_code`), gives a minimal reproducible example, shows the incorrect and desired outputs, and specifies the change needed (use square brackets and preserve argument order). A developer can directly write a test and implement the fix, so the issue is well-specified."
+}

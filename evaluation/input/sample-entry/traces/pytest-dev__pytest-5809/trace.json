@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the failing behavior (400 Bad Request), reproduces it with a data file, points to the exact code that sets `lexer='python3'`, and even suggests switching to `lexer='text'` as the correct fix. There\u2019s no ambiguity about what change is needed for a successful solution."
+}

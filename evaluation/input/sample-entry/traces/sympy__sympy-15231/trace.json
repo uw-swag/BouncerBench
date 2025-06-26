@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducible example, full error output, and the generated Fortran code showing the duplicate Mod declarations. The root cause is clearly identified and all information needed to propose a fix in the autowrap code generator is present."
+}

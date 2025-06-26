@@ -1,0 +1,41 @@
+{
+  "input": "The issue clearly states the expected behavior (log level restored after test), shows a minimal reproducible example, references the relevant documentation, and contrasts the behavior between versions. It\u2019s obvious what needs to be fixed.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/src/_pytest/logging.py b/src/_pytest/logging.py\nindex 11031f2f2..630a6213e 100644\n--- a/src/_pytest/logging.py\n+++ b/src/_pytest/logging.py\n@@ -346,6 +346,8 @@ class LogCaptureFixture:\n         self._item = item\n         # dict of log name -> log level\n         self._initial_logger_levels = {}  # type: Dict[Optional[str], int]\n+        self._initial_root_level = logging.getLogger().level\n+        self._initial_handler_level = None\n \n     def _finalize(self) -> None:\n         \"\"\"Finalizes the fixture.\n@@ -356,6 +358,13 @@ class LogCaptureFixture:\n         for logger_name, level in self._initial_logger_levels.items():\n             logger = logging.getLogger(logger_name)\n             logger.setLevel(level)\n+        \n+        # restore root logger level\n+        logging.getLogger().setLevel(self._initial_root_level)\n+        \n+        # restore handler level\n+        if self._initial_handler_level is not None:\n+            self.handler.setLevel(self._initial_handler_level)\n \n     @property\n     def handler(self) -> LogCaptureHandler:\n@@ -434,6 +443,9 @@ class LogCaptureFixture:\n         # save the original log-level to restore it during teardown\n         self._initial_logger_levels.setdefault(logger, logger_obj.level)\n         logger_obj.setLevel(level)\n+        \n+        if self._initial_handler_level is None:\n+            self._initial_handler_level = self.handler.level\n         self.handler.setLevel(level)\n \n     @contextmanager\ndiff --git a/testing/test_logging_levels.py b/testing/test_logging_levels.py\nnew file mode 100644\nindex 000000000..a98d7d165\n--- /dev/null\n+++ b/testing/test_logging_levels.py\n@@ -0,0 +1,24 @@\n+import logging\n+import pytest\n+\n+def test_set_level(caplog):\n+    caplog.set_level(logging.DEBUG)\n+    logging.debug('This is a debug message')\n+    assert len(caplog.records) == 1\n+    assert caplog.records[0].levelno == logging.DEBUG\n+\n+def test_level_restored(caplog):\n+    assert caplog.handler.level == logging.NOTSET\n+    logging.debug('This is a debug message')\n+    assert len(caplog.records) == 0\n+\n+def test_root_logger_level_restored():\n+    assert logging.getLogger().level == logging.WARNING\n+\n+@pytest.fixture(autouse=True)\n+def _check_levels(request):\n+    previous_level = logging.getLogger().level\n+    yield\n+    current_level = logging.getLogger().level\n+    assert previous_level == current_level, f'Root logger level changed from {previous_level} to {current_level}'\n+\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ncaplog fixture doesn't restore log level after test\nFrom the documentation at https://docs.pytest.org/en/6.0.0/logging.html#caplog-fixture, \"The log levels set are restored automatically at the end of the test\".\r\nIt used to work, but looks broken in new 6.0 release. Minimal example to reproduce:\r\n\r\n```\r\ndef test_foo(caplog):\r\n    caplog.set_level(42)\r\n\r\ndef test_bar(caplog):\r\n    print(caplog.handler.level)\r\n```\r\n\r\nIt prints \"0\" for pytest<6, \"42\" after.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_5vz5hbu4v",
+      "status": "completed",
+      "call_id": "call_X7MvKmCAYWwsxxVR4XbbkRIa",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def set_level\\\" -n src/_pytest/logging.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_X7MvKmCAYWwsxxVR4XbbkRIa",
+      "output": "{\"output\":\"422:    def set_level(self, level: Union[int, str], logger: Optional[str] = None) -> None:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_pdln9374x",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch hooks into the caplog fixture\u2019s teardown to save and then restore both the root\u2010logger\u2019s level and the caplog handler\u2019s original level. It captures the root logger level at fixture setup, captures the handler\u2019s level on first set_level call, and then restores both in _finalize. That directly fixes the bug (where caplog.set_level was leaking across tests) without touching unrelated code. The added tests also explicitly verify both handler and root logger levels are reset. No extraneous changes are made.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

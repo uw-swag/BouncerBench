@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear motivation, a concrete description of what\u2019s wrong with the current implementation, and even a working code sketch (with tests) of the proposed transforms. The desired API changes (ITRS\u2194AltAz/HADec staying in ITRS, adopting output obstime, topocentric offset, etc.) are unambiguous. It\u2019s straightforward to spin this up into a PR, add optional refraction, integrate into Astropy\u2019s transform graph, and update documentation and tests."
+}

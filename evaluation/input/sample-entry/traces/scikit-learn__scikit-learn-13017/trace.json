@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal, reproducible example, clear description of current vs expected behavior, and an unambiguous requirement (either error on negative indices or treat them the same as positive). This is well\u2010specified for a PR to fix the handling of negative column indices in ColumnTransformer."
+}

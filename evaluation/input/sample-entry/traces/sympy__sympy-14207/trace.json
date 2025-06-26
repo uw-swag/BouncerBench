@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducer, clear description of expected vs. actual output, the Sympy version, and identifies exactly where (print_Mul and codegen printers) the fix should go. There\u2019s enough detail to start writing a patch to add parentheses around a Mul base when it\u2019s raised to a negative power, so a meaningful solution can be attempted without further clarification."
+}

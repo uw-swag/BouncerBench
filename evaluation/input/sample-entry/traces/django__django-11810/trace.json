@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a minimal, reproducible example (models, test code, console output), describes the expected vs. actual behavior, and even points to the underlying clone mechanism. It\u2019s clear what needs to be fixed (make select_related/prefetch_related truly immutable), so it\u2019s well-specified."
+}

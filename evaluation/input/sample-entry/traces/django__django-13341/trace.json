@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes the problem and desired change (stop auto-injecting URL kwargs, and remove the SimpleLazyObject issue), but it doesn\u2019t specify exactly how TemplateView.get_context_data should be modified (e.g. drop .update(self.kwargs) entirely, or cast values, and how to handle backwards compatibility). That leaves too much ambiguity for a clear PR."
+}

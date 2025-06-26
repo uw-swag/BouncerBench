@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (TransformedTargetRegressor cannot accept sample_weight when its regressor is a Pipeline), provides a minimal reproducible example, shows the expected vs. actual behavior, and lists the relevant versions. There\u2019s no ambiguity about what needs to be fixed (forwarding sample_weight into a Pipeline\u2019s final estimator without causing the split error)."
+}

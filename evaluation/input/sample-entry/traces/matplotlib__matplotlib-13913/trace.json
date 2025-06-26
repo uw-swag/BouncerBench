@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, a minimal reproducible example, the observed versus expected behavior, and environment details. It\u2019s straightforward to implement a fix in `is_color_like`\u2014e.g. reject numeric strings outside [0,1]\u2014making the issue well specified."
+}

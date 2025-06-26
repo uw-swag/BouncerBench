@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the current (incorrect) behavior, the expected parity semantics, shows repro examples, and even points to the fallback SQL path introduced in a specific PR. It\u2019s obvious what code needs changing (the XOR fallback logic for more than two Q objects), so this is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies an inconsistency in QuerySet.delete\u2019s return format when zero rows are deleted, but it doesn\u2019t specify which behavior is the desired standard (always empty dict vs. always include zero\u2010valued model keys). It also omits details like Django version and where exactly to change the code. Without a clear specification of the intended behavior and implementation context, it\u2019s not well enough defined to implement a fix."
+}

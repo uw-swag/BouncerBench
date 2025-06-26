@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (ISO-8601 datetimes with spaces before timezone), gives examples, points to the exact code location in django.utils.dateparse, and even suggests two concrete solution paths (use python-dateutil or inline parsing). While implementation details (exact regex change vs. dependency) are left to the author, there\u2019s enough context to craft a meaningful pull request."
+}

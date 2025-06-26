@@ -1,0 +1,38 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py\nindex f52e4902f3..467bc51397 100644\n--- a/django/db/models/sql/query.py\n+++ b/django/db/models/sql/query.py\n@@ -1073,7 +1073,7 @@\n                         ))\n                 else:\n                     resolved_values.append(sub_value)\n-            value = tuple(resolved_values)\n+            value = type(value)(resolved_values)\n         return value\n \n     def solve_lookup_type(self, lookup):\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nQuery.resolve_lookup_value coerces value of type list to tuple\nDescription\n\t\nChanges introduced in #30687 cause an input value list to be coerced to tuple breaking exact value queries. This affects ORM field types that are dependent on matching input types such as PickledField.\nThe expected iterable return type should match input iterable type.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_i2npgqfcv",
+    "status": "completed",
+    "call_id": "call_ToDB5KupJrRah89bsbceg9ma",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1030,1100p' django/db/models/sql/query.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_ToDB5KupJrRah89bsbceg9ma",
+    "output": "{\"output\":\"        clone.where.resolve_expression(query, *args, **kwargs)\\n        for key, value in clone.annotations.items():\\n            resolved = value.resolve_expression(query, *args, **kwargs)\\n            if hasattr(resolved, 'external_aliases'):\\n                resolved.external_aliases.update(clone.alias_map)\\n            clone.annotations[key] = resolved\\n        # Outer query's aliases are considered external.\\n        clone.external_aliases.update(\\n            alias for alias, table in query.alias_map.items()\\n            if (\\n                isinstance(table, Join) and table.join_field.related_model._meta.db_table != alias\\n            ) or (\\n                isinstance(table, BaseTable) and table.table_name != table.table_alias\\n            )\\n        )\\n        return clone\\n\\n    def as_sql(self, compiler, connection):\\n        sql, params = self.get_compiler(connection=connection).as_sql()\\n        if self.subquery:\\n            sql = '(%s)' % sql\\n        return sql, params\\n\\n    def resolve_lookup_value(self, value, can_reuse, allow_joins, simple_col):\\n        if hasattr(value, 'resolve_expression'):\\n            kwargs = {'reuse': can_reuse, 'allow_joins': allow_joins}\\n            if isinstance(value, F):\\n                kwargs['simple_col'] = simple_col\\n            value = value.resolve_expression(self, **kwargs)\\n        elif isinstance(value, (list, tuple)):\\n            # The items of the iterable may be expressions and therefore need\\n            # to be resolved independently.\\n            resolved_values = []\\n            for sub_value in value:\\n                if hasattr(sub_value, 'resolve_expression'):\\n                    if isinstance(sub_value, F):\\n                        resolved_values.append(sub_value.resolve_expression(\\n                            self, reuse=can_reuse, allow_joins=allow_joins,\\n                            simple_col=simple_col,\\n                        ))\\n                    else:\\n                        resolved_values.append(sub_value.resolve_expression(\\n                            self, reuse=can_reuse, allow_joins=allow_joins,\\n                        ))\\n                else:\\n                    resolved_values.append(sub_value)\\n            value = tuple(resolved_values)\\n        return value\\n\\n    def solve_lookup_type(self, lookup):\\n        \\\"\\\"\\\"\\n        Solve the lookup type from the lookup (e.g.: 'foobar__id__icontains').\\n        \\\"\\\"\\\"\\n        lookup_splitted = lookup.split(LOOKUP_SEP)\\n        if self.annotations:\\n            expression, expression_lookups = refs_expression(lookup_splitted, self.annotations)\\n            if expression:\\n                return expression_lookups, (), expression\\n        _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())\\n        field_parts = lookup_splitted[0:len(lookup_splitted) - len(lookup_parts)]\\n        if len(lookup_parts) > 1 and not field_parts:\\n            raise FieldError(\\n                'Invalid lookup \\\"%s\\\" for model %s\\\".' %\\n                (lookup, self.get_meta().model.__name__)\\n            )\\n        return lookup_parts, field_parts, False\\n\\n    def check_query_object_type(self, value, opts, field):\\n        \\\"\\\"\\\"\\n        Check whether the object passed while querying is of the correct type.\\n        If not, raise a ValueError specifying the wrong object.\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_0pjoohfgn",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The change replaces the hard\u2010coded tuple coercion with type(value)(resolved_values), so a list input yields a list and a tuple input yields a tuple. This exactly preserves the caller\u2019s original iterable type, fixing the PickledField use case without touching any unrelated logic. It\u2019s minimal and on point.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

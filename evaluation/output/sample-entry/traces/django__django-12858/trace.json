@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py\nindex bb230647eb..494f1d7a0f 100644\n--- a/django/db/models/sql/query.py\n+++ b/django/db/models/sql/query.py\n@@ -1912,8 +1912,13 @@ class Query(BaseExpression):\n                 if self.extra and item in self.extra:\n                     continue\n                 # names_to_path() validates the lookup. A descriptive\n-                # FieldError will be raise if it's not.\n-                self.names_to_path(item.split(LOOKUP_SEP), self.model._meta)\n+                # FieldError will be raised if it's not.\n+                try:\n+                    self.names_to_path(item.split(LOOKUP_SEP), self.model._meta)\n+                except FieldError:\n+                    if '__' in item:\n+                        continue\n+                    raise\n             elif not hasattr(item, 'resolve_expression'):\n                 errors.append(item)\n             if getattr(item, 'contains_aggregate', False):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nmodels.E015 is raised when ordering uses lookups that are not transforms.\nDescription\n\t\n./manage.py check\nSystemCheckError: System check identified some issues:\nERRORS:\napp.Stock: (models.E015) 'ordering' refers to the nonexistent field, related field, or lookup 'supply__product__parent__isnull'.\nHowever this ordering works fine:\n>>> list(Stock.objects.order_by('supply__product__parent__isnull').values_list('pk', flat=True)[:5])\n[1292, 1293, 1300, 1295, 1294]\n>>> list(Stock.objects.order_by('-supply__product__parent__isnull').values_list('pk', flat=True)[:5])\n[108, 109, 110, 23, 107]\nI believe it was fine until #29408 was implemented.\nStock.supply is a foreign key to Supply, Supply.product is a foreign key to Product, Product.parent is a ForeignKey('self', models.CASCADE, null=True)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_b6jvva5j1",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch blindly silences any FieldError on \u201cfoo__bar\u201d style names (any name containing \u201c__\u201d), not just valid lookup transforms like \u201cisnull\u201d. This lets truly invalid multi\u2010part lookups slip through unreported, which is broader than the intent of only allowing specific lookups in ordering. Hence it misses key validation aspects.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

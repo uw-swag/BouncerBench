@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducer, explicit steps, stack trace, and environment details. The failure mode (UnicodeDecodeError reading setup.py under C locale) is clear, and the intended behavior (no decode error, handle UTF-8) is obvious. Enough information is provided to craft a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report is just a high-level feature request to add sample weights to KDE, with no details about API design, normalization behavior, documentation, or integration points. It\u2019s unclear exactly how the weight parameter should work or where it should live, so the ticket is too vague for a concrete implementation effort."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter clearly describes the problem (silent drop of non-concrete update_fields), points at the exact code paths in Django\u2019s Model.save(), and even suggests a specific fix (raise an error when update_fields includes a non-concrete field).  There\u2019s no ambiguity about the expected behavior or where to implement it, so this is well specified for a meaningful PR."
+}

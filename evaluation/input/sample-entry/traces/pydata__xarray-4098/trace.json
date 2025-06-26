@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description is just a one-line statement with no context, examples, or details about current behavior vs desired behavior. It\u2019s unclear what \u2018groupby should work with name=None\u2019 means or which API it refers to, so it\u2019s too vague to implement."
+}

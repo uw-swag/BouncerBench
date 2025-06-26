@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/solvers/diophantine.py b/sympy/solvers/diophantine.py\nindex 6092e35dab..d982350283 100644\n--- a/sympy/solvers/diophantine.py\n+++ b/sympy/solvers/diophantine.py\n@@ -180,9 +180,24 @@ def diophantine(eq, param=symbols(\"t\", integer=True), syms=None,\n                     'syms should be given as a sequence, e.g. a list')\n             syms = [i for i in syms if i in var]\n             if syms != var:\n-                dict_sym_index = dict(zip(syms, range(len(syms))))\n-                return {tuple([t[dict_sym_index[i]] for i in var])\n-                            for t in diophantine(eq, param)}\n+                # Get solution in default order\n+                base_sol = diophantine(eq, param=param, permute=permute)\n+                \n+                # Create mapping from default order to requested order\n+                var_to_idx = dict(zip(var, range(len(var))))\n+                sym_to_idx = dict(zip(syms, range(len(syms))))\n+                \n+                # For each solution tuple, create a new tuple with variables in requested order\n+                result = set()\n+                for sol in base_sol:\n+                    # Create new tuple in requested order\n+                    new_sol = [None] * len(sol)\n+                    for i, s in enumerate(syms):\n+                        # Find the original variable's index\n+                        orig_idx = var.index(s)\n+                        new_sol[i] = sol[orig_idx]\n+                    result.add(tuple(new_sol))\n+                return result\n         n, d = eq.as_numer_denom()\n         if n.is_number:\n             return set()\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ndiophantine: incomplete results depending on syms order with permute=True\n```\r\nIn [10]: diophantine(n**4 + m**4 - 2**4 - 3**4, syms=(m,n), permute=True)\r\nOut[10]: {(-3, -2), (-3, 2), (-2, -3), (-2, 3), (2, -3), (2, 3), (3, -2), (3, 2)}\r\n\r\nIn [11]: diophantine(n**4 + m**4 - 2**4 - 3**4, syms=(n,m), permute=True)\r\nOut[11]: {(3, 2)}\r\n```\r\n\ndiophantine: incomplete results depending on syms order with permute=True\n```\r\nIn [10]: diophantine(n**4 + m**4 - 2**4 - 3**4, syms=(m,n), permute=True)\r\nOut[10]: {(-3, -2), (-3, 2), (-2, -3), (-2, 3), (2, -3), (2, 3), (3, -2), (3, 2)}\r\n\r\nIn [11]: diophantine(n**4 + m**4 - 2**4 - 3**4, syms=(n,m), permute=True)\r\nOut[11]: {(3, 2)}\r\n```\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_7hbs0aadi",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe original code dropped the `permute=True` flag when you passed a custom symbol ordering, so calling\n`diophantine(..., syms=(n,m), permute=True)` would only generate the default non\u2010permuted solutions before reordering. The patch fixes this by\n\n\u2022 Recursively calling `diophantine` with the same `permute` argument  \n\u2022 Receiving the full set of permuted solutions in the default order  \n\u2022 Re\u2010indexing each solution tuple into the user\u2019s requested `syms` order  \n\nIt makes no unnecessary changes and correctly restores the full solution set for any symbol ordering.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

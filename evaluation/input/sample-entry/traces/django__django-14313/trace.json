@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproduction (models, admin configuration), clear steps to reproduce, the exact error traceback, Django version details, and even a comparison of versions that work vs fail. This gives enough context to understand and address the bug in the admin delete action when using .distinct() via a many-to-many search field."
+}

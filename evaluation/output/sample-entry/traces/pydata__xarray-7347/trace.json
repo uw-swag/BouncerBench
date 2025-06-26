@@ -1,0 +1,298 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/xarray/core/coordinates.py b/xarray/core/coordinates.py\nindex 3a6b70f1..0407c8c1 100644\n--- a/xarray/core/coordinates.py\n+++ b/xarray/core/coordinates.py\n@@ -390,13 +390,17 @@ class DataArrayCoordinates(Coordinates[\"T_DataArray\"]):\n             raise ValueError(\n                 \"cannot add coordinates with new dimensions to a DataArray\"\n             )\n-        self._data._coords = coords\n-\n-        # TODO(shoyer): once ._indexes is always populated by a dict, modify\n-        # it to update inplace instead.\n-        original_indexes = dict(self._data.xindexes)\n-        original_indexes.update(indexes)\n-        self._data._indexes = original_indexes\n+        \n+        # Update only the specified coordinates while preserving others\n+        updated_coords = dict(self._data._coords)\n+        updated_coords.update(coords)\n+        self._data._coords = updated_coords\n+\n+        # Update only the specified indexes while preserving others\n+        if self._data._indexes is not None:\n+            original_indexes = dict(self._data.xindexes)\n+            original_indexes.update(indexes)\n+            self._data._indexes = original_indexes\n \n     def _maybe_drop_multiindex_coords(self, coords: set[Hashable]) -> None:\n         \"\"\"Drops variables in coords, and any associated variables as well.\"\"\"\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nassign_coords reset all dimension coords to default (pandas) index\n### What happened?\r\n\r\nSee https://github.com/martinfleis/xvec/issues/13#issue-1472023524\r\n\r\n### What did you expect to happen?\r\n\r\n`assign_coords()` should preserve the index of coordinates that are not updated or not part of a dropped multi-coordinate index.\r\n\r\n### Minimal Complete Verifiable Example\r\n\r\n\r\nSee https://github.com/martinfleis/xvec/issues/13#issue-1472023524\r\n\r\n\r\n\r\n### MVCE confirmation\r\n\r\n- [X] Minimal example \u2014 the example is as focused as reasonably possible to demonstrate the underlying issue in xarray.\r\n- [X] Complete example \u2014 the example is self-contained, including all data and the text of any traceback.\r\n- [X] Verifiable example \u2014 the example copy & pastes into an IPython prompt or [Binder notebook](https://mybinder.org/v2/gh/pydata/xarray/main?urlpath=lab/tree/doc/examples/blank_template.ipynb), returning the result.\r\n- [X] New issue \u2014 a search of GitHub Issues suggests this is not a duplicate.\r\n\r\n### Relevant log output\r\n\r\n_No response_\r\n\r\n### Anything else we need to know?\r\n\r\n_No response_\r\n\r\n### Environment\r\n\r\n<details>\r\nXarray version 2022.11.0\r\n\r\n\r\n</details>\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_d0adzfsj6",
+    "status": "completed",
+    "call_id": "call_UD4H6BmrelmoGM3QQNkC8A4k",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '350,430p' xarray/core/coordinates.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_UD4H6BmrelmoGM3QQNkC8A4k",
+    "output": "{\"output\":\"    dimensions and the values given by corresponding DataArray objects.\\n    \\\"\\\"\\\"\\n\\n    _data: T_DataArray\\n\\n    __slots__ = (\\\"_data\\\",)\\n\\n    def __init__(self, dataarray: T_DataArray) -> None:\\n        self._data = dataarray\\n\\n    @property\\n    def dims(self) -> tuple[Hashable, ...]:\\n        return self._data.dims\\n\\n    @property\\n    def dtypes(self) -> Frozen[Hashable, np.dtype]:\\n        \\\"\\\"\\\"Mapping from coordinate names to dtypes.\\n\\n        Cannot be modified directly, but is updated when adding new variables.\\n\\n        See Also\\n        --------\\n        DataArray.dtype\\n        \\\"\\\"\\\"\\n        return Frozen({n: v.dtype for n, v in self._data._coords.items()})\\n\\n    @property\\n    def _names(self) -> set[Hashable]:\\n        return set(self._data._coords)\\n\\n    def __getitem__(self, key: Hashable) -> T_DataArray:\\n        return self._data._getitem_coord(key)\\n\\n    def _update_coords(\\n        self, coords: dict[Hashable, Variable], indexes: Mapping[Any, Index]\\n    ) -> None:\\n        coords_plus_data = coords.copy()\\n        coords_plus_data[_THIS_ARRAY] = self._data.variable\\n        dims = calculate_dimensions(coords_plus_data)\\n        if not set(dims) <= set(self.dims):\\n            raise ValueError(\\n                \\\"cannot add coordinates with new dimensions to a DataArray\\\"\\n            )\\n        self._data._coords = coords\\n\\n        # TODO(shoyer): once ._indexes is always populated by a dict, modify\\n        # it to update inplace instead.\\n        original_indexes = dict(self._data.xindexes)\\n        original_indexes.update(indexes)\\n        self._data._indexes = original_indexes\\n\\n    def _maybe_drop_multiindex_coords(self, coords: set[Hashable]) -> None:\\n        \\\"\\\"\\\"Drops variables in coords, and any associated variables as well.\\\"\\\"\\\"\\n        variables, indexes = drop_coords(\\n            coords, self._data._coords, self._data.xindexes\\n        )\\n        self._data._coords = variables\\n        self._data._indexes = indexes\\n\\n    @property\\n    def variables(self):\\n        return Frozen(self._data._coords)\\n\\n    def to_dataset(self) -> Dataset:\\n        from .dataset import Dataset\\n\\n        coords = {k: v.copy(deep=False) for k, v in self._data._coords.items()}\\n        indexes = dict(self._data.xindexes)\\n        return Dataset._construct_direct(coords, set(coords), indexes=indexes)\\n\\n    def __delitem__(self, key: Hashable) -> None:\\n        if key not in self:\\n            raise KeyError(f\\\"{key!r} is not a coordinate variable.\\\")\\n        assert_no_index_corrupted(self._data.xindexes, {key})\\n\\n        del self._data._coords[key]\\n        if self._data._indexes is not None and key in self._data._indexes:\\n            del self._data._indexes[key]\\n\\n    def _ipython_key_completions_(self):\\n        \\\"\\\"\\\"Provide method for the key-autocompletions in IPython.\\\"\\\"\\\"\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_hdamz92mj",
+    "status": "completed",
+    "call_id": "call_N3INEm7B3WIRIGXMfZ0sqgI7",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"_indexes =\\\" -n xarray\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_N3INEm7B3WIRIGXMfZ0sqgI7",
+    "output": "{\"output\":\"xarray/core/computation.py:259:        merged_indexes = dict(unpacked_coords.xindexes)\\nxarray/core/computation.py:261:        merged_vars, merged_indexes = merge_coordinates_without_align(\\nxarray/core/computation.py:266:    output_indexes = []\\nxarray/core/computation.py:273:            filtered_indexes = filter_indexes_from_coords(\\nxarray/core/computation.py:278:            filtered_indexes = merged_indexes\\nxarray/core/computation.py:310:    result_coords, result_indexes = build_output_coords_and_indexes(\\nxarray/core/computation.py:475:    list_of_coords, list_of_indexes = build_output_coords_and_indexes(\\nxarray/core/coordinates.py:317:        original_indexes = dict(self._data.xindexes)\\nxarray/core/coordinates.py:319:        self._data._indexes = original_indexes\\nxarray/core/coordinates.py:329:        self._data._indexes = indexes\\nxarray/core/coordinates.py:397:        original_indexes = dict(self._data.xindexes)\\nxarray/core/coordinates.py:399:        self._data._indexes = original_indexes\\nxarray/core/coordinates.py:407:        self._data._indexes = indexes\\nxarray/core/coordinates.py:442:    new_indexes = dict(indexes.copy())\\nxarray/core/alignment.py:154:        self.objects_matching_indexes = ()\\nxarray/core/alignment.py:178:        self.all_indexes = {}\\nxarray/core/alignment.py:182:        self.aligned_indexes = {}\\nxarray/core/alignment.py:221:        normalized_indexes = {}\\nxarray/core/alignment.py:256:        all_indexes = defaultdict(list)\\nxarray/core/alignment.py:259:        objects_matching_indexes = []\\nxarray/core/alignment.py:271:        self.objects_matching_indexes = tuple(objects_matching_indexes)\\nxarray/core/alignment.py:272:        self.all_indexes = all_indexes\\nxarray/core/alignment.py:369:        aligned_indexes = {}\\nxarray/core/alignment.py:372:        new_indexes = {}\\nxarray/core/alignment.py:387:                cmp_indexes = list(\\nxarray/core/alignment.py:442:        self.aligned_indexes = aligned_indexes\\nxarray/core/alignment.py:445:        self.new_indexes = Indexes(new_indexes, new_index_vars)\\nxarray/core/alignment.py:468:            new_indexes = {}\\nxarray/core/alignment.py:470:            matching_indexes = self.objects_matching_indexes[i + 1]\\nxarray/core/alignment.py:503:        new_indexes = {}\\nxarray/core/variable.py:1804:                tuple_indexes = itertools.product(sizes, codes)\\nxarray/core/concat.py:496:    result_indexes = {}\\nxarray/core/concat.py:504:        merged_vars, merged_indexes = merge_collected(\\nxarray/core/merge.py:420:    merged_coords, merged_indexes = merge_collected(\\nxarray/core/merge.py:423:    merged_indexes = filter_indexes_from_coords(merged_indexes, set(merged_coords))\\nxarray/core/merge.py:566:    variables, out_indexes = merge_collected(collected, prioritized, compat=compat)\\nxarray/core/merge.py:757:    variables, out_indexes = merge_collected(\\nxarray/core/parallel.py:362:    input_indexes = dict(npargs[0]._indexes)\\nxarray/core/parallel.py:371:        template_indexes = set(template._indexes)\\nxarray/core/parallel.py:372:        preserved_indexes = template_indexes & set(input_indexes)\\nxarray/core/parallel.py:373:        new_indexes = template_indexes - set(input_indexes)\\nxarray/core/dataset.py:615:        self._indexes = indexes\\nxarray/core/dataset.py:967:        obj._indexes = indexes\\nxarray/core/dataset.py:1001:                self._indexes = indexes\\nxarray/core/dataset.py:1078:            drop_indexes = []\\nxarray/core/dataset.py:1082:        new_indexes = dict(self._indexes)\\nxarray/core/dataset.py:2359:        attached_indexes = {\\nxarray/core/dataset.py:2490:        coord_vars, new_indexes = selected._get_indexers_coords_and_indexes(indexers)\\nxarray/core/dataset.py:2803:        new_indexes = indexes.copy()\\nxarray/core/dataset.py:3427:        coord_vars, new_indexes = selected._get_indexers_coords_and_indexes(coords)\\nxarray/core/dataset.py:3504:        other_indexes = other.xindexes\\nxarray/core/dataset.py:4519:        new_indexes = {}\\nxarray/core/groupby.py:650:            obj._indexes = filter_indexes_from_coords(obj._indexes, set(obj.coords))\\nxarray/core/indexes.py:362:            pd_indexes = [idx.index for idx in indexes]\\nxarray/core/indexes.py:697:        level_indexes = [safe_cast_to_index(var) for var in variables.values()]\\nxarray/core/indexes.py:1124:        self._indexes = indexes\\nxarray/core/indexes.py:1290:        new_indexes = {}\\nxarray/core/dataarray.py:431:        self._indexes = indexes\\nxarray/core/dataarray.py:450:        obj._indexes = indexes\\nxarray/core/dataarray.py:514:        new_indexes = dict(self._indexes)\\nxarray/core/indexing.py:104:    drop_indexes = []\\nxarray/core/indexing.py:126:    unique_indexes = {}\\nxarray/core/formatting.py:442:    default_indexes = (PandasIndex, PandasMultiIndex)\\nxarray/core/formatting.py:636:        display_default_indexes = _get_boolean_with_default(\\nxarray/core/formatting.py:675:    display_default_indexes = _get_boolean_with_default(\\nxarray/tests/test_dataarray.py:158:        expected_indexes = {\\\"x\\\": pd.Index([0, 1]), \\\"y\\\": pd.Index([\\\"a\\\", \\\"b\\\", \\\"c\\\"])}\\nxarray/tests/test_dataarray.py:1364:        da._indexes = filter_indexes_from_coords(da.xindexes, set(da.coords))\\nxarray/tests/test_indexes.py:646:        pd_indexes = indexes.to_pandas_indexes()\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_rl08wf251",
+    "status": "completed",
+    "call_id": "call_Jv046ZejVA5CLWiPTqzm1OY1",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"@property.*xindexes\\\" -n xarray\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_Jv046ZejVA5CLWiPTqzm1OY1",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_i613dbs2c",
+    "status": "completed",
+    "call_id": "call_Z10evNQFYBcARP9pqaFXCOir",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def xindexes\\\" -n xarray/core\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_Z10evNQFYBcARP9pqaFXCOir",
+    "output": "{\"output\":\"xarray/core/coordinates.py:60:    def xindexes(self) -> Indexes[Index]:\\nxarray/core/dataset.py:1668:    def xindexes(self) -> Indexes[Index]:\\nxarray/core/dataarray.py:898:    def xindexes(self) -> Indexes:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_5l4p8034h",
+    "status": "completed",
+    "call_id": "call_hXsZa49BtU92D4s0YRf4IIXf",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def assign_coords\\\" -n xarray\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_hXsZa49BtU92D4s0YRf4IIXf",
+    "output": "{\"output\":\"xarray/core/common.py:477:    def assign_coords(\\nxarray/core/groupby.py:988:    def assign_coords(self, coords=None, **coords_kwargs):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_cma9jitcn",
+    "status": "completed",
+    "call_id": "call_oGYSPxghNOsfnGLEZairvvha",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '850,950p' xarray/core/dataarray.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_oGYSPxghNOsfnGLEZairvvha",
+    "output": "{\"output\":\"        yield HybridMappingProxy(keys=self._coords, mapping=self.coords)\\n\\n        # virtual coordinates\\n        # uses empty dict -- everything here can already be found in self.coords.\\n        yield HybridMappingProxy(keys=self.dims, mapping={})\\n\\n    def __contains__(self, key: Any) -> bool:\\n        return key in self.data\\n\\n    @property\\n    def loc(self) -> _LocIndexer:\\n        \\\"\\\"\\\"Attribute for location based indexing like pandas.\\\"\\\"\\\"\\n        return _LocIndexer(self)\\n\\n    @property\\n    def attrs(self) -> dict[Any, Any]:\\n        \\\"\\\"\\\"Dictionary storing arbitrary metadata with this array.\\\"\\\"\\\"\\n        return self.variable.attrs\\n\\n    @attrs.setter\\n    def attrs(self, value: Mapping[Any, Any]) -> None:\\n        self.variable.attrs = dict(value)\\n\\n    @property\\n    def encoding(self) -> dict[Any, Any]:\\n        \\\"\\\"\\\"Dictionary of format-specific settings for how this array should be\\n        serialized.\\\"\\\"\\\"\\n        return self.variable.encoding\\n\\n    @encoding.setter\\n    def encoding(self, value: Mapping[Any, Any]) -> None:\\n        self.variable.encoding = dict(value)\\n\\n    @property\\n    def indexes(self) -> Indexes:\\n        \\\"\\\"\\\"Mapping of pandas.Index objects used for label based indexing.\\n\\n        Raises an error if this Dataset has indexes that cannot be coerced\\n        to pandas.Index objects.\\n\\n        See Also\\n        --------\\n        DataArray.xindexes\\n\\n        \\\"\\\"\\\"\\n        return self.xindexes.to_pandas_indexes()\\n\\n    @property\\n    def xindexes(self) -> Indexes:\\n        \\\"\\\"\\\"Mapping of xarray Index objects used for label based indexing.\\\"\\\"\\\"\\n        return Indexes(self._indexes, {k: self._coords[k] for k in self._indexes})\\n\\n    @property\\n    def coords(self) -> DataArrayCoordinates:\\n        \\\"\\\"\\\"Dictionary-like container of coordinate arrays.\\\"\\\"\\\"\\n        return DataArrayCoordinates(self)\\n\\n    @overload\\n    def reset_coords(\\n        self: T_DataArray,\\n        names: Dims = None,\\n        drop: Literal[False] = False,\\n    ) -> Dataset:\\n        ...\\n\\n    @overload\\n    def reset_coords(\\n        self: T_DataArray,\\n        names: Dims = None,\\n        *,\\n        drop: Literal[True],\\n    ) -> T_DataArray:\\n        ...\\n\\n    def reset_coords(\\n        self: T_DataArray,\\n        names: Dims = None,\\n        drop: bool = False,\\n    ) -> T_DataArray | Dataset:\\n        \\\"\\\"\\\"Given names of coordinates, reset them to become variables.\\n\\n        Parameters\\n        ----------\\n        names : str, Iterable of Hashable or None, optional\\n            Name(s) of non-index coordinates in this dataset to reset into\\n            variables. By default, all non-index coordinates are reset.\\n        drop : bool, default: False\\n            If True, remove coordinates instead of converting them into\\n            variables.\\n\\n        Returns\\n        -------\\n        Dataset, or DataArray if ``drop == True``\\n\\n        Examples\\n        --------\\n        >>> temperature = np.arange(25).reshape(5, 5)\\n        >>> pressure = np.arange(50, 75).reshape(5, 5)\\n        >>> da = xr.DataArray(\\n        ...     data=temperature,\\n        ...     dims=[\\\"x\\\", \\\"y\\\"],\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_c1jclnpyl",
+    "status": "completed",
+    "call_id": "call_a8Q5dd1YVUzlTd5FF4UaiEhz",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class DataArray\\\" -n xarray/core/dataarray.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_a8Q5dd1YVUzlTd5FF4UaiEhz",
+    "output": "{\"output\":\"226:class DataArray(\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_kroh5qep8",
+    "status": "completed",
+    "call_id": "call_q1fos4d4sxIwBMGm99c6TVbt",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def __init__.*class DataArray\\\" -n xarray/core/dataarray.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_q1fos4d4sxIwBMGm99c6TVbt",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_avzny7oh4",
+    "status": "completed",
+    "call_id": "call_b6I83bGGJk9MihgU5PVErq0c",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class DataArray\\\" -n xarray/core/dataarray.py -n 200,260\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_b6I83bGGJk9MihgU5PVErq0c",
+    "output": "{\"output\":\"xarray/core/dataarray.py:226:class DataArray(\\n\",\"metadata\":{\"exit_code\":2,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_6sihrz0mv",
+    "status": "completed",
+    "call_id": "call_WFnbujVZM1zocZoeq8PDpKZE",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '440,545p' xarray/core/common.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_WFnbujVZM1zocZoeq8PDpKZE",
+    "output": "{\"output\":\"\\n        Returns\\n        -------\\n        clipped : same type as caller\\n            This object, but with with values < min are replaced with min,\\n            and those > max with max.\\n\\n        See Also\\n        --------\\n        numpy.clip : equivalent function\\n        \\\"\\\"\\\"\\n        from .computation import apply_ufunc\\n\\n        if keep_attrs is None:\\n            # When this was a unary func, the default was True, so retaining the\\n            # default.\\n            keep_attrs = _get_keep_attrs(default=True)\\n\\n        return apply_ufunc(\\n            np.clip, self, min, max, keep_attrs=keep_attrs, dask=\\\"allowed\\\"\\n        )\\n\\n    def get_index(self, key: Hashable) -> pd.Index:\\n        \\\"\\\"\\\"Get an index for a dimension, with fall-back to a default RangeIndex\\\"\\\"\\\"\\n        if key not in self.dims:\\n            raise KeyError(key)\\n\\n        try:\\n            return self._indexes[key].to_pandas_index()\\n        except KeyError:\\n            return pd.Index(range(self.sizes[key]), name=key)\\n\\n    def _calc_assign_results(\\n        self: C, kwargs: Mapping[Any, T | Callable[[C], T]]\\n    ) -> dict[Hashable, T]:\\n        return {k: v(self) if callable(v) else v for k, v in kwargs.items()}\\n\\n    def assign_coords(\\n        self: T_DataWithCoords,\\n        coords: Mapping[Any, Any] | None = None,\\n        **coords_kwargs: Any,\\n    ) -> T_DataWithCoords:\\n        \\\"\\\"\\\"Assign new coordinates to this object.\\n\\n        Returns a new object with all the original data in addition to the new\\n        coordinates.\\n\\n        Parameters\\n        ----------\\n        coords : dict-like or None, optional\\n            A dict where the keys are the names of the coordinates\\n            with the new values to assign. If the values are callable, they are\\n            computed on this object and assigned to new coordinate variables.\\n            If the values are not callable, (e.g. a ``DataArray``, scalar, or\\n            array), they are simply assigned. A new coordinate can also be\\n            defined and attached to an existing dimension using a tuple with\\n            the first element the dimension name and the second element the\\n            values for this new coordinate.\\n        **coords_kwargs : optional\\n            The keyword arguments form of ``coords``.\\n            One of ``coords`` or ``coords_kwargs`` must be provided.\\n\\n        Returns\\n        -------\\n        assigned : same type as caller\\n            A new object with the new coordinates in addition to the existing\\n            data.\\n\\n        Examples\\n        --------\\n        Convert `DataArray` longitude coordinates from 0-359 to -180-179:\\n\\n        >>> da = xr.DataArray(\\n        ...     np.random.rand(4),\\n        ...     coords=[np.array([358, 359, 0, 1])],\\n        ...     dims=\\\"lon\\\",\\n        ... )\\n        >>> da\\n        <xarray.DataArray (lon: 4)>\\n        array([0.5488135 , 0.71518937, 0.60276338, 0.54488318])\\n        Coordinates:\\n          * lon      (lon) int64 358 359 0 1\\n        >>> da.assign_coords(lon=(((da.lon + 180) % 360) - 180))\\n        <xarray.DataArray (lon: 4)>\\n        array([0.5488135 , 0.71518937, 0.60276338, 0.54488318])\\n        Coordinates:\\n          * lon      (lon) int64 -2 -1 0 1\\n\\n        The function also accepts dictionary arguments:\\n\\n        >>> da.assign_coords({\\\"lon\\\": (((da.lon + 180) % 360) - 180)})\\n        <xarray.DataArray (lon: 4)>\\n        array([0.5488135 , 0.71518937, 0.60276338, 0.54488318])\\n        Coordinates:\\n          * lon      (lon) int64 -2 -1 0 1\\n\\n        New coordinate can also be attached to an existing dimension:\\n\\n        >>> lon_2 = np.array([300, 289, 0, 1])\\n        >>> da.assign_coords(lon_2=(\\\"lon\\\", lon_2))\\n        <xarray.DataArray (lon: 4)>\\n        array([0.5488135 , 0.71518937, 0.60276338, 0.54488318])\\n        Coordinates:\\n          * lon      (lon) int64 358 359 0 1\\n            lon_2    (lon) int64 300 289 0 1\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_ok682jt1z",
+    "status": "completed",
+    "call_id": "call_6pW8T6EigzkRga1Uun9yqVJN",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def assign_coords\\\" -n xarray/core/common.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_6pW8T6EigzkRga1Uun9yqVJN",
+    "output": "{\"output\":\"477:    def assign_coords(\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_jvrqj8tyg",
+    "status": "completed",
+    "call_id": "call_r7J3YbgWKu7gvz8TWRIFk10a",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class DataArray\\\" -n xarray/core/dataarray.py -n 500,600\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_r7J3YbgWKu7gvz8TWRIFk10a",
+    "output": "{\"output\":\"xarray/core/dataarray.py:226:class DataArray(\\n\",\"metadata\":{\"exit_code\":2,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_d396by61t",
+    "status": "completed",
+    "call_id": "call_SXilNBOUbT53YIiM4oseXFns",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class DataArray\\\" -n xarray/core/dataarray.py -n 226,350\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_SXilNBOUbT53YIiM4oseXFns",
+    "output": "{\"output\":\"xarray/core/dataarray.py:226:class DataArray(\\n\",\"metadata\":{\"exit_code\":2,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_g1p17ycwm",
+    "status": "completed",
+    "call_id": "call_zRCr3M71nXh5bYO15GJnhg3K",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def __init__.*class DataArray\\\" -n xarray/core/dataarray.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_zRCr3M71nXh5bYO15GJnhg3K",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_uiloob2tv",
+    "status": "completed",
+    "call_id": "call_SYZznFz0ynPwRrsw7FUGvBre",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class DatasetCoordinates\\\" -n xarray/core/coordinates.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_SYZznFz0ynPwRrsw7FUGvBre",
+    "output": "{\"output\":\"240:class DatasetCoordinates(Coordinates):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_u50pk55kb",
+    "status": "completed",
+    "call_id": "call_i9VtdaHmMdsEIs7z9WELrlfE",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"_update_coords\\\" -n xarray\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_i9VtdaHmMdsEIs7z9WELrlfE",
+    "output": "{\"output\":\"xarray/core/coordinates.py:67:    def _update_coords(self, coords, indexes):\\nxarray/core/coordinates.py:172:        self._update_coords(coords, indexes)\\nxarray/core/coordinates.py:201:            self._update_coords(variables, indexes)\\nxarray/core/coordinates.py:298:    def _update_coords(\\nxarray/core/coordinates.py:383:    def _update_coords(\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_dt0xglhvk",
+    "status": "completed",
+    "call_id": "call_trL3rhdagZteY1J5DqO6fURX",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def assign_coords\\\" -n xarray/core/common.py -n 477,650\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_trL3rhdagZteY1J5DqO6fURX",
+    "output": "{\"output\":\"xarray/core/common.py:477:    def assign_coords(\\n\",\"metadata\":{\"exit_code\":2,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_nz9ca6axo",
+    "status": "completed",
+    "call_id": "call_e1pChbyZ3hiSgXQewq6PFp3S",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '1,120p' xarray/core/coordinates.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_e1pChbyZ3hiSgXQewq6PFp3S",
+    "output": "{\"output\":\"from __future__ import annotations\\n\\nimport warnings\\nfrom contextlib import contextmanager\\nfrom typing import TYPE_CHECKING, Any, Hashable, Iterator, List, Mapping, Sequence\\n\\nimport numpy as np\\nimport pandas as pd\\n\\nfrom . import formatting\\nfrom .indexes import Index, Indexes, PandasMultiIndex, assert_no_index_corrupted\\nfrom .merge import merge_coordinates_without_align, merge_coords\\nfrom .utils import Frozen, ReprObject\\nfrom .variable import Variable, calculate_dimensions\\n\\nif TYPE_CHECKING:\\n    from .common import DataWithCoords\\n    from .dataarray import DataArray\\n    from .dataset import Dataset\\n    from .types import T_DataArray\\n\\n# Used as the key corresponding to a DataArray's variable when converting\\n# arbitrary DataArray objects to datasets\\n_THIS_ARRAY = ReprObject(\\\"<this-array>\\\")\\n\\n# TODO: Remove when min python version >= 3.9:\\nGenericAlias = type(List[int])\\n\\n\\nclass Coordinates(Mapping[Hashable, \\\"T_DataArray\\\"]):\\n    _data: DataWithCoords\\n    __slots__ = (\\\"_data\\\",)\\n\\n    # TODO: Remove when min python version >= 3.9:\\n    __class_getitem__ = classmethod(GenericAlias)\\n\\n    def __getitem__(self, key: Hashable) -> T_DataArray:\\n        raise NotImplementedError()\\n\\n    def __setitem__(self, key: Hashable, value: Any) -> None:\\n        self.update({key: value})\\n\\n    @property\\n    def _names(self) -> set[Hashable]:\\n        raise NotImplementedError()\\n\\n    @property\\n    def dims(self) -> Mapping[Hashable, int] | tuple[Hashable, ...]:\\n        raise NotImplementedError()\\n\\n    @property\\n    def dtypes(self) -> Frozen[Hashable, np.dtype]:\\n        raise NotImplementedError()\\n\\n    @property\\n    def indexes(self) -> Indexes[pd.Index]:\\n        return self._data.indexes\\n\\n    @property\\n    def xindexes(self) -> Indexes[Index]:\\n        return self._data.xindexes\\n\\n    @property\\n    def variables(self):\\n        raise NotImplementedError()\\n\\n    def _update_coords(self, coords, indexes):\\n        raise NotImplementedError()\\n\\n    def _maybe_drop_multiindex_coords(self, coords):\\n        raise NotImplementedError()\\n\\n    def __iter__(self) -> Iterator[Hashable]:\\n        # needs to be in the same order as the dataset variables\\n        for k in self.variables:\\n            if k in self._names:\\n                yield k\\n\\n    def __len__(self) -> int:\\n        return len(self._names)\\n\\n    def __contains__(self, key: Hashable) -> bool:\\n        return key in self._names\\n\\n    def __repr__(self) -> str:\\n        return formatting.coords_repr(self)\\n\\n    def to_dataset(self) -> Dataset:\\n        raise NotImplementedError()\\n\\n    def to_index(self, ordered_dims: Sequence[Hashable] | None = None) -> pd.Index:\\n        \\\"\\\"\\\"Convert all index coordinates into a :py:class:`pandas.Index`.\\n\\n        Parameters\\n        ----------\\n        ordered_dims : sequence of hashable, optional\\n            Possibly reordered version of this object's dimensions indicating\\n            the order in which dimensions should appear on the result.\\n\\n        Returns\\n        -------\\n        pandas.Index\\n            Index subclass corresponding to the outer-product of all dimension\\n            coordinates. This will be a MultiIndex if this object is has more\\n            than more dimension.\\n        \\\"\\\"\\\"\\n        if ordered_dims is None:\\n            ordered_dims = list(self.dims)\\n        elif set(ordered_dims) != set(self.dims):\\n            raise ValueError(\\n                \\\"ordered_dims must match dims, but does not: \\\"\\n                \\\"{} vs {}\\\".format(ordered_dims, self.dims)\\n            )\\n\\n        if len(ordered_dims) == 0:\\n            raise ValueError(\\\"no valid index for a 0-dimensional object\\\")\\n        elif len(ordered_dims) == 1:\\n            (dim,) = ordered_dims\\n            return self._data.get_index(dim)\\n        else:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_puy7ateec",
+    "status": "completed",
+    "call_id": "call_UWRMpjmQoBSirotVBfzzKvYw",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class DataArray\\\" -n xarray/core/dataarray.py -n 200,350\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_UWRMpjmQoBSirotVBfzzKvYw",
+    "output": "{\"output\":\"xarray/core/dataarray.py:226:class DataArray(\\n\",\"metadata\":{\"exit_code\":2,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_29kjo07qw",
+    "status": "completed",
+    "call_id": "call_y2DaWiZKGKaQfVJ21aYdKYgS",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"_calc_assign_results\\\" -n xarray/core/common.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_y2DaWiZKGKaQfVJ21aYdKYgS",
+    "output": "{\"output\":\"472:    def _calc_assign_results(\\n614:        results: dict[Hashable, Any] = self._calc_assign_results(coords_combined)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_vhgznhtvl",
+    "status": "completed",
+    "call_id": "call_c0LDP3ZhrZFYeYa3vuKIVPwu",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '610,700p' xarray/core/common.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_c0LDP3ZhrZFYeYa3vuKIVPwu",
+    "output": "{\"output\":\"        Dataset.set_coords\\n        \\\"\\\"\\\"\\n        coords_combined = either_dict_or_kwargs(coords, coords_kwargs, \\\"assign_coords\\\")\\n        data = self.copy(deep=False)\\n        results: dict[Hashable, Any] = self._calc_assign_results(coords_combined)\\n        data.coords.update(results)\\n        return data\\n\\n    def assign_attrs(\\n        self: T_DataWithCoords, *args: Any, **kwargs: Any\\n    ) -> T_DataWithCoords:\\n        \\\"\\\"\\\"Assign new attrs to this object.\\n\\n        Returns a new object equivalent to ``self.attrs.update(*args, **kwargs)``.\\n\\n        Parameters\\n        ----------\\n        *args\\n            positional arguments passed into ``attrs.update``.\\n        **kwargs\\n            keyword arguments passed into ``attrs.update``.\\n\\n        Returns\\n        -------\\n        assigned : same type as caller\\n            A new object with the new attrs in addition to the existing data.\\n\\n        See Also\\n        --------\\n        Dataset.assign\\n        \\\"\\\"\\\"\\n        out = self.copy(deep=False)\\n        out.attrs.update(*args, **kwargs)\\n        return out\\n\\n    def pipe(\\n        self,\\n        func: Callable[..., T] | tuple[Callable[..., T], str],\\n        *args: Any,\\n        **kwargs: Any,\\n    ) -> T:\\n        \\\"\\\"\\\"\\n        Apply ``func(self, *args, **kwargs)``\\n\\n        This method replicates the pandas method of the same name.\\n\\n        Parameters\\n        ----------\\n        func : callable\\n            function to apply to this xarray object (Dataset/DataArray).\\n            ``args``, and ``kwargs`` are passed into ``func``.\\n            Alternatively a ``(callable, data_keyword)`` tuple where\\n            ``data_keyword`` is a string indicating the keyword of\\n            ``callable`` that expects the xarray object.\\n        *args\\n            positional arguments passed into ``func``.\\n        **kwargs\\n            a dictionary of keyword arguments passed into ``func``.\\n\\n        Returns\\n        -------\\n        object : Any\\n            the return type of ``func``.\\n\\n        Notes\\n        -----\\n        Use ``.pipe`` when chaining together functions that expect\\n        xarray or pandas objects, e.g., instead of writing\\n\\n        .. code:: python\\n\\n            f(g(h(ds), arg1=a), arg2=b, arg3=c)\\n\\n        You can write\\n\\n        .. code:: python\\n\\n            (ds.pipe(h).pipe(g, arg1=a).pipe(f, arg2=b, arg3=c))\\n\\n        If you have a function that takes the data as (say) the second\\n        argument, pass a tuple indicating which keyword expects the\\n        data. For example, suppose ``f`` takes its data as ``arg2``:\\n\\n        .. code:: python\\n\\n            (ds.pipe(h).pipe(g, arg1=a).pipe((f, \\\"arg2\\\"), arg1=a, arg3=c))\\n\\n        Examples\\n        --------\\n        >>> x = xr.Dataset(\\n        ...     {\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_x77mtuvo0",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The original implementation of DataArrayCoordinates._update_coords replaced the entire coord mapping with only the newly passed coords, then rebuilt the indexes from that reduced set\u2014losing any existing coords (and their indexes) that were not part of the update. The patch changes _update_coords to copy the existing _coords dict, update it in-place with only the passed coords, and only then replace self._data._coords. It likewise preserves existing _indexes before merging in new ones, only if _indexes was initialized. This exactly restores the original-coords and indexes behavior users expect from assign_coords without changing any other logic. No key corner cases remain unaddressed. </EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,103 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/simplify/radsimp.py b/sympy/simplify/radsimp.py\nindex a31ce02..39d6e03 100644\n--- a/sympy/simplify/radsimp.py\n+++ b/sympy/simplify/radsimp.py\n@@ -1077,6 +1077,8 @@ def split_surds(expr):\n     coeff_muls = [x.as_coeff_Mul() for x in args]\n     surds = [x[1]**2 for x in coeff_muls if x[1].is_Pow]\n     surds.sort(key=default_sort_key)\n+    if not surds:\n+        return S.One, S.Zero, expr\n     g, b1, b2 = _split_gcd(*surds)\n     g2 = g\n     if not b2 and len(b1) >= 2:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nsqrtdenest raises IndexError\n```\r\n>>> sqrtdenest((3 - sqrt(2)*sqrt(4 + 3*I) + 3*I)/2)\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 132, in sqrtdenest\r\n    z = _sqrtdenest0(expr)\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 242, in _sqrtdenest0\r\n    return expr.func(*[_sqrtdenest0(a) for a in args])\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 242, in _sqrtdenest0\r\n    return expr.func(*[_sqrtdenest0(a) for a in args])\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 235, in _sqrtdenest0\r\n    return _sqrtdenest1(expr)\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 319, in _sqrtdenest1\r\n    val = _sqrt_match(a)\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 159, in _sqrt_match\r\n    r, b, a = split_surds(p)\r\n  File \"sympy\\simplify\\radsimp.py\", line 1032, in split_surds\r\n    g, b1, b2 = _split_gcd(*surds)\r\n  File \"sympy\\simplify\\radsimp.py\", line 1068, in _split_gcd\r\n    g = a[0]\r\nIndexError: tuple index out of range\r\n```\r\n\r\nIf an expression cannot be denested it should be returned unchanged.\nIndexError fixed for sqrtdenest.\nFixes #12420 \r\nNow if the expression can't be **denested**, it will be returned unchanged.\r\nOld Result:\r\n```\r\n>>> sqrtdenest((3 - sqrt(2)*sqrt(4 + 3*I) + 3*I)/2)\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 132, in sqrtdenest\r\n    z = _sqrtdenest0(expr)\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 242, in _sqrtdenest0\r\n    return expr.func(*[_sqrtdenest0(a) for a in args])\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 242, in _sqrtdenest0\r\n    return expr.func(*[_sqrtdenest0(a) for a in args])\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 235, in _sqrtdenest0\r\n    return _sqrtdenest1(expr)\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 319, in _sqrtdenest1\r\n    val = _sqrt_match(a)\r\n  File \"sympy\\simplify\\sqrtdenest.py\", line 159, in _sqrt_match\r\n    r, b, a = split_surds(p)\r\n  File \"sympy\\simplify\\radsimp.py\", line 1032, in split_surds\r\n    g, b1, b2 = _split_gcd(*surds)\r\n  File \"sympy\\simplify\\radsimp.py\", line 1068, in _split_gcd\r\n    g = a[0]\r\nIndexError: tuple index out of range\r\n\r\n```\r\nNew Result:\r\n\r\n```\r\nIn [9]: sqrtdenest((3 - sqrt(2)*sqrt(4 + 3*I) + 3*I)/2)\r\nOut[9]: 3/2 - sqrt(2)*sqrt(4 + 3*I)/2 + 3*I/2\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_vq8i9tg0j",
+    "status": "completed",
+    "call_id": "call_QczBcbtZZXcMY2tUX7XMJxlb",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1030,1100p' sympy/simplify/radsimp.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_QczBcbtZZXcMY2tUX7XMJxlb",
+    "output": "{\"output\":\"        return Mul(*numer, evaluate=False), Mul(*denom, evaluate=False)\\n    else:\\n        return Mul(*numer), Mul(*denom)\\n\\n\\ndef numer(expr):\\n    return fraction(expr)[0]\\n\\n\\ndef denom(expr):\\n    return fraction(expr)[1]\\n\\n\\ndef fraction_expand(expr, **hints):\\n    return expr.expand(frac=True, **hints)\\n\\n\\ndef numer_expand(expr, **hints):\\n    a, b = fraction(expr)\\n    return a.expand(numer=True, **hints) / b\\n\\n\\ndef denom_expand(expr, **hints):\\n    a, b = fraction(expr)\\n    return a / b.expand(denom=True, **hints)\\n\\n\\nexpand_numer = numer_expand\\nexpand_denom = denom_expand\\nexpand_fraction = fraction_expand\\n\\n\\ndef split_surds(expr):\\n    \\\"\\\"\\\"\\n    split an expression with terms whose squares are rationals\\n    into a sum of terms whose surds squared have gcd equal to g\\n    and a sum of terms with surds squared prime with g\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy import sqrt\\n    >>> from sympy.simplify.radsimp import split_surds\\n    >>> split_surds(3*sqrt(3) + sqrt(5)/7 + sqrt(6) + sqrt(10) + sqrt(15))\\n    (3, sqrt(2) + sqrt(5) + 3, sqrt(5)/7 + sqrt(10))\\n    \\\"\\\"\\\"\\n    args = sorted(expr.args, key=default_sort_key)\\n    coeff_muls = [x.as_coeff_Mul() for x in args]\\n    surds = [x[1]**2 for x in coeff_muls if x[1].is_Pow]\\n    surds.sort(key=default_sort_key)\\n    g, b1, b2 = _split_gcd(*surds)\\n    g2 = g\\n    if not b2 and len(b1) >= 2:\\n        b1n = [x/g for x in b1]\\n        b1n = [x for x in b1n if x != 1]\\n        # only a common factor has been factored; split again\\n        g1, b1n, b2 = _split_gcd(*b1n)\\n        g2 = g*g1\\n    a1v, a2v = [], []\\n    for c, s in coeff_muls:\\n        if s.is_Pow and s.exp == S.Half:\\n            s1 = s.base\\n            if s1 in b1:\\n                a1v.append(c*sqrt(s1/g2))\\n            else:\\n                a2v.append(c*s)\\n        else:\\n            a2v.append(c*s)\\n    a = Add(*a1v)\\n    b = Add(*a2v)\\n    return g2, a, b\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_5i54b814y",
+    "status": "completed",
+    "call_id": "call_8MZXNqyVrzu6wE31EztUg1Or",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _split_gcd\\\" -n sympy/simplify/radsimp.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_8MZXNqyVrzu6wE31EztUg1Or",
+    "output": "{\"output\":\"1103:def _split_gcd(*a):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_9lbl905au",
+    "status": "completed",
+    "call_id": "call_gycMhpuXyWepfSQcozOD8n98",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '130,200p' sympy/simplify/sqrtdenest.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_gycMhpuXyWepfSQcozOD8n98",
+    "output": "{\"output\":\"    \\\"\\\"\\\"\\n    expr = expand_mul(sympify(expr))\\n    for i in range(max_iter):\\n        z = _sqrtdenest0(expr)\\n        if expr == z:\\n            return expr\\n        expr = z\\n    return expr\\n\\n\\ndef _sqrt_match(p):\\n    \\\"\\\"\\\"Return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to\\n    matching, sqrt(r) also has then maximal sqrt_depth among addends of p.\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy.functions.elementary.miscellaneous import sqrt\\n    >>> from sympy.simplify.sqrtdenest import _sqrt_match\\n    >>> _sqrt_match(1 + sqrt(2) + sqrt(2)*sqrt(3) +  2*sqrt(1+sqrt(5)))\\n    [1 + sqrt(2) + sqrt(6), 2, 1 + sqrt(5)]\\n    \\\"\\\"\\\"\\n    from sympy.simplify.radsimp import split_surds\\n\\n    p = _mexpand(p)\\n    if p.is_Number:\\n        res = (p, S.Zero, S.Zero)\\n    elif p.is_Add:\\n        pargs = sorted(p.args, key=default_sort_key)\\n        if all((x**2).is_Rational for x in pargs):\\n            r, b, a = split_surds(p)\\n            res = a, b, r\\n            return list(res)\\n        # to make the process canonical, the argument is included in the tuple\\n        # so when the max is selected, it will be the largest arg having a\\n        # given depth\\n        v = [(sqrt_depth(x), x, i) for i, x in enumerate(pargs)]\\n        nmax = max(v, key=default_sort_key)\\n        if nmax[0] == 0:\\n            res = []\\n        else:\\n            # select r\\n            depth, _, i = nmax\\n            r = pargs.pop(i)\\n            v.pop(i)\\n            b = S.One\\n            if r.is_Mul:\\n                bv = []\\n                rv = []\\n                for x in r.args:\\n                    if sqrt_depth(x) < depth:\\n                        bv.append(x)\\n                    else:\\n                        rv.append(x)\\n                b = Mul._from_args(bv)\\n                r = Mul._from_args(rv)\\n            # collect terms comtaining r\\n            a1 = []\\n            b1 = [b]\\n            for x in v:\\n                if x[0] < depth:\\n                    a1.append(x[1])\\n                else:\\n                    x1 = x[1]\\n                    if x1 == r:\\n                        b1.append(1)\\n                    else:\\n                        if x1.is_Mul:\\n                            x1args = list(x1.args)\\n                            if r in x1args:\\n                                x1args.remove(r)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_67eby8fnn",
+    "status": "completed",
+    "call_id": "call_JpCwOMIWZuWaj20V1dtA0xsZ",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _sqrtdenest1\\\" -n sympy/simplify/sqrtdenest.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_JpCwOMIWZuWaj20V1dtA0xsZ",
+    "output": "{\"output\":\"320:def _sqrtdenest1(expr, denester=True):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_mx93sormg",
+    "status": "completed",
+    "call_id": "call_wpghRN0uwFITHo6zQCKJJkWj",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '200,260p' sympy/simplify/sqrtdenest.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_wpghRN0uwFITHo6zQCKJJkWj",
+    "output": "{\"output\":\"                                x1args.remove(r)\\n                                b1.append(Mul(*x1args))\\n                            else:\\n                                a1.append(x[1])\\n                        else:\\n                            a1.append(x[1])\\n            a = Add(*a1)\\n            b = Add(*b1)\\n            res = (a, b, r**2)\\n    else:\\n        b, r = p.as_coeff_Mul()\\n        if is_sqrt(r):\\n            res = (S.Zero, b, r**2)\\n        else:\\n            res = []\\n    return list(res)\\n\\n\\nclass SqrtdenestStopIteration(StopIteration):\\n    pass\\n\\n\\ndef _sqrtdenest0(expr):\\n    \\\"\\\"\\\"Returns expr after denesting its arguments.\\\"\\\"\\\"\\n\\n    if is_sqrt(expr):\\n        n, d = expr.as_numer_denom()\\n        if d is S.One:  # n is a square root\\n            if n.base.is_Add:\\n                args = sorted(n.base.args, key=default_sort_key)\\n                if len(args) > 2 and all((x**2).is_Integer for x in args):\\n                    try:\\n                        return _sqrtdenest_rec(n)\\n                    except SqrtdenestStopIteration:\\n                        pass\\n                expr = sqrt(_mexpand(Add(*[_sqrtdenest0(x) for x in args])))\\n            return _sqrtdenest1(expr)\\n        else:\\n            n, d = [_sqrtdenest0(i) for i in (n, d)]\\n            return n/d\\n\\n    if isinstance(expr, Add):\\n        cs = []\\n        args = []\\n        for arg in expr.args:\\n            c, a = arg.as_coeff_Mul()\\n            cs.append(c)\\n            args.append(a)\\n\\n        if all(c.is_Rational for c in cs) and all(is_sqrt(arg) for arg in args):\\n            return _sqrt_ratcomb(cs, args)\\n\\n    if isinstance(expr, Expr):\\n        args = expr.args\\n        if args:\\n            return expr.func(*[_sqrtdenest0(a) for a in args])\\n    return expr\\n\\n\\ndef _sqrtdenest_rec(expr):\\n    \\\"\\\"\\\"Helper that denests the square root of three or more surds.\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_h2ndqas1x",
+    "status": "completed",
+    "call_id": "call_ecbjNlHQBChrsH0rFETIZfUv",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1100,1180p' sympy/simplify/radsimp.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_ecbjNlHQBChrsH0rFETIZfUv",
+    "output": "{\"output\":\"    return g2, a, b\\n\\n\\ndef _split_gcd(*a):\\n    \\\"\\\"\\\"\\n    split the list of integers ``a`` into a list of integers, ``a1`` having\\n    ``g = gcd(a1)``, and a list ``a2`` whose elements are not divisible by\\n    ``g``.  Returns ``g, a1, a2``\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy.simplify.radsimp import _split_gcd\\n    >>> _split_gcd(55, 35, 22, 14, 77, 10)\\n    (5, [55, 35, 10], [22, 14, 77])\\n    \\\"\\\"\\\"\\n    g = a[0]\\n    b1 = [g]\\n    b2 = []\\n    for x in a[1:]:\\n        g1 = gcd(g, x)\\n        if g1 == 1:\\n            b2.append(x)\\n        else:\\n            g = g1\\n            b1.append(x)\\n    return g, b1, b2\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_0bfalo9zk",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The failure was due to split_surds being called when there are no \u2206=Pow terms \u2013 it blindly calls _split_gcd on an empty list and blows up. The patch adds an early\u2010return returning (g=1, surd\u2010sum=0, rest=expr), which matches the intended \u201cno surds\u201d outcome and prevents the IndexError without touching any other logic. It doesn\u2019t alter correct behavior when there are surds, so it is a minimal, precise fix.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

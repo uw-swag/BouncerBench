@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is very high-level and lacks specifics: there\u2019s no example of the current failure, no details on the expected behavior with Quantity objects, no pointers to where in the code or tests to modify, etc. It\u2019s unclear what \u201cworks properly\u201d means or what changes are needed, making it too vague to act on without further clarification."
+}

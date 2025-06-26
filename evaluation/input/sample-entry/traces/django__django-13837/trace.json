@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current limitation in django.utils.autoreload.get_child_arguments, pinpoints the exact behavior to change (detect python -m <pkg> via __main__.__spec__.parent), and even provides the algorithm and rationale. With access to the codebase it\u2019s straightforward to implement and verify the fix as described."
+}

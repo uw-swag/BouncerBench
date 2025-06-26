@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides all relevant model definitions (source, target, and through models), the generated migration, the exact error traceback, and notes how reorganizing files affects the problem. From this you can clearly see the missing migration dependency for the intermediary app (fonte_variavel) causes Django to treat the through argument as an unresolved string. There\u2019s a straightforward fix (add the proper migration dependency or reference the through model class directly). The request is concrete and unambiguous."
+}

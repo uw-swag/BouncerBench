@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (UnicodeError on `http://.example.com`), the desired behavior (raise `InvalidUrl`), includes repro steps, references existing related code/PRs, and specifies the exception message. There\u2019s enough detail to implement a catch for the IDNA error and rethrow an `InvalidUrl`."
+}

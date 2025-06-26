@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a specific bug in _estimate_mi: using \u201cdiscrete_features == 'auto'\u201d will break when discrete_features is an array or mask. It also points out missing test coverage for non-'auto' cases. While it doesn\u2019t prescribe the exact code change, it\u2019s straightforward to (1) change the check to something like isinstance(discrete_features, str) and/or use a proper comparison for arrays, and (2) add tests for array and boolean-mask inputs. This makes it reasonably specified for implementation."
+}

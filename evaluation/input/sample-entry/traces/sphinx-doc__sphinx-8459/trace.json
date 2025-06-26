@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the problem, minimal reproducible example (types.py and conf.py), actual vs expected output, and environment details. It\u2019s straightforward to understand what change is needed to make autodoc_type_aliases apply when autodoc_typehints='description'."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description of the problem, minimal reproducible test cases with expected vs. actual SQL, platform-specific behaviors (SQLite vs. MySQL), and even pointers to a related issue (#18247) for guidance on a fix. There\u2019s no ambiguity in what needs to be corrected\u2014the DecimalField annotations with Case/ExpressionWrapper need the same NUMERIC casting as plain Value expressions on SQLite. That makes it WELL_SPECIFIED."
+}

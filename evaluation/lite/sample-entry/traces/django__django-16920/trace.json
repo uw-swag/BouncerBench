@@ -1,0 +1,93 @@
+{
+  "input": "This issue clearly describes the current rendering problem, the accessibility standards to meet, and shows concrete \u201cbefore\u201d and \u201cafter\u201d examples of the HTML changes (adding id attributes and aria-describedby). An engineer familiar with Django\u2019s form rendering or its widget templates can take those examples and update the default templates or renderer to emit the new IDs and aria attributes. The requirements and desired outcome are unambiguous and actionable.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/forms/boundfield.py b/django/forms/boundfield.py\nindex 39b0aaf97b..03db108cc8 100644\n--- a/django/forms/boundfield.py\n+++ b/django/forms/boundfield.py\n@@ -287,6 +287,17 @@ class BoundField(RenderableFieldMixin):\n                 attrs[\"required\"] = True\n         if self.field.disabled:\n             attrs[\"disabled\"] = True\n+\n+        # Add aria-describedby for help text and errors\n+        if self.auto_id:\n+            describedby_ids = []\n+            if self.help_text:\n+                describedby_ids.append(f\"{self.auto_id}_helptext\")\n+            if self.errors:\n+                describedby_ids.append(f\"{self.auto_id}_errorlist\")\n+            if describedby_ids:\n+                attrs[\"aria-describedby\"] = \" \".join(describedby_ids)\n+\n         return attrs\n \n     @property\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nFields\u2019 help text and errors should be associated with input\nDescription\n\t \n\t\t(last modified by Thibaud Colas)\n\t \nWith Django\u2019s default field rendering, all field errors are rendered as a list above the field\u2019s label, and help text is rendered after the field\u2019s form element. Example with as_p:\n<ul class=\"errorlist\">\n <li>This field is required.</li>\n</ul>\n<p>\n <label for=\"id_duration_required\">Duration required:</label>\n <input type=\"text\" name=\"duration_required\" required=\"\" id=\"id_duration_required\">\n <span class=\"helptext\">Help</span>\n</p>\nOne problem for screen reader users is that the association between the errors and the field, and between the help text and the field, is only communicated visually. This is a failure of either WCAG 2.1 level A \u200bSC 1.3.1: Info and Relationships, or \u200bSC 3.3.2: Labels or Instructions. More importantly, it just makes it harder than necessary for screen reader users to make use of help text, and to identify error messages.\nThe fix is relatively straightforward \u2013 using aria-describedby, as documented in the (non-normative) \u200bARIA1 Using the aria-describedby property to provide a descriptive label for user interface controls technique. Here is another well-known accessibility-oriented UI library that implements this technique: \u200bGOV.UK design system \u2013 text input with error message.\nHere is what implementing aria-describedby would look like in the same example as above:\n<div class=\"errorlist\" id=\"id_duration_required_errorlist\">\n <p>This field is required.</p>\n</div>\n<p>\n <label for=\"id_duration_required\">Duration required:</label>\n <input type=\"text\" name=\"duration_required\" required=\"\" id=\"id_duration_required\" aria-describedby=\"id_duration_required_errorlist id_duration_required_helptext\">\n <span class=\"helptext\" id=\"id_duration_required_helptext\">Help</span>\n</p>\nWe have additional id attributes, aria-describedby, and errorlist is no longer a <ul>. Result in VoiceOver:\nUnfortunately I tried to have this with the errorlist kept as a ul, but it wasn\u2019t announced by VoiceOver. I haven\u2019t heard of this limitation before so am not sure why that might be the case \u2013\u00a0I\u2019d appreciate others taking a look if possible.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_05pt4zllo",
+      "status": "completed",
+      "call_id": "call_R6kNws0SFpTYUfD0PGTcGOAW",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"help_text\\\" -n django/forms/boundfield.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_R6kNws0SFpTYUfD0PGTcGOAW",
+      "output": "{\"output\":\"27:        self.help_text = field.help_text or \\\"\\\"\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_mxudrm84t",
+      "status": "completed",
+      "call_id": "call_j8Vx7XLCEM1yUhEP3Mrarbae",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '200,350p' django/forms/boundfield.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_j8Vx7XLCEM1yUhEP3Mrarbae",
+      "output": "{\"output\":\"            \\\"field\\\": self,\\n            \\\"label\\\": contents,\\n            \\\"attrs\\\": attrs,\\n            \\\"use_tag\\\": bool(id_),\\n            \\\"tag\\\": tag or \\\"label\\\",\\n        }\\n        return self.form.render(self.form.template_name_label, context)\\n\\n    def legend_tag(self, contents=None, attrs=None, label_suffix=None):\\n        \\\"\\\"\\\"\\n        Wrap the given contents in a <legend>, if the field has an ID\\n        attribute. Contents should be mark_safe'd to avoid HTML escaping. If\\n        contents aren't given, use the field's HTML-escaped label.\\n\\n        If attrs are given, use them as HTML attributes on the <legend> tag.\\n\\n        label_suffix overrides the form's label_suffix.\\n        \\\"\\\"\\\"\\n        return self.label_tag(contents, attrs, label_suffix, tag=\\\"legend\\\")\\n\\n    def css_classes(self, extra_classes=None):\\n        \\\"\\\"\\\"\\n        Return a string of space-separated CSS classes for this field.\\n        \\\"\\\"\\\"\\n        if hasattr(extra_classes, \\\"split\\\"):\\n            extra_classes = extra_classes.split()\\n        extra_classes = set(extra_classes or [])\\n        if self.errors and hasattr(self.form, \\\"error_css_class\\\"):\\n            extra_classes.add(self.form.error_css_class)\\n        if self.field.required and hasattr(self.form, \\\"required_css_class\\\"):\\n            extra_classes.add(self.form.required_css_class)\\n        return \\\" \\\".join(extra_classes)\\n\\n    @property\\n    def is_hidden(self):\\n        \\\"\\\"\\\"Return True if this BoundField's widget is hidden.\\\"\\\"\\\"\\n        return self.field.widget.is_hidden\\n\\n    @property\\n    def auto_id(self):\\n        \\\"\\\"\\\"\\n        Calculate and return the ID attribute for this BoundField, if the\\n        associated Form has specified auto_id. Return an empty string otherwise.\\n        \\\"\\\"\\\"\\n        auto_id = self.form.auto_id  # Boolean or string\\n        if auto_id and \\\"%s\\\" in str(auto_id):\\n            return auto_id % self.html_name\\n        elif auto_id:\\n            return self.html_name\\n        return \\\"\\\"\\n\\n    @property\\n    def id_for_label(self):\\n        \\\"\\\"\\\"\\n        Wrapper around the field widget's `id_for_label` method.\\n        Useful, for example, for focusing on this field regardless of whether\\n        it has a single widget or a MultiWidget.\\n        \\\"\\\"\\\"\\n        widget = self.field.widget\\n        id_ = widget.attrs.get(\\\"id\\\") or self.auto_id\\n        return widget.id_for_label(id_)\\n\\n    @cached_property\\n    def initial(self):\\n        return self.form.get_initial_for_field(self.field, self.name)\\n\\n    def build_widget_attrs(self, attrs, widget=None):\\n        widget = widget or self.field.widget\\n        attrs = dict(attrs)  # Copy attrs to avoid modifying the argument.\\n        if (\\n            widget.use_required_attribute(self.initial)\\n            and self.field.required\\n            and self.form.use_required_attribute\\n        ):\\n            # MultiValueField has require_all_fields: if False, fall back\\n            # on subfields.\\n            if (\\n                hasattr(self.field, \\\"require_all_fields\\\")\\n                and not self.field.require_all_fields\\n                and isinstance(self.field.widget, MultiWidget)\\n            ):\\n                for subfield, subwidget in zip(self.field.fields, widget.widgets):\\n                    subwidget.attrs[\\\"required\\\"] = (\\n                        subwidget.use_required_attribute(self.initial)\\n                        and subfield.required\\n                    )\\n            else:\\n                attrs[\\\"required\\\"] = True\\n        if self.field.disabled:\\n            attrs[\\\"disabled\\\"] = True\\n        return attrs\\n\\n    @property\\n    def widget_type(self):\\n        return re.sub(\\n            r\\\"widget$|input$\\\", \\\"\\\", self.field.widget.__class__.__name__.lower()\\n        )\\n\\n    @property\\n    def use_fieldset(self):\\n        \\\"\\\"\\\"\\n        Return the value of this BoundField widget's use_fieldset attribute.\\n        \\\"\\\"\\\"\\n        return self.field.widget.use_fieldset\\n\\n\\n@html_safe\\nclass BoundWidget:\\n    \\\"\\\"\\\"\\n    A container class used for iterating over widgets. This is useful for\\n    widgets that have choices. For example, the following can be used in a\\n    template:\\n\\n    {% for radio in myform.beatles %}\\n      <label for=\\\"{{ radio.id_for_label }}\\\">\\n        {{ radio.choice_label }}\\n        <span class=\\\"radio\\\">{{ radio.tag }}</span>\\n      </label>\\n    {% endfor %}\\n    \\\"\\\"\\\"\\n\\n    def __init__(self, parent_widget, data, renderer):\\n        self.parent_widget = parent_widget\\n        self.data = data\\n        self.renderer = renderer\\n\\n    def __str__(self):\\n        return self.tag(wrap_label=True)\\n\\n    def tag(self, wrap_label=False):\\n        context = {\\\"widget\\\": {**self.data, \\\"wrap_label\\\": wrap_label}}\\n        return self.parent_widget._render(self.template_name, context, self.renderer)\\n\\n    @property\\n    def template_name(self):\\n        if \\\"template_name\\\" in self.data:\\n            return self.data[\\\"template_name\\\"]\\n        return self.parent_widget.template_name\\n\\n    @property\\n    def id_for_label(self):\\n        return self.data[\\\"attrs\\\"].get(\\\"id\\\")\\n\\n    @property\\n    def choice_label(self):\\n        return self.data[\\\"label\\\"]\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_y4qy6gxng",
+      "status": "completed",
+      "call_id": "call_HtJ0rS08vSM5hs7HbHDiJ1l6",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"errorlist\\\" -n django\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_HtJ0rS08vSM5hs7HbHDiJ1l6",
+      "output": "{\"output\":\"django/contrib/admin/static/admin/css/rtl.css:163:form .wide ul.errorlist,\\ndjango/contrib/admin/static/admin/css/rtl.css:179:.errorlist li {\\ndjango/contrib/admin/static/admin/css/base.css:349:tr:nth-child(even) .errorlist,\\ndjango/contrib/admin/static/admin/css/base.css:351:tr:nth-child(odd) + .row-form-errors .errorlist {\\ndjango/contrib/admin/static/admin/css/base.css:645:ul.errorlist {\\ndjango/contrib/admin/static/admin/css/base.css:652:ul.errorlist li {\\ndjango/contrib/admin/static/admin/css/base.css:659:ul.errorlist li:first-child {\\ndjango/contrib/admin/static/admin/css/base.css:663:ul.errorlist li a {\\ndjango/contrib/admin/static/admin/css/base.css:668:td ul.errorlist {\\ndjango/contrib/admin/static/admin/css/base.css:673:td ul.errorlist li {\\ndjango/contrib/admin/static/admin/css/base.css:684:.form-row.errors ul.errorlist li {\\ndjango/contrib/admin/static/admin/css/base.css:689:td ul.errorlist + input, td ul.errorlist + select, td ul.errorlist + textarea {\\ndjango/contrib/admin/static/admin/css/responsive.css:647:    form .aligned ul.errorlist {\\ndjango/contrib/admin/static/admin/css/forms.css:194:form .wide ul.errorlist,\\ndjango/contrib/admin/static/admin/css/responsive_rtl.css:73:    [dir=\\\"rtl\\\"] form .aligned ul.errorlist {\\ndjango/contrib/admin/static/admin/js/collapse.js:9:            if (elem.querySelectorAll('div.errors, ul.errorlist').length === 0) {\\ndjango/forms/utils.py:137:            \\\"error_class\\\": \\\"errorlist\\\",\\ndjango/forms/utils.py:154:            self.error_class = \\\"errorlist\\\"\\ndjango/forms/utils.py:156:            self.error_class = \\\"errorlist {}\\\".format(error_class)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0.1}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_4d6ow78wt",
+      "status": "completed",
+      "call_id": "call_dEkjV8gWPp4Mn8bveZ5qruiY",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"find django/forms/templates -maxdepth 2 -type f\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_dEkjV8gWPp4Mn8bveZ5qruiY",
+      "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_urq75dq95",
+      "status": "completed",
+      "call_id": "call_WBlFAucm4PwLB1ozyo1OYCAs",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class RenderableFieldMixin\\\" -n django/forms\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_WBlFAucm4PwLB1ozyo1OYCAs",
+      "output": "{\"output\":\"django/forms/utils.py:61:class RenderableFieldMixin(RenderableMixin):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_lw59apqpv",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch only injects the aria-describedby attribute on the input, but it does not add matching id attributes to the help-text or error-list elements themselves. Without those ids on the rendered <span> or <ul>, screen readers can\u2019t link to them, and the issue also mentions changing the error container to a <div> or similar. Thus the core association (adding ids) is missing. </EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

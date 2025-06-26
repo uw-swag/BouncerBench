@@ -1,0 +1,3 @@
+{
+  "trace": "The issue reproduces a TypeError when primepi is called with a symbolic argument, but it doesn\u2019t specify what the correct behavior should be (e.g. return unevaluated, support limit evaluations, define a symbolic function, etc.). There\u2019s no clear specification of the intended API or mathematical behavior for symbolic inputs, so it\u2019s too vague to implement a meaningful solution without more details."
+}

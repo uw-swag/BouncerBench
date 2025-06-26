@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives clear reproduction steps and shows exactly how the pretty\u2010printer is mangling a vector expression, and even calls out the baseline misalignment. While it doesn\u2019t spell out the \u201ccorrect\u201d ASCII/Unicode art, a SymPy maintainer can infer how a powered fraction times a basis vector should center the vector glyph the way other tall expressions do. It\u2019s not fully sketched out top to bottom, but there\u2019s enough here to reproduce the bug and sensibly implement the needed printer fixes."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives clear reproduction steps, links to the config (pytest.ini) and CI logs, and a concrete hypothesis about missing marker registration under pytest 7.1.0. There is enough detail to reproduce and diagnose the conftest/marker issue, though some specifics (exact error text) are only in the linked logs. Overall it\u2019s sufficiently defined for a meaningful fix."
+}

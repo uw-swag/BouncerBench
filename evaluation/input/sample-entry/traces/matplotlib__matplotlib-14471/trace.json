@@ -1,0 +1,3 @@
+{
+  "trace": "This issue clearly describes the regression, provides environment details, actual vs expected behavior, and exact reproduction steps (via NeXpy and the embedded IPython shell). The root cause is localized to the Matplotlib Qt backend and the new_figure_manager code. A developer can reproduce the bug and know what to fix without further clarification."
+}

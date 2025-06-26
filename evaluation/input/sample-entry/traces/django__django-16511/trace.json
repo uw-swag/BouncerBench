@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a feature proposal (supporting separate `create_defaults` in `update_or_create`) and debates two possible APIs, but it doesn\u2019t settle on a clear design or acceptance criteria. There\u2019s no definitive decision on which approach to implement, nor detailed requirements for backward compatibility and edge cases. As stated, it\u2019s unclear what exact API shape and behavior a PR should deliver, so it\u2019s too vague to act on directly."
+}

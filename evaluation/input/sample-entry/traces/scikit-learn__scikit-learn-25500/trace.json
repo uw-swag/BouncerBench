@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, includes a minimal reproducible example, shows expected vs. actual behavior, and pinpoints where the DataFrame output needs to be coerced to a NumPy array in `_CalibratedClassifier.predict_proba`. There\u2019s enough detail to implement a fix (e.g. converting the pandas output to numpy before assignment)."
+}

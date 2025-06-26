@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete example with input, current output, and the precise expected output. While it doesn\u2019t provide internal code pointers, it clearly specifies the desired behavior of `Complement` for mixed symbol/number sets, making a sensible fix possible."
+}

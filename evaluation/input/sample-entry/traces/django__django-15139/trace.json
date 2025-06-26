@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear action\u2014mark the PickleSerializer as deprecated in core, remove it, and extract it to a third-party package\u2014but it omits implementation details such as package naming, deprecation timeline, import shims, and documentation updates. While additional design decisions will be needed, the high-level goal is clear enough for a reasonable feature implementation plan."
+}

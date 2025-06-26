@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a clear description of the regression (f-string formatting now fails), a minimal reproducible example, the exact traceback, expected behavior, and environment details.  There\u2019s no ambiguity about what\u2019s broken or what a fix must accomplish (support f-string formatting of sparse DataArrays without error), so it\u2019s well-specified."
+}

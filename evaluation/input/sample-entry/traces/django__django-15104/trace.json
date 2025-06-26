@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (a KeyError in Django\u2019s migration autodetector when a custom ForeignKey deconstruct removes the \u2018to\u2019 kwarg), provides a self-contained reproduction test, pinpoints the failing line, and even suggests the exact fix (using pop('to', None) instead of del). There is no ambiguity about the desired behavior or the necessary change."
+}

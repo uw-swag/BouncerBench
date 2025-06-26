@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the bug (init estimator\u2019s predict output has the wrong shape), the missing test coverage, and the requirement to allow init estimators without sample-weight support (when no sample weights are used). An experienced engineer can locate the relevant code paths in the gradient boosting implementation, adjust the output shape handling, add tests, and conditionally handle sample weights. While not line-by-line detailed, it\u2019s sufficiently scoped and actionable with the existing codebase and referenced GitHub issues."
+}

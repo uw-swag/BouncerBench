@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states a general goal\u2014to tighten the regex to reject some currently \u2018invalid\u2019 inputs\u2014but does not specify exactly which inputs should be considered invalid or provide a concrete list of formats to allow or disallow. It leaves the determination of valid/invalid cases up to ad-hoc exploration. Without clear acceptance criteria or examples of forbidden cases, it\u2019s too ambiguous to implement a precise change."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket describes a real problem (staticfiles manifest is publicly exposed) and a high-level goal (\u201cAllow configuration of where to save staticfiles manifest\u201d), but it does not specify any concrete API, setting names, defaults, or how this should behave across different storage backends (local vs S3). There are no acceptance criteria or examples of the desired configuration syntax. In its current form, an implementer would have to make too many assumptions, so the request is vague."
+}

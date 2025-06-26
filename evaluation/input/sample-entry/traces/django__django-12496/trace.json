@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproduction (models, create() call), shows the expected vs. actual SQL, and specifies the environment (Python/Django/PostgreSQL). That is enough detail to start diagnosing and fixing the extra UPDATE when a parent has a custom PK."
+}

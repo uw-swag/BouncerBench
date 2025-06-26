@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the broken LaTeX output, provides a minimal reproducible example, and specifies the desired output format (wrapping the daggered operator in braces before applying the exponent). A developer can locate the printing logic in the secondquant module and implement the brace-wrapping fix. The success criteria (correct LaTeX string) are unambiguous."
+}

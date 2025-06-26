@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes a concrete bug (the 'add' template filter throws a TypeError when combining a normal string with a lazy string proxy) and what the expected behavior should be (string concatenation should work, forcing evaluation of the lazy proxy). There\u2019s enough information to write a fix in the filter implementation (e.g. wrap inputs with force_text) and add tests, even if some implementation details (exact coercion function, test framework) must be inferred from the existing codebase. Hence it\u2019s reasonably specified."
+}

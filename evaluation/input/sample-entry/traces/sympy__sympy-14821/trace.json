@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies that the two-argument zeta function call is being emitted with its arguments in the wrong order by the Octave/Matlab code generator and gives the desired mapping (`zeta(x,n)` \u21d2 `zeta(n,x)`). While it doesn\u2019t point to the exact source file, it\u2019s easy to locate the codegen dispatch for special functions and add an argument swap for the two-argument zeta case. Thus, there\u2019s a sensible interpretation and a direct fix."
+}

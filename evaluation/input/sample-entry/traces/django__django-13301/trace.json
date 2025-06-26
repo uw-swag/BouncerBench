@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the command (createsuperuser), the mode (interactive), the incorrect behavior (validation query always runs on the default DB instead of the one passed via --database), and the desired change (have the default username validation run against the specified database). This is sufficient to write a fix."
+}

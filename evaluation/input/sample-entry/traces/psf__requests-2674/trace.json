@@ -1,0 +1,3 @@
+{
+  "trace": "The issue title and description surface a general concern that urllib3 exceptions (DecodeError, TimeoutError) are leaking through the requests API, but they don\u2019t specify the exact behavior they expect, nor provide repro steps or code locations. There\u2019s no clear requirement or acceptance criteria for what changes to make or how to handle these exceptions. Without more detail (e.g. reproduction, desired exception mapping, or design goals), it\u2019s impossible to draft a meaningful fix. Thus the request is too vague."
+}

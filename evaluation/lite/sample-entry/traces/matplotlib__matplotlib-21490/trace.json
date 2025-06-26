@@ -1,0 +1,132 @@
+{
+  "input": "The issue clearly describes the bug, provides minimal reproducible code, shows actual versus expected behavior, and specifies the desired change (Line2D should copy its input arrays). All necessary details are present to implement and test a fix.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/lib/matplotlib/lines.py b/lib/matplotlib/lines.py\nindex f1efd125a4..e147bb5194 100644\n--- a/lib/matplotlib/lines.py\n+++ b/lib/matplotlib/lines.py\n@@ -1230,7 +1230,7 @@ class Line2D(Artist):\n         ----------\n         x : 1D array\n         \"\"\"\n-        self._xorig = x\n+        self._xorig = np.asarray(x, copy=True)\n         self._invalidx = True\n         self.stale = True\n \n@@ -1242,7 +1242,7 @@ class Line2D(Artist):\n         ----------\n         y : 1D array\n         \"\"\"\n-        self._yorig = y\n+        self._yorig = np.asarray(y, copy=True)\n         self._invalidy = True\n         self.stale = True\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\n[Bug]: Line2D should copy its inputs\n### Bug summary\n\nCurrently, Line2D doesn't copy its inputs if they are already arrays.  Most of the time, in-place modifications to the input arrays do *not* affect the draw line, because there is a cache that doesn't get invalidated, but in some circumstances, it *is* possible for these modifications to affect the drawn line.\r\n\r\nInstead, Line2D should just copy its inputs.  This was rejected in #736 on a memory-saving argument, but note that AxesImage (which would typically have much bigger (2D) inputs than Line2D (which has 1D inputs)) does a copy, which if anything is much worse memory-wise.\n\n### Code for reproduction\n\n```python\nfrom pylab import *\r\nt = arange(0, 6, 2)\r\nl, = plot(t, t, \".-\")\r\nsavefig(\"/tmp/1.png\")\r\nt[:] = range(3)  # in place change\r\nsavefig(\"/tmp/2.png\")  # no effect\r\nl.set_drawstyle(\"steps\")  # ... unless we trigger a cache invalidation\r\nsavefig(\"/tmp/3.png\")  # in fact, only the x array got updated, not the y\n```\n\n\n### Actual outcome\n\n(1)\r\n![1](https://user-images.githubusercontent.com/1322974/134257080-5f1afea6-59b0-429b-9ab4-bb4187942139.png)\r\n(2) (same as (1))\r\n![2](https://user-images.githubusercontent.com/1322974/134257087-a2dc2907-819e-4e50-8028-946677fff811.png)\r\n(3) (different, but only x got updated, not y)\r\n![3](https://user-images.githubusercontent.com/1322974/134257088-854fcbd6-407b-434e-b9cb-5583a8be3d77.png)\r\n\n\n### Expected outcome\n\nModifying `t` a posteriori should not affect the Line2D.  Compare e.g. with AxesImage:\r\n```python\r\nim = arange(9).reshape(3, 3)\r\nimshow(im)\r\nsavefig(\"/tmp/4.png\")\r\nim[:, :] = im[::-1, ::-1]\r\nsavefig(\"/tmp/5.png\")\r\n```\r\nBoth images are identical.\n\n### Operating system\n\nlinux\n\n### Matplotlib Version\n\n3.5b1\n\n### Matplotlib Backend\n\nmplcairo\n\n### Python version\n\n39\n\n### Jupyter version\n\n_No response_\n\n### Other libraries\n\n_No response_\n\n### Installation\n\nsource\n\n### Conda channel\n\n_No response_\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_rmn2gnem3",
+      "status": "completed",
+      "call_id": "call_6J13csUsw5IEzkZdA1xPKIGt",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1210,1270p' lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_6J13csUsw5IEzkZdA1xPKIGt",
+      "output": "{\"output\":\"\\n    def set_markersize(self, sz):\\n        \\\"\\\"\\\"\\n        Set the marker size in points.\\n\\n        Parameters\\n        ----------\\n        sz : float\\n             Marker size, in points.\\n        \\\"\\\"\\\"\\n        sz = float(sz)\\n        if self._markersize != sz:\\n            self.stale = True\\n        self._markersize = sz\\n\\n    def set_xdata(self, x):\\n        \\\"\\\"\\\"\\n        Set the data array for x.\\n\\n        Parameters\\n        ----------\\n        x : 1D array\\n        \\\"\\\"\\\"\\n        self._xorig = x\\n        self._invalidx = True\\n        self.stale = True\\n\\n    def set_ydata(self, y):\\n        \\\"\\\"\\\"\\n        Set the data array for y.\\n\\n        Parameters\\n        ----------\\n        y : 1D array\\n        \\\"\\\"\\\"\\n        self._yorig = y\\n        self._invalidy = True\\n        self.stale = True\\n\\n    def set_dashes(self, seq):\\n        \\\"\\\"\\\"\\n        Set the dash sequence.\\n\\n        The dash sequence is a sequence of floats of even length describing\\n        the length of dashes and spaces in points.\\n\\n        For example, (5, 2, 1, 2) describes a sequence of 5 point and 1 point\\n        dashes separated by 2 point spaces.\\n\\n        Parameters\\n        ----------\\n        seq : sequence of floats (on/off ink in points) or (None, None)\\n            If *seq* is empty or ``(None, None)``, the linestyle will be set\\n            to solid.\\n        \\\"\\\"\\\"\\n        if seq == (None, None) or len(seq) == 0:\\n            self.set_linestyle('-')\\n        else:\\n            self.set_linestyle((0, seq))\\n\\n    def update_from(self, other):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_tvq8yhkzj",
+      "status": "completed",
+      "call_id": "call_UobGWpg8qIMLKMzDUpeOPS59",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class Line2D\\\" -n lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_UobGWpg8qIMLKMzDUpeOPS59",
+      "output": "{\"output\":\"211:class Line2D(Artist):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_8td5r3lfv",
+      "status": "completed",
+      "call_id": "call_jpPavHPQbAKXax614AMcNWap",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def __init__\\\" -n lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_jpPavHPQbAKXax614AMcNWap",
+      "output": "{\"output\":\"276:    def __init__(self, xdata, ydata,\\n1400:    def __init__(self, xy1, xy2, slope, **kwargs):\\n1472:            def __init__(self, line, fmt='ro', **kwargs):\\n1488:    def __init__(self, line):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_0liuvk9d2",
+      "status": "completed",
+      "call_id": "call_sXmOlSNM0fNKs26hegkLo9vY",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"_xorig\\\" -n lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_sXmOlSNM0fNKs26hegkLo9vY",
+      "output": "{\"output\":\"405:        self._xorig = np.asarray([])\\n654:            xconv = self.convert_xunits(self._xorig)\\n981:            return self._xorig\\n1233:        self._xorig = x\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_lwwenn2ro",
+      "status": "completed",
+      "call_id": "call_OMkIojpZhNNOgBzkEL3jUv4H",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '260,350p' lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_OMkIojpZhNNOgBzkEL3jUv4H",
+      "output": "{\"output\":\"    def validJoin(cls):\\n        return tuple(js.value for js in JoinStyle)\\n\\n    def __str__(self):\\n        if self._label != \\\"\\\":\\n            return f\\\"Line2D({self._label})\\\"\\n        elif self._x is None:\\n            return \\\"Line2D()\\\"\\n        elif len(self._x) > 3:\\n            return \\\"Line2D((%g,%g),(%g,%g),...,(%g,%g))\\\" % (\\n                self._x[0], self._y[0], self._x[0],\\n                self._y[0], self._x[-1], self._y[-1])\\n        else:\\n            return \\\"Line2D(%s)\\\" % \\\",\\\".join(\\n                map(\\\"({:g},{:g})\\\".format, self._x, self._y))\\n\\n    def __init__(self, xdata, ydata,\\n                 linewidth=None,  # all Nones default to rc\\n                 linestyle=None,\\n                 color=None,\\n                 marker=None,\\n                 markersize=None,\\n                 markeredgewidth=None,\\n                 markeredgecolor=None,\\n                 markerfacecolor=None,\\n                 markerfacecoloralt='none',\\n                 fillstyle=None,\\n                 antialiased=None,\\n                 dash_capstyle=None,\\n                 solid_capstyle=None,\\n                 dash_joinstyle=None,\\n                 solid_joinstyle=None,\\n                 pickradius=5,\\n                 drawstyle=None,\\n                 markevery=None,\\n                 **kwargs\\n                 ):\\n        \\\"\\\"\\\"\\n        Create a `.Line2D` instance with *x* and *y* data in sequences of\\n        *xdata*, *ydata*.\\n\\n        Additional keyword arguments are `.Line2D` properties:\\n\\n        %(Line2D:kwdoc)s\\n\\n        See :meth:`set_linestyle` for a description of the line styles,\\n        :meth:`set_marker` for a description of the markers, and\\n        :meth:`set_drawstyle` for a description of the draw styles.\\n\\n        \\\"\\\"\\\"\\n        super().__init__()\\n\\n        # Convert sequences to NumPy arrays.\\n        if not np.iterable(xdata):\\n            raise RuntimeError('xdata must be a sequence')\\n        if not np.iterable(ydata):\\n            raise RuntimeError('ydata must be a sequence')\\n\\n        if linewidth is None:\\n            linewidth = rcParams['lines.linewidth']\\n\\n        if linestyle is None:\\n            linestyle = rcParams['lines.linestyle']\\n        if marker is None:\\n            marker = rcParams['lines.marker']\\n        if color is None:\\n            color = rcParams['lines.color']\\n\\n        if markersize is None:\\n            markersize = rcParams['lines.markersize']\\n        if antialiased is None:\\n            antialiased = rcParams['lines.antialiased']\\n        if dash_capstyle is None:\\n            dash_capstyle = rcParams['lines.dash_capstyle']\\n        if dash_joinstyle is None:\\n            dash_joinstyle = rcParams['lines.dash_joinstyle']\\n        if solid_capstyle is None:\\n            solid_capstyle = rcParams['lines.solid_capstyle']\\n        if solid_joinstyle is None:\\n            solid_joinstyle = rcParams['lines.solid_joinstyle']\\n\\n        if drawstyle is None:\\n            drawstyle = 'default'\\n\\n        self._dashcapstyle = None\\n        self._dashjoinstyle = None\\n        self._solidjoinstyle = None\\n        self._solidcapstyle = None\\n        self.set_dash_capstyle(dash_capstyle)\\n        self.set_dash_joinstyle(dash_joinstyle)\\n        self.set_solid_capstyle(solid_capstyle)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_6n76fr9tw",
+      "status": "completed",
+      "call_id": "call_nUhr4CwXk65GYIn7ws3p1pJ9",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '350,430p' lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_nUhr4CwXk65GYIn7ws3p1pJ9",
+      "output": "{\"output\":\"        self.set_solid_capstyle(solid_capstyle)\\n        self.set_solid_joinstyle(solid_joinstyle)\\n\\n        self._linestyles = None\\n        self._drawstyle = None\\n        self._linewidth = linewidth\\n\\n        # scaled dash + offset\\n        self._dashSeq = None\\n        self._dashOffset = 0\\n        # unscaled dash + offset\\n        # this is needed scaling the dash pattern by linewidth\\n        self._us_dashSeq = None\\n        self._us_dashOffset = 0\\n\\n        self.set_linewidth(linewidth)\\n        self.set_linestyle(linestyle)\\n        self.set_drawstyle(drawstyle)\\n\\n        self._color = None\\n        self.set_color(color)\\n        if marker is None:\\n            marker = 'none'  # Default.\\n        if not isinstance(marker, MarkerStyle):\\n            self._marker = MarkerStyle(marker, fillstyle)\\n        else:\\n            self._marker = marker\\n\\n        self._markevery = None\\n        self._markersize = None\\n        self._antialiased = None\\n\\n        self.set_markevery(markevery)\\n        self.set_antialiased(antialiased)\\n        self.set_markersize(markersize)\\n\\n        self._markeredgecolor = None\\n        self._markeredgewidth = None\\n        self._markerfacecolor = None\\n        self._markerfacecoloralt = None\\n\\n        self.set_markerfacecolor(markerfacecolor)  # Normalizes None to rc.\\n        self.set_markerfacecoloralt(markerfacecoloralt)\\n        self.set_markeredgecolor(markeredgecolor)  # Normalizes None to rc.\\n        self.set_markeredgewidth(markeredgewidth)\\n\\n        # update kwargs before updating data to give the caller a\\n        # chance to init axes (and hence unit support)\\n        self.update(kwargs)\\n        self.pickradius = pickradius\\n        self.ind_offset = 0\\n        if (isinstance(self._picker, Number) and\\n                not isinstance(self._picker, bool)):\\n            self.pickradius = self._picker\\n\\n        self._xorig = np.asarray([])\\n        self._yorig = np.asarray([])\\n        self._invalidx = True\\n        self._invalidy = True\\n        self._x = None\\n        self._y = None\\n        self._xy = None\\n        self._path = None\\n        self._transformed_path = None\\n        self._subslice = False\\n        self._x_filled = None  # used in subslicing; only x is needed\\n\\n        self.set_data(xdata, ydata)\\n\\n    def contains(self, mouseevent):\\n        \\\"\\\"\\\"\\n        Test whether *mouseevent* occurred on the line.\\n\\n        An event is deemed to have occurred \\\"on\\\" the line if it is less\\n        than ``self.pickradius`` (default: 5 points) away from it.  Use\\n        `~.Line2D.get_pickradius` or `~.Line2D.set_pickradius` to get or set\\n        the pick radius.\\n\\n        Parameters\\n        ----------\\n        mouseevent : `matplotlib.backend_bases.MouseEvent`\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_q5cljl74n",
+      "status": "completed",
+      "call_id": "call_HCEmDeAkoWmkGVdOewZq6Brh",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def set_data\\\" -n lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_HCEmDeAkoWmkGVdOewZq6Brh",
+      "output": "{\"output\":\"633:    def set_data(self, *args):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_534bf1pw1",
+      "status": "completed",
+      "call_id": "call_FiFpQehTCt9eAwQhLmuqZPbt",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '610,680p' lib/matplotlib/lines.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_FiFpQehTCt9eAwQhLmuqZPbt",
+      "output": "{\"output\":\"\\n        Parameters\\n        ----------\\n        p : float or callable[[Artist, Event], tuple[bool, dict]]\\n            If a float, it is used as the pick radius in points.\\n        \\\"\\\"\\\"\\n        if callable(p):\\n            self._contains = p\\n        else:\\n            self.pickradius = p\\n        self._picker = p\\n\\n    def get_window_extent(self, renderer):\\n        bbox = Bbox([[0, 0], [0, 0]])\\n        trans_data_to_xy = self.get_transform().transform\\n        bbox.update_from_data_xy(trans_data_to_xy(self.get_xydata()),\\n                                 ignore=True)\\n        # correct for marker size, if any\\n        if self._marker:\\n            ms = (self._markersize / 72.0 * self.figure.dpi) * 0.5\\n            bbox = bbox.padded(ms)\\n        return bbox\\n\\n    def set_data(self, *args):\\n        \\\"\\\"\\\"\\n        Set the x and y data.\\n\\n        Parameters\\n        ----------\\n        *args : (2, N) array or two 1D arrays\\n        \\\"\\\"\\\"\\n        if len(args) == 1:\\n            (x, y), = args\\n        else:\\n            x, y = args\\n\\n        self.set_xdata(x)\\n        self.set_ydata(y)\\n\\n    def recache_always(self):\\n        self.recache(always=True)\\n\\n    def recache(self, always=False):\\n        if always or self._invalidx:\\n            xconv = self.convert_xunits(self._xorig)\\n            x = _to_unmasked_float_array(xconv).ravel()\\n        else:\\n            x = self._x\\n        if always or self._invalidy:\\n            yconv = self.convert_yunits(self._yorig)\\n            y = _to_unmasked_float_array(yconv).ravel()\\n        else:\\n            y = self._y\\n\\n        self._xy = np.column_stack(np.broadcast_arrays(x, y)).astype(float)\\n        self._x, self._y = self._xy.T  # views\\n\\n        self._subslice = False\\n        if (self.axes and len(x) > 1000 and self._is_sorted(x) and\\n                self.axes.name == 'rectilinear' and\\n                self.axes.get_xscale() == 'linear' and\\n                self._markevery is None and\\n                self.get_clip_on() and\\n                self.get_transform() == self.axes.transData):\\n            self._subslice = True\\n            nanmask = np.isnan(x)\\n            if nanmask.any():\\n                self._x_filled = self._x.copy()\\n                indices = np.arange(len(x))\\n                self._x_filled[nanmask] = np.interp(\\n                    indices[nanmask], indices[~nanmask], self._x[~nanmask])\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_j8wxt1s0l",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch correctly identifies that both set_xdata and set_ydata must make copies of their inputs to prevent subsequent in-place mutations from propagating, and it limits itself to only those two methods (no unrelated changes). However, it uses np.asarray(x, copy=True), but numpy\u2019s asarray does not accept a copy keyword; one must use np.array(x, copy=True) or np.copy. As written, the patch will raise a TypeError and thus fails to properly implement the intended copying behavior. Therefore it does not successfully address the issue.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

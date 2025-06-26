@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the faulty default argument in find_nearest_contour (using levels instead of layers), gives the exact line number, provides minimal reproduction code, actual vs. expected behavior, and environment details. The intended fix is unambiguous: change `indices = range(len(self.levels))` to `indices = range(len(self.layers))`."
+}

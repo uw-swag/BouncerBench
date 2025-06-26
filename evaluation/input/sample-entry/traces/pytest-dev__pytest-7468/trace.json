@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (pytest --log-file should create missing directories instead of crashing), gives a repro, and even suggests the exact code change (os.makedirs on dirname). It\u2019s evident what behavior is desired and how to implement it. Therefore it is well-specified for a PR."
+}

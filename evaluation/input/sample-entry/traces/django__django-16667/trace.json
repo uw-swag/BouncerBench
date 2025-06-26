@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal repro case, the exact widget method and line number in question, the precise exception and its trigger, and implies the fix (catch the OverflowError and treat it as a validation error). There\u2019s no ambiguity about what needs to change or where, so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the need to add support for the \u201cReceives\u201d section in the Napoleon NumpyDoc parser, points to the exact NumpyDoc guideline, and indicates it should mirror the existing \u201cYields\u201d behavior. While it doesn\u2019t give line-by-line instructions, the requirements are unambiguous and a reasonable implementation path exists by following the Yields support as a template."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a clear example of the failure (AttributeError on functools.partial missing __name__), points to the exact decorator (method_decorator) that needs to preserve the wrapped function\u2019s metadata, and demonstrates expected vs. actual behavior. While it requires knowing where method_decorator lives (e.g. in Django\u2019s utils.decorators), there is a straightforward interpretation of what change is needed (wrap or update_wrapper on the partial)."
+}

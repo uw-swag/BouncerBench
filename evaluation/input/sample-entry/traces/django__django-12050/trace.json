@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a specific undesired behavior\u2014lists being coerced to tuples in Query.resolve_lookup_value due to changes in PR #30687\u2014and states the expected behavior (preserve the input iterable type). It points to the affected code path and the breakage observed with ORM field types like PickledField. While it doesn\u2019t include file paths or code snippets, there\u2019s enough context to locate the method, understand what needs changing, and write tests to verify the fix. Thus, it\u2019s reasonably specified for a meaningful solution."
+}

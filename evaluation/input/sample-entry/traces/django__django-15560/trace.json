@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug (createsuperuser doesn\u2019t catch duplicates when using a UniqueConstraint instead of unique=True), provides a reproducible example, and indicates the expected behavior (validation prior to insertion). While it doesn\u2019t spell out the exact code changes, there\u2019s enough detail to implement a fix in the create_superuser command by inspecting model._meta.constraints. "
+}

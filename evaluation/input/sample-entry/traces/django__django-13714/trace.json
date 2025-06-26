@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the exact configuration, Django version, error message, and repro steps (missing DB file leading to a misleading JSONField error). It specifies the expected vs. actual behavior, and the root cause (bad filepath hidden by a JSON extension check). An engineer can reproduce and implement a more appropriate file-not-found check or error message before the JSONField check, so it\u2019s sufficiently detailed for a solution."
+}

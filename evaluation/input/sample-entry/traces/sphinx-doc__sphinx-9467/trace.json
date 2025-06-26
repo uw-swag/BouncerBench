@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the regression: GitHub URLs with #L<line> anchors no longer pass linkcheck in Sphinx 4.1.0, includes reproduction steps, the specific commit that introduced the change, and links to logs. A developer can reproduce, identify and implement the necessary adjustments to restore the prior behavior, so it\u2019s well-specified."
+}

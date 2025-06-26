@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly lists which functions are misreporting is_real, provides the exact assertions that should pass, and defines the desired behavior (is_real should be None rather than False when the input symbol is non-real or has unknown sign for inverse functions). A developer can directly write tests and implement the changes to the .is_real logic for those functions. There\u2019s no missing critical information."
+}

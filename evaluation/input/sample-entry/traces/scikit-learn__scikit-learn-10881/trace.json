@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the lack of a convergence warning for LogisticRegressionCV when fitting hits the max_iter limit. The reporter provides repro code, current behavior, desired warning message, and environment details. It\u2019s straightforward to implement a ConvergenceWarning for models that reach max_iter without convergence. Therefore, the requirements are well-specified."
+}

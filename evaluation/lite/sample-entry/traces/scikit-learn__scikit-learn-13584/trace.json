@@ -1,0 +1,28 @@
+{
+  "input": "The issue provides a minimal reproducible example, identifies the specific error (ValueError in the new repr when handling array-valued parameters under print_changed_only), and implies the expected behavior (no exception and proper display of the array). While it doesn\u2019t spell out the exact desired output, it\u2019s straightforward to infer that the repr logic needs to detect array parameters and format them without evaluating their truth value. Therefore it\u2019s sufficiently clear to start a fix.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/sklearn/utils/_pprint.py b/sklearn/utils/_pprint.py\nindex 4da71d3..fc97f66 100644\n--- a/sklearn/utils/_pprint.py\n+++ b/sklearn/utils/_pprint.py\n@@ -66,9 +66,11 @@ BaseEstimator.__repr__ for pretty-printing estimators\"\"\"\n from inspect import signature\n import pprint\n from collections import OrderedDict\n+import numpy as np\n \n from ..base import BaseEstimator\n from .._config import get_config\n+\n from . import is_scalar_nan\n \n \n\ndiff --git a/sklearn/utils/_pprint.py b/sklearn/utils/_pprint.py\nindex 4da71d3..8d05b66 100644\n--- a/sklearn/utils/_pprint.py\n+++ b/sklearn/utils/_pprint.py\n@@ -95,12 +95,18 @@ def _changed_params(estimator):\n     init_params = signature(init_func).parameters\n     init_params = {name: param.default for name, param in init_params.items()}\n     for k, v in params.items():\n-        if (v != init_params[k] and\n+        if isinstance(v, np.ndarray) and isinstance(init_params[k], np.ndarray):\n+            if not np.array_equal(v, init_params[k]):\n+                filtered_params[k] = v\n+        elif (v != init_params[k] and\n                 not (is_scalar_nan(init_params[k]) and is_scalar_nan(v))):\n             filtered_params[k] = v\n     return filtered_params\n \n \n+\n+\n+\n class _EstimatorPrettyPrinter(pprint.PrettyPrinter):\n     \"\"\"Pretty Printer class for estimator objects.\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nbug in print_changed_only in new repr: vector values\n```python\r\nimport sklearn\r\nimport numpy as np\r\nfrom sklearn.linear_model import LogisticRegressionCV\r\nsklearn.set_config(print_changed_only=True)\r\nprint(LogisticRegressionCV(Cs=np.array([0.1, 1])))\r\n```\r\n> ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()\r\n\r\nping @NicolasHug \r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_t48raxvys",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch only handles the case when both the default and the user\u2010provided value are ndarrays; it still falls back to the `(v != init_params[k])` check when one side is an array but the other is a scalar, re\u2010triggering the same ambiguous truth\u2010value error. It therefore fails to address the reported bug.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

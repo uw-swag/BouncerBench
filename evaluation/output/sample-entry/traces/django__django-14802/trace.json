@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/core/cache/backends/base.py b/django/core/cache/backends/base.py\nindex 1e2c7c9509..30a5754d5a 100644\n--- a/django/core/cache/backends/base.py\n+++ b/django/core/cache/backends/base.py\n@@ -249,6 +249,15 @@ class BaseCache:\n         for warning in memcache_key_warnings(key):\n             warnings.warn(warning, CacheKeyWarning)\n \n+    def make_and_validate_key(self, key, version=None):\n+        \"\"\"\n+        Helper method that combines make_key() and validate_key() operations.\n+        Returns a cache key that has been processed by make_key() and validated.\n+        \"\"\"\n+        key = self.make_key(key, version=version)\n+        self.validate_key(key)\n+        return key\n+\n     def incr_version(self, key, delta=1, version=None):\n         \"\"\"\n         Add delta to the cache version for the supplied key. Return the new\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAdd a helper function to make and validate cache keys.\nDescription\n\t\nFollowing from \u200bthis thread the following pattern is repeated a lot in the cache backends:\n\t\tkey = self.make_key(key, version=version)\n\t\tself.validate_key(key)\nWe can define a helper function on the base cache backend that can be used to avoid repetitiveness and help ensure that we consistently call .validate_key() after .make_key():\n\tdef make_and_validate_key(self, key, version=None):\n\t\tkey = self.make_key(key, version=version)\n\t\tself.validate_key(key)\n\t\treturn key\nAn alternative proposal is to have .make_key() learn a validate flag, but we'd probably need to have it as False by default for backward compatibility and we'd may still have issues if users have overridden .make_key(). So it would require documentation changes, release notes, and a deprecation period.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_wr3owxnuq",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe patch adds exactly the helper method described in the issue\u2014combining make_key() and validate_key() into a single utility\u2014without touching any other logic or introducing unrelated changes. It\u2019s minimal, matches the requested signature, and leaves backward compatibility intact.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

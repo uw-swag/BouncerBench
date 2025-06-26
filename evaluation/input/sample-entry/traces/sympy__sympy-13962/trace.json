@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired change (use the quantity\u2019s `abbrev` in the string printer instead of its `name`), points to the specific printer location (`str.py` line 713) and the test that must be updated, and includes examples of current vs desired output. This gives enough detail to implement and validate the fix."
+}

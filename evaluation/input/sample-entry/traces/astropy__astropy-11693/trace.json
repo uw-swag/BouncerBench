@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the bug, shows the exact exception and stack trace, provides minimal reproducible example code, system details, and even the user\u2019s desired workaround (quiet=True) and expected outcome. There\u2019s no ambiguity about what needs to be done (catch or suppress the NoConvergence error or expose a \u201cquiet\u201d option in the plotting API), so it\u2019s well specified for someone to implement a fix or feature."
+}

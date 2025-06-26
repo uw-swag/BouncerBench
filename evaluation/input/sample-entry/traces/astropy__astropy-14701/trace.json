@@ -1,0 +1,3 @@
+{
+  "trace": "The requirement to add a \u2018latex\u2019 format to Cosmology.write and implement a write_latex method is clear. The issue points to existing examples and docs, suggests the method flow (to_table \u2192 format labels \u2192 QTable.write), and indicates how to format parameters. There are minor details (exact styling, API signature) that can be sensibly inferred, so the task is reasonably specified."
+}

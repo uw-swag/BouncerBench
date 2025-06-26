@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly describes a new CLI flag (-c) for manage.py dbshell to run a single SQL statement directly, with examples and expected behavior. Implementation details (argument naming, backend-specific handling) are left open but are reasonably inferable. Thus it\u2019s not fully specified down to every edge case, but it\u2019s sufficiently clear to build a working feature."
+}

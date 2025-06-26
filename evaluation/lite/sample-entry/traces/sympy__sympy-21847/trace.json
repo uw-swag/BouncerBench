@@ -1,0 +1,28 @@
+{
+  "input": "The report includes a minimal repro (code snippet), clearly states the expected and actual behavior, cites the documentation, and shows how the bug manifests for different parameters. There\u2019s no ambiguity about what the function should do or how to test it, so it\u2019s well-specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/reproduce_bug.py b/reproduce_bug.py\nnew file mode 100644\nindex 0000000000..de7da165cd\n--- /dev/null\n+++ b/reproduce_bug.py\n@@ -0,0 +1,13 @@\n+import sympy as sp\n+from sympy.polys.orderings import monomial_key\n+\n+x1, x2, x3 = sp.symbols('x1, x2, x3')\n+states = [x1, x2, x3]\n+max_degrees = 3\n+min_degrees = 3\n+monomials = sorted(sp.itermonomials(states, max_degrees, min_degrees=min_degrees), \n+                   key=monomial_key('grlex', states))\n+print(monomials)\n+\n+# Add a success message\n+print(\"Script completed successfully, no errors.\")\ndiff --git a/sympy/polys/monomials.py b/sympy/polys/monomials.py\nindex 0e84403307..2ff762f563 100644\n--- a/sympy/polys/monomials.py\n+++ b/sympy/polys/monomials.py\n@@ -127,7 +127,7 @@ def itermonomials(variables, max_degrees, min_degrees=None):\n                 for variable in item:\n                     if variable != 1:\n                         powers[variable] += 1\n-                if max(powers.values()) >= min_degree:\n+                if min_degree <= sum(powers.values()) <= max_degree:\n                     monomials_list_comm.append(Mul(*item))\n             yield from set(monomials_list_comm)\n         else:\n@@ -139,7 +139,7 @@ def itermonomials(variables, max_degrees, min_degrees=None):\n                 for variable in item:\n                     if variable != 1:\n                         powers[variable] += 1\n-                if max(powers.values()) >= min_degree:\n+                if min_degree <= sum(powers.values()) <= max_degree:\n                     monomials_list_non_comm.append(Mul(*item))\n             yield from set(monomials_list_non_comm)\n     else:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nitermonomials returns incorrect monomials when using min_degrees argument\n`itermonomials` returns incorrect monomials when using optional `min_degrees` argument\r\n\r\nFor example, the following code introduces three symbolic variables and generates monomials with max and min degree of 3:\r\n\r\n\r\n```\r\nimport sympy as sp\r\nfrom sympy.polys.orderings import monomial_key\r\n\r\nx1, x2, x3 = sp.symbols('x1, x2, x3')\r\nstates = [x1, x2, x3]\r\nmax_degrees = 3\r\nmin_degrees = 3\r\nmonomials = sorted(sp.itermonomials(states, max_degrees, min_degrees=min_degrees), \r\n                   key=monomial_key('grlex', states))\r\nprint(monomials)\r\n```\r\nThe code returns `[x3**3, x2**3, x1**3]`, when it _should_ also return monomials such as `x1*x2**2, x2*x3**2, etc...` that also have total degree of 3. This behaviour is inconsistent with the documentation that states that \r\n\r\n> A generator of all monomials `monom` is returned, such that either `min_degree <= total_degree(monom) <= max_degree`...\r\n\r\nThe monomials are also missing when `max_degrees` is increased above `min_degrees`.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_u0xuiikpa",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The original test for `min_degrees` was using `max(powers.values()) >= min_degree`, which only checks the highest single-variable exponent and so misses mixed monomials like x1*x2^2. Replacing it with `min_degree <= sum(powers.values()) <= max_degree` correctly enforces the total degree bounds. The patch applies this fix in both the commutative and non\u2010commutative branches and doesn\u2019t introduce unrelated changes to the core logic. Therefore it precisely addresses the issue.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

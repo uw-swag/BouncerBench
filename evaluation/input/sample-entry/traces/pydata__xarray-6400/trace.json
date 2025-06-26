@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly reproduces a performance problem in the HTML repr for large multi-indexed DataArrays and gives a minimal example to reproduce it. While it doesn\u2019t specify exact performance targets or a proposed fix, there is enough concrete information (the test case, the method to target, version info) to start profiling and implementing optimizations. Thus it\u2019s reasonably specified."
+}

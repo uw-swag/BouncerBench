@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear description of the bug, exact Django versions, detailed reproduction steps (including a minimal example), the specific error message, and observations about which field types and index settings trigger the failure. It\u2019s obvious what the expected behavior is (RemoveField on indexed SQLite fields should succeed) and what needs to be changed (adjust the SQLite migration logic to handle index removal before dropping the column)."
+}

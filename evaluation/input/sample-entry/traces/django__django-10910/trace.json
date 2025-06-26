@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the incorrect behavior, exact versions of Django/psycopg2/Postgres, a minimal model, step-by-step repro with both good (pytz) and bad (datetime.timezone) cases, and references the relevant Postgres docs. There\u2019s no ambiguity about what\u2019s broken or how to verify a fix. This is WELL_SPECIFIED."
+}

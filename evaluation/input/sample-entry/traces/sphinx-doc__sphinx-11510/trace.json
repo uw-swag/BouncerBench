@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example (conf.py, RST files, extension code), clear reproduction steps, actual vs expected output, environment details (Sphinx/Python/OS), and links for context. It\u2019s clear what\u2019s wrong and what the fix should achieve. A developer can jump in and write or adjust the Sphinx hook to propagate edits on included files to the final output."
+}

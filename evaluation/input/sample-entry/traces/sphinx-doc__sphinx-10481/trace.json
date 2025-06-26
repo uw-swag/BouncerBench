@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the error scenario (language = None in conf.py causing a TypeError), shows the exact traceback, and states the desired behavior (treat None as 'en' and warn). An implementer familiar with the Sphinx config system knows where to catch and normalize this value. The scope and solution are unambiguous."
+}

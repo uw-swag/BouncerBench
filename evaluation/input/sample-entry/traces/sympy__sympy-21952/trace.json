@@ -1,0 +1,3 @@
+{
+  "trace": "The issue mixes a feature request for enhanced even/odd detection in SymPy with questions about GitHub workflow, without a clear, concrete specification of the algorithm, API changes, or tests. It lacks precise requirements and is therefore too ambiguous to implement directly."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal\u2014convert max_age to an integer in set_cookie()\u2014and even points out RFC requirements and why it matters. However, it leaves open key policy decisions (how to handle floats with nonzero decimals, whether to round or truncate, and what to do on conversion failure). Those questions would need to be answered before a PR could be finalized. Thus it\u2019s not fully specified but has a sensible interpretation."
+}

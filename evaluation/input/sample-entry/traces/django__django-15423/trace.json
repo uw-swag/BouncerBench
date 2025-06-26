@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes a concrete bug (LazyObject always advertises __getitem__/__iter__ even when the wrapped object doesn\u2019t support them) and gives example code and errors. It\u2019s enough to formulate a patch (stop exposing or delegate existence checks of these methods to the wrapped object), but doesn\u2019t spell out the exact API or code locations to change. There\u2019s a sensible interpretation of what a correct fix looks like, so it\u2019s reasonably specified."
+}

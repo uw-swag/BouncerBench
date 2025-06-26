@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that expand_trig currently handles csc and sec by expanding their denominators into sin/cos, and that analogous behavior should be added for the hyperbolic csch and sech. The intended expansions follow directly from the addition formulas for sinh and cosh (i.e.\ncsch(x+y) \u2192 1/(sinh(x)*cosh(y) + cosh(x)*sinh(y)),\nsech(x+y) \u2192 1/(cosh(x)*cosh(y) + sinh(x)*sinh(y))). There is sufficient detail and examples to implement and test the change."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the bug (sharex/sharey not accepting 0/1), shows a minimal repro, the current error, the expected behavior, and even a candidate patch. The scope is narrow and actionable, so it\u2019s well-specified."
+}

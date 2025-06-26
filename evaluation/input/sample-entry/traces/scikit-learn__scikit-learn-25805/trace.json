@@ -1,0 +1,3 @@
+{
+  "trace": "The report lays out user code and an error, but it\u2019s not clear whether the intended fix is to change user usage (it looks like they swapped X and y arrays) or to adjust how CalibratedClassifierCV slices fit_params like eval_set. The issue doesn\u2019t specify a concrete desired behavior or location for a code change, so it\u2019s ambiguous what a proper fix would be."
+}

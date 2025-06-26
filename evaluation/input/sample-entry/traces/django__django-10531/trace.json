@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the current vs expected behavior in the admin history log, gives a concrete example (pub_date vs date published), and indicates where to apply the fix (use field.verbose_name instead of field name). It\u2019s straightforward to implement and verify, so it\u2019s well-specified."
+}

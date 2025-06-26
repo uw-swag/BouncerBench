@@ -1,0 +1,3 @@
+{
+  "trace": "The report identifies a symptom (annotated columns being appended in a fixed position and impacting union ordering) and suggests either documenting this behavior or making it configurable. However, it doesn\u2019t include concrete examples of input vs. expected output, nor a defined API or behavior change to implement. Without sample code, specific union failures, or a clear spec of the desired ordering feature, there\u2019s too much ambiguity to attempt a meaningful solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to change (remove the obsolete __file__ check on the migrations package) and why (pkgutil.iter_modules() already handles namespace packages). It even references the exact commits/PRs involved. There\u2019s a straightforward implementation path and tests to adjust, so it\u2019s well specified."
+}

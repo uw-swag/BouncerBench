@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, explains the unexpected behavior (get() after difference() incorrectly raises MultipleObjectsReturned), specifies the context (Django versions, Python versions), and clearly states the desired outcome (raise a descriptive error when using get() after union/intersection/difference). There\u2019s a clear path to implement: detect combined QuerySets in QuerySet.get() and raise a NotSupported or descriptive error. This makes it WELL_SPECIFIED."
+}

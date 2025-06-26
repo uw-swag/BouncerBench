@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the model setup, shows the exact SQL generated versus the expected SQL, and pinpoints that inherited ordering from the parent\u2019s Meta isn\u2019t being applied in descending order. There\u2019s a concrete reproduction case and a precise statement of expected behavior, so it\u2019s well-specified."
+}

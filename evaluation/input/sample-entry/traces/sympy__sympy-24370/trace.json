@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, the exact error traceback, and describes the unexpected versus expected behavior (it should handle symbolic floor division without error, as plain ints do). That makes it clear what needs to be fixed and verified."
+}

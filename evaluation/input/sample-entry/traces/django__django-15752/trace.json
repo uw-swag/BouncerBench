@@ -1,0 +1,3 @@
+{
+  "trace": "The issue merely states that make_random_password() is unused since a past commit and requests deprecation, but gives no details on where the function lives, what versions to target, how to emit deprecation warnings, update docs or tests, or timeline for removal. It lacks the necessary specifics to implement a clear solution."
+}

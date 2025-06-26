@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly spells out what methods to update, where to centralize logic (in a new BoundField.did_change method), and how changed_data and _clean_fields should be refactored to use BoundField. It also points to the specific test that needs adjustment. While you\u2019ll need to inspect the existing code for details, there\u2019s a concrete refactoring plan and success criteria, making it reasonably specified."
+}

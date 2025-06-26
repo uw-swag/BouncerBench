@@ -1,0 +1,142 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/django/db/models/expressions.py b/django/db/models/expressions.py\nindex 81f8f79c71..9f8682e24d 100644\n--- a/django/db/models/expressions.py\n+++ b/django/db/models/expressions.py\n@@ -1218,8 +1218,11 @@ class Exists(Subquery):\n             query=query,\n             **extra_context,\n         )\n+        if query.is_empty():\n+            sql = '(SELECT 0 WHERE FALSE)'\n+            params = []\n         if self.negated:\n-            sql = 'NOT {}'.format(sql)\n+            sql = 'NOT ({})'.format(sql)\n         return sql, params\n \n     def select_format(self, compiler, sql, params):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nfilter on exists-subquery with empty queryset removes whole WHERE block\nDescription\n\t \n\t\t(last modified by Tobias Bengfort)\n\t \n>>> qs = MyModel.objects.filter(~models.Exists(MyModel.objects.none()), name='test')\n>>> qs\n<QuerySet []>\n>>> print(qs.query)\nEmptyResultSet\nWith django-debug-toolbar I can still see the query, but there WHERE block is missing completely.\nThis seems to be very similar to #33018.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_hvv4m8s6m",
+    "status": "completed",
+    "call_id": "call_0KxwvzXpEMLKN4ZnsA1Dk0s4",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1200,1300p' django/db/models/expressions.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_0KxwvzXpEMLKN4ZnsA1Dk0s4",
+    "output": "{\"output\":\"    template = 'EXISTS(%(subquery)s)'\\n    output_field = fields.BooleanField()\\n\\n    def __init__(self, queryset, negated=False, **kwargs):\\n        self.negated = negated\\n        super().__init__(queryset, **kwargs)\\n\\n    def __invert__(self):\\n        clone = self.copy()\\n        clone.negated = not self.negated\\n        return clone\\n\\n    def as_sql(self, compiler, connection, template=None, **extra_context):\\n        query = self.query.exists(using=connection.alias)\\n        sql, params = super().as_sql(\\n            compiler,\\n            connection,\\n            template=template,\\n            query=query,\\n            **extra_context,\\n        )\\n        if self.negated:\\n            sql = 'NOT {}'.format(sql)\\n        return sql, params\\n\\n    def select_format(self, compiler, sql, params):\\n        # Wrap EXISTS() with a CASE WHEN expression if a database backend\\n        # (e.g. Oracle) doesn't support boolean expression in SELECT or GROUP\\n        # BY list.\\n        if not compiler.connection.features.supports_boolean_expr_in_select_clause:\\n            sql = 'CASE WHEN {} THEN 1 ELSE 0 END'.format(sql)\\n        return sql, params\\n\\n\\n@deconstructible(path='django.db.models.OrderBy')\\nclass OrderBy(Expression):\\n    template = '%(expression)s %(ordering)s'\\n    conditional = False\\n\\n    def __init__(self, expression, descending=False, nulls_first=False, nulls_last=False):\\n        if nulls_first and nulls_last:\\n            raise ValueError('nulls_first and nulls_last are mutually exclusive')\\n        self.nulls_first = nulls_first\\n        self.nulls_last = nulls_last\\n        self.descending = descending\\n        if not hasattr(expression, 'resolve_expression'):\\n            raise ValueError('expression must be an expression type')\\n        self.expression = expression\\n\\n    def __repr__(self):\\n        return \\\"{}({}, descending={})\\\".format(\\n            self.__class__.__name__, self.expression, self.descending)\\n\\n    def set_source_expressions(self, exprs):\\n        self.expression = exprs[0]\\n\\n    def get_source_expressions(self):\\n        return [self.expression]\\n\\n    def as_sql(self, compiler, connection, template=None, **extra_context):\\n        template = template or self.template\\n        if connection.features.supports_order_by_nulls_modifier:\\n            if self.nulls_last:\\n                template = '%s NULLS LAST' % template\\n            elif self.nulls_first:\\n                template = '%s NULLS FIRST' % template\\n        else:\\n            if self.nulls_last and not (\\n                self.descending and connection.features.order_by_nulls_first\\n            ):\\n                template = '%%(expression)s IS NULL, %s' % template\\n            elif self.nulls_first and not (\\n                not self.descending and connection.features.order_by_nulls_first\\n            ):\\n                template = '%%(expression)s IS NOT NULL, %s' % template\\n        connection.ops.check_expression_support(self)\\n        expression_sql, params = compiler.compile(self.expression)\\n        placeholders = {\\n            'expression': expression_sql,\\n            'ordering': 'DESC' if self.descending else 'ASC',\\n            **extra_context,\\n        }\\n        params *= template.count('%(expression)s')\\n        return (template % placeholders).rstrip(), params\\n\\n    def as_oracle(self, compiler, connection):\\n        # Oracle doesn't allow ORDER BY EXISTS() or filters unless it's wrapped\\n        # in a CASE WHEN.\\n        if connection.ops.conditional_expression_supported_in_where_clause(self.expression):\\n            copy = self.copy()\\n            copy.expression = Case(\\n                When(self.expression, then=True),\\n                default=False,\\n            )\\n            return copy.as_sql(compiler, connection)\\n        return self.as_sql(compiler, connection)\\n\\n    def get_group_by_cols(self, alias=None):\\n        cols = []\\n        for source in self.get_source_expressions():\\n            cols.extend(source.get_group_by_cols())\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_u4keq3qmj",
+    "status": "completed",
+    "call_id": "call_MwALfdvBz8O5Ld9jaNrbaDl9",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class Query\\\" -n django/db/models\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_MwALfdvBz8O5Ld9jaNrbaDl9",
+    "output": "{\"output\":\"django/db/models/sql/query.py:142:class Query(BaseExpression):\\ndjango/db/models/query.py:176:class QuerySet:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_6pq1ffm9j",
+    "status": "completed",
+    "call_id": "call_M48lFh2lTOHdjR3ZQOoULHJK",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1000,1150p' django/db/models/expressions.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_M48lFh2lTOHdjR3ZQOoULHJK",
+    "output": "{\"output\":\"                condition, lookups = Q(**lookups), None\\n            elif getattr(condition, 'conditional', False):\\n                condition, lookups = Q(condition, **lookups), None\\n        if condition is None or not getattr(condition, 'conditional', False) or lookups:\\n            raise TypeError(\\n                'When() supports a Q object, a boolean expression, or lookups '\\n                'as a condition.'\\n            )\\n        if isinstance(condition, Q) and not condition:\\n            raise ValueError(\\\"An empty Q() can't be used as a When() condition.\\\")\\n        super().__init__(output_field=None)\\n        self.condition = condition\\n        self.result = self._parse_expressions(then)[0]\\n\\n    def __str__(self):\\n        return \\\"WHEN %r THEN %r\\\" % (self.condition, self.result)\\n\\n    def __repr__(self):\\n        return \\\"<%s: %s>\\\" % (self.__class__.__name__, self)\\n\\n    def get_source_expressions(self):\\n        return [self.condition, self.result]\\n\\n    def set_source_expressions(self, exprs):\\n        self.condition, self.result = exprs\\n\\n    def get_source_fields(self):\\n        # We're only interested in the fields of the result expressions.\\n        return [self.result._output_field_or_none]\\n\\n    def resolve_expression(self, query=None, allow_joins=True, reuse=None, summarize=False, for_save=False):\\n        c = self.copy()\\n        c.is_summary = summarize\\n        if hasattr(c.condition, 'resolve_expression'):\\n            c.condition = c.condition.resolve_expression(query, allow_joins, reuse, summarize, False)\\n        c.result = c.result.resolve_expression(query, allow_joins, reuse, summarize, for_save)\\n        return c\\n\\n    def as_sql(self, compiler, connection, template=None, **extra_context):\\n        connection.ops.check_expression_support(self)\\n        template_params = extra_context\\n        sql_params = []\\n        condition_sql, condition_params = compiler.compile(self.condition)\\n        template_params['condition'] = condition_sql\\n        sql_params.extend(condition_params)\\n        result_sql, result_params = compiler.compile(self.result)\\n        template_params['result'] = result_sql\\n        sql_params.extend(result_params)\\n        template = template or self.template\\n        return template % template_params, sql_params\\n\\n    def get_group_by_cols(self, alias=None):\\n        # This is not a complete expression and cannot be used in GROUP BY.\\n        cols = []\\n        for source in self.get_source_expressions():\\n            cols.extend(source.get_group_by_cols())\\n        return cols\\n\\n\\n@deconstructible(path='django.db.models.Case')\\nclass Case(SQLiteNumericMixin, Expression):\\n    \\\"\\\"\\\"\\n    An SQL searched CASE expression:\\n\\n        CASE\\n            WHEN n > 0\\n                THEN 'positive'\\n            WHEN n < 0\\n                THEN 'negative'\\n            ELSE 'zero'\\n        END\\n    \\\"\\\"\\\"\\n    template = 'CASE %(cases)s ELSE %(default)s END'\\n    case_joiner = ' '\\n\\n    def __init__(self, *cases, default=None, output_field=None, **extra):\\n        if not all(isinstance(case, When) for case in cases):\\n            raise TypeError(\\\"Positional arguments must all be When objects.\\\")\\n        super().__init__(output_field)\\n        self.cases = list(cases)\\n        self.default = self._parse_expressions(default)[0]\\n        self.extra = extra\\n\\n    def __str__(self):\\n        return \\\"CASE %s, ELSE %r\\\" % (', '.join(str(c) for c in self.cases), self.default)\\n\\n    def __repr__(self):\\n        return \\\"<%s: %s>\\\" % (self.__class__.__name__, self)\\n\\n    def get_source_expressions(self):\\n        return self.cases + [self.default]\\n\\n    def set_source_expressions(self, exprs):\\n        *self.cases, self.default = exprs\\n\\n    def resolve_expression(self, query=None, allow_joins=True, reuse=None, summarize=False, for_save=False):\\n        c = self.copy()\\n        c.is_summary = summarize\\n        for pos, case in enumerate(c.cases):\\n            c.cases[pos] = case.resolve_expression(query, allow_joins, reuse, summarize, for_save)\\n        c.default = c.default.resolve_expression(query, allow_joins, reuse, summarize, for_save)\\n        return c\\n\\n    def copy(self):\\n        c = super().copy()\\n        c.cases = c.cases[:]\\n        return c\\n\\n    def as_sql(self, compiler, connection, template=None, case_joiner=None, **extra_context):\\n        connection.ops.check_expression_support(self)\\n        if not self.cases:\\n            return compiler.compile(self.default)\\n        template_params = {**self.extra, **extra_context}\\n        case_parts = []\\n        sql_params = []\\n        for case in self.cases:\\n            try:\\n                case_sql, case_params = compiler.compile(case)\\n            except EmptyResultSet:\\n                continue\\n            case_parts.append(case_sql)\\n            sql_params.extend(case_params)\\n        default_sql, default_params = compiler.compile(self.default)\\n        if not case_parts:\\n            return default_sql, default_params\\n        case_joiner = case_joiner or self.case_joiner\\n        template_params['cases'] = case_joiner.join(case_parts)\\n        template_params['default'] = default_sql\\n        sql_params.extend(default_params)\\n        template = template or template_params.get('template', self.template)\\n        sql = template % template_params\\n        if self._output_field_or_none is not None:\\n            sql = connection.ops.unification_cast_sql(self.output_field) % sql\\n        return sql, sql_params\\n\\n    def get_group_by_cols(self, alias=None):\\n        if not self.cases:\\n            return self.default.get_group_by_cols(alias)\\n        return super().get_group_by_cols(alias)\\n\\n\\nclass Subquery(BaseExpression, Combinable):\\n    \\\"\\\"\\\"\\n    An explicit subquery. It may contain OuterRef() references to the outer\\n    query which will be resolved when it is applied to that query.\\n    \\\"\\\"\\\"\\n    template = '(%(subquery)s)'\\n    contains_aggregate = False\\n    empty_result_set_value = None\\n\\n    def __init__(self, queryset, output_field=None, **extra):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_foksyv2m9",
+    "status": "completed",
+    "call_id": "call_aCY4K0jopiex6VjcrPl9DaXl",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def exists\\\" -n django/db/models/sql/query.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_aCY4K0jopiex6VjcrPl9DaXl",
+    "output": "{\"output\":\"524:    def exists(self, using, limit=True):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_czxs9jr1i",
+    "status": "completed",
+    "call_id": "call_AHd1IS41FnIsvY1E7CPhvhFz",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '500,575p' django/db/models/sql/query.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_AHd1IS41FnIsvY1E7CPhvhFz",
+    "output": "{\"output\":\"        outer_query.clear_limits()\\n        outer_query.select_for_update = False\\n        outer_query.select_related = False\\n        compiler = outer_query.get_compiler(using, elide_empty=elide_empty)\\n        result = compiler.execute_sql(SINGLE)\\n        if result is None:\\n            result = empty_set_result\\n\\n        converters = compiler.get_converters(outer_query.annotation_select.values())\\n        result = next(compiler.apply_converters((result,), converters))\\n\\n        return dict(zip(outer_query.annotation_select, result))\\n\\n    def get_count(self, using):\\n        \\\"\\\"\\\"\\n        Perform a COUNT() query using the current filter constraints.\\n        \\\"\\\"\\\"\\n        obj = self.clone()\\n        obj.add_annotation(Count('*'), alias='__count', is_summary=True)\\n        return obj.get_aggregation(using, ['__count'])['__count']\\n\\n    def has_filters(self):\\n        return self.where\\n\\n    def exists(self, using, limit=True):\\n        q = self.clone()\\n        if not q.distinct:\\n            if q.group_by is True:\\n                q.add_fields((f.attname for f in self.model._meta.concrete_fields), False)\\n                # Disable GROUP BY aliases to avoid orphaning references to the\\n                # SELECT clause which is about to be cleared.\\n                q.set_group_by(allow_aliases=False)\\n            q.clear_select_clause()\\n        if q.combined_queries and q.combinator == 'union':\\n            limit_combined = connections[using].features.supports_slicing_ordering_in_compound\\n            q.combined_queries = tuple(\\n                combined_query.exists(using, limit=limit_combined)\\n                for combined_query in q.combined_queries\\n            )\\n        q.clear_ordering(force=True)\\n        if limit:\\n            q.set_limits(high=1)\\n        q.add_extra({'a': 1}, None, None, None, None, None)\\n        q.set_extra_mask(['a'])\\n        return q\\n\\n    def has_results(self, using):\\n        q = self.exists(using)\\n        compiler = q.get_compiler(using=using)\\n        return compiler.has_results()\\n\\n    def explain(self, using, format=None, **options):\\n        q = self.clone()\\n        q.explain_info = ExplainInfo(format, options)\\n        compiler = q.get_compiler(using=using)\\n        return '\\\\n'.join(compiler.explain_query())\\n\\n    def combine(self, rhs, connector):\\n        \\\"\\\"\\\"\\n        Merge the 'rhs' query into the current one (with any 'rhs' effects\\n        being applied *after* (that is, \\\"to the right of\\\") anything in the\\n        current query. 'rhs' is not modified during a call to this function.\\n\\n        The 'connector' parameter describes how to connect filters from the\\n        'rhs' query.\\n        \\\"\\\"\\\"\\n        if self.model != rhs.model:\\n            raise TypeError('Cannot combine queries on two different base models.')\\n        if self.is_sliced:\\n            raise TypeError('Cannot combine queries once a slice has been taken.')\\n        if self.distinct != rhs.distinct:\\n            raise TypeError('Cannot combine a unique query with a non-unique query.')\\n        if self.distinct_fields != rhs.distinct_fields:\\n            raise TypeError('Cannot combine queries with different distinct fields.')\\n\\n        # If lhs and rhs shares the same alias prefix, it is possible to have\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_yhueb5ma3",
+    "status": "completed",
+    "call_id": "call_GseY0ReyD5CM4sZxfK38oBmJ",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"EmptyResultSet\\\" -n django/db/models/expressions.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_GseY0ReyD5CM4sZxfK38oBmJ",
+    "output": "{\"output\":\"8:from django.core.exceptions import EmptyResultSet, FieldError\\n708:            except EmptyResultSet:\\n1118:            except EmptyResultSet:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_dho3864zg",
+    "status": "completed",
+    "call_id": "call_PONJrFa3fVWjq7V07e0abUYI",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def is_empty\\\" -n django\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_PONJrFa3fVWjq7V07e0abUYI",
+    "output": "{\"output\":\"django/contrib/sessions/backends/base.py:132:    def is_empty(self):\\ndjango/db/models/sql/query.py:1847:    def is_empty(self):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0.1}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_olxone15r",
+    "status": "completed",
+    "call_id": "call_uC7C2UfDDnGJQWd8EaHSlqp8",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class Subquery\\\" -n django/db/models/expressions.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_uC7C2UfDDnGJQWd8EaHSlqp8",
+    "output": "{\"output\":\"1141:class Subquery(BaseExpression, Combinable):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_2rw3nlt4c",
+    "status": "completed",
+    "call_id": "call_pxeFSTaG8aOb0JyyZTLiW3xX",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1820,1880p' django/db/models/sql/query.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_pxeFSTaG8aOb0JyyZTLiW3xX",
+    "output": "{\"output\":\"                                  pk.get_col(alias))\\n            query.where.add(lookup, AND)\\n            query.external_aliases[alias] = True\\n\\n        lookup_class = select_field.get_lookup('exact')\\n        lookup = lookup_class(col, ResolvedOuterRef(trimmed_prefix))\\n        query.where.add(lookup, AND)\\n        condition, needed_inner = self.build_filter(Exists(query))\\n\\n        if contains_louter:\\n            or_null_condition, _ = self.build_filter(\\n                ('%s__isnull' % trimmed_prefix, True),\\n                current_negated=True, branch_negated=True, can_reuse=can_reuse)\\n            condition.add(or_null_condition, OR)\\n            # Note that the end result will be:\\n            # (outercol NOT IN innerq AND outercol IS NOT NULL) OR outercol IS NULL.\\n            # This might look crazy but due to how IN works, this seems to be\\n            # correct. If the IS NOT NULL check is removed then outercol NOT\\n            # IN will return UNKNOWN. If the IS NULL check is removed, then if\\n            # outercol IS NULL we will not match the row.\\n        return condition, needed_inner\\n\\n    def set_empty(self):\\n        self.where.add(NothingNode(), AND)\\n        for query in self.combined_queries:\\n            query.set_empty()\\n\\n    def is_empty(self):\\n        return any(isinstance(c, NothingNode) for c in self.where.children)\\n\\n    def set_limits(self, low=None, high=None):\\n        \\\"\\\"\\\"\\n        Adjust the limits on the rows retrieved. Use low/high to set these,\\n        as it makes it more Pythonic to read and write. When the SQL query is\\n        created, convert them to the appropriate offset and limit values.\\n\\n        Apply any limits passed in here to the existing constraints. Add low\\n        to the current low value and clamp both to any existing high value.\\n        \\\"\\\"\\\"\\n        if high is not None:\\n            if self.high_mark is not None:\\n                self.high_mark = min(self.high_mark, self.low_mark + high)\\n            else:\\n                self.high_mark = self.low_mark + high\\n        if low is not None:\\n            if self.high_mark is not None:\\n                self.low_mark = min(self.high_mark, self.low_mark + low)\\n            else:\\n                self.low_mark = self.low_mark + low\\n\\n        if self.low_mark == self.high_mark:\\n            self.set_empty()\\n\\n    def clear_limits(self):\\n        \\\"\\\"\\\"Clear any existing limits.\\\"\\\"\\\"\\n        self.low_mark, self.high_mark = 0, None\\n\\n    @property\\n    def is_sliced(self):\\n        return self.low_mark != 0 or self.high_mark is not None\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_w5pj5bbgb",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch attempts to avoid eliminating the WHERE clause by replacing an empty EXISTS subquery with \u201c(SELECT 0 WHERE FALSE)\u201d, and it also parenthesizes the NOT. However, it does not distinguish the negated case: \u00ac(SELECT 0 WHERE FALSE) still evaluates to NULL/UNKNOWN in SQL, so WHERE \u00acEXISTS(empty) will still filter everything out, not preserve all rows. In other words, it fixes the missing WHERE syntax but breaks (or leaves broken) the semantics for negated empty\u2010query Exists, and even silently drops the EXISTS wrapper, which is not equivalent in most backends. Thus it does not correctly address the issue.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

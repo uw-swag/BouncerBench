@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates a reproducible bug (using categorical_crossentropy with binary targets yields wrong predictions) and specifies the expected behavior (either support binary cases or raise an error). While it leaves the choice of approach (generalization vs. explicit error) open, the fault and desired outcome are well\u2010defined, so it\u2019s reasonable to draft a fix or an API guard."
+}

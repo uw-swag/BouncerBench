@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, clearly describes the unexpected behavior (loss of attributes and name), and states the expected behavior (attributes and name should be preserved with keep_attrs=True). This is sufficient detail to begin diagnosing and fixing the problem."
+}

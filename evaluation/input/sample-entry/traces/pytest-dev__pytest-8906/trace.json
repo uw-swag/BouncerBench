@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a problem (skipping modules with newer syntax) and suggests several possible remedies (doc updates, error message tweaks, or a new skip_module API), but it doesn\u2019t settle on a concrete requirement or clearly define the acceptance criteria. There\u2019s room for ambiguity over which change to make and how success is measured."
+}

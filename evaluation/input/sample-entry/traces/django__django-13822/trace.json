@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the erroneous E305 validation being raised when using related_name='+' on many-to-many fields across models with the same name in different apps. It includes a minimal reproduction repository and spells out the expected behavior (i.e. no error when related_name='+' is used). This is sufficiently precise to attempt a fix."
+}

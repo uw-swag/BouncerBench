@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior, shows concrete examples, and describes the desired change: when decimal_pos is provided and the value is too small to represent, always output a fixed\u2010point string of zeros rather than switch to exponential notation. While it doesn\u2019t prescribe the exact code changes, it\u2019s straightforward to locate the cutoff logic in utils.numberformat.format and adjust it, so the spec is sufficient for a meaningful solution."
+}

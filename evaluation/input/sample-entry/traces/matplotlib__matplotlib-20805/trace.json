@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a minimal reproducible example, clearly states actual vs. expected behavior, and includes environment details (Matplotlib version, Python version, OS). It\u2019s obvious what needs fixing (the interaction between spine repositioning and tick label rotation) and how to verify the solution. This is WELL_SPECIFIED."
+}

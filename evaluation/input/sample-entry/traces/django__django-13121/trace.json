@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates a failing DurationField expression on SQLite/MySQL with a minimal code snippet and full traceback. While it omits deeper background (e.g. how SQLite/MySQL currently store durations), it\u2019s straightforward to reproduce and implement the needed conversion logic. There\u2019s enough detail to start working on a fix without further clarification."
+}

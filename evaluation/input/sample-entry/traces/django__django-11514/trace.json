@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that the never_cache decorator should include the \u201cCache-Control: private\u201d directive in its response headers to prevent CDN caching. The goal and required change are unambiguous, and the existing code location (never_cache decorator) is known in the Django codebase. This is sufficient to implement a precise fix."
+}

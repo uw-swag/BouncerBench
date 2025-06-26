@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly refers to the existing ordering_widget/get_ordering_widget pattern introduced in Django 3.0 and asks for an analogous deletion_widget/get_deletion_widget. While it doesn\u2019t spell out every line of code, the intent and pattern are unambiguous and can be implemented by mirroring the ordering widget approach. This is sufficiently specified for an engineer to draft a PR."
+}

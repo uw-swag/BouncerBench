@@ -1,0 +1,3 @@
+{
+  "trace": "This issue clearly identifies a regression in pytest 7.3.x when using the walrus operator in an assert statement, provides a minimal reproducible example, specifies the Python and pytest versions involved, and even points to a suspect pull request. It\u2019s straightforward to reproduce and know when it\u2019s fixed (test passes without UnboundLocalError), so it\u2019s well-specified."
+}

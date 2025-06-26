@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the actual vs expected behavior, the form setup (ModelChoiceField with `disabled=True` and an initial value), the error seen on submit, and even points to a related Django bug. While we don\u2019t get a full code snippet or exact API-level instructions on how to fix it, the required change (so that a disabled field with a valid initial choice doesn\u2019t raise a validation error) is clear enough to proceed. There\u2019s enough context to produce a reasonable patch or workaround, so this is REASONABLY_SPECIFIED."
+}

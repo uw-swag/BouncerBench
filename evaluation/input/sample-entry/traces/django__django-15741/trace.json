@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a regression (TypeError in get_format when passed a lazy string), points to the specific commit, and states that get_format should accept lazy strings (e.g. by coercing them to real strings). While it doesn\u2019t prescribe exactly how to implement it (e.g. using force_text/str), the desired behavior and failure mode are unambiguous. This is enough to start coding a fix."
+}

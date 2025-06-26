@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal\u2014to enable the cached template loader by default in development following prior PRs\u2014but doesn\u2019t spell out exactly which settings or files to change or how to handle edge cases. There\u2019s enough context to make a reasonable implementation plan, though some assumptions will be required."
+}

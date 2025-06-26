@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what features need to be added (exposing min_fixed and max_fixed options to all Float printers, and unifying Float behavior across backends such as LaTeX vs string), so there is a sensible path to implementation. However, it doesn\u2019t spell out exact API signatures or code locations, so some reasonable assumptions must be made. Hence it is REASONABLY_SPECIFIED."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a missing feature\u2014evaluating callable values in through_defaults before applying them (rather than storing the callable itself). It references existing patterns in get_or_create and model field defaults, explains the current wrong behavior, and states the desired behavior. While you\u2019d need to locate the through_defaults implementation and write appropriate tests, the core requirement and expected outcome are unambiguous.\n"
+}

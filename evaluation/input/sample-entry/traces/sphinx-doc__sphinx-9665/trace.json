@@ -1,0 +1,3 @@
+{
+  "trace": "The feature request clearly describes the problem (automatically linking documented base classes or allowing the `autodoc-process-signature` hook to return custom base strings) and even suggests how the API could change (return a list of strings to append to \u201cBases:\u201d). While you\u2019ll need to dig into Sphinx\u2019s autodoc implementation and cross-reference related issues, there is a concrete goal and proposed approach, so the ticket is reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes concrete model/code examples, the specific failing statement, the exact error message, and the expected vs. actual behavior. It even cites related tickets. There\u2019s enough detail to reproduce the problem and implement a fix to support expression-based ordering (nulls_last) on union() querysets. This is WELL_SPECIFIED."
+}

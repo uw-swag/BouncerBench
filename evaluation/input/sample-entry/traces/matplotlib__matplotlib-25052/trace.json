@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the documentation link, reproduces the error when passing a Bbox instance, shows that a list works via from_bounds, and even suggests how to improve. It\u2019s explicit about the mismatch between doc and behavior and what a successful solution would look like (accept a Bbox or clarify docs)."
+}

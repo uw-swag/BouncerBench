@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug (a dataclass type link missing under nitpicky mode), steps to reproduce against a minimal example project, expected behavior, environment details, and version range for regression. That is enough to attempt a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the inconsistency in zero-padding for years < 1000 when using the \u2018y\u2019 format character in Django\u2019s dateformat.y(). It provides concrete examples against both Python\u2019s datetime.strftime and PHP\u2019s date(), specifies the expected behavior, and even links to a PR with a proposed fix. Requirements are unambiguous and sufficient to implement and verify a solution."
+}

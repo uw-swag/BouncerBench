@@ -1,0 +1,3 @@
+{
+  "trace": "The description is really just a stub PR template with a single-hearted goal (\u201cadd __array_func__ for Time\u201d) but no detailed spec on which numpy functions to support, how Time objects should behave under array functions, nor any concrete design or examples beyond linspace. It\u2019s unclear what the API contract is, what edge cases to handle, or what tests to write, so there\u2019s too much ambiguity to start coding a reliable solution."
+}

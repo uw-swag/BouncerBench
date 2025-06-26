@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the discrepancy between Django\u2019s documentation (which promises SECRET_KEY_FALLBACKS will allow old keys for things like session hashes) and the actual code paths (salted_hmac and get_session_auth_hash never consult fallback keys). It even points to the specific functions involved. A developer can reproduce, identify where to inject fallback logic, and amend the code (or docs) accordingly. This is sufficiently detailed for a meaningful fix."
+}

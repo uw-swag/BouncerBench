@@ -1,0 +1,4 @@
+{
+  "input": "The issue clearly states the configuration options being used, the Sphinx/Napoleon settings, a minimal example of the docstring format, the exact behavior observed (missing return types) and the behavior expected. Reproduction steps, environment details, and a project link are provided. There\u2019s no critical missing information, so it\u2019s well-specified.",
+  "output": null
+}

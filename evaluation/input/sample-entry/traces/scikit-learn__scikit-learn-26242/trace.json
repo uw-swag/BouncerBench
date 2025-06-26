@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides repro steps, shows expected vs actual behavior, and even hints at the specific location to change (adding None to _parameter_constraints). A solution is straightforward to implement."
+}

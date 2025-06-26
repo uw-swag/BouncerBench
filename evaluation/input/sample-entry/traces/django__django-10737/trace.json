@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that all FieldError exceptions in django/db/models/sql/compiler.py should include the name of the offending field in their messages. While it doesn\u2019t enumerate every raise-site, it gives a focused file and a straightforward goal\u2014search for FieldError raises there and augment their messages. This leaves some implementation detail to the developer (which sites to update, message format), but the overall requirement is sensible and actionable."
+}

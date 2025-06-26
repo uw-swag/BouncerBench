@@ -1,0 +1,3 @@
+{
+  "trace": "The description is just a high-level PR stub that references fixing silhouette_samples on sparse matrices and mentions two vague failure modes, but it doesn\u2019t specify where in the code to make changes, how the functions should behave, or provide examples/tests of the failures or expected behavior. There isn\u2019t enough detail to know what a correct solution looks like without further investigation into issue #18524 or the codebase. Thus it\u2019s too ambiguous for a direct implementation."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides the exact model, queryset-combining function, database actions, SQL output, and expected vs. actual behavior. There\u2019s enough code and repro steps to trace through Django\u2019s OR-merge logic and write a fix or test. This is well-specified."
+}

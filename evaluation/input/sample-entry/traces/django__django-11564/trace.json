@@ -1,0 +1,3 @@
+{
+  "trace": "The request is high-level and lacks concrete requirements or an implementation plan. It\u2019s unclear how to pass the dynamic SCRIPT_NAME into the storage layer, how to handle contexts without a request, or what backward-compat guarantees are needed. There aren\u2019t acceptance criteria or tests, so it\u2019s vague what a \u201csuccessful\u201d solution looks like."
+}

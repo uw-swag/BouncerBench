@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, gives minimal reproducible code, the exact Sphinx setup, and the expected vs. actual behavior. It\u2019s straightforward to implement autodoc support for an empty __all__ (skip all members) based on this description."
+}

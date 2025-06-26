@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides minimal reproducible code, shows expected vs actual behavior, and specifies that boolean predictors should be cast to float as in other estimators. A well-scoped fix is to ensure X is converted to float in HuberRegressor.fit (e.g., via check_array), so this is WELL_SPECIFIED."
+}

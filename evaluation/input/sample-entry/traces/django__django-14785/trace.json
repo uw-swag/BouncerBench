@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, how to reproduce it (including Django version, database backend, model definition, and exact traceback), and the context in which it fails. While it doesn\u2019t prescribe the exact fix (e.g., how NaN should round-trip in DecimalField), it\u2019s straightforward to infer the expected behavior (treat NaN as a valid Decimal('NaN') rather than erroring). Thus it\u2019s sufficiently specified to implement and test a solution."
+}

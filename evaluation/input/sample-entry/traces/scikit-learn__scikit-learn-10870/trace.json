@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (lower_bound_ not aggregated over multiple inits), pinpoints the location in code (BaseMixture.fit()), gives a precise one-line fix, includes a repro script, and notes how to extend the existing test. It\u2019s straightforward to implement and verify."
+}

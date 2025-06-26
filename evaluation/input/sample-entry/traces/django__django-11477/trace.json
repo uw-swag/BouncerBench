@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description is very high-level and lacks critical details such as code examples, expected vs. actual behavior, examples of the URL patterns, or the relevant test case. Without concrete inputs, outputs, or error messages, it\u2019s unclear how translate_url() is misbehaving or what the correct behavior should be."
+}

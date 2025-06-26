@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, pinpoints the exact code location, and even supplies a failing test and the desired behavior (no response should be sent after a disconnect mid-request). While it doesn\u2019t prescribe the exact code changes, an experienced engineer can infer how to interleave or handle the http.disconnect event beyond read_body, and use the test as a guide. It\u2019s not perfectly spelled out step-by-step, but it\u2019s concrete enough to begin a PR."
+}

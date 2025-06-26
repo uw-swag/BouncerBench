@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear error trace, reproduction steps, the exact character causing the issue (U+2026), and even the specific line in runserver where the ellipsis is used. The fix\u2014replacing the horizontal ellipsis with '...'\u2014is unambiguous. A PR can directly search for and replace all occurrences of \u201c\u2026\u201d in output strings."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly demonstrates the incorrect behavior with examples (`'TRUMP'` vs. `'MPRTU'`) and explains that the generator is wrongly assuming its input is pre-sorted. The desired outcome (that generate_derangements should work for any input permutation order and exclude the identity arrangement) is evident. While implementation details aren\u2019t spelled out, the fix is unambiguous: remove or adjust the sorting assumption in the derangement algorithm. Thus it\u2019s reasonably specified for a straightforward patch."
+}

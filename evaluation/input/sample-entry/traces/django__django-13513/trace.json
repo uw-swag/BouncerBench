@@ -1,0 +1,3 @@
+{
+  "trace": "The report points to a specific function in a known file, describes the incorrect behavior, cites PEP 415, and even provides a clear code snippet of the desired change. It\u2019s straightforward to implement and test in the debug error view."
+}

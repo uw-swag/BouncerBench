@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a confusing behavior (pytest\u2019s byte-string diff shows numeric ordinals), but it doesn\u2019t state what the desired output or fix should be. There\u2019s no clear specification of expected behavior or how to change the assertion rewriting. This leaves too much ambiguity about what a successful solution would look like."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints exactly where the float n_neighbors slips through (in NearestNeighbors.__init__ and kneighbors), shows the failing code path and exception, and specifies the desired behavior (early validation with clearer error or integer casting). It\u2019s clear what needs to be added (type check for n_neighbors in __init__ and kneighbors), tests updated, and documentation. This is WELL_SPECIFIED."
+}

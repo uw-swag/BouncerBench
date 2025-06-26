@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, minimal reproducible code, actual vs expected behavior, environment details (OS, Python version, Matplotlib version, backend), and a precise expectation (show the year in the offset). A developer can directly use this to write a test and fix the formatter logic."
+}

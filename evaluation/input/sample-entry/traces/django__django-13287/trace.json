@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the scenario (an app with default_app_config but no apps.py or an empty apps.py), shows the exact tracebacks, and even points to the regression change. While it doesn\u2019t prescribe the precise code change, it provides full context and reproduction steps, making it reasonably specified for an implementer to diagnose and fix the unbound local error."
+}

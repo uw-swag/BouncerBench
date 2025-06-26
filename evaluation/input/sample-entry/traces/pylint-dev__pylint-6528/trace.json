@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the buggy behavior, shows the exact commands used, the actual vs expected output, and references the relevant configuration options. A maintainer can reproduce the problem and knows precisely what needs to be fixed, so it\u2019s well specified."
+}

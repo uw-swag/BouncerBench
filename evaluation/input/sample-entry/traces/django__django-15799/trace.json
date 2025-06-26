@@ -1,0 +1,3 @@
+{
+  "trace": "The report identifies a specific discrepancy between widget rendering (checking allow_multiple_selected) and admin help text logic (only checking widget type). It cites exact file paths and line numbers and clearly states the desired behavior (suppress help text when allow_multiple_selected is False). This is directly actionable."
+}

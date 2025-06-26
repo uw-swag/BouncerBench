@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the missing interpolation of the invalid choice value in ModelChoiceField\u2019s default_error_messages and points to the relevant code snippets. It proposes adjusting the error message and passing the value parameter in the ValidationError. While exact lines aren\u2019t spelled out, it\u2019s a straightforward, self-contained change that can be implemented without further clarification."
+}

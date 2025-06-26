@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states that the array repr should be truncated once the printed output exceeds ~40 lines, shows current vs. desired behavior with examples, and suggests a sensible threshold. While it doesn\u2019t nail down every detail (e.g. exact split of head vs. tail or configurability), it\u2019s cleanly scoped and can be implemented in a straightforward way."
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/forms/formsets.py b/django/forms/formsets.py\nindex 3adbc6979a..a1a658d027 100644\n--- a/django/forms/formsets.py\n+++ b/django/forms/formsets.py\n@@ -1,7 +1,7 @@\n from django.core.exceptions import ValidationError\n from django.forms import Form\n from django.forms.fields import BooleanField, IntegerField\n-from django.forms.renderers import get_default_renderer\n+from django.forms.renderers import get_default_renderer, BaseRenderer\n from django.forms.utils import ErrorList, RenderableFormMixin\n from django.forms.widgets import CheckboxInput, HiddenInput, NumberInput\n from django.utils.functional import cached_property\n@@ -25,12 +25,26 @@ DEFAULT_MIN_NUM = 0\n DEFAULT_MAX_NUM = 1000\n \n \n+class ManagementFormRenderer(BaseRenderer):\n+    \"\"\"\n+    A custom renderer for ManagementForm that uses the new div.html template\n+    instead of the deprecated default.html.\n+    \"\"\"\n+    form_template_name = \"django/forms/div.html\"\n+    formset_template_name = \"django/forms/formsets/div.html\"\n+\n+    def get_template(self, template_name):\n+        from django.template.loader import get_template\n+        return get_template(template_name)\n+\n+\n class ManagementForm(Form):\n     \"\"\"\n     Keep track of how many form instances are displayed on the page. If adding\n     new forms via JavaScript, you should increment the count field of this form\n     as well.\n     \"\"\"\n+    default_renderer = ManagementFormRenderer()\n \n     TOTAL_FORMS = IntegerField(widget=HiddenInput)\n     INITIAL_FORMS = IntegerField(widget=HiddenInput)\n@@ -572,3 +586,5 @@ def all_valid(formsets):\n     \"\"\"Validate every formset and return True if all are valid.\"\"\"\n     # List comprehension ensures is_valid() is called for all formsets.\n     return all([formset.is_valid() for formset in formsets])\n+\n+\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\n\"default.html\" deprecation warning raised for ManagementForm's\nDescription\n\t\nI have a project where I never render forms with the {{ form }} expression. However, I'm still getting the new template deprecation warning because of the formset management form production, during which the template used is insignificant (only hidden inputs are produced).\nIs it worth special-casing this and avoid producing the warning for the management forms?\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_u3hvsxt01",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe patch isolates the management form\u2019s renderer to use the new \u201cdiv.html\u201d templates instead of the deprecated \u201cdefault.html,\u201d thereby suppressing the deprecation warning specifically for ManagementForm without touching other form rendering. It only imports BaseRenderer alongside get_default_renderer, defines a minimal subclass that points at the new templates, and plugs it in via `default_renderer`. No unrelated changes are made and it addresses exactly the warning issue.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

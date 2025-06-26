@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n--- a/sklearn/ensemble/voting.py\t\n+++ b/sklearn/ensemble/voting.py\t\n@@ -78,9 +78,9 @@\n \n         if sample_weight is not None:\n             for name, step in self.estimators:\n-                if not has_fit_parameter(step, 'sample_weight'):\n+                if step is not None and not has_fit_parameter(step, 'sample_weight'):  # Skip None estimators\n                     raise ValueError('Underlying estimator \\'%s\\' does not'\n-                                     ' support sample weights.' % name)\n+                                    ' support sample weights.' % name)\n \n         names, clfs = zip(*self.estimators)\n         self._validate_names(names)\n@@ -92,8 +92,8 @@\n \n         self.estimators_ = Parallel(n_jobs=self.n_jobs)(\n                 delayed(_parallel_fit_estimator)(clone(clf), X, y,\n-                                                 sample_weight=sample_weight)\n-                for clf in clfs if clf is not None)\n+                                                sample_weight=sample_weight)\n+                for clf in clfs if clf is not None)  # Ensure None estimators are skipped\n \n         self.named_estimators_ = Bunch()\n         for k, e in zip(self.estimators, self.estimators_):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nVoting estimator will fail at fit if weights are passed and an estimator is None\nBecause we don't check for an estimator to be `None` in `sample_weight` support, `fit` is failing`.\r\n\r\n```python\r\n    X, y = load_iris(return_X_y=True)\r\n    voter = VotingClassifier(\r\n        estimators=[('lr', LogisticRegression()),\r\n                    ('rf', RandomForestClassifier())]\r\n    )\r\n    voter.fit(X, y, sample_weight=np.ones(y.shape))\r\n    voter.set_params(lr=None)\r\n    voter.fit(X, y, sample_weight=np.ones(y.shape))\r\n```\r\n\r\n```\r\nAttributeError: 'NoneType' object has no attribute 'fit'\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_jdaez7kif",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch adds a `step is not None` guard before checking for sample_weight support (so `has_fit_parameter` isn\u2019t called on `None`) and explicitly skips `None` estimators in the parallel\u2010fit generator. This directly fixes the AttributeError when an estimator is set to None and sample weights are provided, with no unrelated changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

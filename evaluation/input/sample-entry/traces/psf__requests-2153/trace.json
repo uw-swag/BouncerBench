@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the discrepancy between requests.exceptions.Timeout and socket.timeout and includes a full stack trace showing where the uncaught socket.timeout bubbles out. It pinpoints the expectations (that requests should wrap socket.timeouts in its own Timeout exception) and where in the code the exception escapes. While there\u2019s no minimal reproducer (you\u2019d need SoCo, Wimp, and a Sonos setup), the high-level fix (catch socket.timeout in the adapter/response iteration and rethrow as Request\u2019s Timeout) is unambiguous. Thus there\u2019s a sensible, actionable interpretation of the required change."
+}

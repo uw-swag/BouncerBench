@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the undesired behavior of automodule placing members under the last docstring header, provides a minimal reproducer, shows expected vs. actual output, and even proposes a concrete code diff. There\u2019s enough detail to implement and test a fix. "
+}

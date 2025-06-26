@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly identifies a specific bug (floatformat always using USE_L10N, ignoring {% localize %} blocks), points to the exact code lines, and states the desired behavior (read use_l10n from the template context or allow forcing an unlocalized format). While it doesn\u2019t spell out every implementation step (e.g. using @contextfilter), a Django maintainer can fill in those details. This makes the issue actionable without further clarification.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/template/defaultfilters.py b/django/template/defaultfilters.py\nindex 1c844580c6..c488e2931d 100644\n--- a/django/template/defaultfilters.py\n+++ b/django/template/defaultfilters.py\n@@ -92,7 +92,7 @@ def json_script(value, element_id):\n \n \n @register.filter(is_safe=True)\n-def floatformat(text, arg=-1):\n+def floatformat(text, arg=-1, use_l10n=None):\n     \"\"\"\n     Display a float to a specified number of decimal places.\n \n@@ -128,6 +128,9 @@ def floatformat(text, arg=-1):\n \n     If the input float is infinity or NaN, display the string representation\n     of that value.\n+\n+    The use_l10n parameter can be used to force localization on or off. By default,\n+    it follows the template's localization setting.\n     \"\"\"\n     force_grouping = False\n     if isinstance(arg, str) and arg.endswith('g'):\n@@ -153,7 +156,7 @@ def floatformat(text, arg=-1):\n \n     if not m and p < 0:\n         return mark_safe(\n-            formats.number_format('%d' % (int(d)), 0, force_grouping=force_grouping),\n+            formats.number_format('%d' % (int(d)), 0, force_grouping=force_grouping, use_l10n=use_l10n),\n         )\n \n     exp = Decimal(1).scaleb(-abs(p))\n@@ -175,7 +178,7 @@ def floatformat(text, arg=-1):\n         digits.append('-')\n     number = ''.join(reversed(digits))\n     return mark_safe(\n-        formats.number_format(number, abs(p), force_grouping=force_grouping),\n+        formats.number_format(number, abs(p), force_grouping=force_grouping, use_l10n=use_l10n),\n     )\n \n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nMake floatformat template filter independent of USE_L10N and allow forcing unlocalized format.\nDescription\n\t \n\t\t(last modified by Tim Graham)\n\t \nSpecifically, when the filter is used within the {% localize [on|off] %} block with the localization setting opposed to the value of USE_L10N ('on' when USE_L10N = False or 'off' when USE_L10N = True), the localization setting has not effect.\nThis is due to the use of formats.number_format() without its use_l10n parameter, by the numberformat template filter (e.g. \u200bhttps://github.com/django/django/blob/c2c85663e2dd06c9ed9c9ec2d02202d6d668d7f0/django/template/defaultfilters.py#L144, \u200bhttps://github.com/django/django/blob/c2c85663e2dd06c9ed9c9ec2d02202d6d668d7f0/django/template/defaultfilters.py#L163). The value of the use_l10n parameter shall be taken out of the template rendering context. But I do not see any easy solution to this, as filters do not take context...\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_sp4jjeg6k",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch merely adds a `use_l10n` parameter and threads it through to `formats.number_format`, but never wires that parameter to the template-rendering context or the `{% localize %}` block setting. As a result, `use_l10n` always remains `None` (falling back to the global `USE_L10N`), and the filter still ignores the template\u2019s localization tags. It therefore misses the core requirement of reading the in-template localization flag via a context-aware decorator (e.g. `@contextfilter` or `@needs_localization`).</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

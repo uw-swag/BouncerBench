@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states which component (HashedFilesMixin.post_process) is misbehaving, shows exact command output vs. expected, explains why duplicate yields are harmful, and what the correct behavior should be (only yield each file once, with its final hash). A developer can locate the method, see where yields occur across multiple passes, and change it to suppress intermediate/duplicate yields. This is sufficiently detailed for a straightforward fix."
+}

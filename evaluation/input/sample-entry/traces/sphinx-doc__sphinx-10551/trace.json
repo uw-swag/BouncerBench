@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unwanted behavior (a space between the minus sign and digit in default parameter values), provides multiple real-world examples, and points to potential scope (Sphinx vs the PyData theme). While it lacks a minimal repro and exact versions, there\u2019s enough detail to reproduce the bug and identify its root cause. Therefore it\u2019s reasonably specified."
+}

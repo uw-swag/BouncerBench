@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies an inconsistency between how the thermodynamic\u2010temperature and with_H0 equivalencies pull their defaults (Planck15.Tcmb0 vs. default_cosmology.get().H0) and calls for aligning them for the 3.1 release. While it doesn\u2019t hand you the exact lines to change or fully decide whether to shift the default cosmology or just swap the Tcmb source, there is a single sensible interpretation: make the thermodynamic\u2010temperature equivalency use default_cosmology.get().Tcmb0 (or else update the default cosmology to Planck15 and then point both defaults there). That gives enough direction to implement and test a fix."
+}

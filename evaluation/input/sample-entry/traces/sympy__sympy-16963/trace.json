@@ -1,0 +1,3 @@
+{
+  "trace": "The description mixes two separate feature requests (dict\u2192Dict conversion and changes to N/sympify precision) in one ticket, so it\u2019s unclear which problem should be solved and how. It\u2019s not well-focused on a single, actionable issue."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly explains the symptom (runshell dropping os.environ), the root cause (postgresql client returning an empty dict instead of None), and even points to the problematic commit. While you\u2019ll need to inspect the linked commit and code to implement the precise fix (e.g. change the env fallback to test \u201cis not None\u201d rather than truthiness), the desired behavior and location are unambiguous. This is reasonably well-specified for a practical fix."
+}

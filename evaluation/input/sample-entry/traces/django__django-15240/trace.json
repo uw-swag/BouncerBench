@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the problem (stale entries in django_migrations) and outlines the desired behavior (automatically or manually remove entries whose migration files no longer exist, with an exception for replaced migrations). While it doesn\u2019t spell out exact command names or API details, it provides enough context and edge-case guidance to implement a cleanup feature. This makes it reasonably specified."
+}

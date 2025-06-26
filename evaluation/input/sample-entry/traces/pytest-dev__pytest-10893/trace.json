@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes two concrete errors (`rmtree` deprecation of the onerror parameter in Python 3.12 and the missing addDuration API on TestCaseFunction), points to the exact code paths and upstream PRs, and states the failure mode (warnings-as-errors). While you must decide how to maintain backward compatibility and exactly where to hook in the new parameters/methods, there\u2019s a straightforward, sensible interpretation of the required changes. This is enough to begin implementing a fix."
+}

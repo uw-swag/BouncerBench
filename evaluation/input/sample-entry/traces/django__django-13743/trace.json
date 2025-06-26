@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly identifies the function to change (is_broken_pipe_error in django/core/servers/basehttp.py) and the desired behavior (treat ConnectionAbortedError the same as BrokenPipeError). This is a straightforward, targeted fix with no major ambiguities or additional requirements."
+}

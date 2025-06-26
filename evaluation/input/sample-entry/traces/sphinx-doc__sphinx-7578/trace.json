@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the failure, the exact warning message, the commit where it regressed, and reproducible steps (clone sphinx-gallery, install, cd to tinybuild, make). Even if the root cause isn\u2019t known yet, it\u2019s straightforward to reproduce the bug, see the exact failure, and begin diagnosing or fixing it. There\u2019s a minimal test suite to validate the fix, so this is well-specified enough for a meaningful solution attempt."
+}

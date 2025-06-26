@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes concrete REPL examples showing the incorrect behavior, the desired corrected output, and a clear description of the intersection logic that\u2019s failing. That gives enough detail to write a failing test and implement the fix."
+}

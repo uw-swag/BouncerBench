@@ -1,0 +1,3 @@
+{
+  "trace": "The feature request clearly describes what needs to be added (a robust=True flag on transaction.on_commit that will catch and swallow exceptions for those handlers, allowing later handlers to run) and gives usage examples. It\u2019s not a full spec of logging behavior or error types to catch, but it\u2019s entirely sensible to interpret and implement. There\u2019s enough here to write a meaningful PR."
+}

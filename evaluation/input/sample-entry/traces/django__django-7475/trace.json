@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly specifies what change is needed\u2014add an option to the diffsettings command (e.g. --default=settings.base) so that it compares the current settings to the given module instead of Django\u2019s global defaults. The desired behavior and example usage are provided, so one can implement it without extra clarification."
+}

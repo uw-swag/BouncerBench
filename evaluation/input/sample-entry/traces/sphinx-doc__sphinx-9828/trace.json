@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what feature to add (a new config option use_fuzzy_translations) and where to hook into (the write_mo call in sphinx/util/i18n.py) and even points to the Babel API. While you\u2019ll need to define the new config value, wire it through Sphinx\u2019s config system, and adjust the write_mo signature to pass it along, those details are standard boilerplate. Overall this is well enough scoped for a concrete implementation."
+}

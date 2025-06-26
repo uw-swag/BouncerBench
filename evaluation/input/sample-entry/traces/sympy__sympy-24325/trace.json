@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the wrong numeric result, the expected conversion factor, and even provides the updated test assertions. While it doesn\u2019t point at the exact source file line, the unit definitions and system are named, so a contributor can locate and correct the factor and update tests. This is enough to act on."
+}

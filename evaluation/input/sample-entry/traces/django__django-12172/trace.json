@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (async\u2010unsafe checks blocking notebook usage), the desired feature (a global flag/env var to disable the check), and the rationale (reduce boilerplate in notebooks). It doesn\u2019t spell out exact names or code locations, but there\u2019s a straightforward interpretation of how to add a setting or env var to bypass the existing check. That makes it reasonably specified for an implementation proposal."
+}

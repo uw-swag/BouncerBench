@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows the unwanted trailing space in the `__repr__`/`__str__` of `DatasetGroupBy`, reproduces it with minimal code, and asks to remove that extra space. The change is small and unambiguous, so it\u2019s well-specified."
+}

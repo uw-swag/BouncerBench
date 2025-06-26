@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/requests/auth.py b/requests/auth.py\nindex a3de123d..100f366c 100644\n--- a/requests/auth.py\n+++ b/requests/auth.py\n@@ -144,7 +144,8 @@ class HTTPDigestAuth(AuthBase):\n         if entdig:\n             base += ', digest=\"%s\"' % entdig\n         if qop:\n-            base += ', qop=auth, nc=%s, cnonce=\"%s\"' % (ncvalue, cnonce)\n+            # We're selecting 'auth' from the qop options and quoting it\n+            base += ', qop=\"auth\", nc=%s, cnonce=\"%s\"' % (ncvalue, cnonce)\n \n         return 'Digest %s' % (base)\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nquote qop options in Digest Auth\nBased on RFC2617 (http://tools.ietf.org/html/rfc2617), the value of\n'qop-options' directive should be quoted with double quotes:\n\n```\nqop-options\n     This directive is optional, but is made so only for backward\n     compatibility with RFC 2069 [6]; it SHOULD be used by all\n     implementations compliant with this version of the Digest\n     scheme. If present, it is a quoted string of one or more\n     tokens indicating the \"quality of protection\" values supported by\n     the server.  The value \"auth\" indicates authentication; the\n     value \"auth-int\" indicates authentication with\n     integrity protection; see the\n```\n\ncurl comamnd-line tool also appends these quotes. You can see this\nby `curl -v --digest --user user:passwd http://example.com/digest-auth`.\nUnfortunately, some minor server-side implementations seem to be sensitive\non this difference.\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_kt9c7cwio",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch changes the Digest header from qop=auth to qop=\"auth\", bringing it into compliance with RFC2617 and how curl formats it. It makes the minimal necessary change and doesn\u2019t introduce unrelated edits.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

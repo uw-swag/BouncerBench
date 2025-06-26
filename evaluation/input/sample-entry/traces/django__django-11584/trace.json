@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a reproducible scenario (specific Django versions, Dockerfile, docker-compose, full traceback), describes exactly when and where the error occurs, and isolates it to the new 2.2.3 code path in django/utils/translation/reloader.py. Although you\u2019d have to look up the upstream Django source to author the patch, everything you need to reproduce and verify a fix is provided."
+}

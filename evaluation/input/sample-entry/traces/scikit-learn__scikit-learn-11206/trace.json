@@ -1,0 +1,3 @@
+{
+  "trace": "The issue as written gives only a title and a vague note to \u201chandle NaN values\u201d but no specification of expected behavior (ignore NaNs vs produce NaN results, how to treat different shapes or axes, what tests should pass), nor any failing test cases or code pointers. There\u2019s insufficient detail to implement or verify a correct solution."
+}

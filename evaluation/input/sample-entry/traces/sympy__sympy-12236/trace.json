@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal, self-contained repro in Sympy 1.0, shows actual vs. expected output, and even what the correct expanded apart form should be. There\u2019s no missing context or ambiguity about what needs fixing."
+}

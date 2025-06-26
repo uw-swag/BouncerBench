@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the specific problem (loss of precision round-tripping between ISO and JD formats), provides concrete example code, inputs, and the observed vs. expected outputs, and states the desired outcome (getting back the original ISO string). That makes it well-specified for a meaningful solution."
+}

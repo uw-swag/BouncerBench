@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the current behavior (`NotImplementedError` on calling `as_set` for `Eq(n*cos(n) - 3*sin(n), 0)`) and the desired fallback (return a `ConditionSet(n, Eq(n*cos(n) - 3*sin(n), 0), Reals)`). You can reproduce it with the given snippet, know where `as_set` and `solveset` live, and see that the fix is to catch `NotImplementedError` and return a `ConditionSet` instead. This is enough to unambiguously implement the change."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the problem (needing to list many source roots) and the desired change (allow glob patterns like `src/*`). That gives a straightforward implementation target\u2014parse given patterns, feed them through a glob-expander, and use the results as source roots. Some details (nested recursion, exclusion rules, cross\u2010platform behavior) are left unspecified, but there is a sensible interpretation of what constitutes success, so it\u2019s reasonably specified."
+}

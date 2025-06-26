@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that for SQLite the AlterField operation should be a no-op when only choices are added/changed, since this change is metadata-only and other backends already skip it. It\u2019s straightforward to locate the AlterField logic in the migrations framework, detect when the only difference is in the field\u2019s .choices, and short-circuit the SQL generation for SQLite. While implementation details (exact methods/classes/files) aren\u2019t spelled out, an engineer familiar with the codebase can reasonably interpret what needs to be done."
+}

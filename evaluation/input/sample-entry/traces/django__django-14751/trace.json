@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (makemigrations outputs to stdout, no programmatic list of created files) and the desired outcome (print paths of created migration files in a script\u2010friendly way). While it doesn\u2019t prescribe exact flag names or output format, it\u2019s straightforward to interpret and implement (e.g. add a --script-friendly or --output-files option that emits file paths, and redirect progress output to stderr). Thus, it\u2019s reasonably specified: you can design a suitable CLI flag and output format to satisfy the request without further clarification."
+}

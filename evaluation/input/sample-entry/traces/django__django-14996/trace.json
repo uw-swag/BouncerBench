@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes concrete model definitions, reproduction steps, actual vs. expected SQL output, and a reference to the related issue (#31826). It clearly defines the desired behavior (no SQL operations when a field is renamed but db_column remains the same) and shows why the current behavior is incorrect. This is sufficient to attempt a fix in Django\u2019s migration autodetector."
+}

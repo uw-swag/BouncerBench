@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/utils/http.py b/django/utils/http.py\nindex 572cfb4..0ff80df 100644\n--- a/django/utils/http.py\n+++ b/django/utils/http.py\n@@ -176,10 +176,12 @@ def parse_http_date(date):\n     try:\n         year = int(m.group('year'))\n         if year < 100:\n-            if year < 70:\n-                year += 2000\n+            current_year = datetime.datetime.now().year\n+            current_century = current_year // 100 * 100\n+            if year <= (current_year % 100) + 50:\n+                year += current_century\n             else:\n-                year += 1900\n+                year += current_century - 100\n         month = MONTHS.index(m.group('mon').lower()) + 1\n         day = int(m.group('day'))\n         hour = int(m.group('hour'))\n@@ -198,7 +200,7 @@ def parse_http_date_safe(date):\n     try:\n         return parse_http_date(date)\n     except Exception:\n-        pass\n+        return None\n \n \n # Base 36 functions: useful for generating compact URLs\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ndjango.utils.http.parse_http_date two digit year check is incorrect\nDescription\n\t \n\t\t(last modified by Ad Timmering)\n\t \nRFC 850 does not mention this, but in RFC 7231 (and there's something similar in RFC 2822), there's the following quote:\nRecipients of a timestamp value in rfc850-date format, which uses a\ntwo-digit year, MUST interpret a timestamp that appears to be more\nthan 50 years in the future as representing the most recent year in\nthe past that had the same last two digits.\nCurrent logic is hard coded to consider 0-69 to be in 2000-2069, and 70-99 to be 1970-1999, instead of comparing versus the current year.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_lndbqfw4m",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch replaces the fixed 0\u201369\u21922000\u20132069 / 70\u201399\u21921970\u20131999 logic with a \u201cif year \u2264 current_mod100+50 pick current century, else last century\u201d check. That works when (current_year%100)+50 \u226499, but when (current_year%100)+50 >99 it never wraps into the next century. For example, in 1980 two\u2010digit year \u201c10\u201d should map to 2010 (30 years in the future), but the patched code maps it to 1910. Thus it fails the RFC\u2019s \u201cmore than 50 years in the future\u201d rule whenever the threshold crosses 100. </EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

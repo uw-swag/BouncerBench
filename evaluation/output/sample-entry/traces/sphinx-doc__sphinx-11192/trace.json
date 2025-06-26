@@ -1,0 +1,51 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sphinx/builders/__init__.py b/sphinx/builders/__init__.py\nindex 20ebfd7d9..ef3ee26f0 100644\n--- a/sphinx/builders/__init__.py\n+++ b/sphinx/builders/__init__.py\n@@ -571,10 +571,20 @@ class Builder:\n             self.prepare_writing(docnames)\n \n         if self.parallel_ok:\n+            from multiprocessing import Manager\n+\n+            # Use a multiprocessing.Manager to ensure shared data integrity\n+            manager = Manager()\n+            result_list = manager.list()\n+\n             # number of subprocesses is parallel-1 because the main process\n             # is busy loading doctrees and doing write_doc_serialized()\n             self._write_parallel(sorted(docnames),\n-                                 nproc=self.app.parallel - 1)\n+                                 nproc=self.app.parallel - 1,\n+                                 result_list=result_list)\n+\n+            # Aggregate results from all parallel processes\n+            self._finalize_search_index(result_list)\n         else:\n             self._write_serial(sorted(docnames))\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nSmaller/wrong search index with sphinx-build -j auto\n### Describe the bug\n\nUsing the latest version and building with ````-j auto```` results in a considerably smaller searchindex,js and as a result most searches returning nothing.  If I leave out ````-j```` then the  searchindex is considerably larger and searches work as expected.\r\n\r\nSome quick testing showed that Sphinx 6.0.0 did not have this problem while Sphinx 6.1.0 onwards does.\n\n### How to Reproduce\n\nThis fails:\r\n\r\n    sphinx-build -j auto  -n -b html -d build/doctrees -q -E . build/html\r\n\r\nThis works:\r\n\r\n    sphinx-build -n -b html -d build/doctrees -q -E . build/html\n\n### Environment Information\n\n```text\nPlatform:              linux; (Linux-5.19.0-29-generic-x86_64-with-glibc2.36)\r\nPython version:        3.10.7 (main, Nov 24 2022, 19:45:47) [GCC 12.2.0])\r\nPython implementation: CPython\r\nSphinx version:        6.1.3\r\nDocutils version:      0.19\r\nJinja2 version:        3.0.3\r\nPygments version:      2.14.0\n```\n\n\n### Sphinx extensions\n\n_No response_\n\n### Additional context\n\nSphinx conf.py (almost empty!) and other files are at https://github.com/rogerbinns/apsw/tree/master/doc\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_9fjhglhbm",
+    "status": "completed",
+    "call_id": "call_ABIbEOHaE4Ls442D6LWGq6m5",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _write_parallel\\\" -n sphinx/builders\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_ABIbEOHaE4Ls442D6LWGq6m5",
+    "output": "{\"output\":\"sphinx/builders/__init__.py:591:    def _write_parallel(self, docnames: Sequence[str], nproc: int) -> None:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_d9s0xwp69",
+    "status": "completed",
+    "call_id": "call_WwbnTgjEfEx0lvnmywdTrT2s",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '550,650p' sphinx/builders/__init__.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_WwbnTgjEfEx0lvnmywdTrT2s",
+    "output": "{\"output\":\"        updated_docnames: Sequence[str],\\n        method: str = 'update'\\n    ) -> None:\\n        if build_docnames is None or build_docnames == ['__all__']:\\n            # build_all\\n            build_docnames = self.env.found_docs\\n        if method == 'update':\\n            # build updated ones as well\\n            docnames = set(build_docnames) | set(updated_docnames)\\n        else:\\n            docnames = set(build_docnames)\\n        logger.debug(__('docnames to write: %s'), ', '.join(sorted(docnames)))\\n\\n        # add all toctree-containing files that may have changed\\n        for docname in list(docnames):\\n            for tocdocname in self.env.files_to_rebuild.get(docname, set()):\\n                if tocdocname in self.env.found_docs:\\n                    docnames.add(tocdocname)\\n        docnames.add(self.config.root_doc)\\n\\n        with progress_message(__('preparing documents')):\\n            self.prepare_writing(docnames)\\n\\n        if self.parallel_ok:\\n            # number of subprocesses is parallel-1 because the main process\\n            # is busy loading doctrees and doing write_doc_serialized()\\n            self._write_parallel(sorted(docnames),\\n                                 nproc=self.app.parallel - 1)\\n        else:\\n            self._write_serial(sorted(docnames))\\n\\n    def _write_serial(self, docnames: Sequence[str]) -> None:\\n        with logging.pending_warnings():\\n            for docname in status_iterator(docnames, __('writing output... '), \\\"darkgreen\\\",\\n                                           len(docnames), self.app.verbosity):\\n                self.app.phase = BuildPhase.RESOLVING\\n                doctree = self.env.get_and_resolve_doctree(docname, self)\\n                self.app.phase = BuildPhase.WRITING\\n                self.write_doc_serialized(docname, doctree)\\n                self.write_doc(docname, doctree)\\n\\n    def _write_parallel(self, docnames: Sequence[str], nproc: int) -> None:\\n        def write_process(docs: list[tuple[str, nodes.document]]) -> None:\\n            self.app.phase = BuildPhase.WRITING\\n            for docname, doctree in docs:\\n                self.write_doc(docname, doctree)\\n\\n        # warm up caches/compile templates using the first document\\n        firstname, docnames = docnames[0], docnames[1:]\\n        self.app.phase = BuildPhase.RESOLVING\\n        doctree = self.env.get_and_resolve_doctree(firstname, self)\\n        self.app.phase = BuildPhase.WRITING\\n        self.write_doc_serialized(firstname, doctree)\\n        self.write_doc(firstname, doctree)\\n\\n        tasks = ParallelTasks(nproc)\\n        chunks = make_chunks(docnames, nproc)\\n\\n        # create a status_iterator to step progressbar after writing a document\\n        # (see: ``on_chunk_done()`` function)\\n        progress = status_iterator(chunks, __('writing output... '), \\\"darkgreen\\\",\\n                                   len(chunks), self.app.verbosity)\\n\\n        def on_chunk_done(args: list[tuple[str, NoneType]], result: NoneType) -> None:\\n            next(progress)\\n\\n        self.app.phase = BuildPhase.RESOLVING\\n        for chunk in chunks:\\n            arg = []\\n            for docname in chunk:\\n                doctree = self.env.get_and_resolve_doctree(docname, self)\\n                self.write_doc_serialized(docname, doctree)\\n                arg.append((docname, doctree))\\n            tasks.add_task(write_process, arg, on_chunk_done)\\n\\n        # make sure all threads have finished\\n        tasks.join()\\n        logger.info('')\\n\\n    def prepare_writing(self, docnames: set[str]) -> None:\\n        \\\"\\\"\\\"A place where you can add logic before :meth:`write_doc` is run\\\"\\\"\\\"\\n        raise NotImplementedError\\n\\n    def write_doc(self, docname: str, doctree: nodes.document) -> None:\\n        \\\"\\\"\\\"Where you actually write something to the filesystem.\\\"\\\"\\\"\\n        raise NotImplementedError\\n\\n    def write_doc_serialized(self, docname: str, doctree: nodes.document) -> None:\\n        \\\"\\\"\\\"Handle parts of write_doc that must be called in the main process\\n        if parallel build is active.\\n        \\\"\\\"\\\"\\n        pass\\n\\n    def finish(self) -> None:\\n        \\\"\\\"\\\"Finish the building process.\\n\\n        The default implementation does nothing.\\n        \\\"\\\"\\\"\\n        pass\\n\\n    def cleanup(self) -> None:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_6g0595cyp",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch merely injects a multiprocessing.Manager and a placeholder result_list into the call to _write_parallel, then calls a nonexistent _finalize_search_index, but it does not (a) extend _write_parallel to accept or populate that result_list, (b) implement result collection in the worker processes, or (c) provide any merging logic for the search index. In short, it only adds stub calls without the key implementation needed to merge search indexes from parallel workers, so it misses the core of the fix.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

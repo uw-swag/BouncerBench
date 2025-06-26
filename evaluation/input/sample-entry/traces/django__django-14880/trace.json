@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies where to make the change (RelatedField._check_clashes()), explains exactly what improvement is needed (include the clashing name in the error message), and even notes that tests will need updating. A developer familiar with the codebase can implement and verify these changes without further clarification."
+}

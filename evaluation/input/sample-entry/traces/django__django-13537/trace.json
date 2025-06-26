@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what\u2019s broken (dbshell ignores the charset in DATABASES[...]['OPTIONS']), under what conditions (MySQL with utf8), and even includes a proposed patch to inspect and forward the charset setting. While we\u2019d still want to review exact diff and add tests or extend to other backends, there\u2019s a straightforward fix to implement and verify. Hence it\u2019s reasonably specified."
+}

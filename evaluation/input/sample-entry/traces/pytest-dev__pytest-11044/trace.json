@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines where (`testpaths` handling in pytest\u2019s config loader) to add behavior (emit a warning if the user has defined `testpaths` in their config and none of the globs match any files or directories). The user even points at the relevant code location and specifies the condition under which to warn (\u201cif `testpaths` is defined but does not match anything\u201d). That is enough detail for a developer to implement a warning (or error) message, so the issue is well-specified."
+}

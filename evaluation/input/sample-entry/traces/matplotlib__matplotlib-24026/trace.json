@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the current behavior (stackplot resetting the axes prop cycle and rejecting \u2018C#\u2019 color aliases), provides reproducible example code and traceback, and states the desired change (stackplot should honor CN aliases and not alter the Axes prop cycle). This is sufficiently specific to implement and test a fix."
+}

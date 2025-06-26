@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear reproducible example, pinpoints the exact code location (`django/db/models/query.py` around the `isinstance` check), and even suggests concrete fixes (duck-typing or including `F` in the type check). It\u2019s fully clear what to change and how to verify it, making it well-specified."
+}

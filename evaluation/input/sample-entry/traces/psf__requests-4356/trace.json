@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (missing slash in proxy URL leading to a confusing NoneType exception), gives reproduction steps, actual and expected results, and even suggests where it might be fixed. While it doesn\u2019t prescribe the exact exception text or implementation location (requests vs urllib3), it\u2019s unambiguous what needs to be done: validate proxy URLs and raise a clear error. This makes it reasonably specified for a concrete fix."
+}

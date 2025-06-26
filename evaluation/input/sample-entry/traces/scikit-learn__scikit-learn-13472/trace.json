@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (using a Pipeline as an initial estimator in GradientBoostingRegressor causes a signature mismatch), includes minimal reproducible code, the full traceback, the exact source line, and even a candidate one-line patch. All required context is present, making it straightforward to implement and test the fix."
+}

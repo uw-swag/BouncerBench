@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly described (pytest crashes when Path.exists() is called on an overly long string), the relevant code location is given (_set_initial_conftests in _pytest/config/__init__.py), and the desired behavior (catch OSError around exists() and treat it as non-existent) is obvious. A concrete fix can be implemented without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report provides clear reproduction steps, the exact error traceback, and identifies that _print_SingularityFunction is missing the 'exp' parameter. A maintainer can locate that method in printing/latex.py and update its signature (and handling) to accept exp. The requirements for a fix are unambiguous."
+}

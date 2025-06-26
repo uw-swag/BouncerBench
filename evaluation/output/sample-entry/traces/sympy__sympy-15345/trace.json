@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/printing/mathematica.py b/sympy/printing/mathematica.py\nindex ea7e3a2d94..ffeab2c8f2 100644\n--- a/sympy/printing/mathematica.py\n+++ b/sympy/printing/mathematica.py\n@@ -30,7 +30,11 @@\n     \"acoth\": [(lambda x: True, \"ArcCoth\")],\n     \"asech\": [(lambda x: True, \"ArcSech\")],\n     \"acsch\": [(lambda x: True, \"ArcCsch\")],\n-    \"conjugate\": [(lambda x: True, \"Conjugate\")],\n+\n+\n+\n+\n+    \"max\": [(lambda *args: True, \"Max\")],\n \n }\n \n@@ -73,7 +77,8 @@ def _print_Pow(self, expr):\n     def _print_Mul(self, expr):\n         PREC = precedence(expr)\n         c, nc = expr.args_cnc()\n-        res = super(MCodePrinter, self)._print_Mul(expr.func(*c))\n+\n+        res = ' * '.join(self.parenthesize(a, PREC) for a in c)\n         if nc:\n             res += '*'\n             res += '**'.join(self.parenthesize(a, PREC) for a in nc)\n@@ -92,15 +97,15 @@ def _print_list(self, expr):\n         return '{' + ', '.join(self.doprint(a) for a in expr) + '}'\n     _print_tuple = _print_list\n     _print_Tuple = _print_list\n-\n     def _print_Function(self, expr):\n-        if expr.func.__name__ in self.known_functions:\n-            cond_mfunc = self.known_functions[expr.func.__name__]\n+        if expr.func.__name__.lower() == \"max\":\n+            return \"Max[%s]\" % self.stringify(expr.args, \", \")\n+        if expr.func.__name__.lower() in self.known_functions:\n+            cond_mfunc = self.known_functions[expr.func.__name__.lower()]\n             for cond, mfunc in cond_mfunc:\n                 if cond(*expr.args):\n                     return \"%s[%s]\" % (mfunc, self.stringify(expr.args, \", \"))\n         return expr.func.__name__ + \"[%s]\" % self.stringify(expr.args, \", \")\n-\n     def _print_Integral(self, expr):\n         if len(expr.variables) == 1 and not expr.limits[0][1:]:\n             args = [expr.args[0], expr.variables[0]]\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nmathematica_code gives wrong output with Max\nIf I run the code\r\n\r\n```\r\nx = symbols('x')\r\nmathematica_code(Max(x,2))\r\n```\r\n\r\nthen I would expect the output `'Max[x,2]'` which is valid Mathematica code but instead I get `'Max(2, x)'` which is not valid Mathematica code.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_zooj8jz6k",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>This patch overhauls the function printer (including a wholesale rewrite of `_print_Mul`) just to inject support for Max, which is both overkill and risks regressing unrelated Mul\u2010printing behavior. The special\u2010casing of max and lowercasing of all known function names also diverges from the existing mapping style. In short, it introduces unrelated changes and doesn\u2019t precisely address the Max issue in isolation. </EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

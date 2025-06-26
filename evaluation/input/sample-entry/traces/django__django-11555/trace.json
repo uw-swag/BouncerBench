@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a clear description of the failure, a stack trace pointing to the exact problem (an OrderBy object passed where a string is expected), and even a minimal reproducible test repository. There\u2019s no ambiguity about what\u2019s broken or where; a developer can clone the repo, run the tests, and see the error. That makes it well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a mismatch between the current string output (bracket/set notation) and the principle that str(x) should be valid Python code, but it does not clearly specify what the new string format should be (e.g. how to represent open/closed endpoints succinctly, whether to keep Interval(...) syntax, etc.). There\u2019s ambiguity around the desired representation and no clear acceptance criteria, so it isn\u2019t sufficiently specified for implementation."
+}

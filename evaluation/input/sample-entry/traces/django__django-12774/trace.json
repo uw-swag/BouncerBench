@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (in_bulk only checks field.unique, not UniqueConstraint), provides a minimal repro and traceback, and states the desired change (recognize UniqueConstraint as making a field unique). That is sufficient to implement a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a real problem (infinite recursion when using could_extract_minus_sign) and pinpoints example code, but it doesn\u2019t specify the exact desired behavior, API changes, or a concrete approach to fix it. It poses an open-ended question (\u201cIs there a fast way to do that?\u201d) rather than defining success criteria or a well-scoped solution. This makes it too vague to implement a meaningful fix without further clarification."
+}

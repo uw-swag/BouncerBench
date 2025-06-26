@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies a missing feature (a .to_timedelta method on TimeDelta returning datetime.timedelta, and optionally .to_datetime64/.to_timedelta64 for numpy types) and the expected behavior is straightforward to implement from the existing internal representations. While API details (handling of arrays vs scalars) may need design, the core requirement is unambiguous and actionable."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report points out that only the first signature in a SWIG-generated docstring is picked up and requests support for multiple overloads, but it provides no concrete examples of the docstring format or the exact desired behavior in the generated docs. Without details on how signatures are formatted, parsed, and rendered or what the intended output should look like, there\u2019s too much ambiguity to start coding. More specifics are needed."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the current behavior (inherited-members applies to all base classes) and what\u2019s needed: allowing a comma-separated list of base class names to be passed to the inherited-members option so that members from only those classes are ignored. The two use cases are spelled out and the desired change to the Sphinx autodoc option is unambiguous, making this issue well-specified."
+}

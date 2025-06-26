@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states a clear need (an option to preserve user-defined type aliases in generated docs rather than always unfolding them), but it provides no context about which autodoc tool or version is in use, where in the codebase this change would apply, or any API/implementation hints. Without knowing the specific documentation generator or code structure to target, it\u2019s ambiguous how to implement the feature or even locate the relevant code. Therefore it\u2019s too vague to begin a meaningful PR."
+}

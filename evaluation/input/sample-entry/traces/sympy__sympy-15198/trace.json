@@ -1,0 +1,3 @@
+{
+  "trace": "The report notes a regression in code generation for Octave/Julia/JS after a specific commit, and that \u2018assoc_laguerre\u2019 should error instead of printing \u2018laguerre\u2019. However, it provides no test cases, code pointers, error messages, or reproduction steps. It\u2019s unclear where and how to fix or write tests. Thus it\u2019s too vague for a meaningful implementation attempt."
+}

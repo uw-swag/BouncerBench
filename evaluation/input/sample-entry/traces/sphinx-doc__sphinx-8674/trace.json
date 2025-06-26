@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the need to pass arbitrary Pygments lexer options (e.g. :startsinline: for PHP) both globally (via conf.py) and per\u2010block. While the precise names/formats of the new config/directive options aren\u2019t spelled out, the scope and behavior are well understood. A developer can sensibly introduce a config key (e.g. pygments_options) and directive option parsing and wire them into the existing highlight machinery. This is \u201creasonably specified.\u201d"
+}

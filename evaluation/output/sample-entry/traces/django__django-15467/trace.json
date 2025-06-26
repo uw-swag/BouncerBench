@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/admin/options.py b/django/contrib/admin/options.py\nindex 64be087b..42f45761 100644\n--- a/django/contrib/admin/options.py\n+++ b/django/contrib/admin/options.py\n@@ -269,7 +269,7 @@ class BaseModelAdmin(metaclass=forms.MediaDefiningClass):\n                         \"class\": get_ul_class(self.radio_fields[db_field.name]),\n                     }\n                 )\n-                kwargs[\"empty_label\"] = _(\"None\") if db_field.blank else None\n+                kwargs[\"empty_label\"] = (kwargs.get('empty_label') or _('None')) if db_field.blank else None\n \n         if \"queryset\" not in kwargs:\n             queryset = self.get_field_queryset(db, db_field, request)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nModelAdmin with defined radio_fields override empty_label\nDescription\n\t\nModelAdmin drops my \"empty_label\" and set \"default_empty_label\". For example:\nclass MyModelAdmin(ModelAdmin):\n\tradio_fields = 'myfield',\n\tdef formfield_for_foreignkey(self, db_field, *args, **kwargs):\n\t\tif db_field.name == 'myfield':\n\t\t\tkwargs['empty_label'] = \"I WANT TO SET MY OWN EMPTY LABEL\"\n\t\treturn super().formfield_for_foreignkey(db_field, *args, **kwargs)\nYou get never the \"I WANT TO SET MY OWN EMPTY LABEL\"\nHow to fix it:\nIn django\\contrib\\admin\\options.py, row 234:\nkwargs['empty_label'] = _('None') if db_field.blank else None\nShould be changed on:\nkwargs['empty_label'] = (kwargs.get('empty_label') or _('None')) if db_field.blank else None\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_a6jf2zlds",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe proposed change exactly implements the user\u2019s suggestion: it first checks for a pre-existing `empty_label` in `kwargs` and only falls back to `_(\"None\")` when none was provided and `blank=True`. That preserves any custom `empty_label` set by an overridden `formfield_for_foreignkey` without altering any other behavior. No unrelated code was modified.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

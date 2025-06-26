@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes reproducible examples showing asymmetric behavior, references related issues, and states the desired outcome (make S(0.0) == S.false evaluate to True both ways). A developer can jump in and implement symmetric equality for Float vs Boolean. This is a clearly defined bug with an obvious expected fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproducible examples (config, source files, and tarball), clear reproduction steps, environment details, expected vs actual behavior, and context about related settings. It\u2019s detailed enough to implement and verify a fix."
+}

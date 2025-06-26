@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows that frac(zoo) currently raises a TypeError, but the author explicitly states \u201cNot sure what should happen, but not this,\u201d without prescribing the correct or desired behavior. There is no specification of the intended output or semantics of frac when applied to zoo (complex infinity). Without knowing what frac(zoo) should return (e.g. zoo, NaN, a tuple, etc.), there\u2019s insufficient information to implement a meaningful fix or even write a proper test. Hence the issue is too vague."
+}

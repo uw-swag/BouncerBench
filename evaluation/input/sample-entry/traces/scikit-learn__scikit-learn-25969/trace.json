@@ -1,0 +1,3 @@
+{
+  "trace": "The description is essentially a high-level PR roadmap rather than a concrete, self-contained issue. It lists intentions (e.g. add a mixin, remove a file, implement helper functions across several modules) without specifying exactly what code changes are required, how the API should behave, or what tests must pass. There\u2019s no clear scope or acceptance criteria, making it too vague to implement directly."
+}

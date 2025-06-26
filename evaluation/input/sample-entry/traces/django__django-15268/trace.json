@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (split remove/add operations for unique/index together constraints), gives a concrete example with before-and-after operations, and even points to a failing test case showing the expected behavior. An implementer familiar with Django\u2019s migration autodetector can write code to coalesce consecutive AlterUniqueTogether/AlterIndexTogether ops on the same model into a single final operation. This is well-specified."
+}

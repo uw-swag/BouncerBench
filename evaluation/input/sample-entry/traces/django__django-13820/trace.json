@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior in MigrationLoader.load_disk, the problem (skipping non-namespace packages lacking __file__), and a concrete proposal (only skip when __file__ is missing and __path__ isn\u2019t a list). The code location is specified, and the change is narrowly scoped. This is sufficient to implement the requested fix."
+}

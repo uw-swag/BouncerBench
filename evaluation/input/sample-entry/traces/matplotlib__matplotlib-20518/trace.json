@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what\u2019s wrong (sketch_params aren\u2019t applied), includes minimal reproduction code, actual vs. expected outputs, and environment/version. It\u2019s straightforward to locate the PGF backend\u2019s draw path logic and add support for the sketch parameters."
+}

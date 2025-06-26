@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly identifies a formatting inconsistency in the .to_string outputs for unicode/console formats, gives concrete examples of the bad outputs, and defines the one\u2010sentence expected behavior (\u201cshould never start with a space\u201d). Although it doesn\u2019t spell out every intermediate spacing rule in prose, the examples make the intended fix obvious (strip off any leading whitespace and normalize the space between number and unit). This is enough detail to go implement and test a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, minimal reproducible code, the exact traceback, and system details. It\u2019s obvious that vstack should not throw a casting error when one table has a structured\u2010dtype column that the other lacks. A developer can run the snippet, see the failure, and work out how vstack should fill in missing structured fields, so it\u2019s well specified."
+}

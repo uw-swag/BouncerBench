@@ -1,0 +1,3 @@
+{
+  "trace": "The issue pinpoints the exact file and line, explains the root cause (using raw prefix in a regex), and even suggests the straightforward fix (wrap prefix in re.escape). It\u2019s clear what code change is needed and where to look for any other similar patterns, making it well-specified for an implementation."
+}

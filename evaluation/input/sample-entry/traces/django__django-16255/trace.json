@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s wrong (max() on an empty sequence in get_latest_lastmod), includes the traceback, pinpoints the code location, and even suggests the exact change needed (catch ValueError alongside TypeError). It\u2019s immediately actionable."
+}

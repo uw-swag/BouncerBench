@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly states the goal (allow using AuthenticationMiddleware and auth context processor without having django.contrib.auth in INSTALLED_APPS) and even mentions adding tests to prevent regression. The scope is defined, though implementation details are left to the developer\u2019s judgment. This is enough to start a meaningful solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies that lambdify with the mpmath module isn\u2019t converting Sympy Rationals to mpmath\u2019s high\u2010precision floats, shows a minimal reproducible example, and points to where to add support (in the mpmath dispatch map). While the exact implementation isn\u2019t spelled out, the required behavior is unambiguous and there is a straightforward fix (add a mapping for Rational \u2192 mp.mpf(n)/mp.mpf(d))."
+}

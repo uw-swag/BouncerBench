@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states a desired change (\u201callow overriding widget in formfield_for_manytomany\u201d) but provides no examples, no code or API details, no version context or reproduction steps, and no clear expected behavior. It\u2019s unclear how the override should work or differ from the ForeignKey case, so you can\u2019t meaningfully implement a fix without further clarification."
+}

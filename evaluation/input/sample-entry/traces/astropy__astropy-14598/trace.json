@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, minimal reproducible code, expected behavior, and environment details. A developer can reproduce the failure cases, identify the code paths in fits.Card.__str__/fromstring, and implement a fix. This is well-specified."
+}

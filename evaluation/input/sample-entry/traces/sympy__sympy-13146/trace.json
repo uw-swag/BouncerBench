@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a minimal reproducible example (with code, current output, and desired output) and clearly states the problem (Sympy isn\u2019t collapsing two identical terms with a floating/rational exponent into zero). One can propose a concrete fix (e.g. use rational exponents instead of floats or adjust the simplification routine). It\u2019s well-defined what success looks like (getting 0)."
+}

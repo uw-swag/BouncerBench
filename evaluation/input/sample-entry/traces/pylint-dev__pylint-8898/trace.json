@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes how to reproduce the problem (a valid regex including commas is split on commas), shows the exact failure, and states the expected behavior (support commas or an escape mechanism). There\u2019s a direct and unambiguous fix to the argument parsing, so the requirements are well\u2010specified."
+}

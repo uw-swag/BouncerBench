@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current failure mode, shows the traceback and code location, and even suggests mirroring the existing view\u2010error handling. It\u2019s obvious where to wrap the update call, what kind of message to raise, and how it should behave, so a developer can jump in and implement it without further clarification."
+}

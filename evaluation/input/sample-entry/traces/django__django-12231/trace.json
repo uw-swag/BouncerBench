@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies where the problem lies (the related manager\u2019s set() logic), provides a reproducible scenario (form data as strings vs. pks as ints), and suggests the desired behavior (coerce or validate inputs before diffing). However, it leaves open how Django should treat string inputs (auto-convert vs. error) and doesn\u2019t specify API contract changes in detail, so some design decisions remain. Overall it\u2019s actionable with sensible assumptions."
+}

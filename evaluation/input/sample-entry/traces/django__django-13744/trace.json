@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to be done (deprecate the old MemcachedCache backend in Django 3.2, remove it in 4.1), why (python-memcached is unmaintained and there\u2019s a pymemcache alternative), and references relevant PRs/issues. A developer can proceed by adding deprecation warnings, updating docs and tests, and scheduling removal. There\u2019s enough detail to implement a solution."
+}

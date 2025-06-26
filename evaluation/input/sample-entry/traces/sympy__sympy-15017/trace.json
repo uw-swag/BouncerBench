@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current (wrong) behavior of len for rank-0 (scalar) NDimArray, shows concrete examples, and states the expected behavior (return 1, matching the number of elements). There is no ambiguity about what needs to change in __len__ logic. This is sufficient to implement and verify a fix."
+}

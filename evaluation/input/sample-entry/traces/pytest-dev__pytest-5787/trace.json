@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal example tests, shows exact expected vs. actual output, and specifies the environment. It clearly states the feature gap (xdist\u2019s serialization drops chained exceptions) so a developer can reproduce and implement inclusion of __cause__/__context__ in xdist\u2019s failure serialization. This is enough to drive a concrete fix."
+}

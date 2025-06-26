@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (filter_meta_fields only removing the first meta field), provides a minimal reproduction case, the expected vs actual behavior, environment details (Sphinx versions, Python), and even points to the relevant function and commit. It\u2019s sufficiently detailed to write a test and patch."
+}

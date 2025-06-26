@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, shows concrete repro cases and what HTML output is being produced vs. what is expected, and narrows the problem down to the separator-splitting logic in the kbd role\u2019s regex/algorithm. While it doesn\u2019t hand you the exact regex to use, it gives enough detail to make a sensible fix (e.g. treat standalone \u201c-\u201d, \u201c+\u201d, \u201c^\u201d as a single key, and only split on those when between tokens). That makes it reasonably specified for an engineer to write and validate a solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes a regression where users with only view permissions can still add/remove items via an admin TabularInline on an auto-created M2M through model. It gives minimal repro code and the expected behavior (inlines should be read-only for view-only users). While it doesn\u2019t spell out every testing detail, there\u2019s enough here to reproduce and implement a fix. This makes the issue reasonably specified."
+}

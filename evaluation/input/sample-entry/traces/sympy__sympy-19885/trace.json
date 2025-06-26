@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example (code snippet plus a test archive), the exact functions in question (`linsolve` vs. `solve`), the input system of equations, and an illustration of the wrong output. This gives a contributor everything needed to reproduce the issue and write a failing test, so it is well\u2010specified."
+}

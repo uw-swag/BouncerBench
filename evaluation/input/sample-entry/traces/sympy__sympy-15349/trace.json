@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes Sympy version, minimal reproducible code, actual vs expected output, and points to the exact source location. There\u2019s enough detail to identify and correct the sign error in the rotation matrix and add or update tests."
+}

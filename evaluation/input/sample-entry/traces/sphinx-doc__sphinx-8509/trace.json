@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the needed change: switch the default `latex_engine` from platex to uplatex for Japanese documentation in Sphinx. There is sufficient context (version support, rationale) to make a concrete code change (adjust the default in the LaTeX builder when language is Japanese). While exact file locations aren\u2019t spelled out, the scope and goal are unambiguous."
+}

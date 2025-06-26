@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, the exact error, Django versions tested, and a clear \u2018ask\u2019 (emit a warning when a subclass field hides a @property from a base model). You could implement this by detecting name collisions in the model metaclass or init and issuing a warning, so while you\u2019ll make some design choices around where/what warning to raise, the problem and desired behavior are clear."
+}

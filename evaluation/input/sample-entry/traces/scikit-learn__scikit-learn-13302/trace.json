@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is just a high-level to-do with references to other PRs (#11155) and lacks concrete details on the bug, expected behavior, or code locations. There\u2019s no clear reproduction or specification of the casting rules or where changes must occur, making it too vague to implement directly."
+}

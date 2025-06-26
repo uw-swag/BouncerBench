@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example (model definitions, test case, exact steps with line markers), shows the actual vs. expected behavior, and clearly states the desired change (auto-updating the foreign key field when the related object is saved after assignment). There\u2019s no ambiguity about what\u2019s failing or what the fix should aim for, making it well-specified."
+}

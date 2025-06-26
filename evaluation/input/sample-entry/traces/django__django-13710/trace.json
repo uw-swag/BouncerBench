@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (inline admin uses the model\u2019s verbose names), the desired change (if an InlineAdmin specifies verbose_name but not verbose_name_plural, derive the plural from the inline\u2019s verbose_name by default), and even references existing tests in the submitted patch. It\u2019s obvious where in the admin options code the defaults for verbose_name_plural need updating, so a PR could be authored without needing further clarification."
+}

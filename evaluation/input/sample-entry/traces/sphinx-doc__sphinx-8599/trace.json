@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the feature request, desired configuration variables, their expected defaults, and usage examples. It\u2019s straightforward to implement: add two new HTML-based config options and inject their values into the HTML writer for permalinks and viewcode links."
+}

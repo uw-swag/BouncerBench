@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired behavior change (have cache.delete() return a success flag), points out how each backend can determine success (row counts or delete counts), and even references how existing clients already expose this. A developer familiar with the cache backends can implement this directly. No key requirements are missing."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the problem (literalinclude\u2019s prepend text loses leading whitespace), gives a minimal repro (index.rst and pom.xml), shows actual vs expected output, and lists environment versions. That is everything needed to diagnose and fix the formatting behavior in Sphinx\u2019s literalinclude implementation."
+}

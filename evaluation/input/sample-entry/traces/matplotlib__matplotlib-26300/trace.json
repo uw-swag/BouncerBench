@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproduction, clear actual vs expected behavior, version details, and even suspects the offending commit/logic. It\u2019s clear that tight_layout should suppress the warning on subsequent calls. This is well-specified and actionable."
+}

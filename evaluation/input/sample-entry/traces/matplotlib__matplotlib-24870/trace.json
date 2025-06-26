@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the desired behavior (auto\u2010detect boolean inputs to contour() and use a single 0.5 level when levels isn\u2019t specified) and gives context and examples, but it leaves integration details (where exactly in contour code to hook this, how to handle masked arrays, etc.) to the implementer. It\u2019s a straightforward feature proposal with enough direction for a sensible implementation, so it\u2019s REASONABLY_SPECIFIED."
+}

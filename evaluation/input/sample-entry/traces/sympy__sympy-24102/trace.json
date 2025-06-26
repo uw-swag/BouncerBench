@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, shows the expected vs actual behavior, and clearly identifies that parse_mathematica should accept Unicode letters (e.g. Greek) just like the old mathematica() did. With access to the parser code, it\u2019s straightforward to adjust the tokenizer/grammar to include such characters. This is actionable and unambiguous."
+}

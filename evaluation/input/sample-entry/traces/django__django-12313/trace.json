@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes clear reproduction steps (initial models, commands run), the exact behavior seen, error trace, and the expected behavior (case-only renames should be detected as RenameModel). There\u2019s enough detail to reproduce, diagnose, and implement a fix in Django\u2019s migration autodetector."
+}

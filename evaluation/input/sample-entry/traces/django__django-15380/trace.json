@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides clear steps to reproduce (renaming a model and field in one makemigrations run), the exact error and stack trace, and even the regression commit. There\u2019s no ambiguity about what\u2019s broken or what the expected behavior is (the autodetector shouldn\u2019t crash), so it\u2019s actionable as-is."
+}

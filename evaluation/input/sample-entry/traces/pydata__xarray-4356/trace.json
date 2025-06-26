@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the error case (using sum with min_count over multiple dimensions), provides a minimal reproducible example, points to the exact location in the codebase, and even suggests a specific code change. While it doesn\u2019t include formal tests, it\u2019s straightforward to infer the required behavior and write tests. Thus it\u2019s reasonably specified for an implementer to work on."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a reproducible error case with code samples, migration operations, and the expected operation ordering. It specifies the desired behavior (removing the field from the base model before creating it on the subclass) and points to the part of the system (the migration autodetector) that needs to change. This is sufficient to implement and test a solution."
+}

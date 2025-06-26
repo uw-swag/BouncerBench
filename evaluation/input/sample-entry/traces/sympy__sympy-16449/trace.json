@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states \u201cAdd CDF to Maxwell distribution\u201d and references the Wikipedia page, but gives no context on the codebase, language, module or function signatures, parameter conventions, tests, or where exactly to add it. It lacks the details needed to implement and integrate the feature without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the broken behavior (ExtractYear on DurationField producing an invalid date comparison SQL) and the desired outcome (raise a ValueError when using Extract on DurationField). It provides a concrete example and enough context to implement a check in the Extract_* transformer code. While it doesn\u2019t spell out every code detail, there\u2019s a straightforward, sensible interpretation for a fix."
+}

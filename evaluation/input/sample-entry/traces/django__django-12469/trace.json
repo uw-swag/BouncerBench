@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the feature (admin date_hierarchy monthly view) and the incorrect behavior (an extra day from the prior month shows up for non-UTC time zones). While it lacks full repro steps or environment/version details, the root issue and its context (timezone boundary handling) are unambiguous, and a developer familiar with the date_hierarchy code can make a sensible fix and write a test. It\u2019s not perfectly detailed, but it\u2019s sufficient to start coding a solution."
+}

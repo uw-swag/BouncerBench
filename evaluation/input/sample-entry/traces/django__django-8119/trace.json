@@ -1,0 +1,3 @@
+{
+  "trace": "The request is very high-level and lacks concrete details on the API changes, SQL generation, compatibility constraints, error handling, testing strategy, and examples beyond a single sketch. There\u2019s no breakdown of how expressions would integrate into existing filter/Q logic or what semantics to support. Without further fleshed-out requirements, it\u2019s unclear how to implement or validate a solution."
+}

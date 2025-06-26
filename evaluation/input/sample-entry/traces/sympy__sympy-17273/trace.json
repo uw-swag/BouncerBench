@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the mismatched constant (hbar in sympy.physics.units), points to the authoritative CODATA value (1.054571817e-34 J\u00b7s), and provides a reference. Fixing it simply requires updating the numeric value in the code. This is a precise, actionable request."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete minimal reproducer, version information, exact input/output, and an expected outcome. It identifies the root cause (fallback to evalf with too few digits) and states the invariant that any rational vs \u03c0 comparison should be exact, so there\u2019s a clear fix: add a symbolic/exact path or bump precision to decide the sign. No key information is missing for implementing a solution."
+}

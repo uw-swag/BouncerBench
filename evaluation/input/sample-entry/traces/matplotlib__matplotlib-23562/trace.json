@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducible example, a clear traceback, and enough context to locate the faulty method in mpl_toolkits.mplot3d.art3d.py. It\u2019s clear that Poly3DCollection.get_facecolors() is referencing an undefined attribute and should mirror the 2D version by populating _facecolors2d appropriately. While the exact desired values aren\u2019t spelled out, there\u2019s a sensible reference implementation in the 2D code to follow, so one can craft a concrete fix without further clarification."
+}

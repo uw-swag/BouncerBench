@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly reproduces the bug (code snippet, error trace, Matplotlib version) and identifies exactly where and why the crash happens, but it leaves open which of several fixes is preferred (catching the exception versus providing an approximate inverse). This is enough to begin implementation work but still requires a design decision, so I\u2019d call it REASONABLY_SPECIFIED."
+}

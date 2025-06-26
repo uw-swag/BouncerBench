@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly specifies the purpose and behavior of the new management command (optimizemigration app_name migration_name), how it should work (read a migration, run the existing optimizer, and overwrite the file), and how it differs from squashmigrations. While it doesn\u2019t spell out every code detail (import paths, error handling policies, etc.), a developer familiar with the codebase can sensibly fill in those gaps and produce a working implementation."
+}

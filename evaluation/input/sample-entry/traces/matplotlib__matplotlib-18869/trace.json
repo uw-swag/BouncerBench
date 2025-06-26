@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the problem (only a string __version__ is available) and proposes a concrete enhancement (expose a comparable version_info tuple or LooseVersion instance at the top level). While some details (exact attribute name, choice between tuple vs LooseVersion, parsing rules) are left to bikeshedding, there\u2019s a sensible, straightforward path to implement and test the feature. Thus it\u2019s reasonably specified."
+}

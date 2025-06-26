@@ -1,0 +1,3 @@
+{
+  "trace": "This issue includes a minimal reproducible example, clear description of the bug\u2019s cause (the `_get_lines` binding), actual vs. expected output, the precise location in the code to change, and a suggested fix. A developer can act on it immediately."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal model, exact ORM call, generated SQL, resulting error, and the expected SQL. It\u2019s clear what\u2019s broken and what the correct behavior should be, so it\u2019s well specified."
+}

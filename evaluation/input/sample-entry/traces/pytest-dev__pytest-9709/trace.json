@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates a reproducible bug in pytest.approx when passed a set (unlike lists/tuples), shows the relevant implementation snippet, and even suggests two possible remediation paths (remove set from supported \u201csequences\u201d or add proper unordered\u2010container support). While it doesn\u2019t spell out exactly which remedy to choose or define all edge\u2010case behavior for unordered containers, it\u2019s unambiguous what\u2019s wrong and what a correct fix would aim to do. There\u2019s enough here to craft a PR against the code, docs, and tests."
+}

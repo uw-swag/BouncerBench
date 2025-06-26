@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear symptom (TypeError in pyopenssl\u2019s sendall after bump to requests 2.8.0), full traceback pointing at memoryview(data), and exact package versions. While there\u2019s no minimal repro snippet provided, it\u2019s straightforward to reproduce by issuing a request under those versions or to inspect the patched urllib3/pyopenssl integration to see where a non\u2010bytes object is passed. There\u2019s a clear path to a fix (ensure data is bytes or adapt memoryview call), so although you\u2019ll need to infer details, it\u2019s specified well enough to attempt a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the incorrect behaviour of .is_positive for 0**nonzero-real, gives minimal reproducible code, and states the expected outcome (False). This is a straightforward, self\u2010contained request to update the is_positive logic for zero bases with nonzero real exponents."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the problem (non\u2010deterministic ordering of nested sets in Sphinx\u2019s object_description), shows examples of the broken output, and points to the relevant function in the codebase. While it doesn\u2019t fully diagnose the root cause or provide a repro test case, there is a clear and actionable fix\u2014always sort set elements even when they appear inside other collections\u2014so a PR can be written against util.inspect.object_description with reasonable confidence."
+}

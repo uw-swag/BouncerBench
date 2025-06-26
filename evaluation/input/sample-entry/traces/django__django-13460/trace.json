@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a problem (TypeError when passing floats to blocktrans/gettext) and suggests two possible approaches, but it doesn\u2019t specify which approach to take, what the exact behavior or message should be, or how to handle edge cases. The requirements are open-ended and ambiguous, making it unclear what a complete solution would entail."
+}

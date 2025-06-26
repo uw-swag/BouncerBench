@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current incorrect MathML rendering of higher\u2010order derivatives versus the desired LaTeX\u2010style output, shows before/after examples, and calls out exactly what needs to change (_print_Derivative grouping, exponent formatting, single\u2010line variable list, optional function\u2010line break). It even points to related code (#15975, #3926) for reference. While some minor details (when to break the function onto its own line) are left a bit open, there is a straightforward interpretation for a SymPy maintainer to implement. A meaningful solution can be attempted without further clarification."
+}

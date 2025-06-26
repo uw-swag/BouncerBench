@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly points out where and why the `exec` call in the Django shell command loses the `django` name inside functions, shows the failing code block, and even suggests passing a fresh globals dict to `exec`. While the exact shape of that dict (e.g. including `__builtins__`) is left to the implementer, there\u2019s a clear location and intent for the fix. This is enough to drive a concrete PR, so it\u2019s reasonably specified."
+}

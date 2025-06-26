@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, clearly states the regression between SymPy 1.9 and 1.10, shows actual vs expected output, and defines the desired behavior (including the trailing comma for single\u2010element tuples). It is clear what needs to be changed in the code printer, so the issue is well-specified."
+}

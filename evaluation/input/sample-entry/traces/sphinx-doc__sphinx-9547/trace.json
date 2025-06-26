@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the errors encountered, shows the problematic declarations, points to the exact parser code locations, and even suggests which GNU extensions need to be supported (fixed-point and complex types). A PR can directly add those keywords/grammar rules in the C\u2010domain parser and add tests. It\u2019s unambiguous what a correct solution entails."
+}

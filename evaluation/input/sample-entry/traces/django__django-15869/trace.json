@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the specific change desired (deprecate the `length_is` template filter in favor of `length`) and provides context and examples. While it doesn\u2019t spell out every implementation detail (e.g., exact deprecation timeline or warning mechanism), there\u2019s a sensible, unambiguous interpretation of what must be done and where."
+}

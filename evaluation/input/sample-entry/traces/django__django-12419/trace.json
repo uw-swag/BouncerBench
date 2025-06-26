@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that the default value for SECURE_REFERRER_POLICY should be changed to \u201csame-origin\u201d in Django 3.x, with accompanying doc and test updates. While it doesn\u2019t call out every single file or test case, there\u2019s a straightforward, conventional place (global settings, docs, and existing tests) to make the change. It\u2019s unambiguous what behavior is expected, so the issue is reasonably specified."
+}

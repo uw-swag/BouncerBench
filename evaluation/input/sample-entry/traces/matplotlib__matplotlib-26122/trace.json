@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior, the desired behavior, and the conditions under which imshow should skip modifying the axes aspect. It points to the specific kwarg (`transform`) and its default (`ax.transData`), and spells out the change: when a non\u2010default transform is used and `aspect=None`, don\u2019t touch the axes aspect. While there\u2019s a bit of subtlety around detecting \u201canything containing transData\u201d (as noted in #13642), there is a clear, actionable change. Thus the spec is concrete enough to start coding, with only minor implementation details left to sort out."
+}

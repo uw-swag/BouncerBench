@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies failing tests and the root cause (Python now strips LF/CR/tabs early), but it doesn\u2019t state which behavior Django should adopt (reject early or accept silently). Without a decision on the expected outcome, it\u2019s ambiguous what a successful fix looks like."
+}

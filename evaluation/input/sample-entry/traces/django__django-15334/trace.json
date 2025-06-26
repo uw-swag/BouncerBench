@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is essentially a feature request (\u201cmake iterator() respect prefetch_related() by chunking\u201d), but it doesn\u2019t give enough detail on the intended API changes, default behaviors, backward-compatible semantics, or how to integrate with Django\u2019s existing ORM internals. It\u2019s clear at a high level what the user wants, but too ambiguous to start a concrete implementation without follow-up."
+}

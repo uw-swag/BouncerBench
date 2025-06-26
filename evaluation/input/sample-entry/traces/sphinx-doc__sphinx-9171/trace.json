@@ -1,0 +1,3 @@
+{
+  "trace": "The report is essentially a how-to question (suppressing the constructor signature in Sphinx\u2019s autoclass output) rather than a clear feature request or bug report with defined acceptance criteria. There\u2019s no explicit API change or code path specified, no version context, and no definitive \u201cdone\u201d condition. It\u2019s asking for user guidance, so it\u2019s too vague to implement directly."
+}

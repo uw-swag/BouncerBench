@@ -1,0 +1,3 @@
+{
+  "trace": "This issue clearly states the bug (tight_layout kwargs ignored when rc figure.autolayout=True), provides minimal reproducible code, current vs. expected behavior, and environment details. A developer can reproduce and implement a fix unambiguously."
+}

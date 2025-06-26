@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (SymPy prints (x^{i})^{2}) and the desired behavior (SymPy should print {x^{i}}^{2}), gives multiple examples and even references conventional LaTeX usage. It\u2019s immediately clear which part of the code (the LaTeX printer\u2019s handling of nested Pow objects) needs to change, and there is no ambiguity about the goal. Thus it\u2019s well-specified."
+}

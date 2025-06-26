@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a minimal reproducible example (with code, input expr, actual Sympy output, and the correct expected result), plus verification via Mathematica.  Reproducing the bug and knowing the fix target (-cos(alpha)*cot(beta)) is crystal\u2010clear.  This is WELL_SPECIFIED."
+}

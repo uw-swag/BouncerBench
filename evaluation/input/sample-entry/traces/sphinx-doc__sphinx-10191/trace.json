@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, minimal reproducible example (index.rst), exact commands to reproduce (make latexpdf), expected vs. actual output, environment details (OS, Python, Sphinx versions), and a screenshot. This is sufficient to begin diagnosing and fixing the issue."
+}

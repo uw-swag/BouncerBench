@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the configuration (`autodoc_unqualified_typehints = True` with `autodoc_typehints = \"description\"`), the mismatched behavior (type hints in the info-field-list remain fully qualified), and the expected outcome (they should be shortened). While it lacks a full minimal example, the bug and desired fix are precise enough for a developer familiar with Sphinx\u2019s autodoc to implement and verify the change."
+}

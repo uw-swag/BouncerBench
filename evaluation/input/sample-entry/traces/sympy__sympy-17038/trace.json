@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides concrete failing examples, points to the exact code location, explains the root cause (using math.sqrt beyond safe bounds), and even outlines a clear fix strategy (reduce the threshold or add a post-check and fallback). This makes a meaningful solution straightforward to implement."
+}

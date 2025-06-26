@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired change (x_estimator error bars should inherit the scatter_kws \u2018alpha\u2019 setting rather than being always opaque) and points to the specific context (#2538). There\u2019s a concrete behavior to implement, so it\u2019s well-specified for a pull request."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies where (numberformat.py), when (null/empty string input), and what fails (str_number[0] causing IndexError). The fix is obvious \u2013 guard against empty or null strings before indexing. While the exact return value for null input isn\u2019t spelled out, a reasonable default (e.g. return empty string or None) can be inferred. There\u2019s enough here for a straightforward PR."
+}

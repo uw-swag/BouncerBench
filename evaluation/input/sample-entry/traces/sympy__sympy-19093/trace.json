@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a regression (addition of two mutable BlockDiagMatrix objects no longer works), provides a minimal reproducible example, and states the expected behavior (it used to work in version 0.7.3). While implementation details are not provided, the defect and desired outcome are clear enough to attempt a fix."
+}

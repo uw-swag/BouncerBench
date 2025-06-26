@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the specific problem (Oracle backend UUIDField icontains lookup fails when the query string includes dashes), the expected behavior (search by displayed UUID with or without dashes), and the context (Django 2.1 admin search). The desired change is well scoped\u2014normalize dash presence inside the icontains lookup for UUIDFields\u2014so a developer can directly implement or patch the lookup logic."
+}

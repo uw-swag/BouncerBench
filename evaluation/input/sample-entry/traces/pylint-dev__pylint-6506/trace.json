@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps (invoking pylint with an unrecognized -Q option), shows the full stack trace, and outlines the desired behavior (suppress the traceback and print a clean usage/error message akin to mypy\u2019s). This gives enough detail to implement catching the _UnrecognizedOptionError and formatting a user-friendly message, so it\u2019s well specified."
+}

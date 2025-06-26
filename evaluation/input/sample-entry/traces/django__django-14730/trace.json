@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that an error should be raised when a developer supplies a related_name on a symmetrical ManyToManyField (including self-referential relations where symmetrical defaults to True). While exact error type and message aren\u2019t specified, the intent and conditions are unambiguous and there is a sensible implementation path (e.g. add a validation check in ManyToManyField's initialization or checks), so it\u2019s reasonably specified."
+}

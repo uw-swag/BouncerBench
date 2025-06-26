@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what needs to be added\u2014catching import errors (ModuleNotFoundError or ViewDoesNotExist) for custom error handlers and emitting a new system check code (urls.E008) with a specified message. While the exact code location and helpers aren\u2019t spelled out, anyone familiar with Django\u2019s check framework and the existing url checks (#29642) can locate and extend that logic. Thus, it\u2019s reasonably specified for implementation."
+}

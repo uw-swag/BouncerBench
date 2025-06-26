@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly pinpoints the faulty line (method = builtin_str(method) in sessions.py), describes the bad behavior (b\u2019GET\u2019 turning into \"b'GET'\" and causing a 404), and states the desired outcome (requests should accept and properly decode a bytes method). While it doesn\u2019t spell out the exact code change, there\u2019s a straightforward interpretation of what needs to be done. Hence it\u2019s reasonably specified for a fix."
+}

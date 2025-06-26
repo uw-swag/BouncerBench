@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly identifies the regression commit, states that the added `follow_symlinks=False` flag should be removed to restore previous behavior, and implies adding a test for symlinked directory collection. While it doesn\u2019t name the exact file/line to change, the commit ID makes it trivial to locate. This is enough to craft a targeted PR.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/doc/en/changelog.rst b/doc/en/changelog.rst\nindex 8897ece..2eb5c02 100644\n--- a/doc/en/changelog.rst\n+++ b/doc/en/changelog.rst\n@@ -34,6 +34,12 @@ pytest 6.1.2 (2020-10-28)\n Bug Fixes\n ---------\n \n+- Fix test collection to properly follow symlinked directories, restoring the behavior\n+  from before pytest 6.1.0. Previously, pytest would unintentionally skip test collection\n+  from symlinked directories due to using ``follow_symlinks=False`` in the directory\n+  traversal code. Now symlinked directories are properly followed and their tests are\n+  collected and executed as expected.\n+\n - `#7758 <https://github.com/pytest-dev/pytest/issues/7758>`_: Fixed an issue where some files in packages are getting lost from ``--lf`` even though they contain tests that failed. Regressed in pytest 5.4.0.\n \n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nSymlinked directories not collected since pytest 6.1.0\nWhen there is a symlink to a directory in a test directory, is is just skipped over, but it should be followed and collected as usual.\r\n\r\nThis regressed in b473e515bc57ff1133fe650f1e7e6d7e22e5d841 (included in 6.1.0). For some reason I added a `follow_symlinks=False` in there, I don't remember why, but it does not match the previous behavior and should be removed.\r\n\r\nPR for this is coming up.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_jpvgi2s9e",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe submitted patch only updates the changelog to describe that symlinked directories will now be followed again, but it does not include the actual removal of `follow_symlinks=False` or any code change to restore the previous behavior. Therefore it misses the core fix described in the issue.\n</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

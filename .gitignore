@@ -1,0 +1,6 @@
+.venv
+data/*
+!data/sample_lite.json
+!data/sample_input.json
+!data/sample_output.json
+config.yaml

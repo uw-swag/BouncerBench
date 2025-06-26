@@ -1,0 +1,3 @@
+{
+  "trace": "The report notes that binomial(n, n) no longer auto-simplifies to 1 after a certain commit and questions whether it should, but it doesn\u2019t specify the intended behavior, the assumptions under which simplification must occur (e.g. integer/positive), or what part of the code to change. It reads as a discussion prompt rather than a clearly scoped bug or feature request. As presented, it lacks enough detail to draft a targeted fix."
+}

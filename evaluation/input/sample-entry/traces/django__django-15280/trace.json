@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal model definitions, a precise failing test case, the expected versus actual SQL queries, and even introspection (`get_deferred_fields()`). The reproduction steps are complete and unambiguous, so one can write a fix or patch against Django\u2019s ORM. This is well-specified for a meaningful attempt."
+}

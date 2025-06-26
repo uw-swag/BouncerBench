@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what test to add, where to add it, and exactly what property to check for each estimator method (`predict`, `predict_proba`, `decision_function`, `score_samples`, `transform`). A developer familiar with the existing `estimator_checks.py` machinery can implement it without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes environment details, minimal reproducible code (models, command), full traceback, and even a clear snippet of the offending code with a suggested workaround. It\u2019s clear what\u2019s broken (only() + select_related on proxy models), how to reproduce it, and what change fixes it. This is well-specified."
+}

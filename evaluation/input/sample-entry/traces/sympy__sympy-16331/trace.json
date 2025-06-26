@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal repro, the full traceback pinpointing the redeclared _y in the Cython wrapper, and notes it only happens for two arguments with the Cython backend.  That clearly identifies where the wrapper generator is shadowing names and what to change, so it\u2019s well\u2010specified."
+}

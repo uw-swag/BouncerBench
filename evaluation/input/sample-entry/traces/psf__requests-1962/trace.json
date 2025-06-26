@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired behavior (\u201cr.history should always be a list\u201d), points out where the inconsistent tuple is returned (with a link to the exact file and line), and implies the fix (convert or replace tuple returns with a list). While it doesn\u2019t include detailed tests, there is enough information to locate and implement the change. Thus it is reasonably specified."
+}

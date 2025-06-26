@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes the current limitation (only four predefined mul_symbol options), the specific desired behavior (allow arbitrary string, e.g. a thin space \\\\,), and provides examples. The goal\u2014to permit any mul_symbol string in the latex() printer\u2014is unambiguous and actionable."
+}

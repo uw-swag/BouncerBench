@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/sql/compiler.py b/django/db/models/sql/compiler.py\nindex 686e75c979..84e2205f76 100644\n--- a/django/db/models/sql/compiler.py\n+++ b/django/db/models/sql/compiler.py\n@@ -431,6 +431,8 @@ class SQLCompiler:\n         return sql, params\n \n     def get_combinator_sql(self, combinator, all):\n+        if any(query.is_empty() for query in self.query.combined_queries):\n+            raise EmptyResultSet\n         features = self.connection.features\n         compilers = [\n             query.get_compiler(self.using, self.connection)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nQuerySet.none() on combined queries returns all results.\nDescription\n\t\nI came across this issue on Stack Overflow. I'm not 100% sure it's a bug, but it does seem strange. With this code (excuse the bizarre example filtering):\nclass Publication(models.Model):\n\tpass\nclass Article(models.Model):\n\tpublications = models.ManyToManyField(to=Publication, blank=True, null=True)\nclass ArticleForm(forms.ModelForm):\n\tpublications = forms.ModelMultipleChoiceField(\n\t\tPublication.objects.filter(id__lt=2) | Publication.objects.filter(id__gt=5),\n\t\trequired=False,\n\t)\n\tclass Meta:\n\t\tmodel = Article\n\t\tfields = [\"publications\"]\nclass ArticleAdmin(admin.ModelAdmin):\n\tform = ArticleForm\nThis works well. However, changing the ModelMultipleChoiceField queryset to use union() breaks things.\npublications = forms.ModelMultipleChoiceField(\n\tPublication.objects.filter(id__lt=2).union(\n\t\tPublication.objects.filter(id__gt=5)\n\t),\n\trequired=False,\n)\nThe form correctly shows only the matching objects. However, if you submit this form while empty (i.e. you didn't select any publications), ALL objects matching the queryset will be added. Using the OR query, NO objects are added, as I'd expect.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_sk0h4smlu",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe proposed fix simply checks if any of the combined sub-queries is empty and then raises EmptyResultSet for every combinator. This wrongly treats UNION the same as INTERSECT/EXCEPT \u2013 in SQL `A UNION EMPTY` should return `A`, not be empty. The patch doesn\u2019t distinguish between UNION, INTERSECT, or EXCEPT and will break correct UNION semantics (and possibly EXCEPT semantics too). It also ignores the need to handle each operator\u2019s empty-set logic separately. Because it over-applies the empty check rather than refining it per combinator, it misses key aspects of the issue.\n</EXPLANATION>\n<LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

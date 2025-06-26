@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a clear reproduction recipe, the exact error, and where it fails in the Sphinx typehints extension. You can reasonably infer that the fix is to guard or default the missing \u2018module\u2019 attribute (e.g. use signature.get('module', None)) so that setting autodoc_typehints to \u201cdescription(s)\u201d no longer blows up. While the expected formatting outcome isn\u2019t spelled out in detail, it\u2019s enough information to craft and validate a patch."
+}

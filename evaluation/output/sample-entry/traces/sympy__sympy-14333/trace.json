@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/core/numbers.py b/sympy/core/numbers.py\nindex 87f268fc4d..28e2e2304f 100644\n--- a/sympy/core/numbers.py\n+++ b/sympy/core/numbers.py\n@@ -480,12 +480,12 @@ def mod_inverse(a, m):\n     c = None\n     try:\n         a, m = as_int(a), as_int(m)\n-        if m > 1:\n-            x, y, g = igcdex(a, m)\n+        if m != 0:\n+            x, y, g = igcdex(a, abs(m))\n             if g == 1:\n-                c = x % m\n-            if a < 0:\n-                c -= m\n+                c = x % abs(m)\n+                if m < 0 and c != 0:\n+                    c = c - abs(m)\n     except ValueError:\n         a, m = sympify(a), sympify(m)\n         if not (a.is_number and m.is_number):\n@@ -495,10 +495,10 @@ def mod_inverse(a, m):\n                 but symbolic expressions can be handled with the\n                 similar function,\n                 sympy.polys.polytools.invert'''))\n-        big = (m > 1)\n-        if not (big is S.true or big is S.false):\n-            raise ValueError('m > 1 did not evaluate; try to simplify %s' % m)\n-        elif big:\n+        nonzero = (m != 0)\n+        if not (nonzero is S.true or nonzero is S.false):\n+            raise ValueError('m != 0 did not evaluate; try to simplify %s' % m)\n+        elif nonzero:\n             c = 1/a\n     if c is None:\n         raise ValueError('inverse of %s (mod %s) does not exist' % (a, m))\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nModular inverse for negative modulo and sign resolve\nSymPy assigns `mod_inverse(a,m)` the same sign as `a`.\r\nMathematically, `mod m` has range `[0,m)` for `m>0` , `(m,0]` for `m<0`.\r\n\r\nThe former sign assignment is used in C/C++/Java built-in modulo operator as `-2%5` returns `-2`.\r\nThe latter sign assignment is used in Python's built-in modulo operator as `-2%5` returns `3`.\r\n\r\n```python\r\n>> mod_inverse(2,5)\r\n3\r\n\r\n>> mod_inverse(-2,5)\r\n-3\r\n```\r\n\r\nSymPy does not find modular inverses for negative modulo (because of the `m>1` check).\r\n```\r\n>> mod_inverse(2,-5)\r\n>> mod_inverse(-2,-5)\r\n```\r\n\r\nMoreover, as checked from WA (uses the same sign as `m` rule)\r\n[mod_inverse(-2,+5) = 2](http://www.wolframalpha.com/input/?i=modular+inverse+of+-2+modulo+5)\r\n[mod_inverse(+2,-5) = -2](http://www.wolframalpha.com/input/?i=modular+inverse+of+2+modulo+-5)\r\n[mod_inverse(-2,-5) = -3](http://www.wolframalpha.com/input/?i=modular+inverse+of+-2+modulo+-5)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_a4knafaqm",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch replaces the old \u201cm>1\u201d guard with \u201cm!=0\u201d so that negative moduli (and \u00b11) are handled; it uses igcdex(a, abs(m)), takes x mod |m|, then shifts into the interval (m,0] when m<0. Removing the old a<0 adjustment corrects the sign for negative a under positive m. All WA\u2010tested cases (mod_inverse(\u00b12,\u00b15)) now match, and noninvertible or zero\u2010modulus cases still raise. No unrelated changes are introduced.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

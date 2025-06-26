@@ -1,0 +1,3 @@
+{
+  "trace": "The issue highlights that the output ordering of decompose(separate=True) is arbitrary and causing test failures. However, it does not specify what deterministic order is desired (e.g. sorted by exponent, lexicographically, by coefficient, etc.), nor provide examples or criteria for sorting. Without guidance on the intended ordering or concrete examples of expected behavior, it\u2019s unclear how to implement the fix."
+}

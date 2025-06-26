@@ -1,0 +1,3 @@
+{
+  "trace": "The report is just a pasted CI failure stack trace with no clear description of what needs to change, no minimal reproducible example, and no concrete guidance on expected behavior or suspected cause. It\u2019s unclear where in the code to look or what a successful fix would entail."
+}

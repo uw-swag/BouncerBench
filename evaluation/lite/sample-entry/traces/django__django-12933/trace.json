@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly states the current behavior (clearsessions writes to stderr if clear_expired() isn\u2019t implemented) and the desired change (raise CommandError instead). It identifies exactly which command and method are affected and what the replacement behavior should be, so a developer can implement the fix without additional information.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/sessions/management/commands/clearsessions.py b/django/contrib/sessions/management/commands/clearsessions.py\nindex c9d0cef2f0..b596350913 100644\n--- a/django/contrib/sessions/management/commands/clearsessions.py\n+++ b/django/contrib/sessions/management/commands/clearsessions.py\n@@ -1,7 +1,7 @@\n from importlib import import_module\n \n from django.conf import settings\n-from django.core.management.base import BaseCommand\n+from django.core.management.base import BaseCommand, CommandError\n \n \n class Command(BaseCommand):\n@@ -15,7 +15,9 @@ class Command(BaseCommand):\n         try:\n             engine.SessionStore.clear_expired()\n         except NotImplementedError:\n-            self.stderr.write(\n+            raise CommandError(\n                 \"Session engine '%s' doesn't support clearing expired \"\n                 \"sessions.\" % settings.SESSION_ENGINE\n             )\n+\n+\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nRaise CommandError when clearsessions is called on a backend not implementing clear_expired()\nDescription\n\t\nFormal ticket for the issue raised by Fran\u00e7ois Freitag in \u200bPR.\nclearsessions writes to stderr directly when a backend has not implemented clear_expired(). Fran\u00e7ois notes that the recommended behavior is to raise CommandError.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_bxqwbskbd",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch replaces the direct stderr write with raising CommandError when clear_expired() isn\u2019t implemented. It imports CommandError correctly and preserves the original message, so the command will now exit with an error as intended. There are no unrelated changes. </EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a clear scenario, the intended behavior, the current workaround, and two concrete proposals (catch ValueError in _reverse_with_prefix or update the docs). While it doesn\u2019t point to exact line numbers, someone familiar with Django\u2019s URL resolver can identify where to add the try/except or update documentation. There\u2019s enough detail to draft a meaningful patch or doc change."
+}

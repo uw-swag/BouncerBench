@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket includes a minimal repro, environment details, and a clear statement of actual vs. desired behavior (str(e) vs. str(e.value)). It\u2019s clear what change is being requested in pytest\u2019s API, so it\u2019s well-specified."
+}

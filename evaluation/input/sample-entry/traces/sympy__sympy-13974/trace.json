@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies that TensorProduct powers aren\u2019t being simplified by expand(tensorproduct=True) or tensor_product_simp, shows minimal reproducible examples, and states the expected results. This gives a concrete bug, input/output pairs, and a clear goal, so it\u2019s well-specified."
+}

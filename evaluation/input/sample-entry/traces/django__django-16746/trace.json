@@ -1,0 +1,3 @@
+{
+  "trace": "The issue only notes that error messages in Paginator.validate_number aren\u2019t customizable or internationalized, but provides no context on the codebase, current message formats, desired API for customization or i18n approach. There\u2019s insufficient detail to meaningfully implement a solution."
+}

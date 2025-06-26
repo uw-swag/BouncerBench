@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (accept DataFrames in OneHot/OrdinalEncoder without forcing a full-array conversion), explains why (to preserve per-column dtypes and avoid mixed-object arrays), and even suggests the implementation approach (iterate over DataFrame columns, apply check_array per column). While some implementation details (e.g.\nreturn type, exact API changes and tests) would need to be worked out, the requirements and motivations are sufficiently clear for a meaningful PR."
+}

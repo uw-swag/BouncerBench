@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (move Pylint\u2019s data directory from ~/.pylint.d to the appropriate XDG base directories) and provides the spec to follow. While it doesn\u2019t enumerate every code location or constant name, it\u2019s a straightforward and well-understood pattern for someone familiar with XDG and the Pylint codebase, leaving only implementation details to the developer. "
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints a specific code snippet, describes the expected vs actual behavior (chararray.replace isn\u2019t in-place), and identifies the file to change (fitsrec.py). While it doesn\u2019t provide a test case or the exact expected output, it\u2019s clear what needs fixing (assign the replace result or use an in-place method), making it suitable for a targeted patch."
+}

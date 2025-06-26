@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the failing scenario in call_command with subparsers, includes code examples, error messages, and desired usage. While it doesn\u2019t prescribe the exact implementation fix, it gives enough detail to understand what\u2019s broken and what correct behavior looks like, making it reasonably specified for a developer to attempt a solution."
+}

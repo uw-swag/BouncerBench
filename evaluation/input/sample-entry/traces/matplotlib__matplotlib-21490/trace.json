@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides minimal reproducible code, shows actual versus expected behavior, and specifies the desired change (Line2D should copy its input arrays). All necessary details are present to implement and test a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproduction repository, a clear description of what\u2019s failing (an OrderBy object showing up instead of a string in get_order_dir), when it happens (during test DB setup with multi-table inheritance), and points to the exact place in code where the assumption breaks. That is sufficient to attempt a targeted fix."
+}

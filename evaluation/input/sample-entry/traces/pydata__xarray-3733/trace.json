@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired functionality (a DataArray.polyfit method), maps the behavior directly to numpy.polyfit (including handling ND via reshape and dask via map_blocks), and even provides example usage and expected result. While low-level details (exact output dim naming, kwargs surface, error handling) would need to be worked out, the overall spec and API contract are clear enough to start implementing a solution. Thus it\u2019s reasonably specified."
+}

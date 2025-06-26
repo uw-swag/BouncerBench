@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the buggy behavior (the :noindex: option being ignored for Attributes), provides minimal reproducible example code, the expected behavior (no entries in the index), and the environment setup. A developer can reproduce and fix the directive to honor the :noindex: flag. Thus it is well-specified."
+}

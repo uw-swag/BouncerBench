@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unwanted behavior (sqrt(8)**Rational(2,3) yields 2**(1/3)*2**(2/3)) and the desired outcome (it should simplify to 2). It\u2019s unambiguous what change is needed\u2014apply exponent rules to combine the factors\u2014so it is well-specified."
+}

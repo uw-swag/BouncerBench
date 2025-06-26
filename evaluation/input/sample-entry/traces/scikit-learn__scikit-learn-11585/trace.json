@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly described (transform\u2019s per-component scaling uses a sum over samples rather than a fixed scale), the exact lines of code are identified, a minimal repro is provided along with expected vs. actual results, and two reasonable fixes are proposed. A maintainer could pick one and implement it without any further clarification."
+}

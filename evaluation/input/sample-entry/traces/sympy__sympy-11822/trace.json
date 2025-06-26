@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete, reproducible failure (calling pprint on Symbol('') with unicode=True), includes the full traceback down to the offending call in pretty_symbology.py, and notes that use_unicode=False works. With the Sympy code at hand one can locate the unicode pretty\u2010printer, add a guard for empty (or None) symbol names, and return a safe fallback. There\u2019s nothing missing or ambiguous about what needs fixing, so the ticket is well\u2010specified."
+}

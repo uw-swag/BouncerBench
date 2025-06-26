@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear bug summary, minimal reproducible example, actual vs. expected behavior, environment details (versions, backend), and references. It\u2019s straightforward to reproduce and pin down the fix, making it well specified."
+}

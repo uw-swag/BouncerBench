@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example, identifies the specific error (ValueError in the new repr when handling array-valued parameters under print_changed_only), and implies the expected behavior (no exception and proper display of the array). While it doesn\u2019t spell out the exact desired output, it\u2019s straightforward to infer that the repr logic needs to detect array parameters and format them without evaluating their truth value. Therefore it\u2019s sufficiently clear to start a fix."
+}

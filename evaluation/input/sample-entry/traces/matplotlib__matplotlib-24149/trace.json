@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproducible code, exact traceback, actual vs. expected behavior, Matplotlib version info, and narrowed-down debugging notes (only x-values with NaN fail). A developer can jump straight into the `_convert_dx` handling in `Axes.bar` and write a fix or regression test. This is fully actionable."
+}

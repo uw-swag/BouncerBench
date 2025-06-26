@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes the current behavior (Sphinx only offers names in __all__ to the autodoc-skip-member event) and the desired change (offer all members, not just those in __all__, and ideally flag which were excluded by __all__). The problem context and goal are understandable, though the specific API shape (what exact flag/property to add) would need to be worked out. There\u2019s enough here to start a PR, so it\u2019s REASONABLY_SPECIFIED."
+}

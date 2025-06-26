@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the incorrect use of never_cache on instance methods (login/logout) in Django\u2019s AdminSite and explicitly calls out the need to wrap those methods with method_decorator. It even references the exact views and the prior ticket. An implementer can locate AdminSite.login and AdminSite.logout in django/contrib/admin and apply method_decorator(never_cache)."
+}

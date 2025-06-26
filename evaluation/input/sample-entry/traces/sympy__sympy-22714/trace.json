@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproduction (with code snippet and error trace) and explicitly states the expected behavior (that with evaluate(False) the call should not crash, matching sp.S('\u2026', evaluate=False)). While you\u2019ll need to dig into how evaluate(False) is wired through sympify/parse_expr, there\u2019s a clear bug to fix and a clear success condition, so this is reasonably specified."
+}

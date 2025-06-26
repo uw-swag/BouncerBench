@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is a high-level feature request with minimal detail. It states the desired behavior (empty \u2018:dedent:\u2019 should invoke full dedent like textwrap.dedent) but provides no examples, no indication of current behavior, no pointers to the relevant code, and no spec of edge cases or tests. There\u2019s too much left unspecified to make a direct implementation plan."
+}

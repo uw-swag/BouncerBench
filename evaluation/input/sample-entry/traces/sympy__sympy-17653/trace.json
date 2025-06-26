@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides clear reproduction steps, the relevant code snippet, and a concrete description of the undesired behavior (loss of subclassed Symbol type due to the line `label = Symbol(label.name)`). They also indicate exactly how commenting that line fixes their use-case. While some knowledge of SymPy\u2019s assumption handling and Symbol internals is required, the root of the bug and the intended behavior (don\u2019t upcast TypedSymbol to plain Symbol) are unambiguous. A developer can reasonably propose a fix (e.g. only re-instantiate when `type(label) is Symbol`, preserving subclasses)."
+}

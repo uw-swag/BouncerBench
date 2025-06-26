@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the function (catch_all_view), describes the incorrect behavior (using request.path_info, which drops FORCE_SCRIPT_NAME), and states the desired behavior (use request.path). A patch is even linked. This is well-specified."
+}

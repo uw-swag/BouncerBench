@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the problem (global help flags are listed before command-specific ones in management command --help output) and the desired change (list command-specific options first). An implementer familiar with Django\u2019s BaseCommand.create_parser (or equivalent) and argparse/optparse grouping can directly apply the fix. The intended outcome is unambiguous and actionable."
+}

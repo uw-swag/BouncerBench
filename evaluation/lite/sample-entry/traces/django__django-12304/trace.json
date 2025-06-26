@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly describes the bug (Django templates auto\u2010call callable enum classes and break), gives a concrete example, and even proposes the precise change (add do_not_call_in_templates = True to the Choices classes). It\u2019s straightforward to implement and verify, so it\u2019s well\u2010specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/enums.py b/django/db/models/enums.py\nindex ab625f8..987b548 100644\n--- a/django/db/models/enums.py\n+++ b/django/db/models/enums.py\n@@ -61,6 +61,8 @@ class ChoicesMeta(enum.EnumMeta):\n class Choices(enum.Enum, metaclass=ChoicesMeta):\n     \"\"\"Class for creating enumerated choices.\"\"\"\n \n+    do_not_call_in_templates = True\n+\n     def __str__(self):\n         \"\"\"\n         Use value when cast to str, so that Choices set as model instance\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nEnumeration Types are not usable in templates.\nDescription\n\t \n\t\t(last modified by Mariusz Felisiak)\n\t \nThe new \u200benumeration types are great but can't be used in Django templates due to their being callable. For example this doesn't work:\n{% if student.year_in_school == YearInSchool.FRESHMAN %}\nThis is because YearInSchool, being a class, is callable, and Django Templates always call callables with no arguments. The call fails because the required value argument is missing.\nThe easy solution would be to declare do_not_call_in_templates = True on the various Choices classes.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_900deb3x0",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The issue is that Django\u2019s template resolver will auto\u2010call any callable it encounters unless it finds a do_not_call_in_templates attribute. By adding do_not_call_in_templates=True on the Choices base class, all enum classes inheriting from it will be marked non\u2010callable in templates, preventing the template engine from trying to instantiate the enum with no arguments. This directly fixes the reported failure without unrelated changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

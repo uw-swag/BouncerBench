@@ -1,0 +1,3 @@
+{
+  "trace": "The request \u201cadd average function\u201d is very high\u2010level and doesn\u2019t specify the target API/library (what ds is), the exact method signature, how to pass weights, which axes to average over, or intended behavior on dimensions. There\u2019s no concrete example, test case, or design details. Without that context, it\u2019s unclear what a correct implementation looks like. Therefore the issue is too vague to act on."
+}

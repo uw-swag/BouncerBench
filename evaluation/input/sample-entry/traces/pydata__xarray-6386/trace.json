@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, precise error output, expected vs. actual behavior, suspected root cause (the merge of PR #5692), and guidance on the desired fix (either accept DataArray return or emit a clear error and document the change). This is enough detail to start implementing and verifying a solution."
+}

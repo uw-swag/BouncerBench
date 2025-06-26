@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the function(s) involved (Axes.set_xticks/Axis.set_ticks), the current incorrect behavior (kwargs only validated when labels are provided), and the desired change (always validate kwargs, possibly error if labels not set). While there are some implementation details left (warning vs error, exact validation logic), there is a sensible interpretation and clear path to a solution."
+}

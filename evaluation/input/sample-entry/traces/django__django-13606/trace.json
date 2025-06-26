@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the exact function to change (sql.Query.split_exclude), explains the current behavior (using NOT IN), and specifies the desired behavior (use NOT EXISTS instead). There\u2019s no ambiguity about what to implement\u2014just a straightforward swap of the SQL construct\u2014so it\u2019s well-specified."
+}

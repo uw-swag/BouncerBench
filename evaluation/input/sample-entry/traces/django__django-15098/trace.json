@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description of the problem, precise reproduction steps on a fresh Django project, the versions in use, and the exact expected behavior versus actual behavior. This is enough to implement and verify a fix."
+}

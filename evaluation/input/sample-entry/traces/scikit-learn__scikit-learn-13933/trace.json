@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is essentially a discussion/question without concrete specifications or guidance on how to implement separate binning (e.g., whether to derive thresholds from training only and apply them to validation, or compute separate thresholds per split, how to handle mismatches, which functions/modules need updates, etc.). There is no clear acceptance criteria or detailed requirements, so it\u2019s too vague for a meaningful PR attempt."
+}

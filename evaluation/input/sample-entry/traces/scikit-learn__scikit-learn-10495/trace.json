@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly pinpoints the function (check_array), the current odd behavior (accepting string arrays when dtype='numeric'), and the desired change (raise an error or attempt coercion when non-numeric data is passed). You can jump in and implement a dtype-check for object arrays containing non-numeric elements, add tests, and optionally plan a deprecation cycle. While there is some choice around coercion vs. immediate failure or deprecation timing, there\u2019s enough concrete direction to start coding."
+}

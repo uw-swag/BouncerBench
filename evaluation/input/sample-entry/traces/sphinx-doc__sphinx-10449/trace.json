@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a minimal reproducible example, exact Sphinx config, steps to reproduce, expected vs. actual behavior, environment details, and even a demo build. It\u2019s clear what the bug is (return type shown for __init__ in autoclass when using autodoc_typehints=\"description\") and how to verify a fix. All necessary details are present."
+}

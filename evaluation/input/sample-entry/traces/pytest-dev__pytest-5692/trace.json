@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states which attributes (`hostname` and `timestamp`) are missing from the generated JUnit XML, provides examples of both the current and desired output, and asks for an option to include them. There\u2019s no ambiguity about what needs to be done, so it\u2019s well-specified."
+}

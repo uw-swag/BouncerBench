@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a single, localized change: in ProjectState.__init__, drop the guard/conversion for real_apps and instead assert it\u2019s already a set when non-None. While you\u2019ll need to locate the ProjectState class in migrations/state.py and adjust the initialization logic, the intended behavior and placement of the change is unambiguous. Thus there is enough detail to make a meaningful code update without further clarification."
+}

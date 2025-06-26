@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly describes the unexpected behavior (type hints shown on properties despite autodoc_typehints=none), provides reproducible steps with a minimal example project, shows expected vs. actual output, and includes environment details. A maintainer can follow the reproduction, verify the bug, and implement a fix to suppress property type hints, making this issue well\u2010specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sphinx/ext/autodoc/__init__.py b/sphinx/ext/autodoc/__init__.py\nindex 7cf06752d..437811026 100644\n--- a/sphinx/ext/autodoc/__init__.py\n+++ b/sphinx/ext/autodoc/__init__.py\n@@ -2674,11 +2674,12 @@ class PropertyDocumenter(DocstringStripSignatureMixin, ClassLevelDocumenter):  #\n \n         if safe_getattr(self.object, 'fget', None):\n             try:\n-                signature = inspect.signature(self.object.fget,\n-                                              type_aliases=self.config.autodoc_type_aliases)\n-                if signature.return_annotation is not Parameter.empty:\n-                    objrepr = stringify_typehint(signature.return_annotation)\n-                    self.add_line('   :type: ' + objrepr, sourcename)\n+                if self.config.autodoc_typehints in ('both', 'description'):\n+                    signature = inspect.signature(self.object.fget,\n+                                                  type_aliases=self.config.autodoc_type_aliases)\n+                    if signature.return_annotation is not Parameter.empty:\n+                        objrepr = stringify_typehint(signature.return_annotation)\n+                        self.add_line('   :type: ' + objrepr, sourcename)\n             except TypeError as exc:\n                 logger.warning(__(\"Failed to get a function signature for %s: %s\"),\n                                self.fullname, exc)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAutodoc still using typehint types in properties\n**Describe the bug**\r\nDespite `autodoc_typehints` being set to `none`, properties have type hints rendered in the output.\r\n\r\n**To Reproduce**\r\nSteps to reproduce the behavior. Download the zip below and go to `docs` then run `make html`\r\n\r\n**Expected behavior**\r\nNo type hints in the output.\r\n\r\n**Your project**\r\n[sphinx-bug.zip](https://github.com/sphinx-doc/sphinx/files/6724522/sphinx-bug.zip)\r\n\r\n**Screenshots**\r\n![image](https://user-images.githubusercontent.com/1695103/123601649-ebd3fd80-d7c5-11eb-9b01-f8cb67cdc0f7.png)\r\n\r\n**Environment info**\r\n- OS: Windows 10\r\n- Python version: 3.9.2\r\n- Sphinx version: 4.0.2\r\n- Sphinx extensions:  sphinx.ext.autodoc\r\n- Extra tools: N/A\r\n\r\n**Additional context**\r\n\r\nIssue discovered in a real project [here](https://discordpy.readthedocs.io/en/master/api.html#discord.PartialEmoji.created_at) (edit: I removed it using CSS).\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_d42iqbump",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe bug report states that properties always emit their type hint in the generated docs even when `autodoc_typehints = 'none'`. In the original code, `PropertyDocumenter` unconditionally adds a `:type:` annotation for any return\u2010annotated property getter. The patch simply wraps that block in a check for `autodoc_typehints in ('both', 'description')`, matching the same logic used elsewhere in autodoc. As a result:\n\n- With `autodoc_typehints = 'none'`, no `:type:` entry is produced.\n- With `autodoc_typehints = 'description'` or `both`, it continues to emit the line.\n- With `autodoc_typehints = 'signature'`, it suppresses the description block but still lets the type show up in the signature (handled elsewhere).\n\nNo unrelated code is changed. This directly and precisely fixes the issue without overreach.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

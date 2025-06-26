@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the offending commit, the specific system check (E130) being triggered, and the desired outcome (allow per-ModelAdmin overrides of built-in actions). It even points to relevant code locations and a workaround. Although implementation details are left up to the contributor, there\u2019s enough context to craft a solution."
+}

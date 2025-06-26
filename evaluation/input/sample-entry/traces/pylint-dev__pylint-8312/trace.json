@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired feature (supporting glob patterns on the CLI input), points to the exact line in the codebase where the change should land, and gives an example of expected behavior (`packages/*/src`). While there are minor implementation details left open (e.g. how to handle non-matches or multiple patterns), there\u2019s a clear, sensible interpretation and enough context to craft a solution. Thus, it\u2019s reasonably specified."
+}

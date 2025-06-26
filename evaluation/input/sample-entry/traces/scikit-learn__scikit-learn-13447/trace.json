@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the function (label_ranking_average_precision_score), the specific behavior (skipping sample_weight for samples with all-zero labels), points to the exact code lines, provides an example with expected vs. actual output, and defines the correct behavior. A developer can immediately locate the branch that special-cases zero-label samples and add sample_weight handling there. This is sufficient for a straight-forward fix."
+}

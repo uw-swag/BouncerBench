@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear: allow the DataArray constructor to accept a scalar \u201cdata\u201d argument (e.g. 0.1) together with coords and dims, and internally broadcast that scalar to an ndarray of the proper shape defined by the dims/coords. While edge\u2010case details (e.g. what to do when dims aren\u2019t given) would need to be decided in the implementation, the overall behavior is straightforward and unambiguous enough to code against. Hence it\u2019s reasonably specified."
+}

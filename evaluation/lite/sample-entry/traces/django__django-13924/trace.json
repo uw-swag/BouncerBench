@@ -1,0 +1,41 @@
+{
+  "input": "The report states a high-level bug (deferred SQL errors still mark migrations as applied) but lacks repro steps, error context, or guidance on where/how to handle the deferred SQL execution in the codebase. Without knowing the existing transaction flow or intended behavior, it\u2019s unclear what changes are needed for a fix. Thus the issue is too vague to act on meaningfully.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/migrations/executor.py b/django/db/migrations/executor.py\nindex 83d624e08a..f768a29c71 100644\n--- a/django/db/migrations/executor.py\n+++ b/django/db/migrations/executor.py\n@@ -225,8 +225,9 @@ class MigrationExecutor:\n                 # Alright, do it normally\n                 with self.connection.schema_editor(atomic=migration.atomic) as schema_editor:\n                     state = migration.apply(state, schema_editor)\n-                    self.record_migration(migration)\n-                    migration_recorded = True\n+                # Only record if the migration was successful, including deferred SQL\n+                self.record_migration(migration)\n+                migration_recorded = True\n         if not migration_recorded:\n             self.record_migration(migration)\n         # Report progress\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nMigrations are marked applied even if deferred SQL fails to execute\nDescription\n\t\nThe changes introduced in c86a3d80a25acd1887319198ca21a84c451014ad to address #29721 fail to account for the possibility of the schema editor accumulation of deferred SQL which is run at SchemaEditor.__exit__ time.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_fadz150jj",
+      "status": "completed",
+      "call_id": "call_0WH1dZehM1R0R2VZ9DEWKbTH",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '200,260p' django/db/migrations/executor.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_0WH1dZehM1R0R2VZ9DEWKbTH",
+      "output": "{\"output\":\"        # the last migration is unapplied and mutating it to include all the\\n        # remaining applied migrations.\\n        last_unapplied_migration = plan[-1][0]\\n        state = states[last_unapplied_migration]\\n        for index, (migration, _) in enumerate(full_plan):\\n            if migration == last_unapplied_migration:\\n                for migration, _ in full_plan[index:]:\\n                    if migration in applied_migrations:\\n                        migration.mutate_state(state, preserve=False)\\n                break\\n\\n        return state\\n\\n    def apply_migration(self, state, migration, fake=False, fake_initial=False):\\n        \\\"\\\"\\\"Run a migration forwards.\\\"\\\"\\\"\\n        migration_recorded = False\\n        if self.progress_callback:\\n            self.progress_callback(\\\"apply_start\\\", migration, fake)\\n        if not fake:\\n            if fake_initial:\\n                # Test to see if this is an already-applied initial migration\\n                applied, state = self.detect_soft_applied(state, migration)\\n                if applied:\\n                    fake = True\\n            if not fake:\\n                # Alright, do it normally\\n                with self.connection.schema_editor(atomic=migration.atomic) as schema_editor:\\n                    state = migration.apply(state, schema_editor)\\n                    self.record_migration(migration)\\n                    migration_recorded = True\\n        if not migration_recorded:\\n            self.record_migration(migration)\\n        # Report progress\\n        if self.progress_callback:\\n            self.progress_callback(\\\"apply_success\\\", migration, fake)\\n        return state\\n\\n    def record_migration(self, migration):\\n        # For replacement migrations, record individual statuses\\n        if migration.replaces:\\n            for app_label, name in migration.replaces:\\n                self.recorder.record_applied(app_label, name)\\n        else:\\n            self.recorder.record_applied(migration.app_label, migration.name)\\n\\n    def unapply_migration(self, state, migration, fake=False):\\n        \\\"\\\"\\\"Run a migration backwards.\\\"\\\"\\\"\\n        if self.progress_callback:\\n            self.progress_callback(\\\"unapply_start\\\", migration, fake)\\n        if not fake:\\n            with self.connection.schema_editor(atomic=migration.atomic) as schema_editor:\\n                state = migration.unapply(state, schema_editor)\\n        # For replacement migrations, record individual statuses\\n        if migration.replaces:\\n            for app_label, name in migration.replaces:\\n                self.recorder.record_unapplied(app_label, name)\\n        else:\\n            self.recorder.record_unapplied(migration.app_label, migration.name)\\n        # Report progress\\n        if self.progress_callback:\\n            self.progress_callback(\\\"unapply_success\\\", migration, fake)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_3almcno31",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch simply moves the call to record_migration out of the schema_editor context so that the migration isn\u2019t marked applied until after the context manager\u2019s __exit__ (where deferred SQL runs) completes successfully. It\u2019s a minimal, focused change that prevents migrations from being recorded when deferred SQL fails, exactly addressing the issue.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is essentially an open\u2010ended enhancement request with multiple possible implementations and no clear consensus on what the final API or behavior should be. There are two mutually exclusive proposals (alias vs. depth\u2010aware shape vs. __str__ change) but no decision, design details, or acceptance criteria. That makes it too vague to jump in with a concrete PR."
+}

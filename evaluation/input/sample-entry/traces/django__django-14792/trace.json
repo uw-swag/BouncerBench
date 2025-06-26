@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the change in behavior between Django 3.1 and 3.2, shows concrete examples of inputs and generated SQL, pinpoints the involved methods (`_get_timezone_name`, `TimezoneMixin.get_tzname`, and `DatabaseOperations._prepare_tzname_delta`), and states the expected vs. actual outcome. This provides enough detail to craft a fix or test case."
+}

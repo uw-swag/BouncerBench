@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what changes are needed\u2014use ABCMeta-based interfaces for checkers/reporters and update PyLinter to recognize those via isinstance while preserving the existing __implements__ logic. While implementation details (exact class names, code locations) aren\u2019t provided, there is a straightforward interpretation and path to a solution."
+}

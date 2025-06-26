@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example (model, code snippet), shows the exact traceback, describes expected vs. actual behavior, and cites the relevant docs. It\u2019s clear what\u2019s wrong (pickled Query losing its values()/annotate behavior) and what a correct solution should restore (returning dicts, not broken model instances)."
+}

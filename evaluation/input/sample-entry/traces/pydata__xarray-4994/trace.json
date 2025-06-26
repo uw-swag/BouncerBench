@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the missing feature (`.dt.date`), provides a minimal reproducible example demonstrating the problem, shows expected output, and even points to the exact location in the codebase where a single line could add the feature. All requirements for a successful fix are unambiguous."
+}

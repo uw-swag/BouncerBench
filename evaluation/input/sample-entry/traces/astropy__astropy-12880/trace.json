@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the regression (ECSV strict type check blocking datetime64), includes the failing code path, error message, reproduction steps, and even points to the commit/line of code. It\u2019s straightforward to implement a fix (e.g. allow datetime64 in ECSV_DATATYPES), so it\u2019s well-specified."
+}

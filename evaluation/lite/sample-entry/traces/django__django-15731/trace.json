@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes the problem (inspect.signature on manager/queryset methods only shows (*args, **kwargs)), provides a minimal repro, pinpoints the exact code location in manager.py, explains why metadata isn\u2019t propagated, and even suggests using functools.wraps. All requirements for a solution are explicit.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/manager.py b/django/db/models/manager.py\nindex e37e56c..d8c93af 100644\n--- a/django/db/models/manager.py\n+++ b/django/db/models/manager.py\n@@ -1,5 +1,6 @@\n import copy\n import inspect\n+from functools import wraps\n from importlib import import_module\n \n from django.db import router\n@@ -81,10 +82,11 @@ class BaseManager:\n     @classmethod\n     def _get_queryset_methods(cls, queryset_class):\n         def create_method(name, method):\n+            @wraps(method)\n             def manager_method(self, *args, **kwargs):\n                 return getattr(self.get_queryset(), name)(*args, **kwargs)\n \n-            manager_method.__name__ = method.__name__\n+            return manager_method\n             manager_method.__doc__ = method.__doc__\n             return manager_method\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ninspect.signature() returns incorrect signature on manager methods.\nDescription\n\t \n\t\t(last modified by Shiva Kumar)\n\t \ninspect.signature returns incorrect signature information when used on queryset methods\nimport inspect\nfrom django.db import models\nclass Person(models.Model):\n\tname = models.CharField(max_length=100)\nprint(inspect.signature(Person.objects.bulk_create))\n# actual: (*args, **kwargs)\n# expected: (objs, batch_size=None, ignore_conflicts=False)\nipython and jupyter seem to internally use inspect.signature to show documentation when using the <obj>? command and they too show incorrect signature information:\n \nThe issue is due to the code at \u200bhttps://github.com/django/django/blob/fe2e1478464846638082219c933a4302e5cf3037/django/db/models/manager.py#L84\nAlthough we are ensuring the decorated method has the right name and docstring on lines 87 and 88, complete metadata is not copied.\nThe fix is to use functools.wraps instead of manually assigning name and docstring. wraps will take care of all the metadata and inspect.signature will return the expected output.\nIf the bug is acknowledged please assign the ticket to me, I would like to raise a PR for this.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_fb005r3kx",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch replaces the manual name/doc assignments with @wraps(method), which correctly propagates the original signature (so inspect.signature now sees the real parameters). Although there\u2019s a bit of unreachable leftover code after the first return, it does not prevent the decorator from working. No key aspect of the issue is missed, and the change is minimal, so the fix is correct and appropriately targeted.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

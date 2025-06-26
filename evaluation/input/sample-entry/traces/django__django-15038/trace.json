@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (using --squashed-name can overwrite an existing migration file, causing inconsistency and CircularDependencyError) and the desired behavior (exit with an error instead of overwriting). There\u2019s enough detail to write a check in the squashmigrations command to detect existing files and abort, making it well-specified."
+}

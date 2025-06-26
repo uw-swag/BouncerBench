@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly identifies the problem (duplicate fixture directories aren\u2019t detected when using pathlib.Path), the location (loaddata), and the expected behavior (duplicates should be caught regardless of type). While it\u2019s brief and lacks examples or context, there\u2019s a sensible interpretation of what needs to be changed (normalize Path to string or use os.fspath before duplicate checks). This makes the issue reasonably specified for an implementable fix."
+}

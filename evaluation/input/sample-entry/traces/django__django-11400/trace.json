@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints exactly where in the code the ordering is being clobbered or omitted (with links to the relevant lines), states the expected behavior (fall back to Meta.ordering or respect ModelAdmin.ordering) and describes how to surface the missing ordering parameters. A developer can come up with a clear patch to restore the fallback to model._meta.ordering in RelatedFieldListFilter and pass through ordering to get_choices in RelatedOnlyFieldListFilter without further clarification."
+}

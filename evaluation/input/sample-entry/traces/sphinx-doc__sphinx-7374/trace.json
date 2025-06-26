@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes that Python domain anchors changed from underscores to dashes and that existing links now break, but it doesn\u2019t specify the desired remediation (e.g. whether to restore the old style, add aliases, make it configurable, etc.). There\u2019s enough context to know roughly what needs doing, but critical details about the intended solution are missing, making it ambiguous. Therefore it\u2019s too vague for a direct implementation."
+}

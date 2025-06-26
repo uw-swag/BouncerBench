@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states a general requirement (reject absolute and non-normalized paths for mktemp), but gives no concrete context (which mktemp implementation, where in the code, how to report errors, what normalization rules apply, etc.). It lacks sufficient detail or examples for a clear implementation plan without further clarification."
+}

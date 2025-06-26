@@ -1,0 +1,3 @@
+{
+  "trace": "The description conflates two different problems (startpath/fspath API regressions and test output coloring) without a clear single goal. It\u2019s ambiguous which bug to address and lacks concrete reproduction steps or a precise specification for the hook regression issue. As written, it\u2019s too unclear for a focused implementation."
+}

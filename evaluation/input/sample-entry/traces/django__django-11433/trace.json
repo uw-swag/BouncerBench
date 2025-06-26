@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a concrete problem (fields with model defaults can\u2019t be overridden via cleaned_data if they aren\u2019t submitted in the form) and the desired behavior (allow cleaned_data to take precedence over model defaults). It cites the relevant code area via a PR comment link and clearly states what\u2019s wrong and what should change, even though implementation details are left to the developer. There is enough information to sketch and implement a solution."
+}

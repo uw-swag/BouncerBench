@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a concise, minimal reproducible example with Django versions, clear reproduction steps, the exact assertion failure location, analysis of the root cause, and even suggestions for a fix. A developer can take this and work out a solution without needing more clarification."
+}

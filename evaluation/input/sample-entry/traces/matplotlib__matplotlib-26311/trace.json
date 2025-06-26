@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides minimal context (regression from v3.7.1 to main), a complete reproducible example, the exact traceback, and a clear expected result (with a reference image). It even points to the single-line fix in an existing commit. This is sufficient to implement and verify a solution without ambiguity."
+}

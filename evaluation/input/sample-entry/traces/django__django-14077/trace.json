@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the model and field (JSONField), the exact query being run, concrete results on PostgreSQL versus SQLite, and the expected behavior. It includes environment details (Python, Django, SQLite versions) and a minimal reproducible example. Everything needed to diagnose and implement a fix is present."
+}

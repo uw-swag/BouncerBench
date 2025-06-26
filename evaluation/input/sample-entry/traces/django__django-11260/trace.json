@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the problem (inspectdb is generating a unique ForeignKey where it should use OneToOneField) and the symptom (fields.W342 warnings). While it could benefit from example schemas or code snippets, the high-level requirement\u2014update inspectdb to detect unique FKs as one-to-one relations\u2014is unambiguous. A developer familiar with inspectdb\u2019s codegen can reasonably implement and test the fix."
+}

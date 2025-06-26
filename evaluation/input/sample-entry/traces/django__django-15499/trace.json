@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the needed behavior: in the migration optimizer, just as CreateModel+AlterModelOptions are merged into a single CreateModel, CreateModel+AlterModelManagers should also be collapsed to CreateModel. While it doesn\u2019t point to the exact file or function, anyone familiar with Django\u2019s migration optimizer can identify where to add the same merging logic for managers. The goal and scope are unambiguous, so this is reasonably specified."
+}

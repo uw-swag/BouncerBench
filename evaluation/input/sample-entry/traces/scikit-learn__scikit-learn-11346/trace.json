@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, environment details (OS, Python, NumPy, scikit-learn versions), exact error message, and clear reproduction steps. A developer can reproduce and debug the read-only buffer issue when parallelizing SparseCoder, so the ticket is well specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, clear indication of a regression between two Matplotlib versions, actual vs expected output screenshots, and full environment details. A developer can pull the 3.5.0 master, run the snippet, observe the failure, and know exactly what to fix. This is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly shows the current and expected behavior: Derivative(A, x).kind should propagate the MatrixKind(NumberKind) from A just like Integral does. It\u2019s obvious what change is needed (have Derivative.kind return the argument\u2019s kind), so the issue is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly states the problem (pt-BR translations not loaded), gives an example, points to the exact code location, and implies the desired behavior (preserve or properly handle subtags). This is enough to go implement a fix."
+}

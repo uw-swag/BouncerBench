@@ -1,0 +1,3 @@
+{
+  "trace": "The report contains a clear description of what\u2019s happening (SQLite \u201cdatabase is locked\u201d when using persistent test DBs with --keepdb), the exact reproduction steps (diff to tests, runtests command), the full traceback, and the expected outcome (tests should pass). That gives a concrete, actionable bug to reproduce and address. Hence it\u2019s WELL_SPECIFIED."
+}

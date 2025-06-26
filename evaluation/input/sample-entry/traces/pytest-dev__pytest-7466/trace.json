@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the desired behavior: disable coloring when NO_COLOR is set, force coloring when FORCE_COLOR is set, and otherwise default to TTY detection. The standard reference and the extension are specified, so a developer can implement the appropriate environment-variable checks around the existing color logic."
+}

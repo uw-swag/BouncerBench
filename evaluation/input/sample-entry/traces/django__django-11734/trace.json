@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, shows exactly what works (filter with OuterRef) vs what fails (exclude or ~Q with OuterRef), and provides the exact error. The expected behavior is clear (exclude should work like filter), so a developer can directly write a fix and verify against the provided test. "
+}

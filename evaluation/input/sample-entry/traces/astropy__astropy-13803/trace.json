@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (float32 \u03c0/2 slightly exceeding the \u00b190\u00b0 bounds in a strict float64 check), includes a minimal reproducible example, system details, and an expected behavior (allow the float32 value via a relaxed/tolerance check). The scope and goal are unambiguous and actionable in the Astropy codebase."
+}

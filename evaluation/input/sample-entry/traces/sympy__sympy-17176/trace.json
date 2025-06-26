@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with concrete examples, current vs. expected behaviour, and points to the relevant routines (_finger, bool_map). While it doesn\u2019t prescribe exactly how to fix the fingerprint or bool_map algorithms, it clearly demonstrates the bug for XNOR3/XOR3 (and hints at XOR4/XNR4), providing enough to start diagnosing and writing tests. Hence it is reasonably specified."
+}

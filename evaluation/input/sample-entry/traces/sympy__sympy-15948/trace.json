@@ -1,0 +1,3 @@
+{
+  "trace": "The description conflates two separate problems (unexpected behavior of subs on matrices vs. a fix for Mul.flatten returning Add/Mul instead of MatAdd/MatMul) and mixes issue narrative with a proposed PR. It\u2019s unclear which bug to address or what the expected correct behavior and scope of changes should be. There isn\u2019t a clear, focused description of what needs to be implemented or fixed."
+}

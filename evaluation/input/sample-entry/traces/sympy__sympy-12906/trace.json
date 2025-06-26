@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states that Relational.canonical is not idempotent in one specific example, but offers no detail on the intended behavior, relevant code paths, why it fails, or how canonicalization is meant to work. There\u2019s insufficient context to implement or test a fix without further clarification of the requirements or design."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The user describes a clear problem (the AlreadyRegistered exception when a model is double-registered in Django admin) and a desired outcome (including more context\u2014such as which app or admin class previously registered the model\u2014to avoid manual bisecting). While the precise format of the extra details isn\u2019t fully spelled out, there\u2019s a sensible, implementable interpretation (e.g. look up the existing entry in the admin\u2019s registry and include its class or module name in the error message). Thus the issue is reasonably specified for a developer to work on a solution."
+}

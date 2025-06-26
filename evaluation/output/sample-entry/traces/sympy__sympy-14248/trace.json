@@ -1,0 +1,51 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/printing/pretty/pretty.py b/sympy/printing/pretty/pretty.py\nindex db24f4c612..20cc4badb2 100644\n--- a/sympy/printing/pretty/pretty.py\n+++ b/sympy/printing/pretty/pretty.py\n@@ -1432,6 +1432,19 @@ def pretty_negative(pform, index):\n             else:\n                 p = pform\n             p = stringPict.next(pform_neg, p)\n+            return p\n+\n+        for i, term in enumerate(terms):\n+            if _coeff_isneg(term):\n+                pform = pretty_negative(self._print(-term), i)\n+            else:\n+                if i != 0:\n+                    pform = stringPict.next(' + ', self._print(term))\n+                else:\n+                    pform = self._print(term)\n+            pforms.append(pform)\n+\n+        return prettyForm(*pforms)\n             # Lower the binding to NEG, even if it was higher. Otherwise, it\n             # will print as a + ( - (b)), instead of a - (b).\n             return prettyForm(binding=prettyForm.NEG, *p)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nThe difference of MatrixSymbols prints as a sum with (-1) coefficient\nInternally, differences like a-b are represented as the sum of a with `(-1)*b`, but they are supposed to print like a-b. This does not happen with MatrixSymbols. I tried three printers: str, pretty, and latex: \r\n```\r\nfrom sympy import *\r\nA = MatrixSymbol('A', 2, 2)\r\nB = MatrixSymbol('B', 2, 2)\r\nprint(A - A*B - B)\r\npprint(A - A*B - B)\r\nlatex(A - A*B - B)\r\n```\r\nOutput:\r\n```\r\n(-1)*B + (-1)*A*B + A\r\n-B + -A\u22c5B + A\r\n'-1 B + -1 A B + A'\r\n```\r\n\r\nBased on a [Stack Overflow post](https://stackoverflow.com/q/48826611)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_pkb6262ot",
+    "status": "completed",
+    "call_id": "call_NdTKNrj26QRN9t6oCfffDPpV",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1400,1470p' sympy/printing/pretty/pretty.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_NdTKNrj26QRN9t6oCfffDPpV",
+    "output": "{\"output\":\"        return self._print(Symbol(\\\"EulerGamma\\\"))\\n\\n    def _print_Mod(self, expr):\\n        pform = self._print(expr.args[0])\\n        if pform.binding > prettyForm.MUL:\\n            pform = prettyForm(*pform.parens())\\n        pform = prettyForm(*pform.right(' mod '))\\n        pform = prettyForm(*pform.right(self._print(expr.args[1])))\\n        pform.binding = prettyForm.OPEN\\n        return pform\\n\\n    def _print_Add(self, expr, order=None):\\n        if self.order == 'none':\\n            terms = list(expr.args)\\n        else:\\n            terms = self._as_ordered_terms(expr, order=order)\\n        pforms, indices = [], []\\n\\n        def pretty_negative(pform, index):\\n            \\\"\\\"\\\"Prepend a minus sign to a pretty form. \\\"\\\"\\\"\\n            #TODO: Move this code to prettyForm\\n            if index == 0:\\n                if pform.height() > 1:\\n                    pform_neg = '- '\\n                else:\\n                    pform_neg = '-'\\n            else:\\n                pform_neg = ' - '\\n\\n            if (pform.binding > prettyForm.NEG\\n                or pform.binding == prettyForm.ADD):\\n                p = stringPict(*pform.parens())\\n            else:\\n                p = pform\\n            p = stringPict.next(pform_neg, p)\\n            # Lower the binding to NEG, even if it was higher. Otherwise, it\\n            # will print as a + ( - (b)), instead of a - (b).\\n            return prettyForm(binding=prettyForm.NEG, *p)\\n\\n        for i, term in enumerate(terms):\\n            if term.is_Mul and _coeff_isneg(term):\\n                coeff, other = term.as_coeff_mul(rational=False)\\n                pform = self._print(Mul(-coeff, *other, evaluate=False))\\n                pforms.append(pretty_negative(pform, i))\\n            elif term.is_Rational and term.q > 1:\\n                pforms.append(None)\\n                indices.append(i)\\n            elif term.is_Number and term < 0:\\n                pform = self._print(-term)\\n                pforms.append(pretty_negative(pform, i))\\n            elif term.is_Relational:\\n                pforms.append(prettyForm(*self._print(term).parens()))\\n            else:\\n                pforms.append(self._print(term))\\n\\n        if indices:\\n            large = True\\n\\n            for pform in pforms:\\n                if pform is not None and pform.height() > 1:\\n                    break\\n            else:\\n                large = False\\n\\n            for i in indices:\\n                term, negative = terms[i], False\\n\\n                if term < 0:\\n                    term, negative = -term, True\\n\\n                if large:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_jn2gdi0hy",
+    "status": "completed",
+    "call_id": "call_wtcBeeFjySeWCDNa3Mch05z6",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _coeff_isneg\\\" -n sympy/printing/pretty/pretty.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_wtcBeeFjySeWCDNa3Mch05z6",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_2gp6v8t2c",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The provided patch replaces the entire Add pretty\u2010printer logic with a minimal loop driven only by _coeff_isneg, dropping all previous special handling for multiplicative negatives, rationals with non-unit denominators, relational expressions, explicit binding levels, and parentheses. While it will now print MatrixSymbol subtractions as \u201cA - A\u22c5B - B\u201d, it also removes critical formatting logic needed for other Add subcases (e.g. fractional terms, relational parens, binding precedence). In other words, it is too coarse and misses many key aspects of the original pretty\u2010printer.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

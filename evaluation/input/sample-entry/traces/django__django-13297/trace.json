@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes: a minimal reproduction, version numbers (Django 3.0 vs 3.1, Python 3.7, SQLite), the exact error message and backtrace, and the observed difference in type (SimpleLazyObject vs str). It\u2019s clear what\u2019s broken, where it happens, and what a correct behavior would look like (kwargs values being real strings), so you can start drafting a patch or workaround immediately."
+}

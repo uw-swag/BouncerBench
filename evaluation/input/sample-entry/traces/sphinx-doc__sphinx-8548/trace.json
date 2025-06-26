@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the observed bug (inherited data members aren\u2019t included), the root cause (lookup only uses the current namespace, not base classes\u2019), and the expected behavior (autodoc inherited-members should include inherited attributes). While it lacks a code snippet or repro steps, it\u2019s sufficient for a Sphinx contributor familiar with autodoc to implement a fix. Thus it\u2019s reasonably specified."
+}

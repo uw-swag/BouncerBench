@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows what\u2019s broken (unit conversions of s/m in Astropy 3.1), where it was introduced (a specific commit), and the failing tests. However, it doesn\u2019t actually spell out the desired corrective action (e.g. pinning Astropy to <3.1 vs. a code\u2010side workaround), so you have to infer a fix. It\u2019s actionable but not fully constrained, making it reasonably specified rather than rock\u2010solid."
+}

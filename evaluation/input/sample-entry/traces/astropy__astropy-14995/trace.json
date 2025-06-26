@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a regression in v5.3 vs v5.2, gives minimal reproducible code, shows the exact error, and states expected behavior. While it doesn\u2019t point to the specific source file or internal function names, it\u2019s straightforward for someone familiar with NDDataRef\u2019s mask\u2010handling to locate and fix the logic. Thus it\u2019s reasonably specified."
+}

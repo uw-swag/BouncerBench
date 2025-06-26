@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (pytz raising AmbiguousTimeError on Trunc()), shows a reproducible test case, and states the desired behavior (allow passing an is_dst flag into Trunc so make_aware can disambiguate instead of erroring). It\u2019s straightforward to add an optional keyword argument to Trunc and forward it through convert_value to timezone.make_aware. All needed context and a concrete change plan are provided, so it\u2019s reasonably specified for a PR."
+}

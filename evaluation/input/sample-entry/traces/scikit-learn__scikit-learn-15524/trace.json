@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, the exact error message, expected vs. actual behavior, and environment details. It clearly describes the bug (nested CV with precomputed metric) and what a correct outcome looks like, making it straightforward to attempt a fix."
+}

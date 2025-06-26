@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the version, the exact failing code paths (cases with a Rational base of \u00b11 in the numerator and an exponent of \u20131), provides minimal repro steps and outputs (including working cases for comparison), and shows the recursion trace. From the pattern of the working examples one can infer the intended LaTeX output. This is sufficient to scope and implement a fix in the LaTeX printer."
+}

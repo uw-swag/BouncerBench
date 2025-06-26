@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is precisely described, including stack trace, code location, and the exact patch needed (adding an else branch to assign ncp_prior). All necessary details are provided for a straightforward fix."
+}

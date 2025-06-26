@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives only a high-level suggestion (\u201cuse subprocess.run and PGPASSWORD\u201d) without showing the existing code to change, where in django.db.backends.postgres.client it lives, what behavior to preserve, or what tests to add. You can infer the goal but there\u2019s insufficient detail to craft a precise PR without more context."
+}

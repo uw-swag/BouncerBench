@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the incorrect behavior when parsing composite CDS units, provides the exact input format, expected vs. actual output, steps to reproduce, and environment details. There is no ambiguity about what needs to be fixed."
+}

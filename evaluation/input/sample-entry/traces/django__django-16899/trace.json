@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies where in the code (ModelAdmin\u2019s readonly_fields check) the error message is generated, shows the current message, compares it to other similar checks, and specifies the desired change (include the field name in the readonly_fields error). There\u2019s no ambiguity about what needs to be done or where to make the change."
+}

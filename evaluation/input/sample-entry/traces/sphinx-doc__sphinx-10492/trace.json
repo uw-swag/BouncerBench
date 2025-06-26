@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints the exact file and line range, shows the incorrect spellings, and states the expected text. A trivial fix (correcting the two typos) is all that\u2019s needed. This is clearly defined and implementable without further info."
+}

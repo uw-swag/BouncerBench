@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the current vs. expected output, the Django version, the DEBUG modes, and even example HTML. It\u2019s obvious what change is needed (wrap the default error response in a full HTML skeleton)."
+}

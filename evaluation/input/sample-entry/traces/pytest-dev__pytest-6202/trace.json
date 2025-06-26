@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter has pinpointed the exact offending line of code (`return s.replace('.[', '[')`) with links to the source, described the undesirable transformation, and proposed the change to simply return `s`. They\u2019ve also noted the expected steps (update the code, run `tox -e linting,py37`, and ensure tests pass). This gives a clear, actionable fix."
+}

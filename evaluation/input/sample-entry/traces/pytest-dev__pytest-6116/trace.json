@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear in its intent (add a single-character alias for the --collect-only flag) and straightforward to implement, but it doesn\u2019t specify which character to use or handle any potential conflicts. There\u2019s enough here to make a reasonable implementation proposal, so it\u2019s not impossible or totally vague, but it does leave some details open."
+}

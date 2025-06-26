@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the need to include the database alias in Django\u2019s SQL logging output for multi-db routing, so there\u2019s a sensible, straightforward change (tweak the logger format in BaseDatabaseWrapper). However, it lacks concrete examples or exact formatting requirements, so some interpretation is needed. This makes it reasonably specified but not fully detailed."
+}

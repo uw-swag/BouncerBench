@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current wrong behavior, cites the RFC, gives examples of expected usage (merging multiple no-cache field-names into a list and having True override any named fields), and even references a related ticket. The requirements for patch_cache_control are specific enough to implement a correct fix."
+}

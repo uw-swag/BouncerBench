@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes current vs. desired behavior with concrete code examples, specifies that MatAdd/MatMul should accept an evaluate flag just like Add/Mul, and shows expected output. A developer can jump in and implement the evaluate keyword and its effect on canonicalization without further clarification."
+}

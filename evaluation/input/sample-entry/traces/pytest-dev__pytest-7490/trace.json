@@ -1,0 +1,3 @@
+{
+  "trace": "This is a clear, minimal reproducible example of a regression between pytest 5.x and 6.x: dynamically adding an xfail marker via request.node.add_marker no longer suppresses a failure. The issue includes versions, code sample, expected vs. actual output. A developer can reproduce, trace the change, and implement a fix. Hence it is well\u2010specified."
+}

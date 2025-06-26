@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a runtime traceback and suspects an empty \u201cout\u201d list in _format_results, but offers no minimal example, no clear reproduction steps, and only intermittent behavior. There\u2019s too little concrete context to know what to fix or reproduce, so it\u2019s vague."
+}

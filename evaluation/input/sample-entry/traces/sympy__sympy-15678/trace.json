@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly identifies two missing features in the idiff function\u2014support for Eq inputs and for using an applied function like f(x) as the dependent variable\u2014and provides failing examples as well as a working y-based example whose result one should mirror. While it doesn\u2019t spell out every line of code, it\u2019s straightforward for someone familiar with SymPy\u2019s structure to infer the needed changes (strip Eq to lhs\u2013rhs and accept AppliedUFunctions in place of plain Symbols). Thus it\u2019s reasonably specified."
+}

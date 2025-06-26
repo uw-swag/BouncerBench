@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear: extend ReferenceFrame.orientnew to accept an indices keyword just like the ReferenceFrame constructor (and optionally add a global default indices mechanism). The desired behavior and parameters are explicitly described, so a developer can implement and test this feature without further clarification."
+}

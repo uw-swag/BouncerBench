@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the broken behavior (unexpected output and parser warning), the exact command, software versions, expected output, and actual output. There\u2019s no ambiguity about what\u2019s wrong or what the fix should achieve, so it\u2019s well-specified."
+}

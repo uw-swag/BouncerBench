@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a failed doctest in sympy/physics/vector/frame.py (ReferenceFrame.orient_space_fixed), shows the exact expected vs. actual output, and points to the disabled test. While it doesn\u2019t prescribe the precise code change, it\u2019s clear what needs to be fixed (i.e. ensuring the DCM elements get fully simplified to the nicer sine/cosine form). Given this, an engineer can reasonably locate the function, understand the failure, and implement the needed trigsimp or simplify calls. Thus it\u2019s reasonably specified."
+}

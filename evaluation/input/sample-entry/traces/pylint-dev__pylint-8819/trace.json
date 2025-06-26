@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes the discrepancy between CLI and rcfile behavior, gives concrete examples, and states the desired semantics (disable should always subtract checks from the enabled set, regardless of order). This is specific enough for an implementation: switch rcfile parsing to treat enable as a union and disable as a subtraction so that disable always wins. There\u2019s no ambiguity about what success looks like."
+}

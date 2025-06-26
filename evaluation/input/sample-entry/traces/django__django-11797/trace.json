@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear, minimal repro with code snippets, shows expected vs. actual SQL, and describes exactly what\u2019s wrong (GROUP BY on the wrong column). You can reproduce and know what fix is needed."
+}

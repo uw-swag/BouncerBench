@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior, the desired change (skip msgfmt when the .mo file is newer than its .po), and even notes where in compilemessages.py to insert the mtime checks or how to handle is_writable. While test coverage details aren\u2019t spelled out, the functional requirement is unambiguous, and a developer can go ahead and implement it."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes that calling transaction.on_commit(None) currently crashes with a TypeError and suggests either preventing registration of None or making it a no-op. However, it doesn\u2019t specify which behavior is preferred (fail-fast vs. silent skip), nor outline the exact API change or desired error message/behavior. That ambiguity makes it unclear what a successful solution should look like."
+}

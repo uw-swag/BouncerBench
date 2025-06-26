@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a mismatch between Django\u2019s handling of SameSite=None (it omits the attribute entirely) and Chrome\u2019s requirement for an explicit \u201cSameSite=None\u201d attribute for cross-site cookies. There\u2019s a straightforward fix: in set_cookie and set_signed_cookie, treat None as a valid value and emit \u201cSameSite=None\u201d instead of dropping the attribute. Although it doesn\u2019t call out specific files or lines, the behavior and change are unambiguous, so a developer familiar with Django\u2019s cookie machinery can implement it."
+}

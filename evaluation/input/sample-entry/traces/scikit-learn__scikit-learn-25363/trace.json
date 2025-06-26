@@ -1,0 +1,3 @@
+{
+  "trace": "The description lacks details on what \u201cexplicit configuration\u201d entails, where and how to pass it into `delayed`, what the warning should look like, and what existing behavior is broken. It simply references other issues without summarizing their content or expected behavior, making it unclear what changes are required for a successful fix."
+}

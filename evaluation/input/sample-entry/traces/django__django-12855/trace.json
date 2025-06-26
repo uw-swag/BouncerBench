@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly requests that the alias function `django.conf.urls.url()` be deprecated in favor of `django.urls.re_path()`. While it doesn\u2019t specify exact versioning or deprecation schedule, the goal (mark the function deprecated, emit warnings, update docs/tests) is unambiguous and can be sensibly implemented."
+}

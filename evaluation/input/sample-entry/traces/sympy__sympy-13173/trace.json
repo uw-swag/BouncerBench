@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a behavior (the degree function silently picks the first generator in multivariate cases) and argues it\u2019s ambiguous, but it does not clearly specify the desired new behavior or API (e.g. should it raise an error when multiple symbols are present, change to total degree by default, require an extra argument, etc.). Without a concrete specification of the intended behavior and API changes, there\u2019s too much ambiguity to implement a meaningful solution."
+}

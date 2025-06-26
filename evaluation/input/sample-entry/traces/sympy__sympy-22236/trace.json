@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the inconsistent printout for unevaluated Mul when an Add is first vs. second operand, provides minimal reproducing code, and states the desired behavior (wrap the Add in brackets). A developer could implement and test a fix in the printer without needing further clarification."
+}

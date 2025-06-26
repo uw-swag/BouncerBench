@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly described (inline type annotations for TracebackType incorrectly linking to the local property instead of the external type), the expected behavior is stated, and sufficient context (code snippet, environment, Sphinx setup) is provided. While you might need to explore Sphinx\u2019s name resolution logic to implement the fix, the requirement itself is unambiguous and actionable."
+}

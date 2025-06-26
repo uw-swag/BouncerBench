@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug in the Idx constructor: when given a tuple of bounds, non\u2010integer bounds are accepted whereas the same check for single bounds would reject them. The user even quotes the relevant code branch and the desired behavior (raising TypeError for non\u2010integer bounds). While it doesn\u2019t spell out the exact lines to change, there\u2019s enough context to locate the __new__ method in indexed.py and add the integer\u2010check on both tuple elements. Thus it\u2019s reasonably specified."
+}

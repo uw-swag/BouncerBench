@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, the exact error traceback, the piece of code where the bug occurs, and the intended behavior (lists of length 1 should be treated as scalars). It clearly identifies where in the code to make the change (in CFScaleOffsetCoder.decode) and how to handle Python lists analogously to 1-element numpy arrays. This is well-specified and actionable."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives only a tiny diff without context\u2014no file path, function, or tests, and no clear behavior or integration details. It\u2019s unclear where and how to implement this change for all databases, so it\u2019s too vague for a concrete solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (support pow(a, b, m) for Sympy, at least for Integer arguments) and provides the failing example, references to Python docs and a related issue. While some details (e.g. behavior for symbolic modulus or error cases) would need filling in, there is a straightforward interpretation and implementation path. Hence it\u2019s reasonably well-specified."
+}

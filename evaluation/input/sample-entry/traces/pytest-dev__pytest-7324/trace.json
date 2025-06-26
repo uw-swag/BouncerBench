@@ -1,0 +1,3 @@
+{
+  "trace": "The report simply shows an assertion failure in a debug build when calling `Expression.compile(\"False\")`, but provides no context on what `Expression` is or how pytest ties in, and no clear specification of the desired behavior or fix. There isn\u2019t enough information to develop a targeted solution."
+}

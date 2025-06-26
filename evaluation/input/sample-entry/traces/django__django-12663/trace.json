@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear reproduction (models, test case, traceback) and identifies a regression in handling SimpleLazyObject in queryset filters. While it doesn\u2019t explicitly spell out \u201cthe fix is to unwrap lazy objects before type coercion,\u201d the expected behavior (no error, test passes) is implied and there\u2019s a sensible path to a solution. Thus it\u2019s reasonably specified."
+}

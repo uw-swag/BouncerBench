@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the desired new behavior\u2014allowing a private-members option to take explicit names just like members\u2014and points to the existing pattern in Sphinx. While you\u2019d still need to refer to Sphinx\u2019s directive parsing to nail down exact syntax and edge\u2010cases, it\u2019s absolutely clear what to implement and how to validate it."
+}

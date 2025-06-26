@@ -1,0 +1,3 @@
+{
+  "trace": "The issue pinpoints a specific bug in IterativeImputer\u2019s logic for \u2018ascending\u2019 vs \u2018descending\u2019 ordering, provides the exact file and line reference, and clearly states that the two modes are swapped. It\u2019s immediately clear that the fix is to invert the current conditional or swapping logic to match the documented behavior. No further clarification is needed to implement and test the correct order."
+}

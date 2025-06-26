@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows someone is calling `sy.bspline_basis_set` and passing knot arrays, but it doesn\u2019t state which library `sy` is from, what the signature or expected behavior of the function is, what error is raised, or what the desired basis matrix should look like. Without the function definition, version, input `x`, and a concrete example of the failure (error message or incorrect output), there\u2019s too much missing to craft a meaningful fix. "
+}

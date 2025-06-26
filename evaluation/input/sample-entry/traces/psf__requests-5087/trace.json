@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes expected vs. actual behavior, includes reproduction steps with code, a failing test case (and even a patch link), and environment details. It\u2019s straightforward to understand what must change (i.e. cache or rethrow the original error on subsequent `response.content` accesses)."
+}

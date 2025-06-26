@@ -1,0 +1,3 @@
+{
+  "trace": "This issue is essentially a design discussion asking for opinions on when to propagate the `info` attribute for `Quantity` objects. There\u2019s no concrete list of required behaviors, no clear decision or scope, no code pointers or test cases to drive an implementation, and it leaves key terms like \u201creasonable\u201d undefined. As a result it\u2019s too vague to turn into a precise set of changes without further clarification."
+}

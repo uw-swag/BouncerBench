@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the desired new behavior (allow specifying binary precision via a `prec` argument, separate from decimal `dps`), outlines how the API should change (rename the existing `prec` to `dps`, add a new `prec`, error if both are passed), and notes backwards\u2010compatibility concerns and deprecation needs. While some details (e.g. exact positional vs. keyword handling or detection of old\u2010style calls) will require design decisions, there\u2019s enough here to draft a meaningful implementation and plan the deprecation cycle. Thus this is REASONABLY_SPECIFIED."
+}

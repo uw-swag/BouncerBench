@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (no color output with precision-formatted levelname), provides a minimal repro (the exact `log_cli_format` string), and even points to the specific regex in `ColoredLevelFormatter` that fails to match. It\u2019s clear what change is needed\u2014adjust the regex to recognize precision in the format spec (e.g. allow a `.\\d+` precision bit)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to change (replace InvalidQuery in two code paths with FieldDoesNotExist and FieldError) and to add a deprecation shim. While it doesn\u2019t spell out exact file names or warning messages, an experienced Django contributor can locate the current InvalidQuery uses and implement the proposed behavior. The intent and scope are unambiguous, but some details (exact warning APIs, test updates) would need to be filled in, so it\u2019s reasonably specified."
+}

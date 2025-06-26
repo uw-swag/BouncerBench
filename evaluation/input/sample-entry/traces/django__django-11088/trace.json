@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly described with reproduction steps (models, migrations, commands), exact traceback, Django versions, and even a proposed code change location. It\u2019s straightforward to implement and test a fix in the specified method."
+}

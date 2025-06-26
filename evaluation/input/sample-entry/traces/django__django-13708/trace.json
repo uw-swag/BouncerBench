@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the feature: a new durable=True flag on transaction.atomic() that enforces a top\u2010level commit (i.e. raises if nested), ensuring durability. While implementation details (exact error class, tests, docs updates) will need filling in, there\u2019s a sensible interpretation and path to a solution."
+}

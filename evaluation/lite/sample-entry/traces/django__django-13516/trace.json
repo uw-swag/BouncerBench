@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes a specific problem (flush() on stdout/stderr in Django management commands not emitting incremental output during a long migration) along with the current versus expected behavior. While it doesn\u2019t include every detail (e.g., Django version, OS, minimal repro code), there is a sensible interpretation of what needs to be fixed\u2014ensure that flush() actually forces output to appear immediately. This is enough to start investigating and producing a meaningful solution.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/core/management/base.py b/django/core/management/base.py\nindex c1c76e0..bc087cf 100644\n--- a/django/core/management/base.py\n+++ b/django/core/management/base.py\n@@ -149,7 +149,7 @@ class OutputWrapper(TextIOBase):\n             msg += ending\n         style_func = style_func or self.style_func\n         self._out.write(style_func(msg))\n-\n+        self._out.flush()\n \n class BaseCommand:\n     \"\"\"\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nflush() on self.stdout/stderr management commands doesn't work.\nDescription\n\t\nflush() is notably called during migrate command; it doesn't work, and a long migration effectively prints to stderr no relevant information up until the end:\nOperations to perform:\n Apply all migrations: myapp\nRunning migrations:\nThen nothing more, but the migration is being done.\nThen at the end of the real migration, the rest is flushed:\n Applying myapp.0002_auto_20200817_1030... OK\nExpected behavior:\nOperations to perform:\n Apply all migrations: myapp\nRunning migrations:\n Applying myapp.0002_auto_20200817_1030...\nthen work\nthen OK\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_wxhh2vbo3",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch injects a call to flush() immediately after each write in the OutputWrapper, so that every write to stdout/stderr is sent through to the underlying stream without buffering delays. This directly fixes the \u201cmigrations hang until the end\u201d issue by ensuring incremental output shows up in real time and does so with a single, minimal change exactly where buffering was occurring.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

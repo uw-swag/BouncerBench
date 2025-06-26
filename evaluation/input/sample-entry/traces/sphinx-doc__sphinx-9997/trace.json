@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (missing links on parametrized type hints), provides minimal reproducible example code, exact reproduction steps, expected behavior, environment details, and a screenshot. There is no ambiguity about what needs fixing or how to observe the problem, so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request identifies an inconsistency (TemplateView injecting kwargs into context while ListView does not) and a desired outcome (stop automatically adding kwargs), but gives no detail on which kwargs, how to handle backward compatibility, test coverage, or other generic views. It lacks scope, design decisions, or implementation guidance, making it ambiguous how to proceed."
+}

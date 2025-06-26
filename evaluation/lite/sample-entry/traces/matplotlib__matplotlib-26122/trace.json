@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes the current behavior, the desired behavior, and the conditions under which imshow should skip modifying the axes aspect. It points to the specific kwarg (`transform`) and its default (`ax.transData`), and spells out the change: when a non\u2010default transform is used and `aspect=None`, don\u2019t touch the axes aspect. While there\u2019s a bit of subtlety around detecting \u201canything containing transData\u201d (as noted in #13642), there is a clear, actionable change. Thus the spec is concrete enough to start coding, with only minor implementation details left to sort out.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/lib/matplotlib/axes/_axes.py b/lib/matplotlib/axes/_axes.py\nindex 6175acb812..ffd9d1d4bd 100644\n--- a/lib/matplotlib/axes/_axes.py\n+++ b/lib/matplotlib/axes/_axes.py\n@@ -5715,9 +5715,11 @@ default: :rc:`scatter.edgecolors`\n         `~matplotlib.pyplot.imshow` expects RGB images adopting the straight\n         (unassociated) alpha representation.\n         \"\"\"\n+        # Only set aspect if transform is not provided or contains transData\n         if aspect is None:\n             aspect = mpl.rcParams['image.aspect']\n-        self.set_aspect(aspect)\n+        if 'transform' not in kwargs or kwargs['transform'].contains_branch(self.transData):\n+            self.set_aspect(aspect)\n         im = mimage.AxesImage(self, cmap=cmap, norm=norm,\n                               interpolation=interpolation, origin=origin,\n                               extent=extent, filternorm=filternorm,\n@@ -8424,3 +8426,4 @@ such objects\n         ll, ur = self.get_position() * figure_size\n         width, height = ur - ll\n         return height / (width * self.get_data_ratio())\n+\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nimshow() should not modify axes aspect if transform != ax.transData.\nCurrently, imshow() automatically updates the axes aspect via the `aspect` kwarg; its default, None, means `rcParams[\"image.aspect\"]`, which is \"equal\" by default (i.e., square image pixels).\r\n\r\nIf the `transform` kwarg is also passed, and set to something else[1] than `ax.transData` (the default), then setting the aspect is clearly not useful (the image is not going to be drawn in data coordinates so it should not affect the relative size of x- and y-data).  In that case, the default of `aspect=None` should just mean \"don't modify the aspect\".\r\n\r\n[1] Really, this should be \"something that does not contains transData as a branch\", as in #13642.\r\n\r\nThe current behavior is the reason why #14057 and #14117 need to explicitly set the aspect to \"auto\" in or after the last imshow() call (otherwise, some head-scratching occurs).\r\n\r\nOn the other hand, making this change would once again lead to some seriously non-obvious interaction between parameters (the meaning of `aspect=None` depends on the value of `transform`), which I'm not sure is great either :/\r\n\r\n**Matplotlib version**\r\n<!--Please specify your platform and versions of the relevant libraries you are using:-->\r\n  * Operating system: linux\r\n  * Matplotlib version: master/any\r\n  * Matplotlib backend (`print(matplotlib.get_backend())`): qt5agg\r\n  * Python version: 37\r\n\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_n8k67k5bc",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch adds a guard so that imshow only calls set_aspect when no custom transform is provided or when the provided transform includes transData, exactly matching the issue\u2019s requirement that \u201caspect=None\u201d should leave the axes aspect untouched if transform\u2260transData. It makes no unrelated changes and handles the contains_branch check as requested.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

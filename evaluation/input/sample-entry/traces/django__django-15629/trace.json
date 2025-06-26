@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (db_collation not applied to foreign key columns in migrations), provides code samples, actual vs. expected SQL, and the exact behavior to correct. It\u2019s straightforward to understand what change in Django\u2019s migration SQL generation is required."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear, minimal, reproducible example (MCVE), shows the exact unexpected behavior (dataset.mean drops coordinates) contrasted with the expected behavior (DataArray.mean preserves them), and includes environment/version details. It\u2019s obvious what the fix should be\u2014make Dataset.mean preserve coordinate variables on the reduced dims\u2014so it\u2019s well-specified."
+}

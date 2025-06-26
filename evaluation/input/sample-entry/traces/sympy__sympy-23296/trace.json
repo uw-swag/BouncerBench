@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproducible code demonstrating the error, the exact failure message, the expected behavior, and points to the specific function (_collect_factor_and_dimension) that needs adjusting. That makes it clear what needs to be changed and how a correct solution should behave."
+}

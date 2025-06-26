@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides clear reproduction steps, SQL error examples across databases, and a concrete proposal for behavior (make union a no-op when there\u2019s only one non-empty queryset). It\u2019s specific enough to implement and test the fix."
+}

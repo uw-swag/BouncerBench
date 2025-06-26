@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that bulk_update() should mirror update() by returning the number of rows matched, points to the exact code location, and even suggests summing the return values of the internal update() calls. No important details are missing, making it straightforward to implement."
+}

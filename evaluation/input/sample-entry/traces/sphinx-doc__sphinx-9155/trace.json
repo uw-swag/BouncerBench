@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the unexpected warning when using built-in C types in Sphinx\u2019s C domain, provides minimal reproduction steps, actual vs expected behavior, and environment details. There\u2019s no ambiguity about what needs to be fixed."
+}

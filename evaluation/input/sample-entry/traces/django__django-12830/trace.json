@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes current behavior (initial and POST form counts get capped at a hardcoded 1000 via max_num) and wants a new parameter, absolute_max, on formset_factory to control that cap explicitly. While low\u2010level implementation details (e.g. precedence rules, exact API signatures) aren\u2019t spelled out, the overall change and where it must hook into the BaseFormSet logic are clear enough for an experienced Django contributor to implement. Hence it\u2019s reasonably specified."
+}

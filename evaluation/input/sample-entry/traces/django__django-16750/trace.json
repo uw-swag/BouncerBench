@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the failure (ValueError when using Chr in annotate), provides a minimal repro snippet, the relevant traceback, and even a concrete suggestion (set output_field=CharField()). There\u2019s sufficient context to implement and validate the fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear code snippet, expected behavior (export_text should accept feature_names like export_graphviz), and the exact error message with stack trace. It\u2019s obvious what\u2019s going wrong (an array truth-value check) and how a fix would look, so it\u2019s well-specified."
+}

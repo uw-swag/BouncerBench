@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproducible code, the exact failure (ValueError), the git commit that introduced the breakage, and all the context needed to implement and test a fix (e.g. guard against prec == 0). There\u2019s no ambiguity in what needs to change to resolve the crash."
+}

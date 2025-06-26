@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the bug (dropping query strings on redirects), the expected vs. actual behavior, the specific function and code location, and even hints at the needed change (preserve request.META['QUERY_STRING'] or use get_full_path()). No further clarification is needed to implement a fix."
+}

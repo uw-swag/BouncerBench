@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter clearly shows the current behavior of ccode(sinc(x)) and the desired output (a piecewise expansion of sin(x)/x with a default value of 1). They provide both input/output examples and a template for the expected C code. This is directly actionable by adding a special-case printer for sinc in the C code generator. That makes it WELL_SPECIFIED."
+}

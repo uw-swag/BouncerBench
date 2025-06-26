@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows the model definition, the exact error message, and the goal (using EmptyFieldListFilter on a GenericForeignKey). It outlines current behavior, expected behavior, and a specific extension point (adding empty_strings_allowed support to GenericForeignKey). While there\u2019s room for choice in implementation details, there\u2019s enough context to propose and build a concrete fix."
+}

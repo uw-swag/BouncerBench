@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example, full traceback, expected vs. actual behavior, Matplotlib version, environment details, and even pinpoints the relevant code section to patch. It\u2019s clear what needs to be done (avoid writing into a read-only mask in pcolormesh), so it\u2019s well-specified."
+}

@@ -1,0 +1,223 @@
+{
+  "input": "The issue clearly describes the current behavior (setting min-similarity-lines to 0 still runs duplicate-code checks, treating every line as a duplicate), the desired behavior (treat 0 as \u201cdisable this check\u201d), and even references existing conventions in other linters. There\u2019s a single, obvious code change: short-circuit or skip the duplicate-code plugin when the threshold is 0. That makes it well-specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/pylint/checkers/similar.py b/pylint/checkers/similar.py\nindex c65b1c893..7049332a3 100644\n--- a/pylint/checkers/similar.py\n+++ b/pylint/checkers/similar.py\n@@ -394,6 +394,8 @@ class Similar:\n \n     def _compute_sims(self) -> List[Tuple[int, Set[LinesChunkLimits_T]]]:\n         \"\"\"compute similarities in appended files\"\"\"\n+        if self.min_lines == 0:\n+            return []\n         no_duplicates: Dict[int, List[Set[LinesChunkLimits_T]]] = defaultdict(list)\n \n         for commonality in self._iter_sims():\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nSetting `min-similarity-lines` to `0` should stop pylint from checking duplicate code\n### Current problem\n\nSetting `min-similarity-lines` to `0` in the rcfile doesn't disable checking for duplicate code, it instead treats every line of code as duplicate and raises many errors.\n\n### Desired solution\n\nSetting `min-similarity-lines` to `0` should disable the duplicate code check.\r\n\r\nIt works that way in many other linters (like flake8). Setting a numerical value in flake8 to `0` (e.g. `max-line-length`) disables that check.\n\n### Additional context\n\n#214 requests being able to disable `R0801`, but it is still open\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_bkdzg72vw",
+      "status": "completed",
+      "call_id": "call_uqfqcI278dcChMPr3jDJ6AgW",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,200p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_uqfqcI278dcChMPr3jDJ6AgW",
+      "output": "{\"output\":\"# Copyright (c) 2006, 2008-2014 LOGILAB S.A. (Paris, FRANCE) <contact@logilab.fr>\\n# Copyright (c) 2012 Ry4an Brase <ry4an-hg@ry4an.org>\\n# Copyright (c) 2012 Google, Inc.\\n# Copyright (c) 2012 Anthony VEREZ <anthony.verez.external@cassidian.com>\\n# Copyright (c) 2014-2020 Claudiu Popa <pcmanticore@gmail.com>\\n# Copyright (c) 2014 Brett Cannon <brett@python.org>\\n# Copyright (c) 2014 Arun Persaud <arun@nubati.net>\\n# Copyright (c) 2015 Ionel Cristian Maries <contact@ionelmc.ro>\\n# Copyright (c) 2017, 2020 Anthony Sottile <asottile@umich.edu>\\n# Copyright (c) 2017 Mikhail Fesenko <proggga@gmail.com>\\n# Copyright (c) 2018 Scott Worley <scottworley@scottworley.com>\\n# Copyright (c) 2018 ssolanki <sushobhitsolanki@gmail.com>\\n# Copyright (c) 2019, 2021 Pierre Sassoulas <pierre.sassoulas@gmail.com>\\n# Copyright (c) 2019 Hugo van Kemenade <hugovk@users.noreply.github.com>\\n# Copyright (c) 2019 Taewon D. Kim <kimt33@mcmaster.ca>\\n# Copyright (c) 2020-2021 hippo91 <guillaume.peillex@gmail.com>\\n# Copyright (c) 2020 Frank Harrison <frank@doublethefish.com>\\n# Copyright (c) 2020 Eli Fine <ejfine@gmail.com>\\n# Copyright (c) 2020 Shiv Venkatasubrahmanyam <shvenkat@users.noreply.github.com>\\n# Copyright (c) 2021 Marc Mueller <30130371+cdce8p@users.noreply.github.com>\\n# Copyright (c) 2021 Maksym Humetskyi <Humetsky@gmail.com>\\n# Copyright (c) 2021 Dani\u00ebl van Noord <13665637+DanielNoord@users.noreply.github.com>\\n# Copyright (c) 2021 bot <bot@noreply.github.com>\\n# Copyright (c) 2021 Aditya Gupta <adityagupta1089@users.noreply.github.com>\\n\\n# Licensed under the GPL: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\\n# For details: https://github.com/PyCQA/pylint/blob/main/LICENSE\\n\\n# pylint: disable=redefined-builtin\\n\\\"\\\"\\\"a similarities / code duplication command line tool and pylint checker\\n\\nThe algorithm is based on comparing the hash value of n successive lines of a file.\\nFirst the files are read and any line that doesn't fullfill requirement are removed (comments, docstrings...)\\nThose stripped lines are stored in the LineSet class which gives access to them.\\nThen each index of the stripped lines collection is associated with the hash of n successive entries of the stripped lines starting at the current index\\n(n is the minimum common lines option).\\nThe common hashes between both linesets are then looked for. If there are matches, then the match indices in both linesets are stored and associated\\nwith the corresponding couples (start line number/end line number) in both files.\\nThis association is then postprocessed to handle the case of successive matches. For example if the minimum common lines setting is set to four, then\\nthe hashes are computed with four lines. If one of match indices couple (12, 34) is the successor of another one (11, 33) then it means that there are\\nin fact five lines wich are common.\\nOnce postprocessed the values of association table are the result looked for, i.e start and end lines numbers of common lines in both files.\\n\\\"\\\"\\\"\\nimport copy\\nimport functools\\nimport itertools\\nimport operator\\nimport re\\nimport sys\\nfrom collections import defaultdict\\nfrom getopt import getopt\\nfrom itertools import chain, groupby\\nfrom typing import (\\n    Any,\\n    Dict,\\n    FrozenSet,\\n    Generator,\\n    Iterable,\\n    List,\\n    NamedTuple,\\n    NewType,\\n    Set,\\n    TextIO,\\n    Tuple,\\n)\\n\\nimport astroid\\nfrom astroid import nodes\\n\\nfrom pylint.checkers import BaseChecker, MapReduceMixin, table_lines_from_stats\\nfrom pylint.interfaces import IRawChecker\\nfrom pylint.reporters.ureports.nodes import Table\\nfrom pylint.utils import decoding_stream\\n\\nDEFAULT_MIN_SIMILARITY_LINE = 4\\n\\nREGEX_FOR_LINES_WITH_CONTENT = re.compile(r\\\".*\\\\w+\\\")\\n\\n# Index defines a location in a LineSet stripped lines collection\\nIndex = NewType(\\\"Index\\\", int)\\n\\n# LineNumber defines a location in a LinesSet real lines collection (the whole file lines)\\nLineNumber = NewType(\\\"LineNumber\\\", int)\\n\\n\\n# LineSpecifs holds characteristics of a line in a file\\nclass LineSpecifs(NamedTuple):\\n    line_number: LineNumber\\n    text: str\\n\\n\\n# Links LinesChunk object to the starting indices (in lineset's stripped lines)\\n# of the different chunk of lines\u00a0that are used to compute the hash\\nHashToIndex_T = Dict[\\\"LinesChunk\\\", List[Index]]\\n\\n# Links index in the lineset's stripped lines to the real lines in the file\\nIndexToLines_T = Dict[Index, \\\"SuccessiveLinesLimits\\\"]\\n\\n\\nclass CplSuccessiveLinesLimits:\\n    \\\"\\\"\\\"\\n    This class holds a couple of SuccessiveLinesLimits objects, one for each file compared,\\n    and a counter on the number of common lines between both stripped lines collections extracted\\n    from both files\\n    \\\"\\\"\\\"\\n\\n    __slots__ = (\\\"first_file\\\", \\\"second_file\\\", \\\"effective_cmn_lines_nb\\\")\\n\\n    def __init__(\\n        self,\\n        first_file: \\\"SuccessiveLinesLimits\\\",\\n        second_file: \\\"SuccessiveLinesLimits\\\",\\n        effective_cmn_lines_nb: int,\\n    ) -> None:\\n        self.first_file = first_file\\n        self.second_file = second_file\\n        self.effective_cmn_lines_nb = effective_cmn_lines_nb\\n\\n\\n# Links the indices ot the starting line in both lineset's stripped lines to\\n# the start and end lines in both files\\nCplIndexToCplLines_T = Dict[\\\"LineSetStartCouple\\\", CplSuccessiveLinesLimits]\\n\\n\\nclass LinesChunk:\\n    \\\"\\\"\\\"\\n    The LinesChunk object computes and stores the hash of some consecutive stripped lines of a lineset.\\n    \\\"\\\"\\\"\\n\\n    __slots__ = (\\\"_fileid\\\", \\\"_index\\\", \\\"_hash\\\")\\n\\n    def __init__(self, fileid: str, num_line: int, *lines: Iterable[str]) -> None:\\n        self._fileid: str = fileid\\n        \\\"\\\"\\\"The name of the file from which the LinesChunk object is generated \\\"\\\"\\\"\\n\\n        self._index: Index = Index(num_line)\\n        \\\"\\\"\\\"The index in the stripped lines that is the starting of consecutive lines\\\"\\\"\\\"\\n\\n        self._hash: int = sum(hash(lin) for lin in lines)\\n        \\\"\\\"\\\"The hash of some consecutive lines\\\"\\\"\\\"\\n\\n    def __eq__(self, o: Any) -> bool:\\n        if not isinstance(o, LinesChunk):\\n            return NotImplemented\\n        return self._hash == o._hash\\n\\n    def __hash__(self) -> int:\\n        return self._hash\\n\\n    def __repr__(self) -> str:\\n        return (\\n            f\\\"<LinesChunk object for file {self._fileid} ({self._index}, {self._hash})>\\\"\\n        )\\n\\n    def __str__(self) -> str:\\n        return (\\n            f\\\"LinesChunk object for file {self._fileid}, starting at line {self._index} \\\\n\\\"\\n            f\\\"Hash is {self._hash}\\\"\\n        )\\n\\n\\nclass SuccessiveLinesLimits:\\n    \\\"\\\"\\\"\\n    A class to handle the numbering of begin and end of successive lines.\\n\\n    :note: Only the end line number can be updated.\\n    \\\"\\\"\\\"\\n\\n    __slots__ = (\\\"_start\\\", \\\"_end\\\")\\n\\n    def __init__(self, start: LineNumber, end: LineNumber) -> None:\\n        self._start: LineNumber = start\\n        self._end: LineNumber = end\\n\\n    @property\\n    def start(self) -> LineNumber:\\n        return self._start\\n\\n    @property\\n    def end(self) -> LineNumber:\\n        return self._end\\n\\n    @end.setter\\n    def end(self, value: LineNumber) -> None:\\n        self._end = value\\n\\n    def __repr__(self) -> str:\\n        return f\\\"<SuccessiveLinesLimits <{self._start};{self._end}>>\\\"\\n\\n\\nclass LineSetStartCouple(NamedTuple):\\n    \\\"\\\"\\\"\\n    Indices in both linesets that mark the beginning of successive lines\\n    \\\"\\\"\\\"\\n\\n    fst_lineset_index: Index\\n    snd_lineset_index: Index\\n\\n    def __repr__(self) -> str:\\n        return (\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_nh8nqnqh8",
+      "status": "completed",
+      "call_id": "call_SriDy6Tlj62GUZiFyKnamYPm",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"min_lines\\\" -n pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_SriDy6Tlj62GUZiFyKnamYPm",
+      "output": "{\"output\":\"358:        min_lines: int = DEFAULT_MIN_SIMILARITY_LINE,\\n364:        self.min_lines = min_lines\\n478:        hash_to_index_1, index_to_lines_1 = hash_lineset(lineset1, self.min_lines)\\n479:        hash_to_index_2, index_to_lines_2 = hash_lineset(lineset2, self.min_lines)\\n503:                    effective_cmn_lines_nb=self.min_lines,\\n527:            if eff_cmn_nb > self.min_lines:\\n789:            min_lines=self.config.min_similarity_lines,\\n804:            self.min_lines = self.config.min_similarity_lines\\n861:        recombined.min_lines = self.min_lines\\n901:    min_lines = DEFAULT_MIN_SIMILARITY_LINE\\n909:            min_lines = int(val)\\n923:        min_lines, ignore_comments, ignore_docstrings, ignore_imports, ignore_signatures\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_5j3w049d8",
+      "status": "completed",
+      "call_id": "call_i1NalGm07xUxQNcr4Gz5T33Z",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _compute_sims\\\" -n pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_i1NalGm07xUxQNcr4Gz5T33Z",
+      "output": "{\"output\":\"395:    def _compute_sims(self) -> List[Tuple[int, Set[LinesChunkLimits_T]]]:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_dcptjxtdn",
+      "status": "completed",
+      "call_id": "call_zfh5PKeGPbLyXTf4MO9icQBI",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '360,430p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_zfh5PKeGPbLyXTf4MO9icQBI",
+      "output": "{\"output\":\"        ignore_docstrings: bool = False,\\n        ignore_imports: bool = False,\\n        ignore_signatures: bool = False,\\n    ) -> None:\\n        self.min_lines = min_lines\\n        self.ignore_comments = ignore_comments\\n        self.ignore_docstrings = ignore_docstrings\\n        self.ignore_imports = ignore_imports\\n        self.ignore_signatures = ignore_signatures\\n        self.linesets: List[\\\"LineSet\\\"] = []\\n\\n    def append_stream(self, streamid: str, stream: TextIO, encoding=None) -> None:\\n        \\\"\\\"\\\"append a file to search for similarities\\\"\\\"\\\"\\n        if encoding is None:\\n            readlines = stream.readlines\\n        else:\\n            readlines = decoding_stream(stream, encoding).readlines\\n        try:\\n            self.linesets.append(\\n                LineSet(\\n                    streamid,\\n                    readlines(),\\n                    self.ignore_comments,\\n                    self.ignore_docstrings,\\n                    self.ignore_imports,\\n                    self.ignore_signatures,\\n                )\\n            )\\n        except UnicodeDecodeError:\\n            pass\\n\\n    def run(self) -> None:\\n        \\\"\\\"\\\"start looking for similarities and display results on stdout\\\"\\\"\\\"\\n        self._display_sims(self._compute_sims())\\n\\n    def _compute_sims(self) -> List[Tuple[int, Set[LinesChunkLimits_T]]]:\\n        \\\"\\\"\\\"compute similarities in appended files\\\"\\\"\\\"\\n        no_duplicates: Dict[int, List[Set[LinesChunkLimits_T]]] = defaultdict(list)\\n\\n        for commonality in self._iter_sims():\\n            num = commonality.cmn_lines_nb\\n            lineset1 = commonality.fst_lset\\n            start_line_1 = commonality.fst_file_start\\n            end_line_1 = commonality.fst_file_end\\n            lineset2 = commonality.snd_lset\\n            start_line_2 = commonality.snd_file_start\\n            end_line_2 = commonality.snd_file_end\\n\\n            duplicate = no_duplicates[num]\\n            couples: Set[LinesChunkLimits_T]\\n            for couples in duplicate:\\n                if (lineset1, start_line_1, end_line_1) in couples or (\\n                    lineset2,\\n                    start_line_2,\\n                    end_line_2,\\n                ) in couples:\\n                    break\\n            else:\\n                duplicate.append(\\n                    {\\n                        (lineset1, start_line_1, end_line_1),\\n                        (lineset2, start_line_2, end_line_2),\\n                    }\\n                )\\n        sims: List[Tuple[int, Set[LinesChunkLimits_T]]] = []\\n        ensembles: List[Set[LinesChunkLimits_T]]\\n        for num, ensembles in no_duplicates.items():\\n            cpls: Set[LinesChunkLimits_T]\\n            for cpls in ensembles:\\n                sims.append((num, cpls))\\n        sims.sort()\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_v0kvl1ahm",
+      "status": "completed",
+      "call_id": "call_HlUIZXaRYxkWMIoBxPFejRoe",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _display_sims\\\" -n pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_HlUIZXaRYxkWMIoBxPFejRoe",
+      "output": "{\"output\":\"434:    def _display_sims(\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_uro2yfkvi",
+      "status": "completed",
+      "call_id": "call_mBT4wqNkxetGjihZC1IhK32R",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"if __name__\\\" -n pylint/checkers\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_mBT4wqNkxetGjihZC1IhK32R",
+      "output": "{\"output\":\"pylint/checkers/similar.py:932:if __name__ == \\\"__main__\\\":\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_ik5eohebx",
+      "status": "completed",
+      "call_id": "call_1gKuvazC3cwHBQ1NPWm3gZP8",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '430,470p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_1gKuvazC3cwHBQ1NPWm3gZP8",
+      "output": "{\"output\":\"        sims.sort()\\n        sims.reverse()\\n        return sims\\n\\n    def _display_sims(\\n        self, similarities: List[Tuple[int, Set[LinesChunkLimits_T]]]\\n    ) -> None:\\n        \\\"\\\"\\\"Display computed similarities on stdout\\\"\\\"\\\"\\n        report = self._get_similarity_report(similarities)\\n        print(report)\\n\\n    def _get_similarity_report(\\n        self, similarities: List[Tuple[int, Set[LinesChunkLimits_T]]]\\n    ) -> str:\\n        \\\"\\\"\\\"Create a report from similarities\\\"\\\"\\\"\\n        report: str = \\\"\\\"\\n        duplicated_line_number: int = 0\\n        for number, couples in similarities:\\n            report += f\\\"\\\\n{number} similar lines in {len(couples)} files\\\\n\\\"\\n            couples_l = sorted(couples)\\n            line_set = start_line = end_line = None\\n            for line_set, start_line, end_line in couples_l:\\n                report += f\\\"=={line_set.name}:[{start_line}:{end_line}]\\\\n\\\"\\n            if line_set:\\n                for line in line_set._real_lines[start_line:end_line]:\\n                    report += f\\\"   {line.rstrip()}\\\\n\\\" if line.rstrip() else \\\"\\\\n\\\"\\n            duplicated_line_number += number * (len(couples_l) - 1)\\n        total_line_number: int = sum(len(lineset) for lineset in self.linesets)\\n        report += f\\\"TOTAL lines={total_line_number} duplicates={duplicated_line_number} percent={duplicated_line_number * 100.0 / total_line_number:.2f}\\\\n\\\"\\n        return report\\n\\n    def _find_common(\\n        self, lineset1: \\\"LineSet\\\", lineset2: \\\"LineSet\\\"\\n    ) -> Generator[Commonality, None, None]:\\n        \\\"\\\"\\\"\\n        Find similarities in the two given linesets.\\n\\n        This the core of the algorithm.\\n        The idea is to compute the hashes of a minimal number of successive lines of each lineset and then compare the hashes.\\n        Every match of such comparison is stored in a dict that links the couple of starting indices in both linesets to\\n        the couple of corresponding starting and ending lines in both files.\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_h7mfcz47x",
+      "status": "completed",
+      "call_id": "call_21aJbIZiYGc4vItwQi9nGsis",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _iter_sims\\\" -n pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_21aJbIZiYGc4vItwQi9nGsis",
+      "output": "{\"output\":\"530:    def _iter_sims(self) -> Generator[Commonality, None, None]:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_85g9usct7",
+      "status": "completed",
+      "call_id": "call_SOzHkOROkCBNn0BhL2iWP347",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '520,580p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_SOzHkOROkCBNn0BhL2iWP347",
+      "output": "{\"output\":\"                snd_file_end=cmn_l.second_file.end,\\n            )\\n\\n            eff_cmn_nb = filter_noncode_lines(\\n                lineset1, start_index_1, lineset2, start_index_2, nb_common_lines\\n            )\\n\\n            if eff_cmn_nb > self.min_lines:\\n                yield com\\n\\n    def _iter_sims(self) -> Generator[Commonality, None, None]:\\n        \\\"\\\"\\\"iterate on similarities among all files, by making a cartesian\\n        product\\n        \\\"\\\"\\\"\\n        for idx, lineset in enumerate(self.linesets[:-1]):\\n            for lineset2 in self.linesets[idx + 1 :]:\\n                yield from self._find_common(lineset, lineset2)\\n\\n    def get_map_data(self):\\n        \\\"\\\"\\\"Returns the data we can use for a map/reduce process\\n\\n        In this case we are returning this instance's Linesets, that is all file\\n        information that will later be used for vectorisation.\\n        \\\"\\\"\\\"\\n        return self.linesets\\n\\n    def combine_mapreduce_data(self, linesets_collection):\\n        \\\"\\\"\\\"Reduces and recombines data into a format that we can report on\\n\\n        The partner function of get_map_data()\\\"\\\"\\\"\\n        self.linesets = [line for lineset in linesets_collection for line in lineset]\\n\\n\\ndef stripped_lines(\\n    lines: Iterable[str],\\n    ignore_comments: bool,\\n    ignore_docstrings: bool,\\n    ignore_imports: bool,\\n    ignore_signatures: bool,\\n) -> List[LineSpecifs]:\\n    \\\"\\\"\\\"\\n    Return tuples of line/line number/line type with leading/trailing whitespace and any ignored code features removed\\n\\n    :param lines: a collection of lines\\n    :param ignore_comments: if true, any comment in the lines collection is removed from the result\\n    :param ignore_docstrings: if true, any line that is a docstring is removed from the result\\n    :param ignore_imports: if true, any line that is an import is removed from the result\\n    :param ignore_signatures: if true, any line that is part of a function signature is removed from the result\\n    :return: the collection of line/line number/line type tuples\\n    \\\"\\\"\\\"\\n    if ignore_imports or ignore_signatures:\\n        tree = astroid.parse(\\\"\\\".join(lines))\\n    if ignore_imports:\\n        node_is_import_by_lineno = (\\n            (node.lineno, isinstance(node, (nodes.Import, nodes.ImportFrom)))\\n            for node in tree.body\\n        )\\n        line_begins_import = {\\n            lineno: all(is_import for _, is_import in node_is_import_group)\\n            for lineno, node_is_import_group in groupby(\\n                node_is_import_by_lineno, key=lambda x: x[0]\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_m95c7lrz6",
+      "status": "completed",
+      "call_id": "call_wTTf2pRlJnVRucUHQ6mLVOVg",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class Similar\\\" -n pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_wTTf2pRlJnVRucUHQ6mLVOVg",
+      "output": "{\"output\":\"353:class Similar:\\n722:class SimilarChecker(BaseChecker, Similar, MapReduceMixin):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_kyg1lch91",
+      "status": "completed",
+      "call_id": "call_Hhsk2yFn2s27cn0kW1TQrTW6",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"R0801\\\" -n pylint/checkers\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_Hhsk2yFn2s27cn0kW1TQrTW6",
+      "output": "{\"output\":\"pylint/checkers/similar.py:702:    \\\"R0801\\\": (\\npylint/checkers/similar.py:847:            self.add_message(\\\"R0801\\\", args=(len(couples), \\\"\\\\n\\\".join(msg)))\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_lxo7uobg1",
+      "status": "completed",
+      "call_id": "call_UHWpNnw1fAq6bTckxEQQlNKk",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class SimilarChecker\\\" -n pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_UHWpNnw1fAq6bTckxEQQlNKk",
+      "output": "{\"output\":\"722:class SimilarChecker(BaseChecker, Similar, MapReduceMixin):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_8f4w94dj8",
+      "status": "completed",
+      "call_id": "call_vYBMfYd7v4iMFeV2Wxnt5efb",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '700,780p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_vYBMfYd7v4iMFeV2Wxnt5efb",
+      "output": "{\"output\":\"\\nMSGS = {\\n    \\\"R0801\\\": (\\n        \\\"Similar lines in %s files\\\\n%s\\\",\\n        \\\"duplicate-code\\\",\\n        \\\"Indicates that a set of similar lines has been detected \\\"\\n        \\\"among multiple file. This usually means that the code should \\\"\\n        \\\"be refactored to avoid this duplication.\\\",\\n    )\\n}\\n\\n\\ndef report_similarities(sect, stats, old_stats):\\n    \\\"\\\"\\\"make a layout with some stats about duplication\\\"\\\"\\\"\\n    lines = [\\\"\\\", \\\"now\\\", \\\"previous\\\", \\\"difference\\\"]\\n    lines += table_lines_from_stats(\\n        stats, old_stats, (\\\"nb_duplicated_lines\\\", \\\"percent_duplicated_lines\\\")\\n    )\\n    sect.append(Table(children=lines, cols=4, rheaders=1, cheaders=1))\\n\\n\\n# wrapper to get a pylint checker from the similar class\\nclass SimilarChecker(BaseChecker, Similar, MapReduceMixin):\\n    \\\"\\\"\\\"checks for similarities and duplicated code. This computation may be\\n    memory / CPU intensive, so you should disable it if you experiment some\\n    problems.\\n    \\\"\\\"\\\"\\n\\n    __implements__ = (IRawChecker,)\\n    # configuration section name\\n    name = \\\"similarities\\\"\\n    # messages\\n    msgs = MSGS\\n    # configuration options\\n    # for available dict keys/values see the optik parser 'add_option' method\\n    options = (\\n        (\\n            \\\"min-similarity-lines\\\",\\n            {\\n                \\\"default\\\": DEFAULT_MIN_SIMILARITY_LINE,\\n                \\\"type\\\": \\\"int\\\",\\n                \\\"metavar\\\": \\\"<int>\\\",\\n                \\\"help\\\": \\\"Minimum lines number of a similarity.\\\",\\n            },\\n        ),\\n        (\\n            \\\"ignore-comments\\\",\\n            {\\n                \\\"default\\\": True,\\n                \\\"type\\\": \\\"yn\\\",\\n                \\\"metavar\\\": \\\"<y or n>\\\",\\n                \\\"help\\\": \\\"Comments are removed from the similarity computation\\\",\\n            },\\n        ),\\n        (\\n            \\\"ignore-docstrings\\\",\\n            {\\n                \\\"default\\\": True,\\n                \\\"type\\\": \\\"yn\\\",\\n                \\\"metavar\\\": \\\"<y or n>\\\",\\n                \\\"help\\\": \\\"Docstrings are removed from the similarity computation\\\",\\n            },\\n        ),\\n        (\\n            \\\"ignore-imports\\\",\\n            {\\n                \\\"default\\\": False,\\n                \\\"type\\\": \\\"yn\\\",\\n                \\\"metavar\\\": \\\"<y or n>\\\",\\n                \\\"help\\\": \\\"Imports are removed from the similarity computation\\\",\\n            },\\n        ),\\n        (\\n            \\\"ignore-signatures\\\",\\n            {\\n                \\\"default\\\": False,\\n                \\\"type\\\": \\\"yn\\\",\\n                \\\"metavar\\\": \\\"<y or n>\\\",\\n                \\\"help\\\": \\\"Signatures are removed from the similarity computation\\\",\\n            },\\n        ),\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_vdre0q0hf",
+      "status": "completed",
+      "call_id": "call_YsZLjGFlPJp0JngSpAdKis8A",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '780,860p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_YsZLjGFlPJp0JngSpAdKis8A",
+      "output": "{\"output\":\"        ),\\n    )\\n    # reports\\n    reports = ((\\\"RP0801\\\", \\\"Duplication\\\", report_similarities),)\\n\\n    def __init__(self, linter=None) -> None:\\n        BaseChecker.__init__(self, linter)\\n        Similar.__init__(\\n            self,\\n            min_lines=self.config.min_similarity_lines,\\n            ignore_comments=self.config.ignore_comments,\\n            ignore_docstrings=self.config.ignore_docstrings,\\n            ignore_imports=self.config.ignore_imports,\\n            ignore_signatures=self.config.ignore_signatures,\\n        )\\n        self.stats = None\\n\\n    def set_option(self, optname, value, action=None, optdict=None):\\n        \\\"\\\"\\\"method called to set an option (registered in the options list)\\n\\n        Overridden to report options setting to Similar\\n        \\\"\\\"\\\"\\n        BaseChecker.set_option(self, optname, value, action, optdict)\\n        if optname == \\\"min-similarity-lines\\\":\\n            self.min_lines = self.config.min_similarity_lines\\n        elif optname == \\\"ignore-comments\\\":\\n            self.ignore_comments = self.config.ignore_comments\\n        elif optname == \\\"ignore-docstrings\\\":\\n            self.ignore_docstrings = self.config.ignore_docstrings\\n        elif optname == \\\"ignore-imports\\\":\\n            self.ignore_imports = self.config.ignore_imports\\n        elif optname == \\\"ignore-signatures\\\":\\n            self.ignore_signatures = self.config.ignore_signatures\\n\\n    def open(self):\\n        \\\"\\\"\\\"init the checkers: reset linesets and statistics information\\\"\\\"\\\"\\n        self.linesets = []\\n        self.stats = self.linter.add_stats(\\n            nb_duplicated_lines=0, percent_duplicated_lines=0\\n        )\\n\\n    def process_module(self, node):\\n        \\\"\\\"\\\"process a module\\n\\n        the module's content is accessible via the stream object\\n\\n        stream must implement the readlines method\\n        \\\"\\\"\\\"\\n        with node.stream() as stream:\\n            self.append_stream(self.linter.current_name, stream, node.file_encoding)\\n\\n    def close(self):\\n        \\\"\\\"\\\"compute and display similarities on closing (i.e. end of parsing)\\\"\\\"\\\"\\n        total = sum(len(lineset) for lineset in self.linesets)\\n        duplicated = 0\\n        stats = self.stats\\n        for num, couples in self._compute_sims():\\n            msg = []\\n            lineset = start_line = end_line = None\\n            for lineset, start_line, end_line in couples:\\n                msg.append(f\\\"=={lineset.name}:[{start_line}:{end_line}]\\\")\\n            msg.sort()\\n\\n            if lineset:\\n                for line in lineset.real_lines[start_line:end_line]:\\n                    msg.append(line.rstrip())\\n\\n            self.add_message(\\\"R0801\\\", args=(len(couples), \\\"\\\\n\\\".join(msg)))\\n            duplicated += num * (len(couples) - 1)\\n        stats[\\\"nb_duplicated_lines\\\"] = duplicated\\n        stats[\\\"percent_duplicated_lines\\\"] = total and duplicated * 100.0 / total\\n\\n    def get_map_data(self):\\n        \\\"\\\"\\\"Passthru override\\\"\\\"\\\"\\n        return Similar.get_map_data(self)\\n\\n    def reduce_map_data(self, linter, data):\\n        \\\"\\\"\\\"Reduces and recombines data into a format that we can report on\\n\\n        The partner function of get_map_data()\\\"\\\"\\\"\\n        recombined = SimilarChecker(linter)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_wxjqtgfu3",
+      "status": "completed",
+      "call_id": "call_T7ONI7FWDrDupmcJh7OCB1ut",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '860,920p' pylint/checkers/similar.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_T7ONI7FWDrDupmcJh7OCB1ut",
+      "output": "{\"output\":\"        recombined = SimilarChecker(linter)\\n        recombined.min_lines = self.min_lines\\n        recombined.ignore_comments = self.ignore_comments\\n        recombined.ignore_docstrings = self.ignore_docstrings\\n        recombined.ignore_imports = self.ignore_imports\\n        recombined.ignore_signatures = self.ignore_signatures\\n        recombined.open()\\n        Similar.combine_mapreduce_data(recombined, linesets_collection=data)\\n        recombined.close()\\n\\n\\ndef register(linter):\\n    \\\"\\\"\\\"required method to auto register this checker\\\"\\\"\\\"\\n    linter.register_checker(SimilarChecker(linter))\\n\\n\\ndef usage(status=0):\\n    \\\"\\\"\\\"display command line usage information\\\"\\\"\\\"\\n    print(\\\"finds copy pasted blocks in a set of files\\\")\\n    print()\\n    print(\\n        \\\"Usage: symilar [-d|--duplicates min_duplicated_lines] \\\\\\n[-i|--ignore-comments] [--ignore-docstrings] [--ignore-imports] [--ignore-signatures] file1...\\\"\\n    )\\n    sys.exit(status)\\n\\n\\ndef Run(argv=None):\\n    \\\"\\\"\\\"standalone command line access point\\\"\\\"\\\"\\n    if argv is None:\\n        argv = sys.argv[1:]\\n\\n    s_opts = \\\"hdi\\\"\\n    l_opts = (\\n        \\\"help\\\",\\n        \\\"duplicates=\\\",\\n        \\\"ignore-comments\\\",\\n        \\\"ignore-imports\\\",\\n        \\\"ignore-docstrings\\\",\\n        \\\"ignore-signatures\\\",\\n    )\\n    min_lines = DEFAULT_MIN_SIMILARITY_LINE\\n    ignore_comments = False\\n    ignore_docstrings = False\\n    ignore_imports = False\\n    ignore_signatures = False\\n    opts, args = getopt(argv, s_opts, l_opts)\\n    for opt, val in opts:\\n        if opt in (\\\"-d\\\", \\\"--duplicates\\\"):\\n            min_lines = int(val)\\n        elif opt in (\\\"-h\\\", \\\"--help\\\"):\\n            usage()\\n        elif opt in (\\\"-i\\\", \\\"--ignore-comments\\\"):\\n            ignore_comments = True\\n        elif opt in (\\\"--ignore-docstrings\\\",):\\n            ignore_docstrings = True\\n        elif opt in (\\\"--ignore-imports\\\",):\\n            ignore_imports = True\\n        elif opt in (\\\"--ignore-signatures\\\",):\\n            ignore_signatures = True\\n    if not args:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_4b0nmoedt",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch simply short-circuits the similarity computation when min_lines is set to 0, returning an empty list so no duplicate\u2010code warnings are emitted. It\u2019s minimal, affects exactly the code path used by both the checker and the standalone tool, and matches the desired behavior (0 disables the check). There are no unrelated changes and no key aspects of the requirement are missing.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

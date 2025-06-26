@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the incorrect behavior, the expected output, and even provides a specific test case to add. There\u2019s no ambiguity about what needs to be fixed\u2014preserve the trailing comma when rendering single-element tuples\u2014so it\u2019s well-specified."
+}

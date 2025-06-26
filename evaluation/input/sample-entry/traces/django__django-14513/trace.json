@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem\u2014showmigrations currently marks a squashed migration as applied if its replaced migrations have run, even though the squashed migration itself isn\u2019t recorded. It asks for a distinct \u201csoft-applied\u201d indicator in the showmigrations output and notes that planner changes may be needed. While the exact symbol or formatting isn\u2019t specified, the goal and detection logic are clear enough to begin implementing and iterate on the UI choice. Thus it\u2019s reasonably specified."
+}

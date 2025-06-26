@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the model change (increasing max_length on a primary-key CharField), the generated migration, and the missing schema change (the join table\u2019s FK column remains old length). The expected behavior (cascade the length change into the M2M table) is obvious, so a developer can reproduce and address it without further details."
+}

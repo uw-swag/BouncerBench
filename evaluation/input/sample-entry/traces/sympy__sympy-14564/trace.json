@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is primarily a design discussion around the semantics and API of ConditionSet (when to evaluate, what to return on substitution, whether to enforce a single variable, etc.). It lists several inconsistent behaviors and poses multiple questions (raise errors, auto-evaluate, add a doit method), but never settles on a concrete, unified specification of what ConditionSet should do in each case. There is room for multiple interpretations and no clear \u201ccorrect\u201d behavior defined, making it too ambiguous to implement directly."
+}

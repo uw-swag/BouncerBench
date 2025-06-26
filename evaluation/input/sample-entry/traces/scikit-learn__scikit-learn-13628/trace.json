@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear, minimal repro (constant targets with all predictions at 0 or 1), explains that the private helper `_check_binary_probabilistic_predictions` forced the single retained class to 0 (flipping errors to the opposite sign), and shows the expected behavior. While it doesn\u2019t prescribe exact code changes, it clearly identifies the faulty function, the symptoms, and the correct outcomes, making it reasonably specified for a fix."
+}

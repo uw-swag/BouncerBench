@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, shows the expected versus actual behavior, and clearly states that sin(a)*sin(b) + cos(a)*cos(b) isn\u2019t being simplified to cos(a-b) when a,b are Rational. It\u2019s obvious what change is required (extend the trig simplifier to handle numeric Rational arguments the same way it handles symbolic ones)."
+}

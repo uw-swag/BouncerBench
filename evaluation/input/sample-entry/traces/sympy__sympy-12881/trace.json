@@ -1,0 +1,3 @@
+{
+  "trace": "The core bug is clearly that Poly.free_symbols should only include generators that actually appear in the polynomial, and the suggested monom-scan fix addresses exactly that. There is some ambiguity around how to merge in domain symbols (poly.free_symbols_in_domain), but the main change (skipping gens not present in any monomial) is unambiguous and implementable. Thus the issue is reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, shows the exact error, and pinpoints it to `expr.is_zero` on a nested `cosh(acos(...acosh...))`. While it doesn\u2019t state the exact expected return (presumably `False` or `None` rather than a crash), there\u2019s enough detail to reproduce and begin debugging the recursion in the `is_zero` logic. Thus it\u2019s reasonably specified."
+}

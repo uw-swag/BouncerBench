@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a problem with how command names are rendered in help text and poses several questions (e.g. handling __main__.py vs. python -m, when to prefix manage.py with ./, Windows vs. non-Windows behavior, documentation updates) but doesn\u2019t define clear acceptance criteria or a concrete desired implementation. There are multiple open questions and no single, well-defined goal for a PR. Therefore it\u2019s too ambiguous to implement directly."
+}

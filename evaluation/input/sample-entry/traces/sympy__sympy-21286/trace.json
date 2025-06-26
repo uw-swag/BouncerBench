@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a mismatch between numeric and symbolic canonicalization of Range, shows some examples of wrong behavior, and hints at wanting the same ceil\u2010based normalization for symbolic args. However, the examples for the symbolic case are inconsistent (e.g. suggesting sup = i+1 when by the numeric rule it should be i+5), and the precise intended canonical formula for symbolic Ranges is never spelled out. That ambiguity around the expected normalization makes it unclear how to implement a correct fix."
+}

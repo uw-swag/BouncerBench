@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current broken behavior (when using python -m foo.bar.baz the autoreloader drops the last part) and points to the commit that partially fixed a related case. Although it doesn\u2019t spell out exactly which lines to change, the desired outcome and affected code path are clear enough for a developer to locate and implement a fix. Therefore it\u2019s reasonably specified."
+}

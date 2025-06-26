@@ -1,0 +1,3 @@
+{
+  "trace": "The core request\u2014add a Sympy rewrite method for Sign so that `sign(x).rewrite(Abs)` returns `x/Abs(x)`\u2014is clear. The only open point is how to treat the x=0 case (e.g. keep 0 or switch to NaN, or guard via Piecewise). That design decision can be reasonably addressed in code review or discussion. Thus the ticket is reasonably specified."
+}

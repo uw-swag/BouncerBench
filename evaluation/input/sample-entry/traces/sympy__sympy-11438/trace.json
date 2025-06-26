@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly points out that classify_diop() incorrectly labels equations with even powers of differing exponents (e.g. x^2 + y^2 + z^4) as 'general_sum_of_even_powers'. It calls for an added check that all exponents must be the same, not merely even, before assigning that category. The scope and expected change are sensible and unambiguous enough to implement without further clarification, even if the precise fallback classification isn\u2019t spelled out in detail."
+}

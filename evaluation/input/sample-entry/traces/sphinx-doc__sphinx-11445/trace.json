@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly describes the problem, gives precise reproduction steps, shows both the faulty and the expected behavior, and includes environment details. It\u2019s straightforward to understand what needs to be fixed: headings starting with a domain directive should render correctly and appear in the toctree even when rst_prolog is set."
+}

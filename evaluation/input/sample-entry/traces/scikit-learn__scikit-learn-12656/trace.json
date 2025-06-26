@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description simply says \u201cRemove the labels parameter from hamming_loss\u201d but provides no details about the current behavior, exact function signature, tests that are failing, or how the change should interact with the rest of the codebase. There\u2019s no concrete example of input/output or a clear before-and-after contract. Without the code context and failing test cases, it\u2019s unclear how to verify or implement the fix. Therefore it\u2019s too vague to act on without further information."
+}

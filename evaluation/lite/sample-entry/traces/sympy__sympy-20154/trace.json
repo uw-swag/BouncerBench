@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly states that the partitions() generator reuses the same dict for each yielded value and that this is confusing. The requested change\u2014making partitions() yield a fresh copy of the dict rather than the same object\u2014is straightforward. While you still need to locate the function in sympy.utilities.iterables and update the yield calls and docstring, there\u2019s no ambiguity about what constitutes a correct fix.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n--- a/sympy/utilities/iterables.py\t\n+++ b/sympy/utilities/iterables.py\t\n@@ -1786,9 +1786,9 @@\n \n     if n == 0:\n         if size:\n-            yield 1, {0: 1}\n+            yield 1, {0: 1}.copy()  # Yield a copy of the dictionary\n         else:\n-            yield {0: 1}\n+            yield {0: 1}.copy()  # Yield a copy of the dictionary\n         return\n \n     k = min(k or n, n)\n@@ -1802,9 +1802,9 @@\n         keys.append(r)\n     room = m - q - bool(r)\n     if size:\n-        yield sum(ms.values()), ms\n+        yield sum(ms.values()), ms.copy()  # Yield a copy of the dictionary\n     else:\n-        yield ms\n+        yield ms.copy()  # Yield a copy of the dictionary\n \n     while keys != [1]:\n         # Reuse any 1's.\n@@ -1842,9 +1842,9 @@\n             break\n         room -= need\n         if size:\n-            yield sum(ms.values()), ms\n+            yield sum(ms.values()), ms.copy()  # Yield a copy of the dictionary\n         else:\n-            yield ms\n+            yield ms.copy()  # Yield a copy of the dictionary\n \n \n def ordered_partitions(n, m=None, sort=True):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\npartitions() reusing the output dictionaries\nThe partitions() iterator in sympy.utilities.iterables reuses the output dictionaries. There is a caveat about it in the docstring. \r\n\r\nI'm wondering if it's really that important for it to do this. It shouldn't be that much of a performance loss to copy the dictionary before yielding it. This behavior is very confusing. It means that something as simple as list(partitions()) will give an apparently wrong result. And it can lead to much more subtle bugs if the partitions are used in a nontrivial way. \n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_lxz1skxok",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe issue was that partitions() was reusing the same dictionary object for every yield, leading to confusing results when collecting them (e.g. list(partitions(...))). The patch simply replaces each direct yield ms (or the special-case {0:1}) with yield ms.copy(), thereby giving callers a fresh dict each time without altering any other logic. There are no extra unrelated changes, and every yield site that previously exposed the internal dict now produces a shallow copy, which is sufficient for integer keys/values. This directly fixes the confusion without over-\u200bengineering or missing edge cases.\n</EXPLANATION>\n<LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

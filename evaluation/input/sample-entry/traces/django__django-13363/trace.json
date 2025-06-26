@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (TruncDate/TruncTime ignore the passed tzinfo and always use the global timezone), points to the exact offending code lines, shows the expected behavior and example, and even references the similar method to follow. All the information needed to implement and test the fix is present."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly calls out that SymPy\u2019s lambdify for the incomplete gamma functions should map to SciPy\u2019s gammainc/gammaincc, and that the regularized vs. unregularized scaling (i.e. multiplying by gamma(a)) must be handled (see #16533). It also notes that unsupported modules (\u2018numpy\u2019, \u2018math\u2019) should error (see #16535). While it references other tickets for exact formulas, an experienced engineer can infer the required implementation: in the 'scipy' module, lowergamma(a,x) \u2192 special.gamma(a) * special.gammainc(a,x), and similarly for uppergamma with gammaincc. The requirements are concrete enough to code against, so I\u2019d rate it as REASONABLY_SPECIFIED."
+}

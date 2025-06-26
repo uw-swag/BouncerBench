@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the failure case (using settings.configure() causes an improper exception) and pinpoints the code path (diffsettings unconditionally calls settings._setup()). It also proposes the precise check to add (if not settings.configured) so that _setup() is only invoked when needed. This gives enough detail to implement and test the fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a concrete failing test case, clear model definitions, the specific API call that\u2019s misbehaving, and the expected vs actual behavior. It even hypothesizes the root cause in the admin\u2019s lookup_allowed logic. All the information needed to reproduce and implement a fix is present."
+}

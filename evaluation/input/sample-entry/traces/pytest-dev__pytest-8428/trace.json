@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear in intent\u2014pytest should raise an error when someone decorates a fixture with a @pytest.mark\u2014and also calls out updating the existing warning in doc/en/fixture.rst once that behavior is implemented. The exact error text, where in the code to hook in, and how to test it aren\u2019t spelled out, but an experienced pytest core maintainer has a straightforward way to fill those gaps. Therefore this is reasonably specified."
+}

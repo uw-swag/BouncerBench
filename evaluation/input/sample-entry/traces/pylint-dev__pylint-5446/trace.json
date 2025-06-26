@@ -1,0 +1,3 @@
+{
+  "trace": "This is a high-level feature request without clear acceptance criteria or design details. It states that R0801 can\u2019t be disabled in-file and notes a desire for same disable/enable semantics as other checks, but it doesn\u2019t specify exactly how the user should annotate regions, what the scope rules should be, or how it should interact with existing infrastructure. There\u2019s too much left undefined to start a meaningful implementation without further clarification."
+}

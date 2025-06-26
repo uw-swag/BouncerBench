@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, clearly describes the wrong behavior, points at the exact code location, and even suggests the needed change (pulling the ScalarFormatter\u2019s offset into the legend). While it doesn\u2019t spell out the exact text of the corrected legend, there\u2019s enough information to implement and verify a fix."
+}

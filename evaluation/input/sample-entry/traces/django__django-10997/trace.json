@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the feature request (adding an applied\u2010datetime column to the showmigrations output), explains the use case (switching branches, identifying recently applied migrations), and even references an initial implementation approach. While minor details (exact date formatting or backport policies) remain to be decided, there\u2019s enough here to draft a working PR. It\u2019s not a fully detailed spec with every format nailed down, but it\u2019s sufficiently scoped to start coding."
+}

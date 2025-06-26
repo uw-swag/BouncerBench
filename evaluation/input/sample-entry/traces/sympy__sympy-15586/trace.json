@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible code snippet, the exact error message, and links to live code and a StackOverflow thread. It\u2019s clear the user wants a lambdify() call that applies numpy.linalg.inv to a float matrix rather than using element-wise power or bitwise XOR. While they haven\u2019t spelled out the precise mapping change needed in lambdify\u2019s modules argument, there\u2019s a straightforward, sensible fix (e.g. supplying a custom mapping for MatPow to numpy.linalg.inv)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (ugly enum default values in autodoc signatures), provides a minimal reproducible example with steps to reproduce, and states the expected versus actual output. All necessary context and environment details are included, so it\u2019s well-specified."
+}

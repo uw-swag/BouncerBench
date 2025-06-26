@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a reproducible bug (integer alphas causing a ValueError when raised to negative powers) and states that converting one alpha to float fixes it. The fix is unambiguous: internally cast the alphas array to float dtype before any power operations. This is sufficiently detailed for an implementable solution."
+}

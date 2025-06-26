@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly reproduces the error, pinpoints the faulty behavior in Django\u2019s call_command (only required top\u2010level args are passed, ignoring required mutually exclusive groups), and shows the parser setup. It\u2019s straightforward to write a fix that also picks up required group actions. This is well specified."
+}

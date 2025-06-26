@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a concise description of the bug, a minimal reproducible example, the exact error traceback, the expected vs actual behavior, and environment versions. It\u2019s clear what is going wrong (using early_stopping with partial_fit) and what a successful resolution would look like (either graceful handling or full support), so it is well-specified."
+}

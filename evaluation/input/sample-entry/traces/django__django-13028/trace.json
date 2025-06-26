@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates a reproducible bug in Django 3.0.7: naming a model field \u201cfilterable\u201d collides with Django\u2019s internal filterable check and raises NotSupportedError. It provides code samples, the exact traceback, and a simple workaround (renaming the field). From this information, a contributor can locate the offending check_filterable/\u2018filterable\u2019 attribute logic in Django\u2019s Query code and implement a fix or add documentation. The requirements for success\u2014restore the ability to filter on a ForeignKey whose related model has a BooleanField named \u201cfilterable\u201d\u2014are unambiguous."
+}

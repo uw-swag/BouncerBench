@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply notes an unexpected output for degree((x-2)/(x**2+1), x) and asks if it should fail, but does not define what the correct behavior for rational functions should be (e.g. degree of numerator vs. difference of degrees, or other convention), nor state an expected result. Without a clear spec for \"degree\" on rational functions or a concrete proposal for desired behavior, it\u2019s too ambiguous to implement or test a solution."
+}

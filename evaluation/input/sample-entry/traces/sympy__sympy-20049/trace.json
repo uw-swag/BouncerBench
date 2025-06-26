@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear code example, shows the current failure, and states precisely what the behavior should be (compute r.dt(A) when no explicit velocity is set). There\u2019s no ambiguity about inputs, outputs, or where to hook the change, so a contributor can jump straight in and implement the fallback in Point.vel()."
+}

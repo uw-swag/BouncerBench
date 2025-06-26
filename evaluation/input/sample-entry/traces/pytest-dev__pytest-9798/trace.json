@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates the failure mode (pytest.approx\u2019s failure repr importing numpy and crashing when numpy isn\u2019t installed), provides a minimal failing example and environment details, and states the desired behavior (the assertion error should render without requiring numpy). This is sufficient to write and verify a fix."
+}

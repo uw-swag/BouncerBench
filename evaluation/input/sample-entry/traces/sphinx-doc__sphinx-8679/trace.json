@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear code snippet, reproduction steps, expected vs. actual behavior, and a minimal public repro project. It\u2019s clear what\u2019s broken and what the fix should achieve (preserve inline quotes in rubric references)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly lays out the desired annotation formatting transformations (PEP 604 syntax for Union/Optional, stripping Literal and syntax\u2010highlighting constants) and even points to an existing AST\u2010based implementation in the tensorstore docs. While it doesn\u2019t prescribe exact config\u2010option names or API details, there\u2019s a straightforward, sensible interpretation and path to implementation, so the spec is reasonably complete for getting started."
+}

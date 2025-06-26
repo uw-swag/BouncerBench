@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a clear minimal reproducible example, describes the unwanted ValueError path, and explicitly states the desired change (return NotImplemented in __array_ufunc__ when units are incompatible). While you\u2019d still need to figure out the exact try/catch placement and add tests, the request and scope are clear and implementable."
+}

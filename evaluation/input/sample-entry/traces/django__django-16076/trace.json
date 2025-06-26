@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired behavior (allow lookups like __startswith on the implicit _id field of a FK using to_field), provides a minimal reproducible example, the exact error, and the context (Django versions). A Django core contributor can immediately identify where to hook in lookup registration (e.g. in ForeignKey or RelatedField), so it\u2019s well\u2010specified."
+}

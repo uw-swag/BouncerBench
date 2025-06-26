@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the problem (Text objects lack per-instance antialias controls), outlines the desired API (get/set_antialiased), and points to where changes are needed (Text, Annotation, and backend drawing via GraphicsContext). While implementation details (exact method names, tests, backend internals) will need exploration, the requirements and scope are well enough specified for a developer familiar with the codebase to act on."
+}

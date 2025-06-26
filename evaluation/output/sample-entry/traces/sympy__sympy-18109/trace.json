@@ -1,0 +1,38 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/core/numbers.py b/sympy/core/numbers.py\nindex 81027a859a..2655bc66cf 100644\n--- a/sympy/core/numbers.py\n+++ b/sympy/core/numbers.py\n@@ -2853,6 +2853,10 @@ def __add__(self, other):\n \n     @_sympifyit('other', NotImplemented)\n     def __sub__(self, other):\n+        from sympy.core.evaluate import global_evaluate\n+        from sympy.core.add import Add\n+        if not global_evaluate[0]:\n+            return Add(self, -other)\n         if isinstance(other, Number):\n             if other is S.Infinity or other is S.NaN:\n                 return S.NaN\n@@ -3018,6 +3022,10 @@ def __add__(self, other):\n \n     @_sympifyit('other', NotImplemented)\n     def __sub__(self, other):\n+        from sympy.core.evaluate import global_evaluate\n+        from sympy.core.add import Add\n+        if not global_evaluate[0]:\n+            return Add(self, -other)\n         if isinstance(other, Number):\n             if other is S.NegativeInfinity or other is S.NaN:\n                 return S.NaN\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nWhy pretty print of \"oo - oo\" has result  \"nan\", if the evaluation is disabled?\n```python\r\nfrom sympy import evaluate, oo, pretty\r\n\r\nwith evaluate(False):\r\n    print(pretty(oo-oo))\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_g0jhj2gnh",
+    "status": "completed",
+    "call_id": "call_d1KQ2y4Vj0YXbiPRYeaUK5SY",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '2840,2920p' sympy/core/numbers.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_d1KQ2y4Vj0YXbiPRYeaUK5SY",
+    "output": "{\"output\":\"        return Float('inf')\\n\\n    def evalf(self, prec=None, **options):\\n        return self._eval_evalf(prec)\\n\\n    @_sympifyit('other', NotImplemented)\\n    def __add__(self, other):\\n        if isinstance(other, Number):\\n            if other is S.NegativeInfinity or other is S.NaN:\\n                return S.NaN\\n            return self\\n        return NotImplemented\\n    __radd__ = __add__\\n\\n    @_sympifyit('other', NotImplemented)\\n    def __sub__(self, other):\\n        if isinstance(other, Number):\\n            if other is S.Infinity or other is S.NaN:\\n                return S.NaN\\n            return self\\n        return NotImplemented\\n\\n    @_sympifyit('other', NotImplemented)\\n    def __rsub__(self, other):\\n        return (-self).__add__(other)\\n\\n    @_sympifyit('other', NotImplemented)\\n    def __mul__(self, other):\\n        if isinstance(other, Number):\\n            if other.is_zero or other is S.NaN:\\n                return S.NaN\\n            if other.is_extended_positive:\\n                return self\\n            return S.NegativeInfinity\\n        return NotImplemented\\n    __rmul__ = __mul__\\n\\n    @_sympifyit('other', NotImplemented)\\n    def __div__(self, other):\\n        if isinstance(other, Number):\\n            if other is S.Infinity or \\\\\\n                other is S.NegativeInfinity or \\\\\\n                    other is S.NaN:\\n                return S.NaN\\n            if other.is_extended_nonnegative:\\n                return self\\n            return S.NegativeInfinity\\n        return NotImplemented\\n\\n    __truediv__ = __div__\\n\\n    def __abs__(self):\\n        return S.Infinity\\n\\n    def __neg__(self):\\n        return S.NegativeInfinity\\n\\n    def _eval_power(self, expt):\\n        \\\"\\\"\\\"\\n        ``expt`` is symbolic object but not equal to 0 or 1.\\n\\n        ================ ======= ==============================\\n        Expression       Result  Notes\\n        ================ ======= ==============================\\n        ``oo ** nan``    ``nan``\\n        ``oo ** -p``     ``0``   ``p`` is number, ``oo``\\n        ================ ======= ==============================\\n\\n        See Also\\n        ========\\n        Pow\\n        NaN\\n        NegativeInfinity\\n\\n        \\\"\\\"\\\"\\n        from sympy.functions import re\\n\\n        if expt.is_extended_positive:\\n            return S.Infinity\\n        if expt.is_extended_negative:\\n            return S.Zero\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_0p3umhb4y",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The change puts a global\u2010evaluate guard at the top of both `__sub__` methods so that when `evaluate(False)` is in effect, `oo - oo` is not immediately collapsed to `NaN` but instead returns the symbolic `Add(oo, -oo)`.  This exactly fixes the pretty\u2010print of `oo - oo` under disabled evaluation, without touching any other logic or introducing unrelated changes.  No key cases have been missed, and the patch is minimal and focused.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

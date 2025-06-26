@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal model definitions, test data, the exact query code, expected vs. actual results, and even the generated SQL for both cases. That provides all the information needed to reproduce, diagnose, and fix the issue in ORM. It\u2019s a clear, self-contained bug report with a minimal repro, hence it\u2019s WELL_SPECIFIED."
+}

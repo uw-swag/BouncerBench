@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states a desire to \u201cadd logical XOR support to Q() and QuerySet()\u201d and links to a couple of SO threads, but it does not specify the API (e.g. operator syntax vs method), expected SQL output for each backend, how to handle SQLite\u2019s lack of XOR, nor give concrete examples/tests of the desired behavior. There are too many unspecified details on implementation, API decisions, and backend handling to make a clear plan. As written it\u2019s too vague to implement without further clarification."
+}

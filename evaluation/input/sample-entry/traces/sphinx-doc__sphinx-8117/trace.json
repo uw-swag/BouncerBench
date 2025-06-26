@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what\u2019s wrong (a trailing attribute macro isn\u2019t recognized and causes a parse error), provides a minimal repro with exact Sphinx config and error message, describes expected behavior (ignore the macro), and even points at the relevant domain/config setting (`c_id_attributes`). That\u2019s sufficient to implement a fix in the C domain parser, so it\u2019s well specified."
+}

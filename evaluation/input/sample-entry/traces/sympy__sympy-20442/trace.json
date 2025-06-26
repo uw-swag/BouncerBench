@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows an unexpected result when converting J\u00b7s to J, but it doesn\u2019t pin down the desired behavior or API change: should convert_to throw an error on mismatched dimensions, return the original expression, or expand to base units? Because the issue doesn\u2019t specify which of these to implement (or how to choose between them), there\u2019s too much ambiguity to write a precise solution."
+}

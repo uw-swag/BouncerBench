@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear reproduction scenario (diamond\u2010shaped inheritance with a PK default), pinpoints the exact code in django/db/models/base.py where the logic is going wrong, and even proposes a precise patch (move the default\u2010PK check from _save_table into save_base). That gives a reviewer or contributor everything required to write a test, apply the change, and verify the fix. It\u2019s actionable and unambiguous."
+}

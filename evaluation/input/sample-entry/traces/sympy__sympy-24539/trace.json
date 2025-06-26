@@ -1,0 +1,3 @@
+{
+  "trace": "The issue pinpoints a clear and narrow bug: PolyElement.as_expr() should allow the user to supply custom symbols but currently ignores them. It even cites the exact method, shows the code location, and provides a minimal example of expected vs actual behavior. A fix would entail adjusting as_expr to use the passed symbols when mapping ring generators to expression symbols. This is concrete and actionable, so it\u2019s WELL_SPECIFIED."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior and desired change: allow timedelta for max_age in set_cookie and set_signed_cookie (similar to get_signed_cookie), with examples and expected conversion to seconds. It\u2019s straightforward to implement and test."
+}

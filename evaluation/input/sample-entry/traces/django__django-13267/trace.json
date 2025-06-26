@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal repro (code snippet), the exact error trace, version info (Django 1.8 vs 1.9.8), and pointers to the code that changed behavior. The scope (instantiating an abstract model with a string FK) and expected vs. actual behavior are clear, making it actionable."
+}

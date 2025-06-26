@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior in Request.__init__ (wrapping list values and then failing because lists aren\u2019t callable), the desired behavior (accept a list of hook functions per hook key), and even suggests the workaround (.register_hook calls). It\u2019s straightforward to implement by detecting list values in the hooks dict and iterating to register each function. No major ambiguities remain about what needs to be done."
+}

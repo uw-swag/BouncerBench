@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes adding NumPy printer support for a list of matrix expression classes but provides no details on the expected output format (e.g. sample inputs/outputs) or conventions to follow. Without examples or clear guidelines for each expression, implementers must guess how to translate each SymPy matrix class into numpy code. Hence it\u2019s too ambiguous to start coding a complete solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request calls out a specific function in Django\u2019s management OutputWrapper (`self.stdout.write()` and `self.stderr.write()`), describes the current failure (missing positional `msg`), and defines the desired behavior (allow no-argument calls to emit just a newline). While it doesn\u2019t include code samples or version details, the change is narrowly scoped and clear enough\u2014an experienced engineer could locate the method, add a default empty message, and add the newline logic. This is reasonably specified."
+}

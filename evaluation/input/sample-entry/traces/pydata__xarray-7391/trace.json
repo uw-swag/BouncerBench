@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a specific bug (Dataset arithmetic ops ignoring the keep_attrs option), provides a minimal reproducible example, contrasts the correct behavior for DataArray/Variable, and states the desired behavior and proposed fix. This is sufficient to begin implementing a solution without needing further clarification."
+}

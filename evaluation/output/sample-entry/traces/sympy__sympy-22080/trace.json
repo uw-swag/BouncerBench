@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/utilities/lambdify.py b/sympy/utilities/lambdify.py\n--- a/sympy/utilities/lambdify.py\n+++ b/sympy/utilities/lambdify.py\n@@ -813,6 +813,11 @@\n             from sympy.printing.pycode import SymPyPrinter as Printer # type: ignore\n         else:\n             from sympy.printing.pycode import PythonCodePrinter as Printer # type: ignore\n+        class MyPythonCodePrinter(Printer):\n+            def _print_Mod(self, expr):\n+                p, q = expr.args\n+                return \"({} % {})\".format(self._print(p), self._print(q))\n+\n         user_functions = {}\n         for m in namespaces[::-1]:\n             if isinstance(m, dict):\n@@ -821,7 +826,10 @@\n         printer = Printer({'fully_qualified_modules': False, 'inline': True,\n                            'allow_unknown_functions': True,\n                            'user_functions': user_functions})\n-\n+    if _module_present('sympy', namespaces) or _module_present('math', namespaces) or (not namespaces):\n+      printer = MyPythonCodePrinter({'fully_qualified_modules': False, 'inline': True,\n+                           'allow_unknown_functions': True,\n+                           'user_functions': user_functions})\n     if isinstance(args, set):\n         SymPyDeprecationWarning(\n                     feature=\"The list of arguments is a `set`. This leads to unpredictable results\",\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nMod function lambdify bug\nDescription:\r\nWhen lambdifying any function of structure like `expr * Mod(a, b)` sympy moves the multiplier into the first argument of Mod, like `Mod(expr * a, b)`, WHEN we specify `modules=[]`\r\n\r\nThis is an example from Sympy online shell\r\n```\r\n>>> from sympy import Mod, lambdify, symbols\r\n>>> x, y = symbols('x y')\r\n>>> expr = -Mod(x, y)\r\n>>> f = lambdify([x, y], expr)\r\n>>> f(3, 7)\r\n-3\r\n>>> inspect.getsource(f)\r\ndef _lambdifygenerated(x, y):\r\n    return (-mod(x, y))\r\n\r\n\r\n>>> g = lambdify([x, y], expr, modules=[])\r\n>>> g(3, 7)\r\n4\r\n>>> inspect.getsource(g)\r\ndef _lambdifygenerated(x, y):\r\n    return (-x % y)\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_22ha212cq",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe root of the bug was that the Python\u2010printer for Mod emits \u201cx % y\u201d with no parentheses, so in an expression like \u201c-Mod(x,y)\u201d or \u201cexpr*Mod(a,b)\u201d the surrounding unary minus or multiplication \u201ceats\u201d the % part (due to Python\u2019s operator precedence and associativity) and ends up as \u201c-x % y\u201d or \u201cx * a % b\u201d rather than \u201c-(x % y)\u201d or \u201cx*(a % y)\u201d. \n\nThis patch defines a small subclass of the existing Printer that overrides only _print_Mod to emit \u201c(p % q)\u201d (i.e. always wrapped in parentheses). It then switches over to that subclass whenever we\u2019re using a pure\u2010Python style lambdify (modules empty, or math/sympy backends) so that all generated \u201cp % q\u201d are safely parenthesized. \n\nNo other parts of the AST printer are touched, and no unrelated behavior is changed. This directly fixes exactly the issue described\u2014parenthesizing the modulo expression\u2014and does not introduce extra changes. Therefore this patch is both correct and precise.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

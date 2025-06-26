@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the regression (the new `deselected` parameter breaks existing calls to assert_outcomes) and the user\u2019s two open-ended questions, but it does not specify a concrete fix or desired behavior beyond \u201cshould we live with this or document it\u201d and \u201chow to prevent similar breakages.\u201d There\u2019s room for multiple interpretations (revert the change, add defaults/ignores, deprecate\u2026), so it\u2019s not precise enough for an unambiguous PR implementation."
+}

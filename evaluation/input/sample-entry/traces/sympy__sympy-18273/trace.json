@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a minimal reproducible example (a snippet of code), the exact traceback, and points to the failure in `cse` when rebuilding a `CRootOf` node. From this it is clear that `cse` should not crash on `RootOf`/`CRootOf` objects (it should treat them as atomic or handle their full signature) and that a fix must be made in the CSE tree\u2010rebuild logic. While the user doesn\u2019t spell out the exact return value they want, the goal (no IndexError) and the location for the patch are clear. This makes the ticket reasonably specified for someone familiar with the codebase."
+}

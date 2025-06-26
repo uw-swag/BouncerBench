@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a precise description of the bug (unhashable list in through_fields), includes a minimal repro, points to the Django class and method (ManyToManyRel in reverse_related.py), shows the stack trace, and even prescribes the fix (wrap through_fields in make_hashable). That is enough to write a PR to apply the missing make_hashable call."
+}

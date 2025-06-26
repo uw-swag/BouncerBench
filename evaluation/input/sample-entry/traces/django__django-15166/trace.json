@@ -1,0 +1,3 @@
+{
+  "trace": "The report indicates that the DatabaseCache backend needs to quote all fields for Snowflake compatibility and references an attached patch, but it doesn\u2019t include the patch, the specific fields or query locations, or details on the code changes needed. Without the patch or more context (file paths, examples of unquoted queries, tests to demonstrate failure), it\u2019s unclear what exactly must be changed. Therefore it is too vague to act on directly."
+}

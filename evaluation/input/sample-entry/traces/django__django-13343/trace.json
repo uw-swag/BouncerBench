@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what\u2019s wrong (callable storage is being evaluated during deconstruction), what the correct behavior should be (preserve the callable reference, just like upload_to), and even points to existing code paths for guidance. There\u2019s enough context to implement, test, and verify the fix in Django\u2019s FileField.deconstruct without further clarification."
+}

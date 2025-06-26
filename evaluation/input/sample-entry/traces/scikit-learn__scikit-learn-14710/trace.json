@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report contains a minimal reproducible example, clear error traceback, description of expected vs. actual behavior, and even a suggested patch with file/line context. A fix can be directly implemented and verified. Therefore the issue is well-specified."
+}

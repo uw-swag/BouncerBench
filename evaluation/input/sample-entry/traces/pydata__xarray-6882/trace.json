@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides a minimal reproducible example (MWE), the stack trace, and the expected behavior (reading should succeed even for empty time dimensions). There\u2019s no ambiguity about what needs to change (skip or special-case zero-length time coordinates when decoding CF datetime)."
+}

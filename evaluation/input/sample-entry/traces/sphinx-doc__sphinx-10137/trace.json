@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is more of a discussion/brainstorm than a concrete spec. It\u2019s unclear exactly what API or config should be provided, what behavior should be conditioned on, and how it should be exposed. There\u2019s not enough detail to implement a clear solution without further clarification."
+}

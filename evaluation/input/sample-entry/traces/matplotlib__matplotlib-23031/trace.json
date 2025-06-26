@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (stop using the locale encoding for rc/style files; require UTF-8 or PEP-263 cookies) and points to the relevant code paths (rc_params_from_file, _rc_params_in_file), but it doesn\u2019t lay out exact implementation details or test changes. There\u2019s enough context to craft a solution, but some assumptions will have to be made about how strictly to enforce UTF-8 and whether to support encoding cookies, so it\u2019s not fully spelled out."
+}

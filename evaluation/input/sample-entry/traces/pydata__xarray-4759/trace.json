@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal, self\u2010contained code examples that reproduce the dtype change, a clear statement of expected versus actual behavior, and environment details. It\u2019s immediately clear what change is needed (preserve the coordinate dtype), so it\u2019s well\u2010specified."
+}

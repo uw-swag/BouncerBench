@@ -1,0 +1,3 @@
+{
+  "trace": "The issue pinpoints a specific function and line in django/template/backends/django.py, explains the unwanted behavior (swallowing the ImportError and raising InvalidTemplateLibrary), provides reproduction steps and stack traces, and even suggests the intended behavior (allow the original ImportError to propagate). This is clear and actionable."
+}

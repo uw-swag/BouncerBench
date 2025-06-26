@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the undesired hard dependency on django.contrib.sessions in the admin app, why it\u2019s a problem (blocking alternate session backends), and even proposes a concrete implementation change (remove the INSTALLED_APPS check, add a middleware-based check using SessionMiddleware). The goal and solution approach are unambiguous and actionable."
+}

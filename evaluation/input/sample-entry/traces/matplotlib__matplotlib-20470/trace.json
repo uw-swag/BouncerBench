@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the missing behavior (Text objects with a `label` not appearing in the legend), gives minimal reproducible code, the actual vs. expected outcome, and the Matplotlib version. There\u2019s no ambiguity about what the fix should do: treat `ax.text(..., label=\u2026)` like any other labeled artist so it shows up in `ax.legend()`."
+}

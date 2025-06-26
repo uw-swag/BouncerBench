@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows a TypeError when calling `ds.indexes.get_unique()` on a MultiIndex and points out that the equivalent `ds.xindexes.get_unique()` call works. However, it omits the dataset definition, the intended behavior of `indexes.get_unique()` (e.g. expected return values), and how it should align with `xindexes.get_unique()`. Without those details or an explicit example of the desired outcome, there\u2019s not enough specification to implement a correct fix unambiguously."
+}

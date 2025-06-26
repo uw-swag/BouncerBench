@@ -1,0 +1,3 @@
+{
+  "trace": "The issue merely states that PolynomialFeatures doesn\u2019t support sparse input and suggests adding that support, but provides no details on desired behavior, API changes, performance considerations, or test requirements. It\u2019s too brief and leaves too many questions unanswered for a clear implementation plan."
+}

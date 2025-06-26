@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the current behavior (raising a ValueError on non-disjoint cycles), gives the desired behavior (apply the cycles in left-to-right order and return the composed permutation), and even provides a simple example (two identical transpositions yielding the identity). There\u2019s no ambiguity about how the constructor should change, so it\u2019s well-specified."
+}

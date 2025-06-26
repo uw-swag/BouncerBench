@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the problem (colorbar uses old\u2010style format strings versus the new Axis logic), points to the exact code to change, and proposes a concrete solution (remove the special-case `if` so that Axis handles formatting). While details around the deprecation cycle and detection of old- versus new\u2010style strings aren\u2019t fully fleshed out, it\u2019s specific enough to start implementation with sensible assumptions. Hence it\u2019s reasonably specified."
+}

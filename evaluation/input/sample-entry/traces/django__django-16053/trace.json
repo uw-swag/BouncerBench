@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (mixed localization in __str__), but it does not settle on a specific desired behavior or API change\u2014only suggests \u201ceither localize everything or nothing.\u201d Without a concrete decision (e.g. always use verbose_name for app labels, or add a toggle), it\u2019s unclear what a PR should implement. Thus it\u2019s too vague for a direct solution."
+}

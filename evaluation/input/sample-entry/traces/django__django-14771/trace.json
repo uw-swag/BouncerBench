@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the environment (Windows, winpty), the reproduction steps, the observed behavior (reloader subprocess drops -X utf8, resulting in different file-encoding), and the desired behavior (child should inherit \u2013X options). Although it doesn\u2019t point to the exact code location, there\u2019s a clear, actionable requirement \u2013 modify the auto-reloader to include sys._xoptions when spawning subprocesses. This is a well-defined change request."
+}

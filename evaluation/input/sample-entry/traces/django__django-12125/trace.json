@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly described with minimal example code, the exact incorrect behavior is shown, and the expected behavior is obvious (nested class paths preserved). There\u2019s enough detail to start diagnosing and fixing makemigrations\u2019s import path logic."
+}

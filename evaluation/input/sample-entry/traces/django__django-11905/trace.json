@@ -1,0 +1,3 @@
+{
+  "trace": "The requirement is clear: in the `__isnull` lookup implementation, validate that the provided RHS is strictly a boolean, and raise an appropriate error (e.g. FieldError) if it isn\u2019t. Tests should be added to cover non-boolean inputs. This is sufficiently concrete for implementation."
+}

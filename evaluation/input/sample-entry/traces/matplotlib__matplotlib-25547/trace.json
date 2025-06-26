@@ -1,0 +1,3 @@
+{
+  "trace": "The description actually mixes two distinct bug reports (one for scatter() warnings with all-NaN colors, another for errorbar() StopIteration on all-NaN yerr) in a single issue, so it\u2019s unclear which behavior to address and how the fix should be scoped. The scope isn\u2019t well defined, making it ambiguous what a correct solution entails."
+}

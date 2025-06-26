@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly defines the current vs. expected SQL behavior, gives concrete model/field examples, and specifies the precise semantics that only().defer() chaining should support. There\u2019s no ambiguity about what needs to change in QuerySet.defer()/only() logic to drop previously selected fields. This is WELL_SPECIFIED."
+}

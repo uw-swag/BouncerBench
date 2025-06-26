@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the unwanted behavior (extra spaces around inline highlighted code in the LaTeX output), gives minimal reproduction steps, sample markup, and before/after screenshots, and implicitly states the desired outcome (no leading/trailing spaces). There\u2019s a clear target for code changes (the LaTeX writer\u2019s inline code template), so a developer can reasonably dive in and implement a fix without further clarifications."
+}

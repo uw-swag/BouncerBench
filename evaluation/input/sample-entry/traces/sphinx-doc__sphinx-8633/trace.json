@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the failure, exact Sphinx and Requests versions, full traceback and log, and minimal reproduction steps (importing requests.codes and calling restify). There\u2019s no ambiguity about the error or how to reproduce it, so it\u2019s sufficiently specified to start working on a fix."
+}

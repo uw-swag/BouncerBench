@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the current behavior, gives minimal code examples, and defines the expected idempotent output. A developer has enough context to implement the normalization (uppercasing the region part) and ensure to_locale(to_locale(x)) returns the same. No major gaps remain."
+}

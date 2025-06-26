@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the error (models.E015 being raised for lookups in Meta.ordering), the expected behavior (order_by('\u2026__isnull') should be permitted), the relevant relationships (supply\u2192product\u2192parent), and even the upstream change (#29408) that introduced the regression. A developer can locate the system check in django/core/checks/model.py and update it to allow non-transform lookups like __isnull in ordering. There\u2019s sufficient detail to scope and implement the fix without further clarification."
+}

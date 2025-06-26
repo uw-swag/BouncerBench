@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes self-contained reproducible code, the observed (actual) and desired (expected) behavior, and the Matplotlib version. While a backend or OS isn\u2019t specified, it\u2019s enough to reproduce and diagnose the bug in FFMpegWriter\u2019s handling of bbox_inches='tight'."
+}

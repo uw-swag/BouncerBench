@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the inconsistency (default init of NMF vs. non_negative_factorization) and proposes aligning them by changing the default in non_negative_factorization (with a standard deprecation process). While it doesn\u2019t spell out every detail of the deprecation steps, within the scikit-learn codebase there\u2019s an established pattern for deprecating parameters, so it\u2019s straightforward to implement. Hence, it\u2019s reasonably specified."
+}

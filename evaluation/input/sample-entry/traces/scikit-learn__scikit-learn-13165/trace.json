@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the affected component (KBinsDiscretizer quantile strategy), describes the specific numerical instability (percentiles sometimes non-monotonic), and even suggests the remedy (apply a running maximum on the edges array). While it doesn\u2019t supply the exact diff, an engineer familiar with the code can locate the percentile calls in fit() and insert a simple np.maximum.accumulate step. Therefore it\u2019s reasonably specified."
+}

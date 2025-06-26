@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (no system check on reversed FK in list_display), shows how to reproduce it with the Question/Choice example, presents the resulting traceback, and states the desired behavior (raise an admin system-check error like E109 instead of a 500). That gives a concrete change target (extend the admin\u2019s list_display checks to catch reversed foreign keys) and scope for tests. It\u2019s well-specified."
+}

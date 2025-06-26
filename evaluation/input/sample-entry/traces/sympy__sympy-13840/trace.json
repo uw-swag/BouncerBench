@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is very brief and lacks crucial details: there\u2019s no example code, no description of the generation command used, no expected vs. actual output, nor any context about the version of SymPy or codegen modules involved. As written it\u2019s unclear exactly what the failure mode is or what a correct solution would entail."
+}

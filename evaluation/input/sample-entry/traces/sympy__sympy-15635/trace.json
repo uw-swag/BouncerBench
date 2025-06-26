@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives concrete examples of broken outputs and the exact desired behavior for str and srepr (valid Python reconstruction, use of S namespace, etc.). While it doesn\u2019t spell out every detail of how to implement it in the printer code, it clearly defines the problem cases and expected fixes, so a developer familiar with SymPy\u2019s printing framework can proceed. It\u2019s not fully boilerplated, but it\u2019s certainly actionable."
+}

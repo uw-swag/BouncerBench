@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the bug (wrong base class shown), provides reproduction steps (clone torchgeo, build docs), links to the offending class, describes expected vs actual behavior, lists environment/versions, and even references related issues. All necessary details to investigate and implement a fix are present."
+}

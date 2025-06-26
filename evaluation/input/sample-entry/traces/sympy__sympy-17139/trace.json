@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows a reproducible crash and its location (comparison of a complex exponent in fu.py), but never states the expected outcome of simplify(cos(x)**I) or how it should be guarded. Without any description of desired behavior or constraints, it\u2019s unclear what a correct fix would be. This ticket is too vague to act on directly."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description points out a discrepancy but lacks critical details such as Python, pytest, and numpy versions, OS and reproduction steps (error messages, minimal project setup). Without that context it\u2019s unclear what\u2019s actually happening under pytest vs. REPL, so the ticket is too vague."
+}

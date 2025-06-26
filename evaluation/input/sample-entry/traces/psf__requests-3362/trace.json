@@ -1,0 +1,3 @@
+{
+  "trace": "The report is essentially a conceptual question without concrete reproduction steps or a clear specification of the desired fix. The user hasn\u2019t provided code snippets or demonstrated the exact failure, nor clearly stated how they expect iter_content(decode_unicode=True) to behave. It\u2019s more of a question than a well-scoped issue, so it\u2019s too vague to start coding against."
+}

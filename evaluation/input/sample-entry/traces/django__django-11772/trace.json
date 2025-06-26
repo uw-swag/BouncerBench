@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current problems in make_template_fragment_key (unneeded quoting, MD5/FIPS compliance, inefficiency), provides a concrete SHA256-based solution with performance data, and even links to a PR and test updates. While it leaves some room for deciding if and how to migrate other MD5-based cache keys, the core task and proposed changes are well laid out. There\u2019s a sensible path forward without major ambiguity."
+}

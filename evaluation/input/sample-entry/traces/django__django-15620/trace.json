@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies where in the code (SQL migration writer) the change belongs, describes the current behavior versus desired behavior with concrete examples, and even suggests the wording for the new comment. A developer knowledgeable about the migration SQL writer can implement this without further clarification."
+}

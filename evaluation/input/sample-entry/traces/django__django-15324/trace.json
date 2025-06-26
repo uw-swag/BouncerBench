@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the bug, provides reproduction steps and code, and identifies the root cause (null bytes in the parsed extension leading to a tempfile creation error). However, it doesn\u2019t specify exactly how to handle or sanitize the extension in all cases (strip nulls? reject the file? default to a safe extension?). That leaves a reasonable interpretation for a solution but some details must be defined, so it's REASONABLY_SPECIFIED."
+}

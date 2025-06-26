@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear repro (two calls that both raise ValueError), points out the root cause (precision check disallows 0), and the implied fix is straightforward (allow 0 as a valid precision). It\u2019s unambiguous what behavior is wrong and how to correct it."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes an intermittent UnicodeEncodeError when running a pytest\u2010bdd scenario on Windows, but it doesn\u2019t clearly define what area needs to change (pytest\u2019s TerminalWriter, environment settings, the test harness, etc.) or what the expected remedy is. There\u2019s no clear requirement or scope for the fix, and important details (flakiness conditions, where to apply the encoding change, whether this is a pytest bug or a test framework issue) are missing, so it\u2019s too ambiguous to implement a concrete solution."
+}

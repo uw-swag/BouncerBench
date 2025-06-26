@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes clear reproduction steps with sample models, example queries, and the exact difference in generated SQL between Django versions (expected vs. actual). It specifies the desired behavior (only include the specified fields on a reverse OneToOneField when using select_related), so it\u2019s straightforward to write a test and implement a fix."
+}

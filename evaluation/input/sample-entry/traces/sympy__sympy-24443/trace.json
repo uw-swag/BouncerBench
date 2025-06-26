@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear reproducible example, pinpoints the failing function and lines in the code, and describes the root cause (the `in gens` test rejects inverted generators). Although it doesn\u2019t include a full patch, there is enough detail to write and validate a fix, making it reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to change (making the hardcoded ExceptionReporter in technical_500_response configurable), how to expose it (via a new DEFAULT_EXCEPTION_REPORTER setting and handler500 parameter), and adds documentation requirements. While you\u2019ll need to fill in some details (exact API and default behavior), the scope and steps are well defined and actionable within the Django codebase."
+}

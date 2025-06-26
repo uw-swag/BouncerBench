@@ -1,0 +1,3 @@
+{
+  "trace": "This is a clear feature request\u2014linkcheck should also validate local (internal) targets\u2014but it leaves out implementation details (e.g. what exactly counts as \u201clocal,\u201d how to resolve paths/extensions, handling of anchors, Sphinx targets, etc.). A developer can sensibly interpret the goal (treat non-HTTP URLs or file references like external links and error on missing files), but will need to fill in those specifics when coding. Thus it\u2019s reasonably specified but not fully detailed."
+}

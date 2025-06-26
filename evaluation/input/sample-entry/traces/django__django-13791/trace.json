@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes concrete examples of actual vs. expected behavior, pinpoints the problematic code location, and explains the root cause and desired outcome. You can reproduce the bug, know where to fix it, and understand how to verify success."
+}

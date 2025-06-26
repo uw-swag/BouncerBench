@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs changing (use email.headerregistry.parser.get_mailbox instead of email.utils.parseaddr in sanitize_address) but leaves implementation details (imports, Python version handling, tests) up to the developer. There\u2019s enough direction to start work, but not full specification of edge cases or testing requirements."
+}

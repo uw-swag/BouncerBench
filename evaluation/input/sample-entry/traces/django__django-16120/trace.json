@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies an unwanted behavior (pre_migrate/post_migrate signals still firing under `migrate --check`) and even shows the log output. The intended behavior\u2014no signals or summary logs when using `--check`\u2014is unambiguous. A developer can locate the signal emission in the migrate command, wrap it in a check for the `--check` flag, and add appropriate tests. This is sufficiently detailed for a direct fix."
+}

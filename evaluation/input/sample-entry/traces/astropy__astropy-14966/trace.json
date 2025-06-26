@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unexpected behavior (group keys losing units), provides minimal reproducible code, shows current vs. desired output, and lists environment versions. It\u2019s straightforward to implement a fix in QTable.group_by to retain units on Quantity columns."
+}

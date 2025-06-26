@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly describes the failing behavior (tick marks won\u2019t change color on Axes3D via tick_params), provides a minimal reproducible example, and states the expected outcome (tick marks colored along with labels, as in earlier versions).  There\u2019s no ambiguity about what needs to be done\u2014add support in the 3D axes code for passing the tick_params \u2018colors\u2019 setting through to the tick mark artists\u2014so it\u2019s well-specified."
+}

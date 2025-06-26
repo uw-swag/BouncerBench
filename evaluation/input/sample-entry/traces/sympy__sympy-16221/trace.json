@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement merely says \u201cadd support for printing matrices and arrays\u201d without specifying which printer or code component is affected, what the expected output format is, or any details about the existing implementation or requirements. There\u2019s no context on how the matrices/arrays should be represented, what edge cases or types to handle, or examples of desired behavior. This makes it impossible to devise a concrete solution without further clarification."
+}

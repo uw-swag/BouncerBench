@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal\u2014to deprecate (and ultimately remove) the `axis` parameter from the `Imputer` class, cites why it\u2019s unnecessary, references the related issue number, and requests the usual deprecation workflow (warning, docs, tests). There\u2019s no ambiguity about what must be done, so it\u2019s well-specified."
+}

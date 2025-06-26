@@ -1,0 +1,3 @@
+{
+  "trace": "The request \u201cAdd matplotlib to show_versions()\u201d is clear and actionable: the show_versions utility should be extended to import matplotlib, retrieve its __version__, and include it in the output. There\u2019s no ambiguity about what\u2019s needed or where to make the change. Thus the issue is WELL_SPECIFIED."
+}

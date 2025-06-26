@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows how to reproduce the unwanted behavior, what the current (wrong) output is, and what the expected output should be. It identifies exactly which directive (`py:method` with `:property:`) is misbehaving and that it should omit parentheses in the index entry. A developer can jump straight into the Python domain\u2019s index-entry generation code, add the appropriate property check, and validate against the provided example, so the issue is well-specified."
+}

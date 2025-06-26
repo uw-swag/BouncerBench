@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current and desired behavior, provides code examples illustrating both, points to the exact lines in the source where the behavior is enforced, and even suggests an API change (adding a parameter). It\u2019s unambiguous what needs to be done and how to verify it."
+}

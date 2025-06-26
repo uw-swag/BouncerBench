@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps, minimal code, the exact error, environment versions and expected behavior. A developer can reproduce it immediately and know what to change (in async dispatch or HttpResponseNotAllowed handling)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue points out a recursion error when computing sqrt(1/tan(1+I)) and refers to specific lines in power.py where an extra check should be added, but it does not specify what check is needed or how the behavior should change. There\u2019s no detailed description of the desired outcome or criteria for success, leaving implementation details ambiguous."
+}

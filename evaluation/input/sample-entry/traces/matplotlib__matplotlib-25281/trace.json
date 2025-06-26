@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the reproduction steps, shows the actual vs expected behavior, points to the relevant code section, and describes exactly what validation is missing and where it should be triggered. A developer can directly implement the missing validation for non-string `loc` inputs in `Legend.__init__` to raise an error early."
+}

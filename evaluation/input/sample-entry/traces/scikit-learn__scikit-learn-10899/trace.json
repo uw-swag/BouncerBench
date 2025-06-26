@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes what they\u2019re trying to do (persist and reload a fitted TfidfTransformer by setting its idf_ values), provides minimal reproducible code, shows the errors encountered, and states the desired outcome. There\u2019s no ambiguity about the problem or what a successful solution looks like (adding a way to set idf_ or a workaround), so it\u2019s well-specified."
+}

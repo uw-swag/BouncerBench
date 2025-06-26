@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the version, shows minimal reproducible code, the incorrect pretty\u2010printed output, and contrasts it with the correct LaTeX and str outputs. The bug lies in the pretty printer\u2019s handling of the exponent 1/E, which is specific enough to implement a fix."
+}

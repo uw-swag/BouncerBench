@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a specific bug (DataArray.quantile dropping attrs), provides a minimal reproducible code example, shows the actual and expected outputs, and includes environment details. A maintainer can directly see how quantile should preserve attrs, so the problem and solution are unambiguous."
+}

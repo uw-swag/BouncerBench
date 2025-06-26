@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a surprising behavior (cse introducing copies of MatrixSymbols when pulling out indexed elements) and shows example code and output, but it does not specify what the correct/desired behavior is or how the fix should work. Key requirements\u2014e.g. how cse ought to handle MatrixSymbol indexing\u2014are not defined. Therefore it\u2019s too vague to implement a solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly states the goal (enable DISTINCT on Avg and Sum, mirroring prior behavior) and points to the analogous change in #28658; a maintainer familiar with the aggregate-function classes can identify which flags or methods to update. It isn\u2019t a fully detailed step-by-step spec (e.g. class names aren\u2019t spelled out), but it\u2019s straightforward to interpret in context."
+}

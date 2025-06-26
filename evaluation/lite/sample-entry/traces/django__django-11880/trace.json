@@ -1,0 +1,28 @@
+{
+  "input": "The report pinpoints the exact method (__deepcopy__ in django/forms/fields.py) and the underlying issue (error_messages isn\u2019t deep-copied), provides code references, describes the expected behavior, and even ties it to specific Django versions. This is enough detail to draft a precise fix (e.g. amend __deepcopy__ to deepcopy the error_messages dict).",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/forms/fields.py b/django/forms/fields.py\nindex 03cd8af8d7..cbabdd3b1f 100644\n--- a/django/forms/fields.py\n+++ b/django/forms/fields.py\n@@ -200,9 +200,11 @@ class Field:\n         memo[id(self)] = result\n         result.widget = copy.deepcopy(self.widget, memo)\n         result.validators = self.validators[:]\n+        result.error_messages = copy.deepcopy(self.error_messages, memo)\n         return result\n \n \n+\n class CharField(Field):\n     def __init__(self, *, max_length=None, min_length=None, strip=True, empty_value='', **kwargs):\n         self.max_length = max_length\n@@ -1198,3 +1200,4 @@ class UUIDField(CharField):\n             except ValueError:\n                 raise ValidationError(self.error_messages['invalid'], code='invalid')\n         return value\n+\ndiff --git a/reproduce_error.py b/reproduce_error.py\nnew file mode 100644\nindex 0000000000..23205074ee\n--- /dev/null\n+++ b/reproduce_error.py\n@@ -0,0 +1,19 @@\n+from django.forms import CharField\n+import copy\n+\n+def test_error_messages_deepcopy():\n+    # Create original field\n+    field1 = CharField(error_messages={'required': 'Original message'})\n+    \n+    # Create a deep copy\n+    field2 = copy.deepcopy(field1)\n+    \n+    # Modify error message in field2\n+    field2.error_messages['required'] = 'Modified message'\n+    \n+    # Print both messages to show they are incorrectly shared\n+    print(\"Field 1 required message:\", field1.error_messages['required'])\n+    print(\"Field 2 required message:\", field2.error_messages['required'])\n+\n+if __name__ == '__main__':\n+    test_error_messages_deepcopy()\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nForm Field\u2019s __deepcopy__ does not (deep)copy the error messages.\nDescription\n\t\nThe __deepcopy__ method defined for the formfields (\u200bhttps://github.com/django/django/blob/146086f219d01dbb1cd8c089b5a5667e396e1cc4/django/forms/fields.py#L200) performs a shallow copy of self and does not include additional treatment for the error_messages dictionary. As a result, all copies of the same field share the same dictionary and any modification of either the dictionary or the error message itself for one formfield is immediately reflected on all other formfiels.\nThis is relevant for Forms and ModelForms that modify the error messages of their fields dynamically: while each instance of the specific form (e.g., ProfileForm) is expected to have a set of fields \u201csealed\u201d away from other instances of the same ProfileForm (\u200bhttps://github.com/django/django/blob/146086f219d01dbb1cd8c089b5a5667e396e1cc4/django/forms/forms.py#L95), in fact all these instances share the same error messages, resulting in incorrectly raised errors.\nConfirmed for versions of Django going back to 1.11.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_12mhzdug6",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The change injects a deep\u2010copy of the `error_messages` dict into `Field.__deepcopy__`, which exactly fixes the shared\u2010dict bug described. It makes no other functional changes to unrelated behavior. The repro script is just a demonstration and doesn\u2019t affect core logic. Hence the patch is correct and precise.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem\u2014ResolverMatch.__repr__ shows a functools.partial object instead of the underlying function and its preset args/kwargs\u2014and proposes unwrapping partials in ResolverMatch.__init__. While it doesn\u2019t spell out every line of code or test, the requirement is straightforward and there\u2019s a sensible implementation path."
+}

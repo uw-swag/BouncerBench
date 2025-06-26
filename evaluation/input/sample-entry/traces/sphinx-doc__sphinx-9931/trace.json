@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (type hints always get fully qualified names), the desired behavior (type hints should honor add_module_names or a new config flag), provides minimal reproducer code/config and expected vs actual output, and even suggests possible config names. There\u2019s no ambiguity in what needs to change: strip module prefixes from type-annotated signatures when configured. This is well-specified for implementation."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a general scenario (updating via an F expression on an annotated field that requires a join) and the resulting confusing DatabaseError, but it doesn\u2019t include a self-contained repro or specific expected vs. actual error messages. Without the attached minimal test or clear specification of the desired unified error text, it\u2019s unclear exactly what change or behavior constitutes a successful fix."
+}

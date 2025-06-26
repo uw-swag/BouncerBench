@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (some admin JS files are minified and some are not), the suggested change (stop minifying the admin\u2019s own JS files, only keep vendored libraries minified), and points to the relevant documentation. While it doesn\u2019t spell out every code change needed, it is precise enough for a contributor to implement the build process changes and remove or ignore the minified admin assets. There\u2019s a clear objective and rationale, so it\u2019s reasonably specified."
+}

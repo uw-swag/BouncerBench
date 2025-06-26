@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a concrete reproduction, shows the failing code path and the desired support for an empty transformer list (no more ValueError). It\u2019s clear what needs to change in _BaseComposition._set_params to guard against empty estimators, even though the exact code fix isn\u2019t spelled out. This is enough to implement a meaningful solution."
+}

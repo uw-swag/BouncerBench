@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the missing feature (a fill_value parameter in IterativeImputer), where it should apply (only when initial_strategy='constant'), and even suggests allowing np.nan. An engineer can straightforwardly update the __init__ signature, pass fill_value through to the underlying SimpleImputer, update docs, and add tests. This is precise enough to implement without further clarification."
+}

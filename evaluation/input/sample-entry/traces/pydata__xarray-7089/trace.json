@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines what\u2019s wrong (deep copy doesn\u2019t include .attrs) and what is expected (deep copy should clone .attrs too). While it doesn\u2019t include test examples or exact code locations, an experienced xarray contributor can locate the Dataset.copy implementation and add a deep-copy of the attrs dict. Thus it\u2019s reasonably specified for someone familiar with the codebase."
+}

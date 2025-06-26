@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the unexpected behavior, provides minimal reproducible examples with code and output, and specifies the desired formatting. A contributor can immediately see what to change in the printers to display subtractions properly for MatrixSymbols. This is well-specified."
+}

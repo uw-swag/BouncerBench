@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the unexpected behavior (calling ds.chunks on a Zarr-backed dataset causes a full load), shows how to reproduce it, and notes the expected behavior (just inspect .encoding metadata). Although it doesn\u2019t include a minimal standalone example, it provides a real Zarr URL and stack trace, so a developer can reproduce and narrow in on the fix. Therefore it\u2019s reasonably specified for an implementable solution."
+}

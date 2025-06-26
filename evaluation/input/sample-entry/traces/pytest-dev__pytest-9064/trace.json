@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the surprising current behavior, provides reproducible steps, example output, and states the desired behavior (that --stepwise-skip should imply --stepwise). All requirements and context are given for implementing a fix in the pytest stepwise plugin, so the issue is well\u2010specified."
+}

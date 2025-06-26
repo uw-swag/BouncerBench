@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides a minimal repro, expected versus actual behavior, and even suggests acceptable remediation strategies (either force at least one sample or raise a descriptive error). With knowledge of where the empty-index problem occurs in the bootstrap sampling code, an implementer can write a guard to check for zero-sample draws and raise a ValueError. Thus it\u2019s well-specified."
+}

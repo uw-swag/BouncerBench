@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the existing behavior (MigrationRecorder.ensure_schema always creates the migration table on every DB), the expected behavior (it should respect router.allow_migrate and only create the table on allowed DBs), points to the exact code paths, and outlines what needs to change. There\u2019s a straightforward interpretation of a successful solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the need to extend Django\u2019s GZipMiddleware (or equivalent) with the \u2018Heal The Breach\u2019 approach: inject random bytes into the gzip filename field on each response. It points to the original paper and describes the desired endpoint (mitigating BREACH without disabling compression). While implementers will need to read the paper for exact packet-level details, the target component and goal are unambiguous and lead to a sensible implementation plan."
+}

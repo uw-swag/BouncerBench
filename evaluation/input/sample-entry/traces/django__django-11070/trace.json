@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states exactly what HTML autocomplete attributes need to be added (username, email, current-password, new-password) and to which part of Django (contrib.auth builtin forms). It even references an existing pull request and relevant spec links, so it\u2019s straightforward to implement. There\u2019s no ambiguity about what fields or attributes are required."
+}

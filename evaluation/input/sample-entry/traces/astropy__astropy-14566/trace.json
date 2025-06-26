@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description of the problem, example code to reproduce it, and environment details. While it omits the exact error traceback, it still provides enough context to reproduce and debug the discrepancy between the \u201cdecimalyear\u201d and \u201cjyear\u201d formats on a MaskedColumn. Thus it\u2019s reasonably specified for a meaningful attempt."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the problem (too many requests on each key press) and the intended solution (use Select2\u2019s ajax.delay option to rate-limit). Although it doesn\u2019t spell out default delay values or configuration details, there\u2019s a sensible, straightforward interpretation of what needs to be implemented. It\u2019s therefore reasonably specified."
+}

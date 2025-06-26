@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired feature\u2014exposing a manifest_hash whenever the manifest changes\u2014and why it\u2019s needed. While it leaves implementation details (hash algorithm, API location/name) open, the requirement and goal are sufficiently clear to scope and start work. Hence it\u2019s reasonably specified."
+}

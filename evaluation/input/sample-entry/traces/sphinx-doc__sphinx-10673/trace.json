@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current warning when users include genindex, modindex, and search in a toctree and shows the exact directive and errors. The desired behavior is also unambiguous: allow those special pages to be listed without warning. While the implementation details (e.g. special-casing these names in the toctree transform) are left to the developer, the feature request itself is well defined and actionable."
+}

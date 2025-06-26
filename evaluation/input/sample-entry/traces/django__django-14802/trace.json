@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the repetitive pattern, proposes a specific helper method signature, and identifies where it should live (the base cache backend). The scope of work\u2014adding the helper, updating existing cache backends to use it, and ensuring tests/documentation\u2014is unambiguous. Hence it\u2019s well-specified."
+}

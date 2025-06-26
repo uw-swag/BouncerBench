@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter gives a precise reproduction (full steps, logs, code location), the exact warning text, and even describes the desired outcome (no py:class warning for the ellipsis, render it as a plain \u201c\u2026\u201d). It\u2019s clear what change is needed (treat Ellipsis in type hints as literal text rather than trying to link it), so a meaningful fix can be written without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes model definitions, pre- and post-change behavior, a minimal reproducible example, the expected vs. actual outcome, and even a suggested direction (only treat as INSERT when no explicit PK was provided). While it doesn\u2019t include patch code, it gives enough detail to implement and test a fix against the Django save logic. Thus it\u2019s reasonably specified."
+}

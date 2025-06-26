@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter gives a minimal reproduction, clear actual vs. expected behavior, full traceback, pointers to the offending code path (category unit converter \u2192 warning on empty arrays), and even hints at a specific fix (special-case empty inputs). All of the information needed to implement and test a change is present."
+}

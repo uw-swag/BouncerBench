@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the incorrect return logic (using ret == 0 when flock returns None on success), explains the failure mode (always returning False), and even provides a proposed diff to fix it. All requirements for a solution are present."
+}

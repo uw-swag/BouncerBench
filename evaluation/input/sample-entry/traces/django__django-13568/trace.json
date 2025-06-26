@@ -1,0 +1,3 @@
+{
+  "trace": "The request points to a specific Django system check (E003) and provides the code path and desired behavior. It clearly describes the current behavior (error triggered when USERNAME_FIELD isn\u2019t unique=True), the alternative approach (using UniqueConstraint in Meta.constraints), and the proposed change (modify the check to recognize UniqueConstraint on the USERNAME_FIELD). There\u2019s no ambiguity about where or how to implement this fix."
+}

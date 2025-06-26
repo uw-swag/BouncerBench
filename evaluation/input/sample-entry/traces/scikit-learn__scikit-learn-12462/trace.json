@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a clear description, a minimal reproducible example, observed versus expected behavior, version details, and even a suggested fix (\u201cadd a try\u2013except around shape detection so that non\u2010tuple shapes are ignored\u201d). That gives a precise location in sklearn\u2019s validation code to patch and test. Overall it\u2019s well\u2010scoped and actionable."
+}

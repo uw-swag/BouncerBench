@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/tests/model_fields/test_field_caching_change.py b/tests/model_fields/test_field_caching_change.py\nnew file mode 100644\nindex 0000000000..70adba2a26\n--- /dev/null\n+++ b/tests/model_fields/test_field_caching_change.py\n@@ -0,0 +1,19 @@\n+import copy\n+from django.test import TestCase\n+from .models import Bar, Foo\n+\n+class ForeignKeyCachingBehaviorTest(TestCase):\n+    def test_copy(self):\n+        foo1 = Foo.objects.create(a='foo1', d=1)\n+        foo2 = Foo.objects.create(a='foo2', d=2)\n+        bar1 = Bar.objects.create(a=foo1, b='bar1')\n+        bar2 = copy.copy(bar1)\n+        bar2.pk = None\n+        bar2.a = foo2\n+        # bar2 points to foo2\n+        self.assertEqual(bar2.a, foo2)\n+        self.assertEqual(bar2.a.id, bar2.a_id)\n+        # bar1 is unchanged and must still point to foo1\n+        # These fail on Django >= 2.0\n+        self.assertEqual(bar1.a, foo1)\n+        self.assertEqual(bar1.a.id, bar1.a_id)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nFK field caching behavior change between 1.11.x and 2.x\nDescription\n\t\nWhilst upgrading a codebase from 1.11.x to 2.0/2.2 I noticed a weird change in behavior of FK fields when copying model instances.\nAt the bottom of the post there is a testcase that succeeds on 1.11.x and fails on 2.x\nI think the commit that changed the behavior is bfb746f983aa741afa3709794e70f1e0ab6040b5\nSo my question is two fold:\nIs the behavior in >=2.0 correct? It seems quite unexpected.\nWhat is the recommended way to clone a model instance? To date we have been using copy() in a similar fashion to the test without issue. deepcopy seems to work fine in >=2.0 but we haven\u2019t done too much testing yet.\nTest (placed in tests/model_fields/test_field_caching_change.py):\nimport copy\nfrom django.test import TestCase\nfrom .models import Bar, Foo\nclass ForeignKeyCachingBehaviorTest(TestCase):\n\tdef test_copy(self):\n\t\tfoo1 = Foo.objects.create(a='foo1', d=1)\n\t\tfoo2 = Foo.objects.create(a='foo2', d=2)\n\t\tbar1 = Bar.objects.create(a=foo1, b='bar1')\n\t\tbar2 = copy.copy(bar1)\n\t\tbar2.pk = None\n\t\tbar2.a = foo2\n\t\t# bar2 points to foo2\n\t\tself.assertEqual(bar2.a, foo2)\n\t\tself.assertEqual(bar2.a.id, bar2.a_id)\n\t\t# bar1 is unchanged and must still point to foo1\n\t\t# These fail on Django >= 2.0\n\t\tself.assertEqual(bar1.a, foo1)\n\t\tself.assertEqual(bar1.a.id, bar1.a_id)\nand executed that via:\npython3.6 tests/runtests.py --parallel 1 model_fields\nIn \u200bhttps://groups.google.com/g/django-developers/c/QMhVPIqVVP4/m/mbezfaBEAwAJ Simon suggests:\n..... Model.copy should make sure to make a deep-copy of self._state now that fields are cached in self._state.fields_cache.\nwhich I will attempt to implement.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_o6jj0skq9",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The submitted patch only adds a test that reproduces the caching issue but does not change any of the model-copy logic to clear or deep-copy the `fields_cache`. It does not implement the suggested fix (making sure `Model.copy` deep-copies `_state.fields_cache`), so it fails to address the problem.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The request (\u201cDrop support for SQLite < 3.9.0\u201d) clearly states the goal\u2014raise the minimum SQLite version to 3.9.0, update any version checks, docs, CI, and remove legacy fallbacks\u2014but it doesn\u2019t list specific files or steps. An experienced Django contributor can reasonably work out what to change, but the details (which version\u2010check routines, docs sections, tests, CI configs, etc.) aren\u2019t spelled out. Thus it\u2019s reasonably specified."
+}

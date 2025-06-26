@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the performance regression, provides reproducible code snippets across various sparse formats, quantifies the slowdown, states the expected behavior, and even suggests the desired remedy (automatic conversion or a warning). All necessary details (versions, environments, timings) are present, so one can directly implement and test a fix."
+}

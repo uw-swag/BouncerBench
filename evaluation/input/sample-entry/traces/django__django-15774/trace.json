@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the bug (case-sensitive parsing of Accept-Language), gives concrete examples where it fails, cites the relevant RFCs, points to the specific code area (e.g. parse_accept_lang_header), and even calls out the documentation change required. There\u2019s enough detail to implement and verify the fix without further clarification."
+}

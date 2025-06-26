@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that nullary (zero\u2010argument) functions like f() should be allowed, highlights the traceback in sympy/core/function.py, and notes that both UndefinedFunction and explicit Function subclasses should support this. While it doesn\u2019t spell out the exact code change, it\u2019s straightforward to interpret: special\u2010case empty args in AppliedUndef.__new__ (skip the max/min on an empty sequence). This is enough to implement a fix."
+}

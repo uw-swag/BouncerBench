@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies an inconsistency (DataArray.integrate uses \u201cdim\u201d while Dataset.integrate uses \u201ccoord\u201d), shows the desired unified API (use \u201ccoord\u201d everywhere), links relevant discussion, and even flags the deprecation question. There\u2019s enough context to implement and document the change, so it\u2019s WELL_SPECIFIED."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a reproducible bug (mixed-case view names being lowercased and causing a 404 in the admin docs), gives steps to reproduce, points to the relevant code area, and identifies the incorrect behavior. While it doesn\u2019t prescribe an exact fix, the problem and its location are well enough defined for a developer to attempt a solution."
+}

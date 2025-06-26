@@ -1,0 +1,51 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/lib/matplotlib/__init__.py b/lib/matplotlib/__init__.py\nindex c268a56724..77bba9ee96 100644\n--- a/lib/matplotlib/__init__.py\n+++ b/lib/matplotlib/__init__.py\n@@ -1095,7 +1095,9 @@ def rc_context(rc=None, fname=None):\n             rcParams.update(rc)\n         yield\n     finally:\n-        dict.update(rcParams, orig)  # Revert to the original rcs.\n+        # Don't use dict.update directly to ensure proper validation of special parameters\n+        for k, v in orig.items():\n+            rcParams[k] = v  # Use __setitem__ to ensure proper validation\n \n \n def use(backend, *, force=True):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\n[Bug]: get_backend() clears figures from Gcf.figs if they were created under rc_context\n### Bug summary\r\n\r\ncalling `matplotlib.get_backend()` removes all figures from `Gcf` if the *first* figure in `Gcf.figs` was created in an `rc_context`.\r\n\r\n### Code for reproduction\r\n\r\n```python\r\nimport matplotlib.pyplot as plt\r\nfrom matplotlib import get_backend, rc_context\r\n\r\n# fig1 = plt.figure()  # <- UNCOMMENT THIS LINE AND IT WILL WORK\r\n# plt.ion()            # <- ALTERNATIVELY, UNCOMMENT THIS LINE AND IT WILL ALSO WORK\r\nwith rc_context():\r\n    fig2 = plt.figure()\r\nbefore = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\r\nget_backend()\r\nafter = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\r\n\r\nassert before == after, '\\n' + before + '\\n' + after\r\n```\r\n\r\n\r\n### Actual outcome\r\n\r\n```\r\n---------------------------------------------------------------------------\r\nAssertionError                            Traceback (most recent call last)\r\n<ipython-input-1-fa4d099aa289> in <cell line: 11>()\r\n      9 after = f'{id(plt._pylab_helpers.Gcf)} {plt._pylab_helpers.Gcf.figs!r}'\r\n     10 \r\n---> 11 assert before == after, '\\n' + before + '\\n' + after\r\n     12 \r\n\r\nAssertionError: \r\n94453354309744 OrderedDict([(1, <matplotlib.backends.backend_qt.FigureManagerQT object at 0x7fb33e26c220>)])\r\n94453354309744 OrderedDict()\r\n```\r\n\r\n### Expected outcome\r\n\r\nThe figure should not be missing from `Gcf`.  Consequences of this are, e.g, `plt.close(fig2)` doesn't work because `Gcf.destroy_fig()` can't find it.\r\n\r\n### Additional information\r\n\r\n_No response_\r\n\r\n### Operating system\r\n\r\nXubuntu\r\n\r\n### Matplotlib Version\r\n\r\n3.5.2\r\n\r\n### Matplotlib Backend\r\n\r\nQtAgg\r\n\r\n### Python version\r\n\r\nPython 3.10.4\r\n\r\n### Jupyter version\r\n\r\nn/a\r\n\r\n### Installation\r\n\r\nconda\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_xeby9jhfc",
+    "status": "completed",
+    "call_id": "call_ngZ2RWVbg3XrveyERurq58oi",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def get_backend\\\" -n lib/matplotlib\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_ngZ2RWVbg3XrveyERurq58oi",
+    "output": "{\"output\":\"lib/matplotlib/__init__.py:1170:def get_backend():\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0.1}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_rkellp4va",
+    "status": "completed",
+    "call_id": "call_mGgbdfGkKhiD0KqDVNKEJojM",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '1080,1150p' lib/matplotlib/__init__.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_mGgbdfGkKhiD0KqDVNKEJojM",
+    "output": "{\"output\":\"            ax.plot(range(3), range(3))\\n            fig.savefig('example.png')\\n            plt.close(fig)\\n\\n    Loading settings from a file::\\n\\n         with mpl.rc_context(fname='print.rc'):\\n             plt.plot(x, y)  # uses 'print.rc'\\n\\n    \\\"\\\"\\\"\\n    orig = rcParams.copy()\\n    try:\\n        if fname:\\n            rc_file(fname)\\n        if rc:\\n            rcParams.update(rc)\\n        yield\\n    finally:\\n        dict.update(rcParams, orig)  # Revert to the original rcs.\\n\\n\\ndef use(backend, *, force=True):\\n    \\\"\\\"\\\"\\n    Select the backend used for rendering and GUI integration.\\n\\n    Parameters\\n    ----------\\n    backend : str\\n        The backend to switch to.  This can either be one of the standard\\n        backend names, which are case-insensitive:\\n\\n        - interactive backends:\\n          GTK3Agg, GTK3Cairo, GTK4Agg, GTK4Cairo, MacOSX, nbAgg, QtAgg,\\n          QtCairo, TkAgg, TkCairo, WebAgg, WX, WXAgg, WXCairo, Qt5Agg, Qt5Cairo\\n\\n        - non-interactive backends:\\n          agg, cairo, pdf, pgf, ps, svg, template\\n\\n        or a string of the form: ``module://my.module.name``.\\n\\n        Switching to an interactive backend is not possible if an unrelated\\n        event loop has already been started (e.g., switching to GTK3Agg if a\\n        TkAgg window has already been opened).  Switching to a non-interactive\\n        backend is always possible.\\n\\n    force : bool, default: True\\n        If True (the default), raise an `ImportError` if the backend cannot be\\n        set up (either because it fails to import, or because an incompatible\\n        GUI interactive framework is already running); if False, silently\\n        ignore the failure.\\n\\n    See Also\\n    --------\\n    :ref:`backends`\\n    matplotlib.get_backend\\n    \\\"\\\"\\\"\\n    name = validate_backend(backend)\\n    # don't (prematurely) resolve the \\\"auto\\\" backend setting\\n    if rcParams._get_backend_or_none() == name:\\n        # Nothing to do if the requested backend is already set\\n        pass\\n    else:\\n        # if pyplot is not already imported, do not import it.  Doing\\n        # so may trigger a `plt.switch_backend` to the _default_ backend\\n        # before we get a chance to change to the one the user just requested\\n        plt = sys.modules.get('matplotlib.pyplot')\\n        # if pyplot is imported, then try to change backends\\n        if plt is not None:\\n            try:\\n                # we need this import check here to re-raise if the\\n                # user does not have the libraries to support their\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_zkmkbreh9",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The bug is caused by rc_context\u2019s use of dict.update, which bypasses rcParams\u2019 special __setitem__ logic (including notifications on the \u201cbackend\u201d key). As a result, exiting the context leaves rcParams.backend out of sync, so get_backend() thinks the backend changed and clears Gcf.figs. The patch replaces dict.update with item-by-item rcParams[k]=v, restoring notifications and preventing the spurious backend switch. It fixes the root cause without extra changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

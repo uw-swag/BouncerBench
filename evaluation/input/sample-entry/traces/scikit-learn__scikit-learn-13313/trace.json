@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies that two test helper functions (check_class_weight_balanced_classifiers and check_class_weight_balanced_linear_classifier) exist in estimator_checks.py but are never invoked by the test suite. While it doesn\u2019t spell out exactly where to hook them into the tests, it\u2019s straightforward to locate the relevant test file (e.g. test_estimator_checks.py) and add calls for these checks. There\u2019s a clear, actionable fix, so it\u2019s reasonably specified."
+}

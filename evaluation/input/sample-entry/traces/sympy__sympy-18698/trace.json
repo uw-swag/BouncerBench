@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows desired behaviour with concrete examples: sqf_list should group together all irreducible factors that share the same exponent into one square\u2010free polynomial factor (e.g. combine (x-2)^3*(x-3)^3 into (x^2-5*x+6, 3)), matching sqf\u2019s output format. Though it mentions both sqf and sqf_list, the intent and fix are unambiguous. This is enough to implement and test a correct squarefree decomposition grouping by exponent."
+}

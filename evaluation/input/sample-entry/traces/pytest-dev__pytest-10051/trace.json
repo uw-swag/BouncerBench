@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug in caplog.clear() replacing the records list instead of clearing it, shows exactly where in the code it diverges from caplog.get_records(), provides a minimal reproduction, and specifies the expected behavior (that get_records and records remain in sync after clear). This is enough detail for a straightforward fix in the existing codebase."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear minimal reproduction with input, current output, and the expected simpler form (recognizing the missing sin(1) term). It identifies exactly where simplification falls short. While it doesn\u2019t prescribe a precise code change, there\u2019s enough detail to implement a fix (e.g. extend the exponential-to-trig rewriting in simplify)."
+}

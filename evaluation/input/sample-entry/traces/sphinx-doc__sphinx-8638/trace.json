@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a clear description of the unexpected autodoc linking behavior, a minimal reproducible example (GitHub repo, exact branch, build steps, browser test), environment details, and the expected behavior. There is no ambiguity about what the failure is or how to reproduce it. A developer could take this and work on a fix or diagnostic without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "This is a clear feature request with a concrete proposal\u2014change the default `validate` to `'array-or-frame'` and run a deprecation cycle\u2014yet it leaves implementation details (exact new API shape, warning text, handling of Series, tests, etc.) to the contributor\u2019s judgment. It\u2019s not fully spelled out but there\u2019s a sensible interpretation and path forward."
+}

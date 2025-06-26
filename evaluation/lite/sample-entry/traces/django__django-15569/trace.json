@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly states what\u2019s wrong (missing cache clear in _unregister_lookup), points to the exact lines in the source, references the analogous code in register_lookup, and even identifies the specific test that needs updating. There\u2019s no ambiguity about what needs to be done.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/query_utils.py b/django/db/models/query_utils.py\nindex 0caa165e15..6917820604 100644\n--- a/django/db/models/query_utils.py\n+++ b/django/db/models/query_utils.py\n@@ -217,6 +217,7 @@ class RegisterLookupMixin:\n         if lookup_name is None:\n             lookup_name = lookup.lookup_name\n         del cls.class_lookups[lookup_name]\n+        cls._clear_cached_lookups()\n\n\n def select_related_descend(field, restricted, requested, load_fields, reverse=False):\ndiff --git a/reproduce_lookup.py b/reproduce_lookup.py\nnew file mode 100644\nindex 0000000000..4abe504a58\n--- /dev/null\n+++ b/reproduce_lookup.py\n@@ -0,0 +1,27 @@\n+#!/usr/bin/env python3\n+\n+from django.db.models.query_utils import RegisterLookupMixin\n+\n+class Dummy(RegisterLookupMixin):\n+    pass\n+\n+class DummyLookup:\n+    lookup_name = 'dummy'\n+\n+\n+def main():\n+    # Register the dummy lookup\n+    Dummy.register_lookup(DummyLookup)\n+    if 'dummy' not in Dummy.get_lookups():\n+        raise Exception(\"Register lookup failed: 'dummy' not found\")\n+\n+    # Unregister the dummy lookup\n+    Dummy._unregister_lookup(DummyLookup)\n+    if 'dummy' in Dummy.get_lookups():\n+        raise Exception(\"Unregister lookup failed: 'dummy' still found\")\n+\n+    print(\"Test passed: Dummy lookup correctly unregistered\")\n+\n+\n+if __name__ == '__main__':\n+    main()\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nRegisterLookupMixin._unregister_lookup() should clear the lookup cache.\nDescription\n\t \n\t\t(last modified by Himanshu Balasamanta)\n\t \nIn current source code, in the _unregister_lookup method, \u200bhttps://github.com/django/django/blame/main/django/db/models/query_utils.py#L212, the cache is not cleared, which should be done, as it is done in register_lookup, \u200bhttps://github.com/django/django/blame/main/django/db/models/query_utils.py#L202. Corresponding to this change, minor changes need to be brought in the schema.tests.SchemaTests.test_func_unique_constraint_lookups test.\nThe PR generated is \u200bhttps://github.com/django/django/pull/15569\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_q9q0qjtwy",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe patch correctly adds the missing cache clear in `_unregister_lookup()` exactly parallel to `register_lookup()`. However, the original issue also called for updating the existing schema tests to account for this cache behavior change\u2014something the submitted patch does not touch. Instead, it adds a standalone reproduction script rather than modifying the Django test suite. Thus the core fix is right but the testing updates are incomplete.\n</EXPLANATION><LABEL>CORRECT_BUT_INCOMPLETE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

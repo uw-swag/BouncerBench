@@ -1,0 +1,28 @@
+{
+  "input": "The report pinpoints a clear bug (exception repr shows an itertools.chain object instead of the actual items) and the intended fix (materialize the iterator into a list or tuple so the repr is informative) is obvious. While implementation details aren\u2019t spelled out, there\u2019s a straightforward, sensible way to correct it, so the spec is reasonably complete.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/deletion.py b/django/db/models/deletion.py\nindex 3bdd89cbd9..4d3823b3dd 100644\n--- a/django/db/models/deletion.py\n+++ b/django/db/models/deletion.py\n@@ -305,7 +305,7 @@ class Collector:\n                     model.__name__,\n                     ', '.join(protected_objects),\n                 ),\n-                chain.from_iterable(protected_objects.values()),\n+                list(chain.from_iterable(protected_objects.values())),\n             )\n         for related_model, related_fields in model_fast_deletes.items():\n             batches = self.get_del_batches(new_objs, related_fields)\n@@ -340,7 +340,7 @@ class Collector:\n                             model.__name__,\n                             ', '.join(restricted_objects),\n                         ),\n-                        chain.from_iterable(restricted_objects.values()),\n+                        list(chain.from_iterable(restricted_objects.values())),\n                     )\n \n     def related_objects(self, related_model, related_fields, objs):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nProtectedError/RestrictedError raised from Collector.collect contains iterators.\nDescription\n\t \n\t\t(last modified by Kwist)\n\t \n#27852\n(\"Cannot delete some instances of model 'A' because they are referenced through protected foreign keys: 'A.protect', 'B.protect'.\", <itertools.chain object at 0x7f96b5cb6c40>)\nAs a result, the repr of exception in Sentry is not informative.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_p673xjnhm",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The issue was that ProtectedError/RestrictedError were being constructed with a chain iterator, so their repr showed an unhelpful itertools.chain object. The patch wraps those iterators in list() in exactly the two places where the exception is raised, ensuring the exception carries a concrete list of objects for repr. It\u2019s minimal, focused, and addresses the described problem without unrelated changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

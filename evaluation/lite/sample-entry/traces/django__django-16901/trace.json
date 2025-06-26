@@ -1,0 +1,41 @@
+{
+  "input": "The report clearly states the current (incorrect) behavior, the expected parity semantics, shows repro examples, and even points to the fallback SQL path introduced in a specific PR. It\u2019s obvious what code needs changing (the XOR fallback logic for more than two Q objects), so this is well-specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/django/db/backends/base/operations.py b/django/db/backends/base/operations.py\nindex 6f10e31cd5..cc153c9594 100644\n--- a/django/db/backends/base/operations.py\n+++ b/django/db/backends/base/operations.py\n@@ -668,8 +668,12 @@ class BaseDatabaseOperations:\n         can vary between backends (e.g., Oracle with %% and &) and between\n         subexpression types (e.g., date expressions).\n         \"\"\"\n-        conn = \" %s \" % connector\n-        return conn.join(sub_expressions)\n+        # Handle XOR operations by joining sub-expressions with 'XOR'.\n+        # This ensures correct behavior for multiple operands.\n+        if connector == '^':\n+            return '(%s)' % ' XOR '.join(sub_expressions)\n+        else:\n+            return '(%s)' % (' %s ' % connector).join(sub_expressions)\n \n     def combine_duration_expression(self, connector, sub_expressions):\n         return self.combine_expression(connector, sub_expressions)\ndiff --git a/tests/queries/test_query.py b/tests/queries/test_query.py\nindex 99d0e32427..2c0fc7d0b8 100644\n--- a/tests/queries/test_query.py\n+++ b/tests/queries/test_query.py\n@@ -160,6 +160,23 @@ class TestQuery(SimpleTestCase):\n         with self.assertRaisesMessage(TypeError, msg):\n             query.build_where(Func(output_field=CharField()))\n \n+    def test_xor_multiple_operands(self):\n+        query = Query(Author)\n+        where = query.build_where(Q(id=1) ^ Q(id=2) ^ Q(id=3))\n+        self.assertEqual(where.connector, 'XOR')\n+        self.assertEqual(len(where.children), 3)\n+        for child in where.children:\n+            self.assertIsInstance(child, Exact)\n+            self.assertEqual(child.lhs.target, Author._meta.get_field('id'))\n+\n+        # Test with four operands\n+        where = query.build_where(Q(id=1) ^ Q(id=2) ^ Q(id=3) ^ Q(id=4))\n+        self.assertEqual(where.connector, 'XOR')\n+        self.assertEqual(len(where.children), 4)\n+        for child in where.children:\n+            self.assertIsInstance(child, Exact)\n+            self.assertEqual(child.lhs.target, Author._meta.get_field('id'))\n+\n \n class TestQueryNoModel(TestCase):\n     def test_rawsql_annotation(self):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nOn databases lacking XOR, Q(\u2026) ^ Q(\u2026) ^ Q(\u2026) wrongly interpreted as exactly-one rather than parity\nDescription\n\t\nOn databases that don\u2019t natively support XOR, such as PostgreSQL, Django generates incorrect fallback SQL for Q(\u2026) ^ Q(\u2026) ^ Q(\u2026) with more than 2 arguments. The \u200bcorrect interpretation, and the interpretation of databases natively supporting XOR (e.g. \u200bMySQL), is that a ^ b ^ c is true when an odd number of the arguments are true. But Django\u2019s fallback interpretation is that a ^ b ^ c is true when exactly one argument is true:\n>>> from django.db.models import Q\n>>> from my_app.models import Client\n>>> Client.objects.filter(Q(id=37)).count()\n1\n>>> Client.objects.filter(Q(id=37) ^ Q(id=37)).count()\n0\n>>> Client.objects.filter(Q(id=37) ^ Q(id=37) ^ Q(id=37)).count()\n0\n>>> Client.objects.filter(Q(id=37) ^ Q(id=37) ^ Q(id=37) ^ Q(id=37)).count()\n0\n>>> Client.objects.filter(Q(id=37) ^ Q(id=37) ^ Q(id=37) ^ Q(id=37) ^ Q(id=37)).count()\n0\n(Expected: 1, 0, 1, 0, 1.)\nThis was introduced in #29865.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_v1mv171bw",
+      "status": "completed",
+      "call_id": "call_WAON12lcYIC8stp1CtSmDTHo",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class DatabaseOperations\\\" -n django/db/backends/postgresql\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_WAON12lcYIC8stp1CtSmDTHo",
+      "output": "{\"output\":\"django/db/backends/postgresql/operations.py:26:class DatabaseOperations(BaseDatabaseOperations):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_l1sb3zphn",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch only tweaks how `combine_expression` emits SQL for a connector of '^', turning it into literal `XOR` and parenthesizing the result, and adds Python\u2010level tests that only verify the `WhereNode` children count and connector label. It doesn\u2019t implement the actual parity (odd\u2010count) fallback logic for databases without native XOR support\u2014so the generated SQL will still be wrong (or invalid) on backends like PostgreSQL. It also conflates the SQL connector and the Q-object connector name without touching the real SQL falling\u2010back mechanism. Thus it misses the core parity behavior described in the issue.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

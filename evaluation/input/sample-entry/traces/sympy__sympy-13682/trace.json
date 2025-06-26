@@ -1,0 +1,3 @@
+{
+  "trace": "This is a broad, high-level feature request rather than a detailed spec. It outlines desired capabilities (an OrdinalNumber class, new assumptions, arithmetic ops, Cantor normal form, etc.) but leaves key design and API details unspecified (how it should integrate with SymPy\u2019s assumptions, exact method signatures, behavior on edge cases, tests, performance constraints, etc.). As written it\u2019s too open-ended to begin a concrete implementation without substantial follow-up, so it is VAGUE."
+}

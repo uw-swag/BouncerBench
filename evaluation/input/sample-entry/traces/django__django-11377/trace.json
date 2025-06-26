@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a crash in the deprecation warning when using F expressions in Meta.ordering, provides sample model code, the exact traceback, a hacky workaround, and even a regression test link. While the overall code context isn\u2019t shipped with the issue, it\u2019s straightforward to identify that the warning builder must stringify or repr() each ordering element correctly and generate valid .order_by() syntax. A developer can sensibly interpret and implement a solution from the information given."
+}

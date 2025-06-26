@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly lays out the regression: bulk delete() went from a plain DELETE to a subquery-based DELETE, which breaks LOCK TABLES and is slower. It\u2019s obvious that a fix must special\u2010case unfiltered deletes (or alias the subquery) to restore the old DELETE behaviour. While it doesn\u2019t spell out the API change line\u2010by\u2010line, there\u2019s a clear, sensible interpretation of what a successful solution entails."
+}

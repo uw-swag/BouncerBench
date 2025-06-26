@@ -1,0 +1,3 @@
+{
+  "trace": "The request simply states \u201cchange the default protocol to HTTPS\u201d and suggests a deprecation timeline, but it lacks concrete details on which versions, what the timeline should be, how deprecation warnings should be emitted, testing requirements, and other implementation specifics. There\u2019s room for multiple interpretations, so it\u2019s too vague for a straightforward PR."
+}

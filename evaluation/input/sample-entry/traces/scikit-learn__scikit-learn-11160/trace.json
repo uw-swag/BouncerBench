@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly requests adding alternate output types (e.g. DataFrame or DataArray) instead of just a formatted string. While the exact API (parameter name, return types, defaults) isn\u2019t fully locked down, there is a sensible, minimal implementation\u2014add an output_dict flag to return a dict-of-dicts (from which users can build a DataFrame/Array). This leaves some flexibility in details but is well enough specified to write a PR."
+}

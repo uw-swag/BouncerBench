@@ -1,0 +1,3 @@
+{
+  "trace": "The issue shows a traceback and identifies that a TupleArg object lacks compute_leading_term, but it gives no detail on what TupleArg is, why it\u2019s used in hyper, or what the correct behavior/output should be. There\u2019s no guidance on how to implement a fix or what the expected series or integral result is. As written, it\u2019s too ambiguous to start coding a solution without further clarification."
+}

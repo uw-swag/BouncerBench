@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is extremely brief and lacks concrete examples, steps to reproduce the problem, details about the model hierarchy, or what specifically \u201cpreserve all parent reverse relationships\u201d entails in practice. Without sample models, expected vs. actual behavior, or more context on the partial fix in #27407, there\u2019s too much ambiguity to write a meaningful fix."
+}

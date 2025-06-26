@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what needs to be done\u2014modify BaseConstraint\u2019s constructor so its parameters are keyword-only\u2014but it doesn\u2019t enumerate exactly which parameters (beyond name and violation_error_message) or how to handle backwards compatibility and associated tests. There is a sensible interpretation of the task, but some implementation details are left implicit."
+}

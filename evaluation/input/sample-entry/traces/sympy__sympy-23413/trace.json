@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal, reproducible example (with exact code and data), shows the expected versus actual output, and clearly states the bug (rows being dropped by HNF). A fix simply needs to preserve all rows in the Hermite normal form under these flips/transposes. This is sufficient to implement and verify a correction."
+}

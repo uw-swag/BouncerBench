@@ -1,0 +1,3 @@
+{
+  "trace": "The issue merely states \u201callow specifying a Feed language different from settings.LANGUAGE_CODE\u201d with no details on the API (attribute or parameter name, defaults, behavior, etc.) or examples of how it should work. There\u2019s no clear specification beyond \u201cI couldn\u2019t find a way, so here\u2019s my patch link,\u201d so a developer cannot implement a robust solution without further clarification or reviewing the linked PR. It is therefore too vague to act on directly."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the exact symptoms (migrations not detected when the filename contains dots), provides minimal reproduction steps and code, shows expected vs. actual behavior, includes a sample repo and even proposed fixes (renaming the file, changing the constraint name, or patching Django). There\u2019s no ambiguity about what needs to be changed, so it\u2019s well-specified."
+}

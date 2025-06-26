@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what needs to be done\u2014add a system check that ensures constraint and partial index names are unique at the database scope\u2014but it leaves out the concrete location, error messaging, and specific API details. There\u2019s a sensible interpretation of where and how to implement this (e.g., in Django\u2019s checks framework), so it\u2019s not entirely vague, but it does require filling in implementation details."
+}

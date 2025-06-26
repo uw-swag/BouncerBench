@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that HDUList.copy() currently returns a native Python list (inherited from list.copy) and that it should instead return an HDUList. The desired behavior is unambiguous (override or implement a .copy() on HDUList to return an HDUList), and reproducing the bug is straightforward. This is sufficient for a meaningful PR to fix the bug."
+}

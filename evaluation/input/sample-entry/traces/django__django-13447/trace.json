@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to change\u2014include the actual model class in the app_list context dict and make the private _build_app_dict method public for reuse. While it doesn\u2019t show the exact code, it\u2019s a straightforward API tweak in Django\u2019s AdminSite, so it\u2019s sufficiently specified to implement."
+}

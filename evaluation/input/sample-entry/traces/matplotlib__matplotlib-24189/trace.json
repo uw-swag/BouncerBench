@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, shows the confusing error, supplies the desired layout, and even sketches two reasonable paths forward (support outer\u2010only ratios or raise a clearer error). Acceptance criteria (no error with outer ratios, correct figure) are clear. This is enough to start implementing or improving the error message."
+}

@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes a specific bug: extra psql flags passed after the database name are being ignored and need to be reordered so that flags precede the database name. It even gives a concrete example of the command, output, and the expected adjustment. This is sufficient detail to implement a fix in the dbshell command wrapper.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/backends/postgresql/client.py b/django/db/backends/postgresql/client.py\nindex 4c9bd63546..04932eff95 100644\n--- a/django/db/backends/postgresql/client.py\n+++ b/django/db/backends/postgresql/client.py\n@@ -32,9 +32,11 @@ class DatabaseClient(BaseDatabaseClient):\n             args += [\"-h\", host]\n         if port:\n             args += [\"-p\", str(port)]\n+        # Add any additional parameters before the database name\n+        args.extend(parameters)\n+        # Database name should be the last argument for PostgreSQL\n         if dbname:\n             args += [dbname]\n-        args.extend(parameters)\n \n         env = {}\n         if passwd:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ndbshell additional parameters should be passed before dbname on PostgreSQL.\nDescription\n\t\npsql expects all options to proceed the database name, if provided. So, if doing something like `./manage.py dbshell -- -c \"select * from some_table;\" one will get this:\n$ ./manage.py dbshell -- -c \"select * from some_table;\"\npsql: warning: extra command-line argument \"-c\" ignored\npsql: warning: extra command-line argument \"select * from some_table;\" ignored\npsql (10.21)\nType \"help\" for help.\nsome_database=>\nIt appears the args list just need to be constructed in the proper order, leaving the database name for the end of the args list.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_i4vbyjla8",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch simply moves the extension of extra parameters so that they occur immediately before the database name rather than after. This matches psql\u2019s requirement that all options precede the DB name, and it doesn\u2019t touch any other logic or introduce unrelated changes. It correctly fixes the order without missing edge cases.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

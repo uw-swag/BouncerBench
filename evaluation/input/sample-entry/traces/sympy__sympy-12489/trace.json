@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the problem (subclassing always returns the base Permutation class), points to the methods involved (`__new__`, `_af_new`, `Basic.__new__`), and suggests the desired behavior (use `cls` via classmethods). While the exact code changes aren\u2019t spelled out line-by-line, there\u2019s enough detail to locate and fix the issue in the codebase. Thus this is REASONABLY_SPECIFIED."
+}

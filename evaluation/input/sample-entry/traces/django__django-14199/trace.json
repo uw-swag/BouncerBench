@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a reproducer (using Value(1, output_field=DecimalField()) on SQLite), pinpoints the offending function (`create_decimal_from_float`) and describes the failure scenario. There\u2019s enough here to reproduce and understand what needs to change, although stack traces and version details are missing. It\u2019s not fully fleshed out, but there\u2019s a sensible interpretation of the required fix."
+}

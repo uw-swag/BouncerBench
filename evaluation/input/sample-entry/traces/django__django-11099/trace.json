@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the two validators (ASCIIUsernameValidator and UnicodeUsernameValidator in contrib.auth.validators), explains the exact regex bug (use of ^\u2026$ allowing trailing newline), and even provides the precise replacement pattern (\\A\u2026\\Z). An engineer can directly implement and test this change."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the current behavior in fetch_command (checking only DJANGO_SETTINGS_MODULE), the gap (not accounting for settings.configure()), and the desired change (also check settings.configured). The scope and fix are unambiguous and actionable."
+}

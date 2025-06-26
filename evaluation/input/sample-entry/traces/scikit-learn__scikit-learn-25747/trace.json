@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example (with code and environment), a clear description of the failure (ValueError on index length mismatch), and a precise expectation (\u201cNo error is thrown when using pandas output\u201d). A developer can reason about how to change the pandas output wrapper (or FeatureUnion logic) so that mismatched index lengths don\u2019t blow up. This is sufficient to drive a concrete PR."
+}

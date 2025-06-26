@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is primarily a design discussion about whether to promote an experimental `.set_xindex()` method to the public API alongside `.set_index()`, but it lacks concrete spec details (method signature, behavior, tests, docs) and clear acceptance criteria. It\u2019s more of a \u201cshould we\u201d conversation than a well-defined task, leaving room for ambiguity around what exactly needs to be implemented or validated."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what behavior is wrong (refine(sign(x), \u2026) still returns sign(x)) and what is expected (it should return 1 when x is known positive or x+1>0). It even points to a prior PR #17019 as a model. A developer familiar with Sympy\u2019s refine machinery can sensibly implement and test this missing logic. Thus it is reasonably specified."
+}

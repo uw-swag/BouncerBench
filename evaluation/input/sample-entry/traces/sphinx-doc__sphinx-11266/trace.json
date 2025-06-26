@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what\u2019s wrong (the missing space before the colon in the French \u201cVoir aussi\u201d heading), how to reproduce it, and even points to the commit that introduced the change. A patch simply needs to adjust the French localization or LaTeX writer to insert the proper space before the colon. This is sufficient to implement and verify a fix."
+}

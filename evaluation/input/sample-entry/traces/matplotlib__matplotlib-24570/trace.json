@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, minimal reproducible code, actual vs expected behavior, and the specific parameter (`align` in `HPacker`) that needs fixing. There\u2019s no ambiguity about what needs to be done\u2014a straightforward swap of the \u2018top\u2019/\u2018bottom\u2019 logic\u2014so it\u2019s well-specified."
+}

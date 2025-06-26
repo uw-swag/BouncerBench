@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the context (Django 2.2 test client now errors on None in POST data), the desired change (include offending key and value in the exception message), and even provides a reference PR. While formatting details aren\u2019t spelled out, the requirement is clear enough to implement a meaningful fix. In other words, it\u2019s not fully boilerplate but has a sensible interpretation for a solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the symptom (autoreload breaking on an empty-string entry in TEMPLATES['DIRS']), pins down the regression in django/template/autoreload.py, includes repro steps and links to the offending commits. While it doesn\u2019t spell out the exact patch line-by-line, an experienced Django maintainer can sensibly infer that empty DIRS entries should be filtered out before normalization. That makes it reasonably specified for a PR."
+}

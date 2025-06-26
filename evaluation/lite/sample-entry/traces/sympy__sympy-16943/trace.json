@@ -1,0 +1,106 @@
+{
+  "input": "The report clearly demonstrates that fps on a polynomial returns the raw Pow instead of a FormalPowerSeries, so the fix is to wrap polynomial input in the same FPS class (and support indexing, etc.). While it doesn\u2019t spell out every detail (e.g. exact type signatures or tests), there is a straightforward, sensible interpretation of the desired behavior.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/series/formal.py b/sympy/series/formal.py\nindex d57960a2f3..a75013b077 100644\n--- a/sympy/series/formal.py\n+++ b/sympy/series/formal.py\n@@ -1251,6 +1251,7 @@ def fps(f, x=None, x0=0, dir=1, hyper=True, order=4, rational=True, full=False):\n     result = compute_fps(f, x, x0, dir, hyper, order, rational, full)\n \n     if result is None:\n-        return f\n-\n+        # For polynomial expressions, create FormalPowerSeries with the expression itself\n+        result = f\n+    \n     return FormalPowerSeries(f, x, x0, dir, result)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nsympy.fps doesn't always return a formal power series\nSee the following:\r\n\r\n```pycon\r\n>>> from sympy import Symbol, fps\r\n>>> x = Symbol('x')\r\n>>> p = fps(x ** 2)\r\n>>> p\r\nx**2\r\n>>> type(p)\r\n<class 'sympy.core.power.Pow'>\r\n>>> p[0]\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\nTypeError: 'Pow' object does not support indexing\r\n```\r\n\r\nI assume the logic is that the value in question is already a polynomial so doesn't need expansion, but it doesn't support the same interface, and [the documentation](http://docs.sympy.org/dev/modules/series/formal.html#sympy.series.formal.fps) doesn't suggest that this is what is supposed to happen.\nfix issue #12310\nFixes #12310\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_vpiqumvcv",
+      "status": "completed",
+      "call_id": "call_ehFYjulEua9wBBpU1gChbRjy",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,200p' sympy/series/formal.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_ehFYjulEua9wBBpU1gChbRjy",
+      "output": "{\"output\":\"\\\"\\\"\\\"Formal Power Series\\\"\\\"\\\"\\n\\nfrom __future__ import print_function, division\\n\\nfrom collections import defaultdict\\n\\nfrom sympy import oo, zoo, nan\\nfrom sympy.core.add import Add\\nfrom sympy.core.compatibility import iterable\\nfrom sympy.core.expr import Expr\\nfrom sympy.core.function import Derivative, Function\\nfrom sympy.core.mul import Mul\\nfrom sympy.core.numbers import Rational\\nfrom sympy.core.relational import Eq\\nfrom sympy.sets.sets import Interval\\nfrom sympy.core.singleton import S\\nfrom sympy.core.symbol import Wild, Dummy, symbols, Symbol\\nfrom sympy.core.sympify import sympify\\nfrom sympy.functions.combinatorial.factorials import binomial, factorial, rf\\nfrom sympy.functions.elementary.integers import floor, frac, ceiling\\nfrom sympy.functions.elementary.miscellaneous import Min, Max\\nfrom sympy.functions.elementary.piecewise import Piecewise\\nfrom sympy.series.limits import Limit\\nfrom sympy.series.order import Order\\nfrom sympy.series.sequences import sequence\\nfrom sympy.series.series_class import SeriesBase\\n\\n\\ndef rational_algorithm(f, x, k, order=4, full=False):\\n    \\\"\\\"\\\"Rational algorithm for computing\\n    formula of coefficients of Formal Power Series\\n    of a function.\\n\\n    Applicable when f(x) or some derivative of f(x)\\n    is a rational function in x.\\n\\n    :func:`rational_algorithm` uses :func:`apart` function for partial fraction\\n    decomposition. :func:`apart` by default uses 'undetermined coefficients\\n    method'. By setting ``full=True``, 'Bronstein's algorithm' can be used\\n    instead.\\n\\n    Looks for derivative of a function up to 4'th order (by default).\\n    This can be overridden using order option.\\n\\n    Returns\\n    =======\\n\\n    formula : Expr\\n    ind : Expr\\n        Independent terms.\\n    order : int\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy import log, atan, I\\n    >>> from sympy.series.formal import rational_algorithm as ra\\n    >>> from sympy.abc import x, k\\n\\n    >>> ra(1 / (1 - x), x, k)\\n    (1, 0, 0)\\n    >>> ra(log(1 + x), x, k)\\n    (-(-1)**(-k)/k, 0, 1)\\n\\n    >>> ra(atan(x), x, k, full=True)\\n    ((-I*(-I)**(-k)/2 + I*I**(-k)/2)/k, 0, 1)\\n\\n    Notes\\n    =====\\n\\n    By setting ``full=True``, range of admissible functions to be solved using\\n    ``rational_algorithm`` can be increased. This option should be used\\n    carefully as it can significantly slow down the computation as ``doit`` is\\n    performed on the :class:`RootSum` object returned by the ``apart`` function.\\n    Use ``full=False`` whenever possible.\\n\\n    See Also\\n    ========\\n\\n    sympy.polys.partfrac.apart\\n\\n    References\\n    ==========\\n\\n    .. [1] Formal Power Series - Dominik Gruntz, Wolfram Koepf\\n    .. [2] Power Series in Computer Algebra - Wolfram Koepf\\n    \\\"\\\"\\\"\\n    from sympy.polys import RootSum, apart\\n    from sympy.integrals import integrate\\n\\n    diff = f\\n    ds = []  # list of diff\\n\\n    for i in range(order + 1):\\n        if i:\\n            diff = diff.diff(x)\\n\\n        if diff.is_rational_function(x):\\n            coeff, sep = S.Zero, S.Zero\\n\\n            terms = apart(diff, x, full=full)\\n            if terms.has(RootSum):\\n                terms = terms.doit()\\n\\n            for t in Add.make_args(terms):\\n                num, den = t.as_numer_denom()\\n                if not den.has(x):\\n                    sep += t\\n                else:\\n                    if isinstance(den, Mul):\\n                        # m*(n*x - a)**j -> (n*x - a)**j\\n                        ind = den.as_independent(x)\\n                        den = ind[1]\\n                        num /= ind[0]\\n\\n                    # (n*x - a)**j -> (x - b)\\n                    den, j = den.as_base_exp()\\n                    a, xterm = den.as_coeff_add(x)\\n\\n                    # term -> m/x**n\\n                    if not a:\\n                        sep += t\\n                        continue\\n\\n                    xc = xterm[0].coeff(x)\\n                    a /= -xc\\n                    num /= xc**j\\n\\n                    ak = ((-1)**j * num *\\n                          binomial(j + k - 1, k).rewrite(factorial) /\\n                          a**(j + k))\\n                    coeff += ak\\n\\n            # Hacky, better way?\\n            if coeff is S.Zero:\\n                return None\\n            if (coeff.has(x) or coeff.has(zoo) or coeff.has(oo) or\\n                    coeff.has(nan)):\\n                return None\\n\\n            for j in range(i):\\n                coeff = (coeff / (k + j + 1))\\n                sep = integrate(sep, x)\\n                sep += (ds.pop() - sep).limit(x, 0)  # constant of integration\\n            return (coeff.subs(k, k - i), sep, i)\\n\\n        else:\\n            ds.append(diff)\\n\\n    return None\\n\\n\\ndef rational_independent(terms, x):\\n    \\\"\\\"\\\"Returns a list of all the rationally independent terms.\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy import sin, cos\\n    >>> from sympy.series.formal import rational_independent\\n    >>> from sympy.abc import x\\n\\n    >>> rational_independent([cos(x), sin(x)], x)\\n    [cos(x), sin(x)]\\n    >>> rational_independent([x**2, sin(x), x*sin(x), x**3], x)\\n    [x**3 + x**2, x*sin(x) + sin(x)]\\n    \\\"\\\"\\\"\\n    if not terms:\\n        return []\\n\\n    ind = terms[0:1]\\n\\n    for t in terms[1:]:\\n        n = t.as_independent(x)[1]\\n        for i, term in enumerate(ind):\\n            d = term.as_independent(x)[1]\\n            q = (n / d).cancel()\\n            if q.is_rational_function(x):\\n                ind[i] += t\\n                break\\n        else:\\n            ind.append(t)\\n    return ind\\n\\n\\ndef simpleDE(f, x, g, order=4):\\n    r\\\"\\\"\\\"Generates simple DE.\\n\\n    DE is of the form\\n\\n    .. math::\\n        f^k(x) + \\\\sum\\\\limits_{j=0}^{k-1} A_j f^j(x) = 0\\n\\n    where :math:`A_j` should be rational function in x.\\n\\n    Generates DE's upto order 4 (default). DE's can also have free parameters.\\n\\n    By increasing order, higher order DE's can be found.\\n\\n    Yields a tuple of (DE, order).\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_8s0lm2i7g",
+      "status": "completed",
+      "call_id": "call_3SYtpLOtDCjJ9f06HM0bT0GU",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class FormalPowerSeries\\\" -n sympy/series/formal.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_3SYtpLOtDCjJ9f06HM0bT0GU",
+      "output": "{\"output\":\"904:class FormalPowerSeries(SeriesBase):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_u19ahrzjf",
+      "status": "completed",
+      "call_id": "call_6KTAxARi3DhTaotyFEqCJ6kx",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '880,960p' sympy/series/formal.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_6KTAxARi3DhTaotyFEqCJ6kx",
+      "output": "{\"output\":\"\\n    sympy.series.formal.rational_algorithm\\n    sympy.series.formal.hyper_algorithm\\n    \\\"\\\"\\\"\\n    f = sympify(f)\\n    x = sympify(x)\\n\\n    if not f.has(x):\\n        return None\\n\\n    x0 = sympify(x0)\\n\\n    if dir == '+':\\n        dir = S.One\\n    elif dir == '-':\\n        dir = -S.One\\n    elif dir not in [S.One, -S.One]:\\n        raise ValueError(\\\"Dir must be '+' or '-'\\\")\\n    else:\\n        dir = sympify(dir)\\n\\n    return _compute_fps(f, x, x0, dir, hyper, order, rational, full)\\n\\n\\nclass FormalPowerSeries(SeriesBase):\\n    \\\"\\\"\\\"Represents Formal Power Series of a function.\\n\\n    No computation is performed. This class should only to be used to represent\\n    a series. No checks are performed.\\n\\n    For computing a series use :func:`fps`.\\n\\n    See Also\\n    ========\\n\\n    sympy.series.formal.fps\\n    \\\"\\\"\\\"\\n    def __new__(cls, *args):\\n        args = map(sympify, args)\\n        return Expr.__new__(cls, *args)\\n\\n    @property\\n    def function(self):\\n        return self.args[0]\\n\\n    @property\\n    def x(self):\\n        return self.args[1]\\n\\n    @property\\n    def x0(self):\\n        return self.args[2]\\n\\n    @property\\n    def dir(self):\\n        return self.args[3]\\n\\n    @property\\n    def ak(self):\\n        return self.args[4][0]\\n\\n    @property\\n    def xk(self):\\n        return self.args[4][1]\\n\\n    @property\\n    def ind(self):\\n        return self.args[4][2]\\n\\n    @property\\n    def interval(self):\\n        return Interval(0, oo)\\n\\n    @property\\n    def start(self):\\n        return self.interval.inf\\n\\n    @property\\n    def stop(self):\\n        return self.interval.sup\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_1p9k4rei8",
+      "status": "completed",
+      "call_id": "call_nx9IQr2FswzkXxg0pE8YCypv",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def fps\\\" -n sympy/series/formal.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_nx9IQr2FswzkXxg0pE8YCypv",
+      "output": "{\"output\":\"1183:def fps(f, x=None, x0=0, dir=1, hyper=True, order=4, rational=True, full=False):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_d6ys56jhl",
+      "status": "completed",
+      "call_id": "call_CHsTKpJQGCfoWiCOJOwr4Izx",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1180,1260p' sympy/series/formal.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_CHsTKpJQGCfoWiCOJOwr4Izx",
+      "output": "{\"output\":\"        return self.__mul__(other)\\n\\n\\ndef fps(f, x=None, x0=0, dir=1, hyper=True, order=4, rational=True, full=False):\\n    \\\"\\\"\\\"Generates Formal Power Series of f.\\n\\n    Returns the formal series expansion of ``f`` around ``x = x0``\\n    with respect to ``x`` in the form of a ``FormalPowerSeries`` object.\\n\\n    Formal Power Series is represented using an explicit formula\\n    computed using different algorithms.\\n\\n    See :func:`compute_fps` for the more details regarding the computation\\n    of formula.\\n\\n    Parameters\\n    ==========\\n\\n    x : Symbol, optional\\n        If x is None and ``f`` is univariate, the univariate symbols will be\\n        supplied, otherwise an error will be raised.\\n    x0 : number, optional\\n        Point to perform series expansion about. Default is 0.\\n    dir : {1, -1, '+', '-'}, optional\\n        If dir is 1 or '+' the series is calculated from the right and\\n        for -1 or '-' the series is calculated from the left. For smooth\\n        functions this flag will not alter the results. Default is 1.\\n    hyper : {True, False}, optional\\n        Set hyper to False to skip the hypergeometric algorithm.\\n        By default it is set to False.\\n    order : int, optional\\n        Order of the derivative of ``f``, Default is 4.\\n    rational : {True, False}, optional\\n        Set rational to False to skip rational algorithm. By default it is set\\n        to True.\\n    full : {True, False}, optional\\n        Set full to True to increase the range of rational algorithm.\\n        See :func:`rational_algorithm` for details. By default it is set to\\n        False.\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy import fps, O, ln, atan\\n    >>> from sympy.abc import x\\n\\n    Rational Functions\\n\\n    >>> fps(ln(1 + x)).truncate()\\n    x - x**2/2 + x**3/3 - x**4/4 + x**5/5 + O(x**6)\\n\\n    >>> fps(atan(x), full=True).truncate()\\n    x - x**3/3 + x**5/5 + O(x**6)\\n\\n    See Also\\n    ========\\n\\n    sympy.series.formal.FormalPowerSeries\\n    sympy.series.formal.compute_fps\\n    \\\"\\\"\\\"\\n    f = sympify(f)\\n\\n    if x is None:\\n        free = f.free_symbols\\n        if len(free) == 1:\\n            x = free.pop()\\n        elif not free:\\n            return f\\n        else:\\n            raise NotImplementedError(\\\"multivariate formal power series\\\")\\n\\n    result = compute_fps(f, x, x0, dir, hyper, order, rational, full)\\n\\n    if result is None:\\n        return f\\n\\n    return FormalPowerSeries(f, x, x0, dir, result)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_gynma235x",
+      "status": "completed",
+      "call_id": "call_VU7by0TZIcCWgPw0p4OCOzdT",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def compute_fps\\\" -n sympy/series/formal.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_VU7by0TZIcCWgPw0p4OCOzdT",
+      "output": "{\"output\":\"833:def compute_fps(f, x, x0=0, dir=1, hyper=True, order=4, rational=True,\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_pjx0qzroc",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch changes the \u201cresult is None\u201d branch to set result = f, then always wrap in FormalPowerSeries. But FormalPowerSeries expects result to be a 3-tuple (coefficients, independent part, start index); using the raw expression means result[0] will still try to index the Pow, raising the same TypeError. It neither supplies a valid tuple nor implements polynomial coefficient extraction, so it does not actually fix the interface contract of fps. </EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

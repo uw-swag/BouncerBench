@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear bug description, a minimal reproducible code snippet, the actual vs. expected output (with screenshots), and the Matplotlib version. Although some platform details are missing, they\u2019re unlikely to affect this pure rendering issue. There\u2019s enough information to investigate and implement a fix."
+}

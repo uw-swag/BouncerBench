@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a bug (ci=None is ignored), and specifies the desired behavior (emit a warning and translate ci=None into errorbar=None). While it doesn\u2019t spell out every detail (warning text, test cases), the required change is unambiguous and can be implemented directly in the lineplot argument-handling code. It\u2019s actionable with minimal gaps."
+}

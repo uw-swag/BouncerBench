@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly specifies a new command-line flag (--force-colors), its intended behavior (override Django\u2019s default color auto-detection when piping output), real-world use case, and a precedent in other Unix commands. An implementer can identify where to hook into Django\u2019s management command color logic, mirror the existing --no-colors handling, and add the new flag, its parsing, and documentation. The requirements are concrete and actionable."
+}

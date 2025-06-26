@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the desired feature (an option to collapse the data part in the HTML repr) and points to the existing xarray.set_options mechanism as a model. While implementation details (exact option names, defaults, file locations) are not spelled out, these can be discovered by inspecting the codebase. This is a straightforward, self-contained feature request with a clear success condition, so it is reasonably specified."
+}

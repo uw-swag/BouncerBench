@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the intent (use shorter import paths when deconstructing expressions in migrations), points to an existing PR pattern (simplifying F()\u2019s path), and suggests applying the same approach to other expression classes. While it doesn\u2019t enumerate every target class, there\u2019s a straightforward, sensible interpretation: update the deconstruct method (or registry) for each expression in django/db/models/expressions.py to reference django.db.models.<Name> instead of the deeper module path. This is enough to start implementing the change."
+}

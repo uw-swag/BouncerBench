@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the faulty code in django/db/utils.py (load_backend), shows the unwanted behavior (swallowing the original ImportError and giving a misleading \u2018not available\u2019 message), and proposes a specific change to the error text and conditional display of the \u201cTry using\u2026\u201d suggestion. While the exact code changes aren\u2019t spelled out step-by-step, there\u2019s a straightforward, sensible interpretation of what needs to be done."
+}

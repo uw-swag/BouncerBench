@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the incorrect behavior, a minimal reproducible example, the environment details, and the expected vs. actual outputs. A developer can immediately reproduce the bug and know what to fix, so the issue is well-specified."
+}

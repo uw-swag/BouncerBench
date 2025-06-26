@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, shows the exact error trace, describes the root cause (mismatch between the Colormap object's name and the registry name), and states the expected versus actual behavior. It\u2019s clear what change is desired (e.g., syncing the Colormap.name to the registered name or looking up by registry key), so it\u2019s actionable for a PR."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints the exact method (__deepcopy__ in django/forms/fields.py) and the underlying issue (error_messages isn\u2019t deep-copied), provides code references, describes the expected behavior, and even ties it to specific Django versions. This is enough detail to draft a precise fix (e.g. amend __deepcopy__ to deepcopy the error_messages dict)."
+}

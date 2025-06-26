@@ -1,0 +1,3 @@
+{
+  "trace": "The report precisely shows a reproducible case (creating a UUID-`default` PK, calling `save()` vs `create()`/`save(force_insert)`), the unwanted extra `UPDATE`, and the desired behavior (only an `INSERT`). It even links the upstream Django ticket. There\u2019s no ambiguity about what\u2019s broken or what \u201csuccess\u201d looks like, so it\u2019s well-specified."
+}

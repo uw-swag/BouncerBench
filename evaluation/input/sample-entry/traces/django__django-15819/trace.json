@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear in scope and intent: extend Django\u2019s inspectdb to detect when a model has multiple FKs to the same target and automatically inject a unique related_name on each. While the exact naming pattern isn\u2019t spelled out in detail, there\u2019s a sensible default (e.g. use the field\u2019s attribute name) that a developer could implement. This makes the ticket reasonably specified for a PR."
+}

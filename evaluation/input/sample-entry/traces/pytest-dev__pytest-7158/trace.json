@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows exactly what\u2019s wrong (the leading \u201c../\u201d is stripped in skip summary), how to reproduce it, and what the expected output should be. There\u2019s no missing information for a developer to implement the change in pytest\u2019s reporting logic."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a full traceback, environment info, reproduction steps, root\u2010cause analysis and even a proof\u2010of\u2010concept patch. It\u2019s clear what API to change (get_child_arguments) and how (cast Path objects to str)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report pinpoints the exact code location, describes the failure mode, and even provides a concrete patch diff.  It\u2019s clear what change is needed (wrapping deserialize loop in a transaction) and where to apply it, making it well\u2010specified for implementation."
+}

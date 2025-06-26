@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply states that the existing implementation only handles thin lenses and that it \u201cshould also work\u201d for plano-convex, plano-concave, and thick lenses, but it provides no detail about the code context, function signatures, required input/output formats, or the exact formulas and parameter definitions to use (e.g. thickness, radii sign conventions, refractive index). There is too much ambiguity around what needs changing and how success is measured, so it\u2019s too vague to act on without clarification."
+}

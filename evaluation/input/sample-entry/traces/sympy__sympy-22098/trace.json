@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives minimal reproducible examples, shows actual vs. expected behavior for parse_expr(evaluate=False), and specifies the environment. It clearly defines the bug (evaluate isn\u2019t propagated under sqrt) and the desired outcome, so it\u2019s actionable."
+}

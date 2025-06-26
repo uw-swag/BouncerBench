@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear reproduction snippet, actual and expected behaviors, environment details, and even points to the likely offending code location. It\u2019s straightforward to write a fix that filters out deprecated rcParams before updating (or adjusts the validators), so the requirements are well-specified."
+}

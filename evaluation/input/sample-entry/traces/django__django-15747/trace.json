@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows a reproducible error path, includes sample admin code, the exact exception, and the desired behavior (update() should work even when ordering by an annotation).  It\u2019s obvious what a successful fix looks like (strip out/ignore ordering on annotated fields before running update()), so this is well-specified."
+}

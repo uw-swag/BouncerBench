@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a clear backtrace and points to the exact lines in _cull where fetchone() may return None, and even suggests the intended guard behavior. While it doesn\u2019t spell out every detail (e.g. exact behavior when there are no rows to cull), it\u2019s straightforward to implement a check for None before subscripting. This is enough to meaningfully attempt a fix."
+}

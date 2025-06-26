@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the code location (the _get_deterministic_ordering method in Django's admin ChangeList), the current behavior (only unique_together is checked), and the desired behavior (also detect UniqueConstraint instances without conditions). It even points to the relevant PR for context. A developer can implement this by inspecting model._meta.constraints for UniqueConstraint entries with no conditions and treating their fields just like unique_together. This is a concrete, specific change."
+}

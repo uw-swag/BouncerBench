@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear summary, minimal reproducible code, actual vs expected behavior with screenshots, and version/environment details. It\u2019s unambiguous what the bug is (inverting log-scale axes via reversed limits doesn\u2019t work) and what the correct behavior should be. This is sufficient to begin a fix."
+}

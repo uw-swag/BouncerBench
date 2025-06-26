@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows a reproducible code snippet, the current erroneous behavior, and the expected behavior (x == None should return False rather than raising). It\u2019s obvious what change is needed (handle None in __eq__), so it\u2019s well-specified."
+}

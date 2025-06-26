@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the inconsistent behavior with code examples and points to exactly where to change (the get_feature_names check vs. using _validate_vocabulary when a vocabulary parameter is provided). It specifies the desired outcome and gives concrete reproduction steps, so it\u2019s well-enough scoped to implement a fix."
+}

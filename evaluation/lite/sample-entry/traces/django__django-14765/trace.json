@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly identifies a single, localized change: in ProjectState.__init__, drop the guard/conversion for real_apps and instead assert it\u2019s already a set when non-None. While you\u2019ll need to locate the ProjectState class in migrations/state.py and adjust the initialization logic, the intended behavior and placement of the change is unambiguous. Thus there is enough detail to make a meaningful code update without further clarification.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/migrations/state.py b/django/db/migrations/state.py\nindex 088f5c4..f21f89b 100644\n--- a/django/db/migrations/state.py\n+++ b/django/db/migrations/state.py\n@@ -92,7 +92,8 @@ class ProjectState:\n         self.models = models or {}\n         # Apps to include from main registry, usually unmigrated ones\n         if real_apps:\n-            self.real_apps = real_apps if isinstance(real_apps, set) else set(real_apps)\n+            assert isinstance(real_apps, set), f\"real_apps must be a set, got {type(real_apps)}\"\n+            self.real_apps = real_apps\n         else:\n             self.real_apps = set()\n         self.is_delayed = False\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nProjectState.__init__() can assume its real_apps argument is a set\nDescription\n\t\n\u200bPR #14760 made all calls to ProjectState.__init__() pass real_apps as a set. In \u200bProjectState.__init__() now, then, instead of checking that real_apps is a set and converting it to a set if not, it can just assert that it's a set when non-None. (Presumably the construction of new ProjectState objects is part of Django's internal API.) I had made this comment on the PR, but it wasn't important enough to hold up the PR because another PR was depending on it getting merged.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_9hr87ayje",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch replaces the old \u201cconvert to set if not already\u201d logic with an assertion that real_apps is already a set, matching the issue\u2019s claim that all call sites now supply a set. It preserves the falsey check (empty or None still gives an empty set) and adds no extraneous changes. This precisely implements the requested simplification.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the regression (session format change in commit #31274) and the desired behavior (fallback to the legacy encode when DEFAULT_HASHING_ALGORITHM is 'sha1'). While it omits low-level details (exact file locations, test cases), there\u2019s a straightforward, reasonable interpretation of what needs to be implemented: add a conditional branch to use the old encoding path for sha1 sessions. Thus it\u2019s actionable."
+}

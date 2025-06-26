@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply shows that minpoly raises NotImplementedError on a complicated algebraic expression but gives no guidance on the desired minimal polynomial, what factors to choose, or how success should look. There\u2019s no spec for how to handle multiple candidates or what the correct output is, so it\u2019s too under\u2010specified to attempt a meaningful fix."
+}

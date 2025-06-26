@@ -1,0 +1,3 @@
+{
+  "trace": "The issue lacks any concrete context: there\u2019s no indication of which language or library the `ceiling`/`floor` functions come from, how `pos` and `neg` are defined, what the current behavior is, or where in the code this applies. Without examples, code snippets, or expected inputs/outputs, it\u2019s unclear what needs to be changed or tested."
+}

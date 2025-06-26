@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example (header dict + code), clear expected vs. actual behaviour, steps to reproduce, system details, and even a specific culprit function (_fix_scamp) to remove.  That makes it straightforward to write a PR to restore PV handling when SIP is present, so it is well-specified."
+}

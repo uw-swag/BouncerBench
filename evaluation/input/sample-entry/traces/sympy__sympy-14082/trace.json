@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example (code snippet showing wrong output), the correct expected result, and even references a related issue. It\u2019s clear what integration behavior is incorrect and what the fix would look like, so it\u2019s well-specified."
+}

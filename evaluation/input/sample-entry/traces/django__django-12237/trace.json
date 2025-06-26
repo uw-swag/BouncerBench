@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal repro (model, slugify call), shows the exact unexpected output and the ValidationError, analyzes the root cause in Django\u2019s slugify implementation, cites environments (Django, Python versions), and even proposes a concrete patch. That makes it sufficiently detailed for a direct fix."
+}

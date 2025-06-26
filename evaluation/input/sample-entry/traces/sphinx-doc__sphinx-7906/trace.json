@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the steps to reproduce, the actual vs. expected output, and the environment. It\u2019s unambiguous what behavior needs to change (retain IDs and permalinks even when `:noindex:` is used), so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior and the desired change (remove the blank radio option when blank=False on the model foreign key). It includes code examples, rendering output, and the expected result, so a contributor can directly implement and test the change."
+}

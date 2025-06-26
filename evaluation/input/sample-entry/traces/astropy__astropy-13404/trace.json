@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s broken (printing masked structured arrays), shows expected vs. actual behavior, and includes a minimal reproducer. Although it doesn\u2019t show the exact error message, with codebase access one can reproduce and identify where `_array2string` needs to be extended for structured dtypes. It\u2019s not fully prescriptive on the fix, but it\u2019s actionable."
+}

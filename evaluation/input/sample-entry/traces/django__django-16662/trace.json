@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current vs. desired import ordering in generated migration files, cites the relevant style guide and isort behavior, and gives concrete examples. There\u2019s a direct mapping to the code that needs updating (the migration file generator), so it\u2019s well-specified for implementation."
+}

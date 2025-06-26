@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the failure scenario (removing an index_together when the same fields are in unique_together), shows the traceback location, and spells out the desired behavior (allow dropping the index without touching the unique constraint, and avoid needless index re\u2010creation). While you\u2019ll need to dive into Django\u2019s schema editor code to implement it, there\u2019s a concrete bug to fix and a clear goal\u2014making the issue reasonably specified for a solution."
+}

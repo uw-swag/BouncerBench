@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly describes a specific bug/behavior in Django\u2019s MigrationExecutor: when you unapply a squashed migration while the original migration files still exist, the executor wrongly marks the squash record as unapplied instead of just the originals. Although it lacks code snippets or exact line numbers, the expected outcome is unambiguous\u2014only the replaced (original) migrations should be unapplied. An engineer familiar with Django migrations can locate the relevant executor logic, write a test reproducing the faulty behavior, and adjust the rollback logic accordingly. Thus it is reasonably specified."
+}

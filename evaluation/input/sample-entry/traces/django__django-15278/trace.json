@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the failing SQL, the migration call that triggers it, and the SQLite limitation (cannot add a UNIQUE column). It\u2019s unambiguous what\u2019s going wrong (adding a nullable OneToOneField on SQLite), and there\u2019s enough context (Django versions, relevant issue links) to start proposing a schema editor fix to work around SQLite\u2019s ALTER TABLE limitations. Thus it\u2019s reasonably specified."
+}

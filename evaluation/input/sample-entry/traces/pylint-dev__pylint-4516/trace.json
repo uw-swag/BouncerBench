@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly outlines the steps to reproduce, the exact commands run, the observed versus expected behavior, and relevant version information. It specifies the precise problem (ignore and ignore-patterns flags not excluding directories) and the desired outcome, making it straightforward to implement and verify a fix."
+}

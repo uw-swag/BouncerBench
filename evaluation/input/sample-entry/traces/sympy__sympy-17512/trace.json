@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly outlines current vs. desired behavior for Range(range(10)) (it should error, not silently convert), and also specifies that ImageSet should automatically sympify its arguments and error if its second argument isn\u2019t a Set. Examples of current REPL interactions are provided along with the expected outcome. While there are implementation details left to the developer (where exactly to hook in the checks and how to raise the proper error), the scope and acceptance criteria are well enough defined for a meaningful PR."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the current vs. desired help output and identifies that Django\u2019s default formatter collapses newlines. It\u2019s straightforward to interpret that BaseCommand.create_parser needs to use a raw or custom argparse formatter class (e.g. RawDescriptionHelpFormatter), or allow a command-level attribute to override it. Although the exact implementation detail isn\u2019t spelled out, there\u2019s a sensible path to a workable solution."
+}

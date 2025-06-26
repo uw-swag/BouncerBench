@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the regression commit, states that the added `follow_symlinks=False` flag should be removed to restore previous behavior, and implies adding a test for symlinked directory collection. While it doesn\u2019t name the exact file/line to change, the commit ID makes it trivial to locate. This is enough to craft a targeted PR."
+}

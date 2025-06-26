@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug in Q.deconstruct, provides reproducible examples showing the crash, and even suggests how to fix it (removing the special-case or adding a length check). The desired behavior (no crash when deconstructing single-child Q with non-subscriptable child) is unambiguous and actionable."
+}

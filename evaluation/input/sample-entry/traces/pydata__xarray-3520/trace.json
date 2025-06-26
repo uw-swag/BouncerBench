@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, the exact commands to reproduce the problem, the observed vs. expected behavior, and environment details. It is clear what change is needed (correct MultiIndex level selection in .sel), so it is well-specified."
+}

@@ -1,0 +1,145 @@
+{
+  "input": "The report clearly describes the bug (ON CONFLICT clause using Python field names rather than the actual db_column values, causing invalid SQL for mixed\u2010case column names), provides a minimal reproducible example, shows the current vs expected SQL, and indicates the desired fix. This is sufficient to implement a correct solution.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\n\ndiff --git a/django/db/backends/postgresql/operations.py b/django/db/backends/postgresql/operations.py\nindex 62273fc43c..2af580b3f4 100644\n--- a/django/db/backends/postgresql/operations.py\n+++ b/django/db/backends/postgresql/operations.py\n@@ -354,11 +354,11 @@ class DatabaseOperations(BaseDatabaseOperations):\n             return \"ON CONFLICT DO NOTHING\"\n         if on_conflict == OnConflict.UPDATE:\n             return \"ON CONFLICT(%s) DO UPDATE SET %s\" % (\n-                \", \".join(map(self.quote_name, unique_fields)),\n+                \", \".join(map(self._get_db_column_name, unique_fields)),\n                 \", \".join(\n                     [\n-                        f\"{field} = EXCLUDED.{field}\"\n-                        for field in map(self.quote_name, update_fields)\n+                        f\"{self._get_db_column_name(field)} = EXCLUDED.{self._get_db_column_name(field)}\"\n+                        for field in update_fields\n                     ]\n                 ),\n             )\n@@ -368,3 +368,6 @@ class DatabaseOperations(BaseDatabaseOperations):\n             update_fields,\n             unique_fields,\n         )\n+\n+    def _get_db_column_name(self, field):\n+        return self.quote_name(field.db_column or field.column)\ndiff --git a/tests/bulk_create/models.py b/tests/bulk_create/models.py\nindex 27abc416bd..e8855f3853 100644\n--- a/tests/bulk_create/models.py\n+++ b/tests/bulk_create/models.py\n@@ -136,3 +136,11 @@ class RelatedModel(models.Model):\n     name = models.CharField(max_length=15, null=True)\n     country = models.OneToOneField(Country, models.CASCADE, primary_key=True)\n     big_auto_fields = models.ManyToManyField(BigAutoFieldModel)\n+\n+\n+class MixedCaseModel(models.Model):\n+    field1 = models.IntegerField(db_column=\"Field1\")\n+    field2 = models.CharField(max_length=20, db_column=\"Field2\")\n+\n+    class Meta:\n+        unique_together = ['field1', 'field2']\ndiff --git a/tests/bulk_create/tests.py b/tests/bulk_create/tests.py\nindex 6c490d1235..be8eadae1b 100644\n--- a/tests/bulk_create/tests.py\n+++ b/tests/bulk_create/tests.py\n@@ -772,3 +772,45 @@ class BulkCreateTests(TestCase):\n     @skipIfDBFeature(\"supports_update_conflicts_with_target\")\n     def test_update_conflicts_no_unique_fields(self):\n         self._test_update_conflicts([])\n+\n+    @skipUnlessDBFeature(\"supports_update_conflicts_with_target\")\n+    def test_bulk_create_with_mixed_case_fields(self):\n+        from .models import MixedCaseModel\n+        from django.db import connection\n+        \n+        # Create initial objects\n+        MixedCaseModel.objects.bulk_create([\n+            MixedCaseModel(field1=1, field2=\"A\"),\n+            MixedCaseModel(field1=2, field2=\"B\"),\n+        ])\n+        \n+        # Attempt to create objects with conflicts\n+        objects = [\n+            MixedCaseModel(field1=1, field2=\"A\"),  # Conflict, should not update\n+            MixedCaseModel(field1=3, field2=\"C\"),  # New object\n+        ]\n+        \n+        # Clear the connection queries\n+        connection.queries_log.clear()\n+        \n+        updated = MixedCaseModel.objects.bulk_create(\n+            objects,\n+            update_conflicts=True,\n+            update_fields=['field2'],\n+            unique_fields=['field1', 'field2'],\n+        )\n+        \n+        # Print the executed SQL queries\n+        for query in connection.queries:\n+            print(query['sql'])\n+        \n+        self.assertEqual(len(updated), 2)\n+        self.assertEqual(MixedCaseModel.objects.count(), 3)\n+        \n+        # Check that the conflicting object was not updated\n+        obj = MixedCaseModel.objects.get(field1=1)\n+        self.assertEqual(obj.field2, \"A\")\n+        \n+        # Check that the new object was created\n+        obj = MixedCaseModel.objects.get(field1=3)\n+        self.assertEqual(obj.field2, \"C\")\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nQuerySet.bulk_create() crashes on mixed case columns in unique_fields/update_fields.\nDescription\n\t\nNot sure exactly how to phrase this, but when I I'm calling bulk_update on the manager for a class with db_column set on fields the SQL is invalid. Ellipses indicate other fields excluded for clarity.\nclass ActivityBlackListed(models.Model):\n\t\"\"\"\n\tOriginally sourced from Activity_BlackListed in /home/josh/PNDS_Interim_MIS-Data.accdb (13 records)\n\t\"\"\"\n\tclass Meta:\n\t\tdb_table = \"Activity_BlackListed\"\n\tblacklistid = models.IntegerField(primary_key=True, db_column=\"BlacklistID\")\n\tsectorid = models.IntegerField(null=True, blank=True, db_column=\"SectorID\")\n\t...\nqs.bulk_create(instances, update_conflicts=True, update_fields=[\"sectorid\", ...], unique_fields=[\"blacklistid\"])\nThe \"INSERT\" code does take into account the db_columns\nINSERT INTO \"Activity_BlackListed\" (\"BlacklistID\",...) VALUES (%s, ...),\nThe code which is generated for \"ON CONFLICT\" uses the field name and not the db_column which leads to a syntax error\n'ON CONFLICT(\"blacklistid\") DO UPDATE SET \"sectorid\" = EXCLUDED.\"sectorid\", ...\nPostgreSQL returns ERROR: column \"blacklistid\" does not exist at character 1508\nWhat should be generated is I think:\n'ON CONFLICT(\"BlacklistID\") DO UPDATE SET \"SectorID\" = EXCLUDED.\"SectorID\", ...\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_l3eeuv9bn",
+      "status": "completed",
+      "call_id": "call_K2HTPFhjEmyoYvnheHhSvW5d",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '200,260p' django/db/models/query.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_K2HTPFhjEmyoYvnheHhSvW5d",
+      "output": "{\"output\":\"\\n        # extra(select=...) cols are always at the start of the row.\\n        names = [\\n            *query.extra_select,\\n            *query.values_select,\\n            *query.annotation_select,\\n        ]\\n        indexes = range(len(names))\\n        for row in compiler.results_iter(\\n            chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size\\n        ):\\n            yield {names[i]: row[i] for i in indexes}\\n\\n\\nclass ValuesListIterable(BaseIterable):\\n    \\\"\\\"\\\"\\n    Iterable returned by QuerySet.values_list(flat=False) that yields a tuple\\n    for each row.\\n    \\\"\\\"\\\"\\n\\n    def __iter__(self):\\n        queryset = self.queryset\\n        query = queryset.query\\n        compiler = query.get_compiler(queryset.db)\\n\\n        if queryset._fields:\\n            # extra(select=...) cols are always at the start of the row.\\n            names = [\\n                *query.extra_select,\\n                *query.values_select,\\n                *query.annotation_select,\\n            ]\\n            fields = [\\n                *queryset._fields,\\n                *(f for f in query.annotation_select if f not in queryset._fields),\\n            ]\\n            if fields != names:\\n                # Reorder according to fields.\\n                index_map = {name: idx for idx, name in enumerate(names)}\\n                rowfactory = operator.itemgetter(*[index_map[f] for f in fields])\\n                return map(\\n                    rowfactory,\\n                    compiler.results_iter(\\n                        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size\\n                    ),\\n                )\\n        return compiler.results_iter(\\n            tuple_expected=True,\\n            chunked_fetch=self.chunked_fetch,\\n            chunk_size=self.chunk_size,\\n        )\\n\\n\\nclass NamedValuesListIterable(ValuesListIterable):\\n    \\\"\\\"\\\"\\n    Iterable returned by QuerySet.values_list(named=True) that yields a\\n    namedtuple for each row.\\n    \\\"\\\"\\\"\\n\\n    def __iter__(self):\\n        queryset = self.queryset\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_r3be3y364",
+      "status": "completed",
+      "call_id": "call_tXgvByWLnAHLdNHv5HUZoYD5",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '300,360p' django/db/backends/postgresql/operations.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_tXgvByWLnAHLdNHv5HUZoYD5",
+      "output": "{\"output\":\"    def bulk_insert_sql(self, fields, placeholder_rows):\\n        placeholder_rows_sql = (\\\", \\\".join(row) for row in placeholder_rows)\\n        values_sql = \\\", \\\".join(\\\"(%s)\\\" % sql for sql in placeholder_rows_sql)\\n        return \\\"VALUES \\\" + values_sql\\n\\n    def adapt_datefield_value(self, value):\\n        return value\\n\\n    def adapt_datetimefield_value(self, value):\\n        return value\\n\\n    def adapt_timefield_value(self, value):\\n        return value\\n\\n    def adapt_decimalfield_value(self, value, max_digits=None, decimal_places=None):\\n        return value\\n\\n    def adapt_ipaddressfield_value(self, value):\\n        if value:\\n            return Inet(value)\\n        return None\\n\\n    def adapt_json_value(self, value, encoder):\\n        return Jsonb(value, dumps=get_json_dumps(encoder))\\n\\n    def subtract_temporals(self, internal_type, lhs, rhs):\\n        if internal_type == \\\"DateField\\\":\\n            lhs_sql, lhs_params = lhs\\n            rhs_sql, rhs_params = rhs\\n            params = (*lhs_params, *rhs_params)\\n            return \\\"(interval '1 day' * (%s - %s))\\\" % (lhs_sql, rhs_sql), params\\n        return super().subtract_temporals(internal_type, lhs, rhs)\\n\\n    def explain_query_prefix(self, format=None, **options):\\n        extra = {}\\n        # Normalize options.\\n        if options:\\n            options = {\\n                name.upper(): \\\"true\\\" if value else \\\"false\\\"\\n                for name, value in options.items()\\n            }\\n            for valid_option in self.explain_options:\\n                value = options.pop(valid_option, None)\\n                if value is not None:\\n                    extra[valid_option] = value\\n        prefix = super().explain_query_prefix(format, **options)\\n        if format:\\n            extra[\\\"FORMAT\\\"] = format\\n        if extra:\\n            prefix += \\\" (%s)\\\" % \\\", \\\".join(\\\"%s %s\\\" % i for i in extra.items())\\n        return prefix\\n\\n    def on_conflict_suffix_sql(self, fields, on_conflict, update_fields, unique_fields):\\n        if on_conflict == OnConflict.IGNORE:\\n            return \\\"ON CONFLICT DO NOTHING\\\"\\n        if on_conflict == OnConflict.UPDATE:\\n            return \\\"ON CONFLICT(%s) DO UPDATE SET %s\\\" % (\\n                \\\", \\\".join(map(self.quote_name, unique_fields)),\\n                \\\", \\\".join(\\n                    [\\n                        f\\\"{field} = EXCLUDED.{field}\\\"\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_epmhxfvnv",
+      "status": "completed",
+      "call_id": "call_vKBMSlDHetuPRNfZpKFm7rQB",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"on_conflict_suffix_sql\\\" -n django\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_vKBMSlDHetuPRNfZpKFm7rQB",
+      "output": "{\"output\":\"django/db/backends/base/operations.py:773:    def on_conflict_suffix_sql(self, fields, on_conflict, update_fields, unique_fields):\\ndjango/db/backends/mysql/operations.py:436:    def on_conflict_suffix_sql(self, fields, on_conflict, update_fields, unique_fields):\\ndjango/db/backends/mysql/operations.py:459:        return super().on_conflict_suffix_sql(\\ndjango/db/backends/postgresql/operations.py:352:    def on_conflict_suffix_sql(self, fields, on_conflict, update_fields, unique_fields):\\ndjango/db/backends/postgresql/operations.py:365:        return super().on_conflict_suffix_sql(\\ndjango/db/backends/sqlite3/operations.py:415:    def on_conflict_suffix_sql(self, fields, on_conflict, update_fields, unique_fields):\\ndjango/db/backends/sqlite3/operations.py:429:        return super().on_conflict_suffix_sql(\\ndjango/db/models/sql/compiler.py:1725:        on_conflict_suffix_sql = self.connection.ops.on_conflict_suffix_sql(\\ndjango/db/models/sql/compiler.py:1743:            if on_conflict_suffix_sql:\\ndjango/db/models/sql/compiler.py:1744:                result.append(on_conflict_suffix_sql)\\ndjango/db/models/sql/compiler.py:1757:            if on_conflict_suffix_sql:\\ndjango/db/models/sql/compiler.py:1758:                result.append(on_conflict_suffix_sql)\\ndjango/db/models/sql/compiler.py:1761:            if on_conflict_suffix_sql:\\ndjango/db/models/sql/compiler.py:1762:                result.append(on_conflict_suffix_sql)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0.1}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_hv3wipjto",
+      "status": "completed",
+      "call_id": "call_T7FM6NgeBduZ5s90s8dDt60K",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1700,1750p' django/db/models/sql/compiler.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_T7FM6NgeBduZ5s90s8dDt60K",
+      "output": "{\"output\":\"        if self.query.fields:\\n            value_rows = [\\n                [\\n                    self.prepare_value(field, self.pre_save_val(field, obj))\\n                    for field in fields\\n                ]\\n                for obj in self.query.objs\\n            ]\\n        else:\\n            # An empty object.\\n            value_rows = [\\n                [self.connection.ops.pk_default_value()] for _ in self.query.objs\\n            ]\\n            fields = [None]\\n\\n        # Currently the backends just accept values when generating bulk\\n        # queries and generate their own placeholders. Doing that isn't\\n        # necessary and it should be possible to use placeholders and\\n        # expressions in bulk inserts too.\\n        can_bulk = (\\n            not self.returning_fields and self.connection.features.has_bulk_insert\\n        )\\n\\n        placeholder_rows, param_rows = self.assemble_as_sql(fields, value_rows)\\n\\n        on_conflict_suffix_sql = self.connection.ops.on_conflict_suffix_sql(\\n            fields,\\n            self.query.on_conflict,\\n            self.query.update_fields,\\n            self.query.unique_fields,\\n        )\\n        if (\\n            self.returning_fields\\n            and self.connection.features.can_return_columns_from_insert\\n        ):\\n            if self.connection.features.can_return_rows_from_bulk_insert:\\n                result.append(\\n                    self.connection.ops.bulk_insert_sql(fields, placeholder_rows)\\n                )\\n                params = param_rows\\n            else:\\n                result.append(\\\"VALUES (%s)\\\" % \\\", \\\".join(placeholder_rows[0]))\\n                params = [param_rows[0]]\\n            if on_conflict_suffix_sql:\\n                result.append(on_conflict_suffix_sql)\\n            # Skip empty r_sql to allow subclasses to customize behavior for\\n            # 3rd party backends. Refs #19096.\\n            r_sql, self.returning_params = self.connection.ops.return_insert_columns(\\n                self.returning_fields\\n            )\\n            if r_sql:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_qxqk173ow",
+      "status": "completed",
+      "call_id": "call_bIcXTVSXt3YyY9bUbZtzm5el",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def bulk_create\\\" -n django/db/models\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_bIcXTVSXt3YyY9bUbZtzm5el",
+      "output": "{\"output\":\"django/db/models/query.py:746:    def bulk_create(\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_hzz4abqql",
+      "status": "completed",
+      "call_id": "call_3Qrgj6TYovF55ZGuVbdQY2pW",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '700,740p' django/db/models/query.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_3Qrgj6TYovF55ZGuVbdQY2pW",
+      "output": "{\"output\":\"                )\\n            return OnConflict.IGNORE\\n        elif update_conflicts:\\n            if not db_features.supports_update_conflicts:\\n                raise NotSupportedError(\\n                    \\\"This database backend does not support updating conflicts.\\\"\\n                )\\n            if not update_fields:\\n                raise ValueError(\\n                    \\\"Fields that will be updated when a row insertion fails \\\"\\n                    \\\"on conflicts must be provided.\\\"\\n                )\\n            if unique_fields and not db_features.supports_update_conflicts_with_target:\\n                raise NotSupportedError(\\n                    \\\"This database backend does not support updating \\\"\\n                    \\\"conflicts with specifying unique fields that can trigger \\\"\\n                    \\\"the upsert.\\\"\\n                )\\n            if not unique_fields and db_features.supports_update_conflicts_with_target:\\n                raise ValueError(\\n                    \\\"Unique fields that can trigger the upsert must be provided.\\\"\\n                )\\n            # Updating primary keys and non-concrete fields is forbidden.\\n            update_fields = [self.model._meta.get_field(name) for name in update_fields]\\n            if any(not f.concrete or f.many_to_many for f in update_fields):\\n                raise ValueError(\\n                    \\\"bulk_create() can only be used with concrete fields in \\\"\\n                    \\\"update_fields.\\\"\\n                )\\n            if any(f.primary_key for f in update_fields):\\n                raise ValueError(\\n                    \\\"bulk_create() cannot be used with primary keys in \\\"\\n                    \\\"update_fields.\\\"\\n                )\\n            if unique_fields:\\n                unique_fields = [\\n                    self.model._meta.get_field(name) for name in unique_fields\\n                ]\\n                if any(not f.concrete or f.many_to_many for f in unique_fields):\\n                    raise ValueError(\\n                        \\\"bulk_create() can only be used with concrete fields \\\"\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_s9e8wf6xn",
+      "status": "completed",
+      "call_id": "call_kqUSKPNUAKwdZY44MSpEExA6",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"queries_log\\\" -n django\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_kqUSKPNUAKwdZY44MSpEExA6",
+      "output": "{\"output\":\"django/db/backends/base/base.py:77:        self.queries_log = deque(maxlen=self.queries_limit)\\ndjango/db/backends/base/base.py:184:    def queries_logged(self):\\ndjango/db/backends/base/base.py:189:        if len(self.queries_log) == self.queries_log.maxlen:\\ndjango/db/backends/base/base.py:192:                \\\"will be returned.\\\".format(self.queries_log.maxlen)\\ndjango/db/backends/base/base.py:194:        return list(self.queries_log)\\ndjango/db/backends/base/base.py:298:        if self.queries_logged:\\ndjango/db/backends/base/base.py:687:        \\\"\\\"\\\"Create a cursor that logs all queries in self.queries_log.\\\"\\\"\\\"\\ndjango/db/backends/oracle/base.py:316:        if self.queries_logged:\\ndjango/db/backends/oracle/base.py:317:            self.queries_log.append(\\ndjango/db/backends/utils.py:126:            self.db.queries_log.append(\\ndjango/db/backends/utils.py:153:        if connection.queries_logged:\\ndjango/db/backends/utils.py:156:            connection.queries_log.append(\\ndjango/db/__init__.py:47:        conn.queries_log.clear()\\ndjango/test/testcases.py:1214:        # Clear the queries_log so that it's less likely to overflow (a single\\ndjango/test/testcases.py:1215:        # test probably won't execute 9K queries). If queries_log overflows,\\ndjango/test/testcases.py:1218:            connections[db_name].queries_log.clear()\\ndjango/test/utils.py:734:        self.initial_queries = len(self.connection.queries_log)\\ndjango/test/utils.py:744:        self.final_queries = len(self.connection.queries_log)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0.1}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_9kpyrrrua",
+      "status": "completed",
+      "call_id": "call_jsEwNleAAqg9kHpV7LgYa4dm",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '345,390p' django/db/backends/postgresql/operations.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_jsEwNleAAqg9kHpV7LgYa4dm",
+      "output": "{\"output\":\"        prefix = super().explain_query_prefix(format, **options)\\n        if format:\\n            extra[\\\"FORMAT\\\"] = format\\n        if extra:\\n            prefix += \\\" (%s)\\\" % \\\", \\\".join(\\\"%s %s\\\" % i for i in extra.items())\\n        return prefix\\n\\n    def on_conflict_suffix_sql(self, fields, on_conflict, update_fields, unique_fields):\\n        if on_conflict == OnConflict.IGNORE:\\n            return \\\"ON CONFLICT DO NOTHING\\\"\\n        if on_conflict == OnConflict.UPDATE:\\n            return \\\"ON CONFLICT(%s) DO UPDATE SET %s\\\" % (\\n                \\\", \\\".join(map(self.quote_name, unique_fields)),\\n                \\\", \\\".join(\\n                    [\\n                        f\\\"{field} = EXCLUDED.{field}\\\"\\n                        for field in map(self.quote_name, update_fields)\\n                    ]\\n                ),\\n            )\\n        return super().on_conflict_suffix_sql(\\n            fields,\\n            on_conflict,\\n            update_fields,\\n            unique_fields,\\n        )\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_92ur6jnno",
+      "status": "completed",
+      "call_id": "call_Xz78J5xRTlx5y96VCVSRqIwj",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def quote_name\\\" -n django/db/backends/base/operations.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_Xz78J5xRTlx5y96VCVSRqIwj",
+      "output": "{\"output\":\"372:    def quote_name(self, name):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_t8fkogid4",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch directly replaces uses of quote_name(field.name) with quoting of the actual db_column (or column) on the Field, ensuring that mixed-case or custom column names are correctly quoted in the ON CONFLICT clause. It adds only the minimal helper and test needed to reproduce the originally reported error and verifies that conflicts on mixed-case columns no longer crash. No unrelated changes are present. Thus it correctly and precisely fixes the issue.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

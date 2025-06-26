@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the `DateFormat.Y()` specifier\u2019s behavior (missing zero-padding for years <1000), states the expected outcome (always a four-digit, zero-padded year), and points to a specific component (`django.utils.dateformat.DateFormat`). There\u2019s enough detail to locate the code and implement the fix."
+}

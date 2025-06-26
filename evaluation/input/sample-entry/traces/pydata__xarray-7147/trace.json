@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s wrong (time decoding errors don\u2019t name the offending variable), provides a minimal repro and stack trace, points to the relevant code throw site (ValueError in times.py), and specifies the desired behavior (include the variable name in the error message). This is concrete enough to implement directly."
+}

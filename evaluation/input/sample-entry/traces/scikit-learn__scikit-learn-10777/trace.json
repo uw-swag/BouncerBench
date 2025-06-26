@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a bug (no error when min_n > max_n in CountVectorizer) and the expected behavior (throw an error). While it doesn\u2019t spell out exactly where or which exception to raise or include sample code/tests, those are straightforward defaults (e.g. ValueError in the constructor). Thus there\u2019s enough to make a meaningful fix without ambiguity."
+}

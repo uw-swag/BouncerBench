@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the goal (split a :kbd: sequence into multiple <kbd> tags), gives examples of desired output, and cites prior discussion. However it leaves open details (e.g. whether you wrap inner <kbd> items inside a final parent <kbd>, how to configure this behavior, what splitting rules to use exactly). Those gaps can be reasonably filled by an implementer, but the spec isn\u2019t fully nailed down, so it\u2019s REASONABLY_SPECIFIED."
+}

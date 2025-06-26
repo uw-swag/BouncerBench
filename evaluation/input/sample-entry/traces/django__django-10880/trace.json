@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly states the Django version (2.2), the failing SQL pattern, and the root cause (missing space between DISTINCT and CASE in the generated SQL). It\u2019s straightforward to reproduce and fix by inserting the missing space, so it\u2019s well-specified."
+}

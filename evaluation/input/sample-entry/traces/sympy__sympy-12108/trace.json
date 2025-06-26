@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior, the desired output format using `~`, `&`, and `|`, and the need to handle parentheses correctly. There\u2019s a direct mapping from the existing `And`, `Or`, and `Not` constructors to infix operators, so an implementer knows exactly what to change in the str printer."
+}

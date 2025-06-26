@@ -1,0 +1,3 @@
+{
+  "trace": "The issue outlines a high-level problem (current common tests do not catch improper parameter handling in estimators) but does not specify which additional tests should be written or how exactly to detect the misuse. There are no concrete failure cases, test snippets, or expected behaviors defined. Key details (where to hook in check_estimator, what exact assertions to add) are left unspecified, making it unclear how to craft a meaningful solution without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes Django/python versions, minimal model and admin code samples, clear reproduction steps, and the full stack trace. The expected vs. observed behavior is unambiguous (UUID default not applied in admin inlines), so it\u2019s well-specified for a fix."
+}

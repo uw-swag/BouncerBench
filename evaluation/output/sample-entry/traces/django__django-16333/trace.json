@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/auth/forms.py b/django/contrib/auth/forms.py\nindex d73d1c84..3649757b 100644\n--- a/django/contrib/auth/forms.py\n+++ b/django/contrib/auth/forms.py\n@@ -136,11 +136,18 @@ class UserCreationForm(forms.ModelForm):\n             except ValidationError as error:\n                 self.add_error(\"password2\", error)\n \n+    # Updated save method to handle ManyToMany fields\n+    # When commit=True, it saves the user and calls save_m2m()\n+    # When commit=False, it preserves the ability to call save_m2m() later\n     def save(self, commit=True):\n         user = super().save(commit=False)\n         user.set_password(self.cleaned_data[\"password1\"])\n         if commit:\n             user.save()\n+            self.save_m2m()\n+        else:\n+            self._save_m2m = self.save_m2m\n+            self.save_m2m = lambda: None\n         return user\n \n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nUserCreationForm should save data from ManyToMany form fields\nDescription\n\t\nWhen using contrib.auth.forms.UserCreationForm with a custom User model which has ManyToManyField fields, the data in all related form fields (e.g. a ModelMultipleChoiceField) is not saved. \nThis is because unlike its parent class django.forms.ModelForm, UserCreationForm.save(commit=True) omits to call self.save_m2m(). \nThis has been discussed on the #django-developers mailing list \u200bhttps://groups.google.com/u/1/g/django-developers/c/2jj-ecoBwE4 and I'm ready to work on a PR.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_gp6dagy0r",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch\u2019s intention\u2014to call save_m2m() when commit=True\u2014does address the core issue of ManyToMany fields not being saved on a normal save. However, it then overrides save_m2m in the commit=False branch, forcing the caller to invoke an internal _save_m2m method instead of the documented save_m2m, and thus breaks the built-in deferred save_m2m behavior of ModelForm. In short, while it fixes the straightforward case, it misimplements or breaks the defer-save path and diverges from the standard ModelForm API, so it is not a correct and precise fix.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the faulty behavior in FileField.deconstruct (callable storage returning default_storage gets dropped), shows reproducible example code, points to the exact spot in the code (the default_storage check in deconstruct after storage-callable is evaluated), and states the expected outcome (always include the callable reference). All the information needed to craft a fix (track the original callable or change the deconstruct logic) is present. This makes the issue well\u2010specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the refactoring goal (replace custom sample_weight checks with _check_sample_weight), provides a concrete list of estimator classes/methods to update, and even gives pointers on locating each class. There\u2019s little ambiguity about what needs to be done, so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report identifies a runtime AttributeError in LassoSelector.set_props and suggests commenting out a library line to avoid it, but it lacks reproduction steps, version/context info, sample code, and clear desired behavior. It\u2019s unclear whether this is a misuse or a library bug and what the proper fix should be. There\u2019s insufficient detail to attempt a meaningful solution."
+}

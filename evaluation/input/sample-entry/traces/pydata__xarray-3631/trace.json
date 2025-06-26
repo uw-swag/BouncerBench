@@ -1,0 +1,3 @@
+{
+  "trace": "This issue includes a clear MCVE demonstrating the error, a full traceback, an explanation of why the failure occurs in `datetime_to_numeric`, and guidance on how to fix it (roll your own timedelta\u2192numeric conversion rather than relying on pandas/NumPy overflow behavior).  A contributor can directly see where in the code to implement the change and what the expected behavior is.  It is therefore well specified."
+}

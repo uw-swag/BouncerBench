@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example showing the incorrect behavior (bool_map claiming identity mapping between XOR and XNOR), the actual vs expected output, and points to the suspect function. While it doesn\u2019t include version or internal code pointers, there\u2019s a clear path to reproduce, inspect bool_map\u2019s fingerprinting logic, and fix the bug. This is enough to attempt a solution."
+}

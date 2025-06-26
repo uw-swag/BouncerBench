@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates the failure when pickling a Response and states the desired goal: \u201callow Response class to be pickled.\u201d While it doesn\u2019t enumerate every attribute that should survive serialization, it\u2019s straightforward to implement __getstate__/__setstate__ (or __reduce__) on requests.models.Response to capture/restore the key fields. There\u2019s enough here to drive a PR."
+}

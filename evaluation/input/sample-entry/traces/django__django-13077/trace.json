@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the failure mode (django-admin runserver on Windows failing due to stripped \u201c.exe\u201d in sys.argv[0] by console-script wrappers), gives a reproducible error message, and even points to the code locations (the regex and utils/autoreload.py) where a fix (re-adding \u201c.exe\u201d) makes it work. While it lacks precise environment/version matrix, there\u2019s enough detail to draft and test a patch that fixes argv[0] handling on Windows. Thus it\u2019s reasonably specified for an initial PR."
+}

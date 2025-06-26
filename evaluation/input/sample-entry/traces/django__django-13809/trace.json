@@ -1,0 +1,3 @@
+{
+  "trace": "The request to add a `--skip-checks` flag to the `runserver` command is clear in intent (skip the built-in system checks), and points to exactly where the change lives and why it\u2019s needed. However, it doesn\u2019t spell out the precise API contract (short/long flag names, docs/tests updates, reload behavior, etc.), leaving some implementation details to the contributor. This makes it reasonably specified rather than fully precise."
+}

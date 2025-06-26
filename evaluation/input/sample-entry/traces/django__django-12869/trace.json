@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the bug (collectstatic skips staticfiles checks), the desired behavior (run finder.check() and surface errors), and an outline of where to hook it in, but it leaves out details like exact error handling, test cases, and integration points. There\u2019s enough context to craft a patch, though some implementation specifics must be filled in."
+}

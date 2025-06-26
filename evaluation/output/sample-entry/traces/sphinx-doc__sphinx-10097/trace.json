@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sphinx/writers/latex.py b/sphinx/writers/latex.py\nindex 46f736f3f..4bfe91873 100644\n--- a/sphinx/writers/latex.py\n+++ b/sphinx/writers/latex.py\n@@ -1496,6 +1496,12 @@ class LaTeXTranslator(SphinxTranslator):\n             value = value.replace('@', '\"@')\n             value = value.replace('!', '\"!')\n             value = value.replace('|', r'\\textbar{}')\n+            # Allow line breaks after commas in option choices\n+            value = value.replace(',', r',\\allowbreak{}')\n+            # Allow line breaks after = in option values\n+            value = value.replace('=', r'=\\allowbreak{}')\n+            # Allow line breaks after [ in option choices\n+            value = value.replace('[', r'[\\allowbreak{}')\n             return value\n \n         def style(string: str) -> str:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nLatex: long option name overflows in Index\n### Describe the bug\r\n\r\nLet's consider something like:\r\n\r\n```rst\r\n.. option:: -Wauggest-attribute=[pure|const|noreturn|format|cold|malloc]\r\n\r\n   Suggest it.\r\n```\r\n\r\nLeads to the following with `xelatex`.\r\n\r\n![Screenshot from 2021-12-16 17-37-36](https://user-images.githubusercontent.com/2658545/146412212-f44aeef4-c712-4ca5-9866-02c1681b0069.png)\r\n\r\n@jfbu\r\n\r\n### How to Reproduce\r\n\r\nBuild snippet.\r\n\r\n### Expected behavior\r\n\r\n_No response_\r\n\r\n### Your project\r\n\r\nBuild the snippet\r\n\r\n### Screenshots\r\n\r\n_No response_\r\n\r\n### OS\r\n\r\nLinux\r\n\r\n### Python version\r\n\r\n3.8\r\n\r\n### Sphinx version\r\n\r\n4.3.0\r\n\r\n### Sphinx extensions\r\n\r\n_No response_\r\n\r\n### Extra tools\r\n\r\n_No response_\r\n\r\n### Additional context\r\n\r\n_No response_\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_4h5d0kgdf",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch introduces break points after commas, equals signs, and opening brackets, which is useful in some contexts but does not address the specific overflow of option choices delimited by pipes (`|`). In the example the choices are separated by `|`, not commas, and the existing code already escapes `|` to `\\textbar{}` without adding an `\\allowbreak`, so there are still no permissible break points between the alternatives. Thus it fails to fully resolve the overflow issue.</EXPLANATION><LABEL>BROAD_MISSING_KEY_ASPECTS</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The request simply asks for \u201csuggestions\u201d on mistyped management commands but provides no details on how suggestions should be generated or presented (thresholds, matching algorithm, output format, behavior for multiple results, etc.). In isolation\u2014without the attached patch or further spec\u2014it\u2019s too under-specified to implement unambiguously."
+}

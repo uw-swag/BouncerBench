@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the specific method (__eq__ in django/db/models/base.py), describes the incorrect behavior (returning False instead of NotImplemented for unknown types), cites the Python data model expectations, and explains the desired change (return NotImplemented so that reverse equality can be tried). This is directly actionable."
+}

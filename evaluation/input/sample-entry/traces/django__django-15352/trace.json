@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states that the session ID must be scrubbed from Django\u2019s error reports (just as other sensitive data is), points to an existing patch and relevant discussions, and provides examples of the leak.  The exact scope (Django\u2019s exception reporter) and the fix (add SESSION_COOKIE_NAME to the scrub list) are unambiguous, making the ticket well-specified."
+}

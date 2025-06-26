@@ -1,0 +1,3 @@
+{
+  "trace": "The report states a high-level bug (deferred SQL errors still mark migrations as applied) but lacks repro steps, error context, or guidance on where/how to handle the deferred SQL execution in the codebase. Without knowing the existing transaction flow or intended behavior, it\u2019s unclear what changes are needed for a fix. Thus the issue is too vague to act on meaningfully."
+}

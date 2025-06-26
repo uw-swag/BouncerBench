@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly reproduces a crash in the Django admin when a NUL byte is passed as the search query, and provides full environment and traceback. It\u2019s obvious that the admin search should not crash on a null character (i.e. the NUL should be stripped or cause a no\u2010results response), so an implementer can sensibly proceed to sanitize q before building the SQL. Some details (e.g. exactly where/how to strip) are left to the engineer, but the core problem and desired outcome (\u201cno crash on NUL, treat it as harmless\u201d) are clear."
+}

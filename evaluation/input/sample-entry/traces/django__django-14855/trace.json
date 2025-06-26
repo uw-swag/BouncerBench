@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the broken behavior (URL reverse ignoring the custom AdminSite), pinpoints the exact code location (get_admin_url in django.contrib.admin.helpers), and even proposes a concrete patch. Requirements for a successful fix (using the current_app parameter) are unambiguous, so the ticket is well-specified."
+}

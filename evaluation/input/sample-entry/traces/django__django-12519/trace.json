@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the regression, reproduces the bad vs. expected SQL, and pinpoints that a subquery annotation is dropped from the GROUP BY when multiple annotations are present. It\u2019s sufficient to locate the relevant compiler code and add the missing grouping expression."
+}

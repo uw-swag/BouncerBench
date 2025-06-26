@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the broken behavior (shared axes not emitting xlim_changed), points to the exact code in set_xlim, and even suggests a minimal change (moving the callback call outside the emit guard). There are no missing requirements or guesswork on what success looks like: emitting xlim_changed on all shared axes without recursion. This is precise enough for a PR."
+}

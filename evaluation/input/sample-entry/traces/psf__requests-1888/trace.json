@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the environment, steps to reproduce (including a minimal test), the full error trace, and the root cause (unicode URL/headers being sent to pyOpenSSL expecting bytes). There\u2019s enough detail to write a targeted patch in Requests\u2019 adapter/redirect logic to ensure the buffered data is bytes. No further clarification is needed."
+}

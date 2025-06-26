@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear minimal reproduction (calling imageset on a Range) and the exact exception encountered. While the desired behavior (producing the set of mapped values) is implied rather than spelled out, it\u2019s easy to infer what \u201cshould\u201d happen and how to fix it (e.g. make Range work with imageset by providing a size or iteration support). Hence it\u2019s reasonably specified."
+}

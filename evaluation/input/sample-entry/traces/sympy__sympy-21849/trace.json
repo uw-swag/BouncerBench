@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps, example code, and the full traceback showing exactly where the Latex printer for LambertW is missing the \u201cexp\u201d parameter. It\u2019s obvious what to change (update _print_LambertW signature to accept an exp kwarg and format powers correctly), so it\u2019s well-specified."
+}

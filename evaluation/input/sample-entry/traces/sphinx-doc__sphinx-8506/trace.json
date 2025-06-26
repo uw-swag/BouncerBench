@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the regression (Sphinx 3.2 rejecting an option:: string that earlier versions accepted), gives a concrete example, and states the desired behavior (accept arbitrary option strings rather than only a limited pattern). While it doesn\u2019t spell out exactly which code to change or include tests, there\u2019s a straightforward interpretation of what needs to be modified in Sphinx\u2019s option directive parser. Hence it\u2019s reasonably specified."
+}

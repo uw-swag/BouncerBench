@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the undesired silent behavior, gives example code, and proposes a concrete fix (track initial list size and raise a RuntimeError if it changes). While you\u2019d need to find the uniq implementation in the codebase and decide on exact exception messages and test coverage, the requirements and desired behavior are unambiguous and actionable. "
+}

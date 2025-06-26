@@ -1,0 +1,103 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/codegen/ast.py b/sympy/codegen/ast.py\nindex a02714b174..79cb77d59b 100644\n--- a/sympy/codegen/ast.py\n+++ b/sympy/codegen/ast.py\n@@ -895,7 +895,7 @@ class String(Token):\n \n     \"\"\"\n     __slots__ = ('text',)\n-    not_in_args = ['text']\n+    not_in_args = []  # text should be in args for argument invariance\n     is_Atom = True\n \n     @classmethod\n@@ -907,6 +907,13 @@ def _construct_text(cls, text):\n     def _sympystr(self, printer, *args, **kwargs):\n         return self.text\n \n+    def matches(self, expr, repl_dict=None, old=False):\n+        if not isinstance(expr, String):\n+            return None\n+        if self.text != expr.text:\n+            return None\n+        return repl_dict or {}\n+\n \n class QuotedString(String):\n     \"\"\" Represents a string which should be printed with quotes. \"\"\"\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nArgument invariance of codegen.ast String\nCurrently, the `codegen.ast` `String` class does not support argument invariance like:\r\n`expr.func(*expr.args) == expr`, but instead uses the invariance `expr.func(**expr.kwargs()) == expr`.\r\nThe former should hold for any `Basic` subclass, which `String` is.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_vmgv5eqh2",
+    "status": "completed",
+    "call_id": "call_6XmVpPBp3LfKzeAsoTRDtInH",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '880,930p' sympy/codegen/ast.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_6XmVpPBp3LfKzeAsoTRDtInH",
+    "output": "{\"output\":\"    text : str\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy.codegen.ast import String\\n    >>> f = String('foo')\\n    >>> f\\n    foo\\n    >>> str(f)\\n    'foo'\\n    >>> f.text\\n    'foo'\\n    >>> print(repr(f))\\n    String('foo')\\n\\n    \\\"\\\"\\\"\\n    __slots__ = ('text',)\\n    not_in_args = ['text']\\n    is_Atom = True\\n\\n    @classmethod\\n    def _construct_text(cls, text):\\n        if not isinstance(text, str):\\n            raise TypeError(\\\"Argument text is not a string type.\\\")\\n        return text\\n\\n    def _sympystr(self, printer, *args, **kwargs):\\n        return self.text\\n\\n\\nclass QuotedString(String):\\n    \\\"\\\"\\\" Represents a string which should be printed with quotes. \\\"\\\"\\\"\\n\\nclass Comment(String):\\n    \\\"\\\"\\\" Represents a comment. \\\"\\\"\\\"\\n\\nclass Node(Token):\\n    \\\"\\\"\\\" Subclass of Token, carrying the attribute 'attrs' (Tuple)\\n\\n    Examples\\n    ========\\n\\n    >>> from sympy.codegen.ast import Node, value_const, pointer_const\\n    >>> n1 = Node([value_const])\\n    >>> n1.attr_params('value_const')  # get the parameters of attribute (by name)\\n    ()\\n    >>> from sympy.codegen.fnodes import dimension\\n    >>> n2 = Node([value_const, dimension(5, 3)])\\n    >>> n2.attr_params(value_const)  # get the parameters of attribute (by Attribute instance)\\n    ()\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_4wp754skg",
+    "status": "completed",
+    "call_id": "call_z2h5RWZKohEnht13DKUrMi26",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"class Token\\\" -n sympy/codegen/ast.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_z2h5RWZKohEnht13DKUrMi26",
+    "output": "{\"output\":\"167:class Token(CodegenAST):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_i5j5uws1r",
+    "status": "completed",
+    "call_id": "call_zDmYFKVLEStYwgT9ceqxO9WD",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '167,260p' sympy/codegen/ast.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_zDmYFKVLEStYwgT9ceqxO9WD",
+    "output": "{\"output\":\"class Token(CodegenAST):\\n    \\\"\\\"\\\" Base class for the AST types.\\n\\n    Explanation\\n    ===========\\n\\n    Defining fields are set in ``__slots__``. Attributes (defined in __slots__)\\n    are only allowed to contain instances of Basic (unless atomic, see\\n    ``String``). The arguments to ``__new__()`` correspond to the attributes in\\n    the order defined in ``__slots__`. The ``defaults`` class attribute is a\\n    dictionary mapping attribute names to their default values.\\n\\n    Subclasses should not need to override the ``__new__()`` method. They may\\n    define a class or static method named ``_construct_<attr>`` for each\\n    attribute to process the value passed to ``__new__()``. Attributes listed\\n    in the class attribute ``not_in_args`` are not passed to :class:`~.Basic`.\\n    \\\"\\\"\\\"\\n\\n    __slots__ = ()\\n    defaults = {}  # type: tDict[str, Any]\\n    not_in_args = []  # type: List[str]\\n    indented_args = ['body']\\n\\n    @property\\n    def is_Atom(self):\\n        return len(self.__slots__) == 0\\n\\n    @classmethod\\n    def _get_constructor(cls, attr):\\n        \\\"\\\"\\\" Get the constructor function for an attribute by name. \\\"\\\"\\\"\\n        return getattr(cls, '_construct_%s' % attr, lambda x: x)\\n\\n    @classmethod\\n    def _construct(cls, attr, arg):\\n        \\\"\\\"\\\" Construct an attribute value from argument passed to ``__new__()``. \\\"\\\"\\\"\\n        # arg may be ``NoneToken()``, so comparation is done using == instead of ``is`` operator\\n        if arg == None:\\n            return cls.defaults.get(attr, none)\\n        else:\\n            if isinstance(arg, Dummy):  # SymPy's replace uses Dummy instances\\n                return arg\\n            else:\\n                return cls._get_constructor(attr)(arg)\\n\\n    def __new__(cls, *args, **kwargs):\\n        # Pass through existing instances when given as sole argument\\n        if len(args) == 1 and not kwargs and isinstance(args[0], cls):\\n            return args[0]\\n\\n        if len(args) > len(cls.__slots__):\\n            raise ValueError(\\\"Too many arguments (%d), expected at most %d\\\" % (len(args), len(cls.__slots__)))\\n\\n        attrvals = []\\n\\n        # Process positional arguments\\n        for attrname, argval in zip(cls.__slots__, args):\\n            if attrname in kwargs:\\n                raise TypeError('Got multiple values for attribute %r' % attrname)\\n\\n            attrvals.append(cls._construct(attrname, argval))\\n\\n        # Process keyword arguments\\n        for attrname in cls.__slots__[len(args):]:\\n            if attrname in kwargs:\\n                argval = kwargs.pop(attrname)\\n\\n            elif attrname in cls.defaults:\\n                argval = cls.defaults[attrname]\\n\\n            else:\\n                raise TypeError('No value for %r given and attribute has no default' % attrname)\\n\\n            attrvals.append(cls._construct(attrname, argval))\\n\\n        if kwargs:\\n            raise ValueError(\\\"Unknown keyword arguments: %s\\\" % ' '.join(kwargs))\\n\\n        # Parent constructor\\n        basic_args = [\\n            val for attr, val in zip(cls.__slots__, attrvals)\\n            if attr not in cls.not_in_args\\n        ]\\n        obj = CodegenAST.__new__(cls, *basic_args)\\n\\n        # Set attributes\\n        for attr, arg in zip(cls.__slots__, attrvals):\\n            setattr(obj, attr, arg)\\n\\n        return obj\\n\\n    def __eq__(self, other):\\n        if not isinstance(other, self.__class__):\\n            return False\\n        for attr in self.__slots__:\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_l3oulaeq2",
+    "status": "completed",
+    "call_id": "call_6yqe1pxjEtHYrlmDIW0FuNkX",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"grep -R \\\"def matches\\\" -n sympy\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_6yqe1pxjEtHYrlmDIW0FuNkX",
+    "output": "{\"output\":\"sympy/solvers/ode/single.py:283:    def matches(self) -> bool:\\nsympy/solvers/diophantine/diophantine.py:185:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:235:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:275:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:481:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:681:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:705:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:794:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:932:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:955:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:1002:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:1056:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:1139:    def matches(self):\\nsympy/solvers/diophantine/diophantine.py:1163:    def matches(self):\\nsympy/core/add.py:532:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/core/symbol.py:546:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/core/function.py:1015:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/core/power.py:1571:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/core/mul.py:1039:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/core/basic.py:1538:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/core/basic.py:1914:    def matches(self, expr, repl_dict=None, old=False):\\nsympy/testing/runtests.py:1328:    def matches(self, x):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_ne9gn9ox1",
+    "status": "completed",
+    "call_id": "call_COzZVE9MBR5rZt5i3PjjeHW1",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '1500,1600p' sympy/core/basic.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_COzZVE9MBR5rZt5i3PjjeHW1",
+    "output": "{\"output\":\"        mapping = {}  # changes that took place\\n\\n        def rec_replace(expr):\\n            result = _query(expr)\\n            if result or result == {}:\\n                v = _value(expr, result)\\n                if v is not None and v != expr:\\n                    if map:\\n                        mapping[expr] = v\\n                    expr = v\\n            return expr\\n\\n        rv = walk(self, rec_replace)\\n        return (rv, mapping) if map else rv\\n\\n    def find(self, query, group=False):\\n        \\\"\\\"\\\"Find all subexpressions matching a query. \\\"\\\"\\\"\\n        query = _make_find_query(query)\\n        results = list(filter(query, _preorder_traversal(self)))\\n\\n        if not group:\\n            return set(results)\\n        else:\\n            groups = {}\\n\\n            for result in results:\\n                if result in groups:\\n                    groups[result] += 1\\n                else:\\n                    groups[result] = 1\\n\\n            return groups\\n\\n    def count(self, query):\\n        \\\"\\\"\\\"Count the number of matching subexpressions. \\\"\\\"\\\"\\n        query = _make_find_query(query)\\n        return sum(bool(query(sub)) for sub in _preorder_traversal(self))\\n\\n    def matches(self, expr, repl_dict=None, old=False):\\n        \\\"\\\"\\\"\\n        Helper method for match() that looks for a match between Wild symbols\\n        in self and expressions in expr.\\n\\n        Examples\\n        ========\\n\\n        >>> from sympy import symbols, Wild, Basic\\n        >>> a, b, c = symbols('a b c')\\n        >>> x = Wild('x')\\n        >>> Basic(a + x, x).matches(Basic(a + b, c)) is None\\n        True\\n        >>> Basic(a + x, x).matches(Basic(a + b + c, b + c))\\n        {x_: b + c}\\n        \\\"\\\"\\\"\\n        expr = sympify(expr)\\n        if not isinstance(expr, self.__class__):\\n            return None\\n\\n        if repl_dict is None:\\n            repl_dict = dict()\\n        else:\\n            repl_dict = repl_dict.copy()\\n\\n        if self == expr:\\n            return repl_dict\\n\\n        if len(self.args) != len(expr.args):\\n            return None\\n\\n        d = repl_dict  # already a copy\\n        for arg, other_arg in zip(self.args, expr.args):\\n            if arg == other_arg:\\n                continue\\n            if arg.is_Relational:\\n                try:\\n                    d = arg.xreplace(d).matches(other_arg, d, old=old)\\n                except TypeError: # Should be InvalidComparisonError when introduced\\n                    d = None\\n            else:\\n                    d = arg.xreplace(d).matches(other_arg, d, old=old)\\n            if d is None:\\n                return None\\n        return d\\n\\n    def match(self, pattern, old=False):\\n        \\\"\\\"\\\"\\n        Pattern matching.\\n\\n        Wild symbols match all.\\n\\n        Return ``None`` when expression (self) does not match\\n        with pattern. Otherwise return a dictionary such that::\\n\\n          pattern.xreplace(self.match(pattern)) == self\\n\\n        Examples\\n        ========\\n\\n        >>> from sympy import Wild, Sum\\n        >>> from sympy.abc import x, y\\n        >>> p = Wild(\\\"p\\\")\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_d2ky36vaj",
+    "status": "completed",
+    "call_id": "call_OiHs0M8ImmafLTLlk0zY0RsO",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\",\"-lc\",\"sed -n '260,310p' sympy/codegen/ast.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_OiHs0M8ImmafLTLlk0zY0RsO",
+    "output": "{\"output\":\"        for attr in self.__slots__:\\n            if getattr(self, attr) != getattr(other, attr):\\n                return False\\n        return True\\n\\n    def _hashable_content(self):\\n        return tuple([getattr(self, attr) for attr in self.__slots__])\\n\\n    def __hash__(self):\\n        return super().__hash__()\\n\\n    def _joiner(self, k, indent_level):\\n        return (',\\\\n' + ' '*indent_level) if k in self.indented_args else ', '\\n\\n    def _indented(self, printer, k, v, *args, **kwargs):\\n        il = printer._context['indent_level']\\n        def _print(arg):\\n            if isinstance(arg, Token):\\n                return printer._print(arg, *args, joiner=self._joiner(k, il), **kwargs)\\n            else:\\n                return printer._print(arg, *args, **kwargs)\\n\\n        if isinstance(v, Tuple):\\n            joined = self._joiner(k, il).join([_print(arg) for arg in v.args])\\n            if k in self.indented_args:\\n                return '(\\\\n' + ' '*il + joined + ',\\\\n' + ' '*(il - 4) + ')'\\n            else:\\n                return ('({0},)' if len(v.args) == 1 else '({0})').format(joined)\\n        else:\\n            return _print(v)\\n\\n    def _sympyrepr(self, printer, *args, joiner=', ', **kwargs):\\n        from sympy.printing.printer import printer_context\\n        exclude = kwargs.get('exclude', ())\\n        values = [getattr(self, k) for k in self.__slots__]\\n        indent_level = printer._context.get('indent_level', 0)\\n\\n        arg_reprs = []\\n\\n        for i, (attr, value) in enumerate(zip(self.__slots__, values)):\\n            if attr in exclude:\\n                continue\\n\\n            # Skip attributes which have the default value\\n            if attr in self.defaults and value == self.defaults[attr]:\\n                continue\\n\\n            ilvl = indent_level + 4 if attr in self.indented_args else 0\\n            with printer_context(printer, indent_level=ilvl):\\n                indented = self._indented(printer, attr, value, *args, **kwargs)\\n            arg_reprs.append(('{1}' if i == 0 else '{0}={1}').format(attr, indented.lstrip()))\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_oc80ku3k6",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch correctly restores argument invariance by including `text` in `args`, so that `String('foo').func(*.args)` reconstructs the same object. However, the custom `matches` override only checks for exact equality of text and does not support wild\u2010card or pattern matching on `text` (e.g. `String(x)` where `x` is a Wild), which default SymPy `matches` would handle if `text` were in `args`. Thus the fix addresses the core invariance issue but is incomplete for pattern\u2010matching edge cases.</EXPLANATION><LABEL>CORRECT_BUT_INCOMPLETE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

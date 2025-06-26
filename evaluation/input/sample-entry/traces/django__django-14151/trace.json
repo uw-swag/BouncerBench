@@ -1,0 +1,3 @@
+{
+  "trace": "The issue pinpoints a clear and narrow bug: an unhandled ValueError from urlparse in CsrfViewMiddleware when parsing a malformed Referer. It identifies the exact file/line, gives an example header, and implies the expected fix (catch the exception and treat it as an invalid header). That\u2019s concrete enough to implement and test."
+}

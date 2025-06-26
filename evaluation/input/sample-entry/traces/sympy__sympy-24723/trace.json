@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows the incorrect normalization constant, provides example code triggering the bug, the expected versus actual output, and a precise reference (Wikipedia formula) for what the correct PDF should be. A developer can locate the MatrixNormal implementation in the codebase and adjust the constant accordingly. No further clarification is needed."
+}

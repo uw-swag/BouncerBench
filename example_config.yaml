@@ -1,0 +1,8 @@
+name: Sample Entry
+oss: true
+site: https://www.bouncerbench.com
+entries:
+  lite: 
+  input: sample_input.json
+  output:
+icon: bouncerbench.svg

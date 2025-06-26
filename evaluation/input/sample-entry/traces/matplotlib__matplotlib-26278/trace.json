@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (contour/contourf ignore artist kwargs like clip_path), gives examples, and proposes solutions (either add a ContourSet method or forward kwargs through to each collection). While the exact implementation details (which kwargs should be forwarded and how to integrate with existing code) are left to the developer, the goal is unambiguous: accept clip_path and other artist properties in contour/f and pass them to the underlying collections, matching the behavior of other plotting functions. This makes it REASONABLY_SPECIFIED."
+}

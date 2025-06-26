@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the desired behavior\u2014built-in validators should include the input value in the ValidationError context so that messages can reference %(value)s\u2014and even points to a doc example. While you\u2019d need to enumerate the specific validators to update, the goal and implementation approach are unambiguous. This makes the ticket reasonably specified for a real code change."
+}

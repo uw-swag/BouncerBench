@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that the logout link must be converted to a CSRF-protected action (e.g. switch from a GET link to a POST form with CSRF token). Although it doesn\u2019t point to specific files or framework APIs, the change is a standard, well-understood practice\u2014enough to implement a solution."
+}

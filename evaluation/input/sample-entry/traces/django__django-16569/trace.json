@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the failure conditions, reproduces the error, points to the exact code location, and even proposes a minimal patch. The expected behavior and the bug trigger are unambiguous, so the issue is well specified."
+}

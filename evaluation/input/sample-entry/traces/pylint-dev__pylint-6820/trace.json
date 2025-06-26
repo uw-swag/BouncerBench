@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly reproduces the issue (using `--load-plugin` instead of `--load-plugins` silently fails), shows commands, current vs. expected behavior, and the exact Pylint version. While it doesn\u2019t prescribe the specific wording of the warning or implementation details in the parser, it\u2019s straightforward to add a check for the singular flag and emit a \u201cdid you mean --load-plugins?\u201d error. There\u2019s a clear bug to fix and no major ambiguities."
+}

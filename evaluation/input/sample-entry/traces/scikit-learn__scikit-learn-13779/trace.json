@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides a minimal reproducible example with code and stack trace, and specifies the condition (an estimator set to None plus sample_weight) under which the VotingClassifier.fit method fails. From this, it is straightforward to identify where to add a None check in the VotingClassifier\u2019s sample_weight handling. Thus the request is well-specified."
+}

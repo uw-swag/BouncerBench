@@ -1,0 +1,77 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/astropy/nddata/mixins/ndarithmetic.py b/astropy/nddata/mixins/ndarithmetic.py\nindex 4153dfccb..6e653d9ec 100644\n--- a/astropy/nddata/mixins/ndarithmetic.py\n+++ b/astropy/nddata/mixins/ndarithmetic.py\n@@ -522,6 +522,9 @@ class NDArithmeticMixin:\n             return deepcopy(operand.mask)\n         elif operand is None:\n             return deepcopy(self.mask)\n+        elif operand is not None and operand.mask is None:\n+            # If operand exists but has no mask, return copy of self.mask\n+            return deepcopy(self.mask)\n         else:\n             # Now lets calculate the resulting mask (operation enforces copy)\n             return handle_mask(self.mask, operand.mask, **kwds)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nIn v5.3, NDDataRef mask propagation fails when one of the operand does not have a mask\n### Description\n\nThis applies to v5.3. \r\n\r\nIt looks like when one of the operand does not have a mask, the mask propagation when doing arithmetic, in particular with `handle_mask=np.bitwise_or` fails.  This is not a problem in v5.2.\r\n\r\nI don't know enough about how all that works, but it seems from the error that the operand without a mask is set as a mask of None's and then the bitwise_or tries to operate on an integer and a None and fails.\n\n### Expected behavior\n\nWhen one of the operand does not have mask, the mask that exists should just be copied over to the output.  Or whatever was done in that situation in v5.2 where there's no problem.\n\n### How to Reproduce\n\nThis is with v5.3.   With v5.2, there are no errors.\r\n\r\n```\r\n>>> import numpy as np\r\n>>> from astropy.nddata import NDDataRef\r\n\r\n>>> array = np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])\r\n>>> mask = np.array([[0, 1, 64], [8, 0, 1], [2, 1, 0]])\r\n\r\n>>> nref_nomask = NDDataRef(array)\r\n>>> nref_mask = NDDataRef(array, mask=mask)\r\n\r\n# multiply no mask by constant (no mask * no mask)\r\n>>> nref_nomask.multiply(1., handle_mask=np.bitwise_or).mask   # returns nothing, no mask,  OK\r\n\r\n# multiply no mask by itself (no mask * no mask)\r\n>>> nref_nomask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask # return nothing, no mask, OK\r\n\r\n# multiply mask by constant (mask * no mask)\r\n>>> nref_mask.multiply(1., handle_mask=np.bitwise_or).mask\r\n...\r\nTypeError: unsupported operand type(s) for |: 'int' and 'NoneType'\r\n\r\n# multiply mask by itself (mask * mask)\r\n>>> nref_mask.multiply(nref_mask, handle_mask=np.bitwise_or).mask\r\narray([[ 0,  1, 64],\r\n       [ 8,  0,  1],\r\n       [ 2,  1,  0]])\r\n\r\n# multiply mask by no mask (mask * no mask)\r\n>>> nref_mask.multiply(nref_nomask, handle_mask=np.bitwise_or).mask\r\n...\r\nTypeError: unsupported operand type(s) for |: 'int' and 'NoneType'\r\n```\r\n\n\n### Versions\n\n>>> import sys; print(\"Python\", sys.version)\r\nPython 3.10.11 | packaged by conda-forge | (main, May 10 2023, 19:07:22) [Clang 14.0.6 ]\r\n>>> import astropy; print(\"astropy\", astropy.__version__)\r\nastropy 5.3\r\n>>> import numpy; print(\"Numpy\", numpy.__version__)\r\nNumpy 1.24.3\r\n>>> import erfa; print(\"pyerfa\", erfa.__version__)\r\npyerfa 2.0.0.3\r\n>>> import scipy; print(\"Scipy\", scipy.__version__)\r\nScipy 1.10.1\r\n>>> import matplotlib; print(\"Matplotlib\", matplotlib.__version__)\r\nMatplotlib 3.7.1\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_owpnjvsfa",
+    "status": "completed",
+    "call_id": "call_96jVMEtSfE8qVN0kfDURaZeB",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '480,600p' astropy/nddata/mixins/ndarithmetic.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_96jVMEtSfE8qVN0kfDURaZeB",
+    "output": "{\"output\":\"            axis_kwarg = dict(axis=kwds[\\\"axis\\\"]) if \\\"axis\\\" in kwds else dict()\\n            return self.uncertainty.propagate(\\n                operation, operand, result, correlation, **axis_kwarg\\n            )\\n\\n    def _arithmetic_mask(self, operation, operand, handle_mask, axis=None, **kwds):\\n        \\\"\\\"\\\"\\n        Calculate the resulting mask.\\n\\n        This is implemented as the piecewise ``or`` operation if both have a\\n        mask.\\n\\n        Parameters\\n        ----------\\n        operation : callable\\n            see :meth:`NDArithmeticMixin._arithmetic` parameter description.\\n            By default, the ``operation`` will be ignored.\\n\\n        operand : `NDData`-like instance\\n            The second operand wrapped in an instance of the same class as\\n            self.\\n\\n        handle_mask : callable\\n            see :meth:`NDArithmeticMixin.add`\\n\\n        kwds :\\n            Additional parameters given to ``handle_mask``.\\n\\n        Returns\\n        -------\\n        result_mask : any type\\n            If only one mask was present this mask is returned.\\n            If neither had a mask ``None`` is returned. Otherwise\\n            ``handle_mask`` must create (and copy) the returned mask.\\n        \\\"\\\"\\\"\\n        # If only one mask is present we need not bother about any type checks\\n        if (\\n            self.mask is None and operand is not None and operand.mask is None\\n        ) or handle_mask is None:\\n            return None\\n        elif self.mask is None and operand is not None:\\n            # Make a copy so there is no reference in the result.\\n            return deepcopy(operand.mask)\\n        elif operand is None:\\n            return deepcopy(self.mask)\\n        else:\\n            # Now lets calculate the resulting mask (operation enforces copy)\\n            return handle_mask(self.mask, operand.mask, **kwds)\\n\\n    def _arithmetic_wcs(self, operation, operand, compare_wcs, **kwds):\\n        \\\"\\\"\\\"\\n        Calculate the resulting wcs.\\n\\n        There is actually no calculation involved but it is a good place to\\n        compare wcs information of both operands. This is currently not working\\n        properly with `~astropy.wcs.WCS` (which is the suggested class for\\n        storing as wcs property) but it will not break it neither.\\n\\n        Parameters\\n        ----------\\n        operation : callable\\n            see :meth:`NDArithmeticMixin._arithmetic` parameter description.\\n            By default, the ``operation`` will be ignored.\\n\\n        operand : `NDData` instance or subclass\\n            The second operand wrapped in an instance of the same class as\\n            self.\\n\\n        compare_wcs : callable\\n            see :meth:`NDArithmeticMixin.add` parameter description.\\n\\n        kwds :\\n            Additional parameters given to ``compare_wcs``.\\n\\n        Raises\\n        ------\\n        ValueError\\n            If ``compare_wcs`` returns ``False``.\\n\\n        Returns\\n        -------\\n        result_wcs : any type\\n            The ``wcs`` of the first operand is returned.\\n        \\\"\\\"\\\"\\n        # ok, not really arithmetic but we need to check which wcs makes sense\\n        # for the result and this is an ideal place to compare the two WCS,\\n        # too.\\n\\n        # I'll assume that the comparison returned None or False in case they\\n        # are not equal.\\n        if not compare_wcs(self.wcs, operand.wcs, **kwds):\\n            raise ValueError(\\\"WCS are not equal.\\\")\\n\\n        return deepcopy(self.wcs)\\n\\n    def _arithmetic_meta(self, operation, operand, handle_meta, **kwds):\\n        \\\"\\\"\\\"\\n        Calculate the resulting meta.\\n\\n        Parameters\\n        ----------\\n        operation : callable\\n            see :meth:`NDArithmeticMixin._arithmetic` parameter description.\\n            By default, the ``operation`` will be ignored.\\n\\n        operand : `NDData`-like instance\\n            The second operand wrapped in an instance of the same class as\\n            self.\\n\\n        handle_meta : callable\\n            see :meth:`NDArithmeticMixin.add`\\n\\n        kwds :\\n            Additional parameters given to ``handle_meta``.\\n\\n        Returns\\n        -------\\n        result_meta : any type\\n            The result of ``handle_meta``.\\n        \\\"\\\"\\\"\\n        # Just return what handle_meta does with both of the metas.\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_8awn8yqc0",
+    "status": "completed",
+    "call_id": "call_Vs6x0ozFYsAdTiXHTfYZVWED",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _convert_operand\\\" -n astropy/nddata\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_Vs6x0ozFYsAdTiXHTfYZVWED",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_2w7mgftcs",
+    "status": "completed",
+    "call_id": "call_M4l81CqT8KoYJ4vXkj5KiLAi",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"_convert_operand\\\" -n astropy\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_M4l81CqT8KoYJ4vXkj5KiLAi",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_vgbhoi5gr",
+    "status": "completed",
+    "call_id": "call_h7Hz6KHvlv9EALdal4HG7Xsy",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _arithmetic(arithmetic\\\" -n astropy/nddata/mixins/ndarithmetic.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_h7Hz6KHvlv9EALdal4HG7Xsy",
+    "output": "{\"output\":\"\",\"metadata\":{\"exit_code\":1,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_53m1w1fvb",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch updates the mask\u2010propagation logic so that if exactly one operand has a mask, that mask is simply deep\u2010copied to the result instead of attempting to OR with a None and raising an error. It covers all four cases\u2014neither mask (returns None), only self.mask, only operand.mask, and both masks\u2014exactly matching the intended behavior described in the issue. No unrelated changes were made. Therefore it correctly and precisely fixes the v5.3 regression.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the RFC violation (HEAD must not return a body), shows reproduction steps, expected vs actual output, and identifies where the behavior changed. A patch should make runserver strip response bodies on HEAD requests. This is enough detail to implement and verify a fix."
+}

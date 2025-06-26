@@ -1,0 +1,3 @@
+{
+  "trace": "The report identifies a specific error location and suggests wrapping the IDNA encoding call in a try/except, but it doesn\u2019t specify what the desired behavior or fallback should be when the exception occurs. There\u2019s no indication of how to handle the failure (e.g. skip the URL, strip invalid labels, rethrow a more informative error), so it\u2019s unclear what constitutes a successful solution."
+}

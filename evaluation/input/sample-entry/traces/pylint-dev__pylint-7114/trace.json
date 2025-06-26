@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (Pylint crashes when a package directory and a module file share the same name without an __init__.py), provides concrete reproduction steps with minimal example files, shows current and expected behavior, and includes version information. This is enough to write a failing test and implement a fix."
+}

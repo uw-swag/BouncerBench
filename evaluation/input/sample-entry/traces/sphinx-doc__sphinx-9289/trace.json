@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a clear description of the bug, the exact configuration settings, a minimal reproducible example (conf.py, package.py, index.rst), and a screenshot of the actual vs expected behavior. A developer can directly reproduce and verify the issue and knows exactly what change in behavior is required. Therefore it is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "This issue clearly describes the bug (empty-line in multiline text causes a NoneType stream), provides minimal reproduction code, shows the traceback, the expected behavior, and even suggests exactly where in the code (backend_ps.py line 669) a guard (`if curr_stream:`) should be added. All details needed to craft and verify a fix are present."
+}

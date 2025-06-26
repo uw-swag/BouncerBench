@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the failure case (S(\"\u03b1\") raising a SympifyError) and states the desired behavior (sympify should recognize Greek letters as symbol names). While the implementation details (e.g. mapping from Unicode to internal symbol names) aren\u2019t spelled out, the requirements and success criteria are clear enough to drive a concrete fix."
+}

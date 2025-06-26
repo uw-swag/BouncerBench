@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear reproduction (test case), the exact error, the specific code location in timesince(), and even a suggested fix. It\u2019s straightforward to write a PR to make the pivot datetime timezone\u2010aware when USE_TZ=True. Hence it\u2019s well\u2010specified."
+}

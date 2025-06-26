@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a minimal reproducible example including models, managers, natural key definitions, test fixture data, a clear description of steps (loaddata on default vs. non-default DB), and the full stack trace. They even link to a test project for easy reproduction. This is sufficient detail for a meaningful solution attempt."
+}

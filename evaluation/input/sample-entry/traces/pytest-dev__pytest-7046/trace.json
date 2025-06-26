@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal repro, exact commands, pytest version, observed vs desired behavior (only match on test names, not on parent folder names), and asks a clear change in matching scope.  That\u2019s sufficient to implement and test a fix."
+}

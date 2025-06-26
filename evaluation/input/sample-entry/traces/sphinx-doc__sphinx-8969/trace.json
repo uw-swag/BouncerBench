@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter clearly describes the current vs. desired behavior, gives repro steps, environment, and explicitly asks that the csv-table directive treat \"/...\" paths as source\u2010relative (like figure/image directives do) rather than real filesystem roots. That\u2019s a specific requirement with a sensible implementation path."
+}

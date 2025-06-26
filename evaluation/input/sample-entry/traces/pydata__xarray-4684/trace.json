@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a Minimal, Complete, and Verifiable Example (MCVE) with sample data and code that reproduces the precision loss, shows the exact versus expected output, and lists environment versions. It clearly states what\u2019s wrong (millisecond precision lost on round\u2010trip to NetCDF) and what behavior is expected. A contributor can write a PR to preserve full datetime64 precision during I/O based on this information without needing further clarification."
+}

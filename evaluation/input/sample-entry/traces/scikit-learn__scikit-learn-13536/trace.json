@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies where the problem occurs (in Pipeline.fit/_fit), shows a minimal reproducible example, and states exactly what the improved behavior should be (a friendlier error message pointing out the need for step_name__sample_weight). A contributor could write a patch to catch bare sample_weight keys and raise a custom ValueError with the suggested format."
+}

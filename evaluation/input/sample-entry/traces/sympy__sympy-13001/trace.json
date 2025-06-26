@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows a failure case (cse leaving a non-evaluated Mul(-1,4,a**2, evaluate=False) so that the transformed expression isn\u2019t equality-comparable), but it doesn\u2019t specify the intended behavior or how the fix should work (e.g. whether CSE should auto-evaluate these Muls, change Mul\u2019s default, adjust equality, etc.). There\u2019s no clear acceptance criterion or scope, so it\u2019s too underspecified for a concrete implementation."
+}

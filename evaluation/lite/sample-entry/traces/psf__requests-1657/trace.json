@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly identifies a bug in how session and request hooks are combined (overwriting instead of merging their lists). It\u2019s evident the fix should involve merging the two hook lists rather than letting one overwrite the other. While minor details (e.g. ordering of hooks) could be clarified, there is a straightforward, sensible interpretation and implementation path.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/requests/sessions.py b/requests/sessions.py\nindex d8e040c8..d6a23a0f 100644\n--- a/requests/sessions.py\n+++ b/requests/sessions.py\n@@ -55,11 +55,14 @@ def merge_setting(request_setting, session_setting, dict_class=OrderedDict):\n         return request_setting\n \n     merged_setting = dict_class(to_key_val_list(session_setting))\n-    merged_setting.update(to_key_val_list(request_setting))\n \n-    # Remove keys that are set to None.\n-    for (k, v) in request_setting.items():\n-        if v is None:\n+    # Update while handling lists specially - concatenate them instead of replacing\n+    for k, v in request_setting.items():\n+        if k in merged_setting and isinstance(v, list) and isinstance(merged_setting[k], list):\n+            merged_setting[k] = merged_setting[k] + v\n+        elif v is not None:\n+            merged_setting[k] = v\n+        else:\n             del merged_setting[k]\n \n     return merged_setting\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nSession hooks broken\nRequest hooks are being [merged](https://github.com/kennethreitz/requests/blob/master/requests/sessions.py#L264) with session hooks; since both hook dicts have a list as the value, one simply overwrites the other.\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_q4fpqq7i8",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch replaces the simple dict.update() with a per\u2010key merge that concatenates list\u2010valued settings (e.g. hooks) instead of overwriting them, while preserving the old semantics for non\u2010list values and deletions. It directly targets the hook\u2010merging problem without side\u2010effects or unrelated changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

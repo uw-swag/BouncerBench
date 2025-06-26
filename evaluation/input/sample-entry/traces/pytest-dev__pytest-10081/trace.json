@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, a minimal reproducible example, environment (pytest, Python, OS) versions, exact observed vs expected behavior, and ties it to an existing issue. That is sufficient to reproduce and implement a fix."
+}

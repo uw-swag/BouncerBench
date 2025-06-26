@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives the exact failure case, a clear desired fallback behavior (return the original expression when it can\u2019t be denested), and an example of the before/after result. It even points to the relevant functions/files. That is enough detail to write a minimal fix (e.g. catching IndexError in sqrtdenest and returning expr) and add a test. Hence it\u2019s well\u2010specified."
+}

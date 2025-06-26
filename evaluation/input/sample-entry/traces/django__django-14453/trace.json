@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter clearly describes the bug (a misspelling of the required urlpatterns variable leading to a confusing error), the expected improvement (a specific hint when urlpatterns is misspelled), and even links to a PR with an implementation. The scope and desired behavior are unambiguous, so this is WELL_SPECIFIED."
+}

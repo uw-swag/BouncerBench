@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes what changed (strict dtype check in ECSV v1.0), shows how to reproduce it with code and error output, and even provides the relevant header snippet. It states the expected behavior and suggests a specific fix (allow datetime64). All the context and reproduction steps are there, so it\u2019s well-specified."
+}

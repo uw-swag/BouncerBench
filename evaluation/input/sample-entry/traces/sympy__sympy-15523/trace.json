@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply reports test failures under Python 3.7 but doesn\u2019t say what the correct behavior should be or hint at a specific intended fix. There\u2019s no clear specification of how the parser or tests should change, so it\u2019s too ambiguous to start coding against."
+}

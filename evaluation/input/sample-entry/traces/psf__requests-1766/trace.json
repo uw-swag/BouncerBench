@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly points out a spec mismatch (RFC2617 requires the qop-options value to be wrapped in quotes) and shows curl\u2019s behavior as a reference. While it doesn\u2019t include code snippets or exact file locations, there\u2019s a straightforward interpretation of what needs changing\u2014ensure the Digest Auth implementation emits the qop-options value surrounded by double quotes. Thus, it\u2019s not fully self-contained with code details, but there\u2019s a sensible path to a solution."
+}

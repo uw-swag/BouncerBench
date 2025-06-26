@@ -1,0 +1,3 @@
+{
+  "trace": "The report precisely identifies the bug in _log_reg_scoring_path (lines and call sites), shows a minimal reproducer, and even suggests the exact change (passing multi_class through). All required context is provided to implement and verify the fix."
+}

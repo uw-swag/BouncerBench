@@ -1,0 +1,3 @@
+{
+  "trace": "The feature request is clear: in BaseSearchCV.fit after selecting the best estimator, wrap the refit call in a timer and store the elapsed time in a new attribute (e.g. `refit_time_`, in seconds). This directly addresses the ask and has a single, obvious implementation path."
+}

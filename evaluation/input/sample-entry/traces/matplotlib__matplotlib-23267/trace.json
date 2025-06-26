@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current limitation (no `location` kwarg when supplying a manual Axes), shows minimal reproducible examples, and spells out the proposed change (add a `location` parameter to the Colorbar constructor that sets both `orientation` and `ticklocation`, mutually exclusive with them). The mapping of location values to orientation and tickplacement is obvious, so a developer can implement and document it without extra clarification."
+}

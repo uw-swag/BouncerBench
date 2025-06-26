@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a surprising behavior when substituting b = a into an expression r, noting that the result is mathematically undefined (or should at least signal the indeterminate form) yet r.subs(b,a) returns 1. However, the report never clearly states what the desired API behavior should be (e.g. should .subs raise an error, return zoo, defer evaluation, automatically compute a limit, etc.?), nor does it outline any concrete requirements or edge\u2010cases. That makes it unclear how a PR should resolve the issue beyond the general notion of \u201cdon\u2019t return a wrong finite result when the subexpression is undefined.\u201d Thus it\u2019s too vague to implement without further clarification."
+}

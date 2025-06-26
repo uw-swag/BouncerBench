@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (prefetch_related_objects skips already processed model instances when those instances are reused, because it flags them as \"fetched\" via a to_attr check). It even points to the exact code paths and explains what the expected behavior should be (to apply the to_attr to each instance, even if it's been seen before). While there\u2019s no full repro snippet, there\u2019s enough detail\u2014code pointers, clear reproduction scenario, and an expected outcome\u2014to craft a meaningful fix or test. Therefore it is reasonably specified."
+}

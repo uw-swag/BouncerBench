@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what\u2019s wrong (VOTable and astropy Table share the same repr) and exactly what change is desired (override the VOTable Table __repr__ to display e.g. <VOTable length=...>). That directly points to modifying the repr in astropy.io.votable.tree.Table, so it\u2019s well-specified for implementation."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description of the bug (admin.E108 on PositionField after Django upgrade), the exact code path involved, a reference to the problematic commit, a detailed truth matrix of expected behavior, and a proposed corrected implementation. A developer can directly use this information to implement and test a fix. Therefore it is WELL_SPECIFIED."
+}

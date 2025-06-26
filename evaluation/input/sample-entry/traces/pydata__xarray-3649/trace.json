@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired behavior (combining datasets with missing tiles and filling gaps with a fill_value, defaulting to NaN), provides reproducible code, the current error, and the expected output. It\u2019s straightforward to adjust combine_by_coords to loosen the hypercube completeness check and insert missing panels, so the request is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies where to change the validation logic (allowing max_length=None) and even sketches the code patch. It also flags the related SQL generation gap for FileField. However, it doesn\u2019t fully specify how the database column should be created (e.g. mapping to TEXT on different backends) or include details on adapting the SQL creation code. Those design details would need filling in, but there\u2019s a clear, actionable scope. This makes the issue REASONABLY_SPECIFIED rather than fully specified."
+}

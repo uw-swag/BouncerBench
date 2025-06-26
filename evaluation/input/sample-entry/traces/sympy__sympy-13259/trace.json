@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, the version, the exact wrong vs. expected behavior (including numeric checks), and even pinpoints the faulty transform in the simplify routine. A developer can reproduce and correct the mis\u2010handled complex argument, so the issue is well specified."
+}

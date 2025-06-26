@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that when a UniqueConstraint is marked deferrable and also given index-specific parameters (namely include or opclasses), we should raise an error and document that incompatibility. A developer familiar with the codebase can identify where UniqueConstraint is defined, add the validation check in its __init__ or migration operation construction, choose an appropriate exception (e.g. ValueError), and update the documentation. All necessary details (which parameters to check, when to error, and that documentation is required) are provided."
+}

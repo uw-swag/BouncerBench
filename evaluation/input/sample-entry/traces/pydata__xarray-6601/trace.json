@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates the change in output dimension order for `polyval` between xarray versions, provides minimal repro code, and asks whether this is expected and if it should be noted in release notes. There\u2019s no ambiguity about what behavior is in question or what a \u201csuccessful\u201d answer entails (i.e., confirm/deny expected behavior and update the docs/changelog if needed)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the mismatch between DjangoTranslation\u2019s folder naming and makemessages\u2019 strict locale validation, points to the exact commit where the check was introduced, and states that hyphens should only be disallowed in the first section (e.g. \u2018nl_NL\u2019). There\u2019s enough context to locate and adjust the validation logic, so a fix can be scoped out without further clarification."
+}

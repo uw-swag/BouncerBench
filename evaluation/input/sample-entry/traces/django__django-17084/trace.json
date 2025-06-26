@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly outlines the environment, the Django/PostgreSQL/psycopg2 versions, example code that triggers the error, and the exact exception message. While it doesn\u2019t explicitly state \u201chere\u2019s the desired SQL or ORM behavior,\u201d the title and description make it plain that aggregates over Window annotations no longer work and that\u2019s what needs fixing. This is enough context to propose changes or workarounds in the ORM, so it\u2019s reasonably specified."
+}

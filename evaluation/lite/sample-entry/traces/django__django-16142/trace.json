@@ -1,0 +1,41 @@
+{
+  "input": "The request clearly states what behavior should change (get_language_from_request should return None instead of falling back to settings.LANGUAGE_CODE) and why. While it doesn\u2019t include every code detail (e.g., exact function location or test adjustments), it gives enough guidance to implement and verify the change in a typical Django codebase. Hence it is reasonably specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/utils/translation/trans_real.py b/django/utils/translation/trans_real.py\nindex 423f30eaba..df89aa5a27 100644\n--- a/django/utils/translation/trans_real.py\n+++ b/django/utils/translation/trans_real.py\n@@ -579,10 +579,7 @@ def get_language_from_request(request, check_path=False):\n         except LookupError:\n             continue\n \n-    try:\n-        return get_supported_language_variant(settings.LANGUAGE_CODE)\n-    except LookupError:\n-        return settings.LANGUAGE_CODE\n+    return None\n \n \n @functools.lru_cache(maxsize=1000)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nget_language_from_request should not fallback to settings.LANGUAGE_CODE\nDescription\n\t \n\t\t(last modified by sergioisidoro)\n\t \nI'm writing a middleware to fallback to a different language depending on the TLD of the domain of the HTTP_HOST\nHowever, I noticed that get_language_from_request falls back to the settings default language, which will almost always take precedence in this case.\nThis is quite confusing, since settings.LANGUAGE_CODE is not \"from the request\", but from the application configuration, and it feels that the responsibility of falling back to the default language should lie in the Middleware, not in this function.\nSolution / Summary: get_language_from_request should return None, to communicate to the middleware that there was no language from request, and that the middleware should fallback to the default. Otherwise if the get_language_from_request returns \"EN\" we don't know if \"EN\" is actually a request preference, or because it came from the default settings.LANGUAGE_CODE\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_pensnx96i",
+      "status": "completed",
+      "call_id": "call_CovK4Vnoa6H0IXaFZjMhqio1",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '540,640p' django/utils/translation/trans_real.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_CovK4Vnoa6H0IXaFZjMhqio1",
+      "output": "{\"output\":\"\\ndef get_language_from_request(request, check_path=False):\\n    \\\"\\\"\\\"\\n    Analyze the request to find what language the user wants the system to\\n    show. Only languages listed in settings.LANGUAGES are taken into account.\\n    If the user requests a sublanguage where we have a main language, we send\\n    out the main language.\\n\\n    If check_path is True, the URL path prefix will be checked for a language\\n    code, otherwise this is skipped for backwards compatibility.\\n    \\\"\\\"\\\"\\n    if check_path:\\n        lang_code = get_language_from_path(request.path_info)\\n        if lang_code is not None:\\n            return lang_code\\n\\n    lang_code = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)\\n    if (\\n        lang_code is not None\\n        and lang_code in get_languages()\\n        and check_for_language(lang_code)\\n    ):\\n        return lang_code\\n\\n    try:\\n        return get_supported_language_variant(lang_code)\\n    except LookupError:\\n        pass\\n\\n    accept = request.META.get(\\\"HTTP_ACCEPT_LANGUAGE\\\", \\\"\\\")\\n    for accept_lang, unused in parse_accept_lang_header(accept):\\n        if accept_lang == \\\"*\\\":\\n            break\\n\\n        if not language_code_re.search(accept_lang):\\n            continue\\n\\n        try:\\n            return get_supported_language_variant(accept_lang)\\n        except LookupError:\\n            continue\\n\\n    try:\\n        return get_supported_language_variant(settings.LANGUAGE_CODE)\\n    except LookupError:\\n        return settings.LANGUAGE_CODE\\n\\n\\n@functools.lru_cache(maxsize=1000)\\ndef parse_accept_lang_header(lang_string):\\n    \\\"\\\"\\\"\\n    Parse the lang_string, which is the body of an HTTP Accept-Language\\n    header, and return a tuple of (lang, q-value), ordered by 'q' values.\\n\\n    Return an empty tuple if there are any format errors in lang_string.\\n    \\\"\\\"\\\"\\n    result = []\\n    pieces = accept_language_re.split(lang_string.lower())\\n    if pieces[-1]:\\n        return ()\\n    for i in range(0, len(pieces) - 1, 3):\\n        first, lang, priority = pieces[i : i + 3]\\n        if first:\\n            return ()\\n        if priority:\\n            priority = float(priority)\\n        else:\\n            priority = 1.0\\n        result.append((lang, priority))\\n    result.sort(key=lambda k: k[1], reverse=True)\\n    return tuple(result)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_36crvz0pd",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch removes the hardcoded default fallback to settings.LANGUAGE_CODE and instead returns None when no request-derived language is found. This aligns exactly with the issue\u2019s request\u2014that get_language_from_request should only surface request preferences and leave defaulting to middleware\u2014without any extraneous changes.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

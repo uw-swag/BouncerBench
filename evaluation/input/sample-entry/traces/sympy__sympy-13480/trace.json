@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducer, the exact error message, and points to the offending line in the code. It\u2019s clear that a variable `cotm` is referenced but never defined in `hyperbolic.py`\u2019s `coth.eval`, so a straight rename or definition fix is needed. This is fully actionable."
+}

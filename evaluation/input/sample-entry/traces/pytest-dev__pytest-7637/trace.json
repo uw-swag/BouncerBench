@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that certain warnings were suppressed in the 6.0 release via PR #7362 and need to be re-enabled in 6.1. While it doesn\u2019t enumerate each warning, the reference to the specific pull request gives a concrete place to see exactly what was changed. It\u2019s straightforward to interpret that the solution is to revert or reapply those warning definitions, so this is reasonably specified."
+}

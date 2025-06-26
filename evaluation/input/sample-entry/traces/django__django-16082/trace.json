@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a specific bug (modulo expressions with mixed Decimal/Integer types not resolving to Decimal output_field) and the desired behavior (matching other arithmetic operators). While it doesn\u2019t include code snippets or tests, the change needed in Django\u2019s expression machinery is clear enough to implement. Thus it\u2019s reasonably specified."
+}

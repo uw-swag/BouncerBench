@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket includes clear before/after examples, identifies the precise code location (`ddl_references.py` line 87), explains the root cause (col_suffixes contains empty strings instead of being empty), and states the exact expected SQL formatting. A PR to adjust whitespace handling can be scoped and tested directly against these examples without further clarification."
+}

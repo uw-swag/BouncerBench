@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates that fps on a polynomial returns the raw Pow instead of a FormalPowerSeries, so the fix is to wrap polynomial input in the same FPS class (and support indexing, etc.). While it doesn\u2019t spell out every detail (e.g. exact type signatures or tests), there is a straightforward, sensible interpretation of the desired behavior."
+}

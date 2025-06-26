@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly shows how to reproduce the issue, what the current (incorrect) behavior is, and what the expected behavior should be (i.e. that exp(a dimensionless quantity) yields a dimensionless result rather than raising). There is a straightforward, well-scoped change to SI._collect_factor_and_dimension (or its handling of transcendental functions) to detect and accept dimensionless exponents. This is sufficient to implement a fix."
+}

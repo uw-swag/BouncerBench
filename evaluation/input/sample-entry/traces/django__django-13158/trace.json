@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, clear steps to reproduce, and a precise description of expected vs. actual behavior. Although it doesn\u2019t mention the Django version, it\u2019s still straightforward to reproduce and diagnose the union() vs. OR behavior in a ModelMultipleChoiceField, so a meaningful solution attempt can be made."
+}

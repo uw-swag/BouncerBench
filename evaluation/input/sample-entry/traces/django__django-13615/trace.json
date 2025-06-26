@@ -1,0 +1,3 @@
+{
+  "trace": "The issue mixes two different goals (adding a warning vs. normalizing locale codes), doesn\u2019t define what makes a code \u201ccorrect,\u201d and provides no concrete rules or acceptance criteria for normalization or warning behavior. It\u2019s unclear what inputs are valid, what transformations should occur, or what output/warning should look like."
+}

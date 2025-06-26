@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes an inconsistency between two directives\u2019 index entry outputs, but it doesn\u2019t specify which style is the \u201ccorrect\u201d one or how exactly they should be unified (parentheses placement, linking behavior, single vs. multi-line, etc.). There\u2019s no explicit desired output format or clear implementation path, so the requirements are ambiguous."
+}

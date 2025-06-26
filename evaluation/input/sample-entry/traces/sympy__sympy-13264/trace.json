@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear reproduction (including environment, script, and expected behavior), a description of the simplify workflow, and even a concrete proposal for a new parameter to control recursive calls. A contributor can reproduce the problem and implement the suggested change without further clarification."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (latex(trace(A**2)) \u2192 'Trace(A**2)'), and the desired behavior (use a LaTeX printer for Trace and for the inner A**2 so it prints as A^2). An implementer can locate the Latex printer code, add a _print_Trace method, and ensure fallback to the inner expression\u2019s printer. All necessary details are provided for a meaningful fix."
+}

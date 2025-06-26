@@ -1,0 +1,3 @@
+{
+  "trace": "The report points at a bug (the request body being closed too early) and even references a specific PR, but it lacks reproduction steps, code context, expected vs. actual behavior, and affected versions. It\u2019s unclear exactly where or how to apply a fix without more details or a minimal example. "
+}

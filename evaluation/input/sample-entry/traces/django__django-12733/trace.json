@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the specific function (sql_flush) in the PostgreSQL backend and the exact SQL change (use a single TRUNCATE \u2026 RESTART IDENTITY query instead of separate queries). An experienced engineer can locate sql_flush(), adjust the SQL it emits for PostgreSQL, and test the performance benefit. The scope and desired outcome are unambiguous."
+}

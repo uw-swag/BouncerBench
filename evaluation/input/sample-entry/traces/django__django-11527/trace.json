@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states that the command should error out (or at least inform the user) when no sequence-reset SQL is generated, and even suggests raising CommandError when statements is empty. The bonus request to detect backend support is an extra but not blocking. While exact message wording isn\u2019t nailed down, the goal and location in code are obvious, so there\u2019s enough here to write a PR."
+}

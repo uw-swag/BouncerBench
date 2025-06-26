@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the incorrect behavior (Plane.intersection treats a Segment3D like an infinite line), gives a minimal repro, and states the expected behavior (no intersection for points outside the finite segment). It even suggests the exact kind of change needed (filter intersection points by checking if they lie within the segment). All necessary details are present to implement and test the fix."
+}

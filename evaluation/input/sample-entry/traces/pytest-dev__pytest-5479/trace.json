@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows a reproducible failure (UnicodeEncodeError) when using pytest.raises(match=u\"\u2026\") under Python 2. It identifies the symptom and desired use (matching a Unicode string), but lacks version/environment details and explicit expected outcome. Still, there\u2019s a clear bug to fix in how pytest handles Unicode matches, so it\u2019s reasonably specified."
+}

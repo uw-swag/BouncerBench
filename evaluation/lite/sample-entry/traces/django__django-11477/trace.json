@@ -1,0 +1,28 @@
+{
+  "input": "The issue description is very high-level and lacks critical details such as code examples, expected vs. actual behavior, examples of the URL patterns, or the relevant test case. Without concrete inputs, outputs, or error messages, it\u2019s unclear how translate_url() is misbehaving or what the correct behavior should be.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/urls/base.py b/django/urls/base.py\nindex e420dc6..defa267 100644\n--- a/django/urls/base.py\n+++ b/django/urls/base.py\n@@ -172,9 +172,11 @@ def translate_url(url, lang_code):\n         to_be_reversed = \"%s:%s\" % (match.namespace, match.url_name) if match.namespace else match.url_name\n         with override(lang_code):\n             try:\n-                url = reverse(to_be_reversed, args=match.args, kwargs=match.kwargs)\n+                # Filter out None values from match.kwargs\n+                filtered_kwargs = {k: v for k, v in match.kwargs.items() if v is not None}\n+                url = reverse(to_be_reversed, args=match.args, kwargs=filtered_kwargs)\n             except NoReverseMatch:\n                 pass\n             else:\n                 url = urlunsplit((parsed.scheme, parsed.netloc, url, parsed.query, parsed.fragment))\n-    return url\n+    return url\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\ntranslate_url() creates an incorrect URL when optional named groups are missing in the URL pattern\nDescription\n\t\nThere is a problem when translating urls with absent 'optional' arguments\n(it's seen in test case of the patch)\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_8x3qlx7sz",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The issue was that reverse() was receiving None for optional named groups, leading to wrong URLs. By filtering out only the None-valued kwargs before calling reverse(), this patch directly fixes that without touching anything else. It\u2019s minimal, targeted, and handles the described edge case.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

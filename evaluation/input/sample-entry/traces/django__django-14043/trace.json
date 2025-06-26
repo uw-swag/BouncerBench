@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (dbshell leaking passwords via env vars), the desired feature (generate a temporary .pgpass file and set PGPASSFILE for PostgreSQL), and even points to an example implementation in django-dbbackup. While low-level details (exact file permissions, placement in the codebase) are left for implementation, the overall approach and scope are well enough defined to start a meaningful PR."
+}

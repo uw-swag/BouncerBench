@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example (models.py and admin.py), a clear description of expected vs. actual behavior, and the exact validation error. With this detail, a developer can reproduce the bug and propose a fix, so it\u2019s well-specified."
+}

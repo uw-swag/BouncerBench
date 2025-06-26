@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the regression (Django 3.2.1 change), pinpoints the cause (FileField.pre_save passing full paths instead of basenames), provides steps to reproduce, and even links to a proposed PR. It\u2019s straightforward to verify and implement the fix."
+}

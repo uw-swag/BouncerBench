@@ -1,0 +1,28 @@
+{
+  "input": "The request clearly defines a new template filter 'escapeseq', its intended behavior (escape each item in a sequence when autoescape is off), and even gives a usage example. While implementation details (edge-cases, error handling, test cases) aren\u2019t spelled out, it\u2019s straightforward to derive them by analogy to the existing safeseq filter and Django\u2019s escape/conditional_escape utilities. Thus the spec is not completely exhaustive but gives enough to proceed.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/template/defaultfilters.py b/django/template/defaultfilters.py\nindex 5289ef34a0..79824a628b 100644\n--- a/django/template/defaultfilters.py\n+++ b/django/template/defaultfilters.py\n@@ -486,8 +486,6 @@ def linebreaksbr(value, autoescape=True):\n def safe(value):\n     \"\"\"Mark the value as a string that should not be auto-escaped.\"\"\"\n     return mark_safe(value)\n-\n-\n @register.filter(is_safe=True)\n def safeseq(value):\n     \"\"\"\n@@ -497,6 +495,37 @@ def safeseq(value):\n     \"\"\"\n     return [mark_safe(obj) for obj in value]\n \n+@register.filter(is_safe=True, needs_autoescape=True)\n+def escapeseq(value, autoescape=True):\n+    \"\"\"\n+    Escape each item in the sequence individually.\n+\n+    This filter is useful when you need to ensure that all items in a sequence\n+    are properly escaped before joining or rendering them, especially when\n+    autoescaping is off.\n+\n+    Usage in template:\n+        {{ some_list|escapeseq|join:\", \" }}\n+\n+    Args:\n+        value: The sequence of items to be escaped.\n+        autoescape: Determines if autoescaping is on or off.\n+\n+    Returns:\n+        A list of escaped items.\n+    \"\"\"\n+    if value is None:\n+        raise TypeError(\"escapeseq filter expected a sequence, got None\")\n+    try:\n+        iterator = iter(value)\n+    except TypeError:\n+        raise TypeError(\"escapeseq filter expected a sequence or iterable\")\n+    if autoescape:\n+        escaper = conditional_escape\n+    else:\n+        escaper = escape\n+    return [escaper(str(item)) for item in value]\n+\n \n @register.filter(is_safe=True)\n @stringfilter\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nNew template filter `escapeseq`\nDescription\n\t\nFollowing #34574, and after some conversations within the security team, it seems appropriate to provide a new template filter escapeseq which would be to escape what safeseq is to safe. An example of usage would be:\n{{ some_list|escapeseq|join:\",\" }}\nwhere each item of some_list is escaped before applying the join operation. This usage makes sense in a context where autoescape is off.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_o6dtqjja9",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch adds a new escapeseq filter, registers it with needs_autoescape, iterates the input sequence, and applies the correct escaper (conditional_escape when autoescaping is on, escape when off). It matches the pattern used elsewhere in Django, handles non\u2010iterable and None inputs clearly, and makes no unrelated changes. This directly fulfills the request to \u201cescape what safeseq is to safe\u201d without overreach.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

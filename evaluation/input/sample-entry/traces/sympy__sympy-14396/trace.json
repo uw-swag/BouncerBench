@@ -1,0 +1,3 @@
+{
+  "trace": "The issue shows a failure when passing a string \u2018RR[y,z]\u2019 as the domain, but doesn\u2019t spell out the intended behavior (e.g. how to parse or represent a multivariate coefficient domain from a string) or propose a concrete fix or error-message rewording. There\u2019s too much left unspecified, so it\u2019s unclear what a correct solution would be."
+}

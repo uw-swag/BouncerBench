@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes the models and desired query, includes a complete code snippet showing two FilteredRelation aliases on the same relation, and explains the observed vs. expected SQL behavior. It\u2019s unambiguous what the desired fix is (produce two separate JOINs for the two filters), so the issue is well specified."
+}

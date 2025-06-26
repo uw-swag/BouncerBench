@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, the exact failure, and the intended behavior\u2014i.e. recognizing that acceleration * time \u2261 velocity and thus allowing the add and collecting the combined scale factor. It\u2019s clear what needs to be fixed and how success is measured."
+}

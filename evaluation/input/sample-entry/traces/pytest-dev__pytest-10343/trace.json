@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the missing context in the deprecation warning and specifies that the warning should include either the plugin name or the Python file location. While it doesn\u2019t prescribe exactly which field to use or how internally to fetch it, there\u2019s no ambiguity about the goal: augment the pytest hookimpl warning with source location information for easier debugging. This is a sensible, actionable change."
+}

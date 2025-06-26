@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that Django\u2019s existing Round function should accept an optional precision argument (round to a specified number of decimal places) and notes that all supported backends have a native two-argument ROUND function. There\u2019s enough context to implement by extending the Round class API (e.g. add a second parameter/default of 0 and adjust arity) and updating SQL compilation. While minor API details (named vs positional parameter) aren\u2019t explicitly prescribed, an experienced developer can sensibly fill them in."
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/urls/resolvers.py b/django/urls/resolvers.py\nindex 43e675a..d1cd17d 100644\n--- a/django/urls/resolvers.py\n+++ b/django/urls/resolvers.py\n@@ -31,7 +31,12 @@ from .utils import get_callable\n \n class ResolverMatch:\n     def __init__(self, func, args, kwargs, url_name=None, app_names=None, namespaces=None, route=None, tried=None):\n-        self.func = func\n+        if isinstance(func, functools.partial):\n+            self.func = func.func\n+            self.args = func.args + args\n+            self.kwargs = {**func.keywords, **kwargs}\n+        else:\n+            self.func = func\n         self.args = args\n         self.kwargs = kwargs\n         self.url_name = url_name\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nResolverMatch.__repr__() doesn't handle functools.partial() nicely.\nDescription\n\t \n\t\t(last modified by Nick Pope)\n\t \nWhen a partial function is passed as the view, the __repr__ shows the func argument as functools.partial which isn't very helpful, especially as it doesn't reveal the underlying function or arguments provided.\nBecause a partial function also has arguments provided up front, we need to handle those specially so that they are accessible in __repr__.\nISTM that we can simply unwrap functools.partial objects in ResolverMatch.__init__().\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_elaoliweu",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The proposed change unwraps functools.partial in __init__, but immediately after the if/else it unconditionally resets self.args and self.kwargs to the original args/kwargs, clobbering the merged values. It also fails to import functools. Thus it doesn\u2019t actually preserve the partial\u2019s args/keywords and will break or not improve __repr__ as intended.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

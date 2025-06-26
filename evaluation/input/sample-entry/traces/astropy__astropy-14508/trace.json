@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducible example, points exactly at the offending function (`_format_float`), shows how the current formatting expands a simple float and truncates the comment, and even suggests the intended change (try Python\u2019s built-in `str(value)` first, falling back only if it exceeds 20 chars). All inputs, outputs, and the desired behavior are clear, so this is WELL_SPECIFIED."
+}

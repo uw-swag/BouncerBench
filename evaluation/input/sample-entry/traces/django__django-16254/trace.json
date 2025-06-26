@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes a regression in Django\u2019s SQLite migration logic when adding a ManyToManyField, provides before/after SQL output, a bisected commit where the behavior changed, and even points to the removed special-case code. There\u2019s a concrete expected outcome (no table rebuild) and a lead on where to restore the logic. This is well enough specified to start coding a fix."
+}

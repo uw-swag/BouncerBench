@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is asking whether the `is_closed` and `is_open` flags on `S.Rationals` are \u201cvalid,\u201d but doesn\u2019t commit to a single desired behavior (should they both be False, or should they raise NotImplementedError?). It\u2019s more of a conceptual question than a clear bug/feature request with a defined expected outcome. There\u2019s no specification of how these flags should be used or which approach to follow, so it\u2019s too ambiguous to implement directly."
+}

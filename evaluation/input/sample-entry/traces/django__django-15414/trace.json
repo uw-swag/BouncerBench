@@ -1,0 +1,3 @@
+{
+  "trace": "The bug is clearly described: bulk_update isn\u2019t marking the queryset as a write operation before retrieving its database, so it routes to db_for_read instead of db_for_write. A fix is straightforward\u2014set self._for_write = True early in bulk_update\u2014so the requirements for a correct solution are clear."
+}

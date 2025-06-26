@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the specific error (models.E015) triggered by using a related field\u2019s primary key in Meta.ordering (e.g. 'option__pk'), and even points to the regression commit. While it doesn\u2019t spell out the precise code change, it gives enough context to reproduce the failure and know that ordering by a related pk should be allowed. This makes it reasonably specified for a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear reproduction (custom storage subclass with max_post_process_passes = 0), shows the exact traceback, links to the relevant code, pinpoints the root cause (substitutions never initialized when the loop isn\u2019t entered), and even explains the motivation. That makes it straightforward to implement a fix (e.g. initialize substitutions or short-circuit when max passes is zero)."
+}

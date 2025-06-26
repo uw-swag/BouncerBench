@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug, provides a minimal reproducible example, shows the expected vs actual behavior, and pinpoints where the error occurs. The requested outcome (either preserve all-NaN columns or raise a descriptive error) is unambiguous. This is well-specified and actionable."
+}

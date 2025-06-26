@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what\u2019s broken (Sphinx issuing an \u201cundocumented\u201d warning on an inherited attribute), provides minimal code, exact reproduction steps, environment details, and the expected behavior (no warning for inherited attributes). A developer can reproduce and fix the issue without needing further clarification."
+}

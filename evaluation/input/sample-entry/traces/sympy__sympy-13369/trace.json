@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows reproducible code, exact error, expected behavior (three symbolic roots), and even an alternative working workaround (solve on the characteristic polynomial). There\u2019s no ambiguity about what\u2019s broken or what the outcome should be. Thus it\u2019s well\u2010specified for a PR."
+}

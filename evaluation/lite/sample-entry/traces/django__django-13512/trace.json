@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes what\u2019s wrong (Django admin\u2019s JSONField widget uses json.dumps with default ensure_ascii=True, escaping Chinese chars) and even points to a concrete fix (use json.dumps(..., ensure_ascii=False)). The exact behavior, reproduction steps, and desired behavior are all stated, so it\u2019s well-specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/fields/json.py b/django/db/models/fields/json.py\nindex a249f4cdbf..66c039c6e4 100644\n--- a/django/db/models/fields/json.py\n+++ b/django/db/models/fields/json.py\n@@ -81,7 +81,7 @@ class JSONField(CheckFieldDefaultMixin, Field):\n     def get_prep_value(self, value):\n         if value is None:\n             return value\n-        return json.dumps(value, cls=self.encoder)\n+        return json.dumps(value, cls=self.encoder, ensure_ascii=False)\n \n     def get_transform(self, name):\n         transform = super().get_transform(name)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAdmin doesn't display properly unicode chars in JSONFields.\nDescription\n\t \n\t\t(last modified by ZhaoQi99)\n\t \n>>> import json\n>>> print json.dumps('\u4e2d\u56fd')\n\"\\u4e2d\\u56fd\"\njson.dumps use ASCII encoding by default when serializing Chinese.\nSo when we edit a JsonField which contains Chinese character in Django admin,it will appear in ASCII characters.\nI have try to fix this this problem in \u200bhttps://github.com/adamchainz/django-mysql/pull/714.And it works prefectly.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_c04bq8nh0",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The issue is that json.dumps serializes non-ASCII characters as escaped sequences by default, so Chinese characters show up as \u201c\\u4e2d\\u56fd\u201d in the admin. Adding ensure_ascii=False to the dump call makes it emit real Unicode characters, which directly fixes the display issue without touching any unrelated code. There are no unnecessary changes and it exactly addresses the described problem.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the desired API change: introduce a new ModelAdmin.get_inlines(request, obj=None) hook (defaulting to self.inlines) and refactor get_inline_instances to use it instead of copying its for\u2010loop logic. The scope and implementation approach are well defined, so one can confidently draft a patch. While one would add docs and tests, the core requirement is unambiguous."
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/utils/cache.py b/django/utils/cache.py\nindex 90292ce4da..ff9b76a546 100644\n--- a/django/utils/cache.py\n+++ b/django/utils/cache.py\n@@ -175,6 +175,8 @@ def get_conditional_response(request, etag=None, last_modified=None, response=No\n     )\n     if_none_match_etags = parse_etags(request.META.get(\"HTTP_IF_NONE_MATCH\", \"\"))\n     if_modified_since = request.META.get(\"HTTP_IF_MODIFIED_SINCE\")\n+    if if_modified_since == \"\":\n+        if_modified_since = None\n     if_modified_since = if_modified_since and parse_http_date_safe(if_modified_since)\n \n     # Step 1 of section 6 of RFC 7232: Test the If-Match precondition.\ndiff --git a/django/utils/http.py b/django/utils/http.py\nindex 0292713235..9c09f84a5f 100644\n--- a/django/utils/http.py\n+++ b/django/utils/http.py\n@@ -146,6 +146,8 @@ def parse_http_date_safe(date):\n     \"\"\"\n     Same as parse_http_date, but return None if the input is invalid.\n     \"\"\"\n+    if date == \"\":\n+        return None\n     try:\n         return parse_http_date(date)\n     except Exception:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nFix handling empty string for If-Modified-Since header\nDescription\n\t\nEmpty string used to be ignored for If-Modified-Since header, but now raises exception since d6aff369ad3.\nFix handling empty string for If-Modified-Since header\nDescription\n\t\nEmpty string used to be ignored for If-Modified-Since header, but now raises exception since d6aff369ad3.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_wlv6tk0uj",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch ensures that an empty HTTP_IF_MODIFIED_SINCE header is treated as None before date parsing in get_conditional_response (avoiding a TypeError later) and also guards parse_http_date_safe against empty strings. This directly addresses the issue of an empty If-Modified-Since header raising an exception, without touching unrelated code or adding extraneous logic.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

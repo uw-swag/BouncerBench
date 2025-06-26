@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the two code paths, the actual SQL emitted, and by analogy what\u2019s missing in the negated case (the constant value). It\u2019s straightforward to write a test, reproduce the problem, and implement a fix so ExpressionWrapper handles ~Q() the same as Q()."
+}

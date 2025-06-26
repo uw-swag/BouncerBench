@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear bug description, full stack trace, exact reproduction steps (code snippet in VS Code interactive cell), environment details (OS, Python, Matplotlib, IPython/IPykernel versions, install method) and outcome. While it doesn\u2019t name the VS Code version or the Python extension version, it gives enough concrete context to reproduce and diagnose the Qt\u2010binding import failure in an interactive cell. This makes it reasonably specified for a first attempt at a solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies exactly which API to deprecate (HttpRequest.is_ajax), why it should be deprecated, and points to precedent in Flask. While it omits the exact version tag and warning text, a Django engineer can fill in those blanks following the project\u2019s deprecation policy. This is sufficient to move forward with a meaningful solution."
+}

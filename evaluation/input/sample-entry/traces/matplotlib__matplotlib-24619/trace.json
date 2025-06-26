@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example, clear description of the error, expected behavior, and even suggests specific code changes and file locations. While a few details (e.g. why the proposed patch still fails) are missing, there\u2019s enough context and guidance to implement and iterate on a fix. Thus it\u2019s reasonably specified."
+}

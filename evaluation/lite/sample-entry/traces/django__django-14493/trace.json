@@ -1,0 +1,28 @@
+{
+  "input": "The report gives a clear reproduction (custom storage subclass with max_post_process_passes = 0), shows the exact traceback, links to the relevant code, pinpoints the root cause (substitutions never initialized when the loop isn\u2019t entered), and even explains the motivation. That makes it straightforward to implement a fix (e.g. initialize substitutions or short-circuit when max passes is zero).",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/staticfiles/storage.py b/django/contrib/staticfiles/storage.py\nindex f957a66..14ac530 100644\n--- a/django/contrib/staticfiles/storage.py\n+++ b/django/contrib/staticfiles/storage.py\n@@ -271,6 +271,9 @@ class HashedFilesMixin:\n             if not substitutions:\n                 break\n \n+        # Ensure substitutions is defined even if max_post_process_passes is 0\n+        substitutions = substitutions or (self.max_post_process_passes > 0)\n+\n         if substitutions:\n             yield 'All', None, RuntimeError('Max post-process passes exceeded.')\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nManifestStaticFilesStorage crashes with max_post_process_passes = 0.\nDescription\n\t\nTo reproduce:\nDerive a custom class from ManifestStaticFilesStorage and set max_post_process_passes to 0:\nclass MyManifestStaticFilesStorage(ManifestStaticFilesStorage):\n\tmax_post_process_passes = 0\n# settings.py\nSTATICFILES_STORAGE = \"MyManifestStaticFilesStorage\"\nrun collectstatic\n File \"lib/python3.7/site-packages/django/contrib/staticfiles/management/commands/collectstatic.py\", line 188, in handle\n\tcollected = self.collect()\n File \"lib/python3.7/site-packages/django/contrib/staticfiles/management/commands/collectstatic.py\", line 128, in collect\n\tfor original_path, processed_path, processed in processor:\n File \"lib/python3.7/site-packages/django/contrib/staticfiles/storage.py\", line 403, in post_process\n\tyield from super().post_process(*args, **kwargs)\n File \"lib/python3.7/site-packages/django/contrib/staticfiles/storage.py\", line 251, in post_process\n\tif substitutions:\nUnboundLocalError: local variable 'substitutions' referenced before assignment\nThe error can also be seen easily in the code: \u200bhttps://github.com/django/django/blob/a0a5e0f4c83acdfc6eab69754e245354689c7185/django/contrib/staticfiles/storage.py#L246-L257\nsubtitutions is only set if the loop is entered at least once.\n(The motivation to set max_post_process_passes to 0 is to have Django not produce invalid CSS as described here: https://code.djangoproject.com/ticket/21080#comment:19 )\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_z2fw95uvv",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch initializes substitutions when max_post_process_passes is zero, but it does so with a \u201cor (max_passes > 0)\u201d clause that also makes substitutions always True whenever max_pass_processes>0. This means that even valid runs (where substitutions went False and the loop broke early) will now always think there were leftover substitutions and unconditionally raise the \u201cMax post-process passes exceeded\u201d error. It thus breaks the original logic for all positive pass settings and is not a correct fix.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

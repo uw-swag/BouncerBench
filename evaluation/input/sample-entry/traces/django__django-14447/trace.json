@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes two potential related changes (avoiding the second COUNT(*) by passing the prior count into _cull, and lowering cull frequency with a new setting), but leaves key details unspecified: which change(s) are required, what defaults or semantics a new setting should have, how to handle edge cases (e.g. rowcount vs actual final count), and what test coverage or performance targets must be met. There\u2019s no clear acceptance criteria or precise specification, so it\u2019s not sufficiently defined for a straightforward implementation."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly specifies that a RenameModel operation should do nothing if the target model already has the desired db_table assigned. There\u2019s no ambiguity about the desired outcome: detect when the db_table remains unchanged and skip any ALTER/DROP/CREATE steps. This is directly actionable in the migration operation code."
+}

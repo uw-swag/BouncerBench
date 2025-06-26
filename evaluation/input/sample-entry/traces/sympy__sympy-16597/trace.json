@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the unexpected behavior (Symbol('m', even=True) yields m.is_finite == None) and states the expectation (even numbers must be finite). It gives minimal but sufficient context to identify the place in the assumption\u2010system to add finite as an implied property of even. No further clarification is needed to draft a fix."
+}

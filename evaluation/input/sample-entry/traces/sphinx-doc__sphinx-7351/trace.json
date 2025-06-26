@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug, gives a minimal reproducible example (index.rst, a.md, a.rst), details the unexpected versus expected behavior, and even suggests how the solution should work (configurable extension-preference or at least a warning). Environment and context are provided, so a developer can confidently start coding a fix. It\u2019s therefore WELL_SPECIFIED."
+}

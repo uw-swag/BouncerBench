@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report clearly demonstrates the failure when feeding None/NaN values into PolyFit and implies that missing data should be dropped (or otherwise handled) prior to calling numpy.polyfit. While it doesn\u2019t spell out every detail (e.g. warning behavior or edge\u2010cases when too few points remain), it\u2019s straightforward to interpret the fix\u2014filter out missing x or y values before fitting. There\u2019s enough context to make a meaningful attempt at a solution."
+}

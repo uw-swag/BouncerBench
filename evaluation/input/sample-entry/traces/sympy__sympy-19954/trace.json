@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes the environment, Sympy version, minimal reproducible code, the exact traceback and the expected behavior (sylow_subgroup should return a subgroup rather than crash). This is enough detail to reproduce and diagnose the IndexError, making it well-specified."
+}

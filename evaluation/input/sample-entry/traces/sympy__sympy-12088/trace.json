@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes clear reproduction steps, shows both actual and expected behavior, and even points to the likely root cause (mix-up between base-10 \u201cdps\u201d and base-2 \u201cprec\u201d). A developer can immediately reproduce the bug and know to fix the conversion logic in Poly\u2019s mpmath domain so that high-precision mpf values produce the correct number of digits without manually setting mpmath.mp.dps. This is well enough specified for a concrete fix."
+}

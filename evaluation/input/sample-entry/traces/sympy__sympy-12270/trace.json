@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides concrete reproducible examples (both expected and actual behavior), pinpoints the code location (`core/expr.py`), and even outlines the root cause (the behavior of `primitive()` producing a non-evaluated Mul). It\u2019s clear what the expected fix is: ensure `extract_multiplicatively(-2)` works as in the other cases. This is sufficient to begin a proper PR."
+}

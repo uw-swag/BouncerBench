@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the current behavior (fields from different concrete models compare equal due to only using creation_counter), the desired change (include the field\u2019s model in __eq__, __hash__, and adjust __lt__), and even points to where the behavior lives (Field.__eq__/__hash__/__lt__). We can write the PR directly against django.db.models.fields.Field, update the comparator methods and adjust any tests for ordering. This is sufficiently precise to implement without further clarification."
+}

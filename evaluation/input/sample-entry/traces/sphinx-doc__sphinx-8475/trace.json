@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (infinite redirect loops on HEAD requests), the desired behavior (fall back to GET when requests.TooManyRedirects is raised), and even points to where in the linkchecker code the except clause needs to be extended. That is sufficient to implement a focused bugfix."
+}

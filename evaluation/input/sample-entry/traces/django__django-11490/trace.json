@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly demonstrates the incorrect behavior with reproducible examples and points to the relevant code in compiler.py. It\u2019s obvious what the ORM should be doing (resetting or updating the selected columns for each values()/values_list() call), but it doesn\u2019t prescribe exactly how to implement that fix. You\u2019d need to inspect the Query and QuerySet internals to apply the change. Hence it\u2019s not fully spelled out, but there\u2019s enough information to work towards a solution."
+}

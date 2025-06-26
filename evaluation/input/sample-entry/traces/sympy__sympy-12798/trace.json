@@ -1,0 +1,3 @@
+{
+  "trace": "The issue only states that definitions for ff and rf changed in SymPy 1.0 and suggests reverting the change, without any detail on what ff and rf actually do, where they live in the codebase, what behavior changed, or what tests are failing. There\u2019s insufficient context to implement or validate this revert, making it too vague to act on meaningfully."
+}

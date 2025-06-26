@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug (ON CONFLICT clause using Python field names rather than the actual db_column values, causing invalid SQL for mixed\u2010case column names), provides a minimal reproducible example, shows the current vs expected SQL, and indicates the desired fix. This is sufficient to implement a correct solution."
+}

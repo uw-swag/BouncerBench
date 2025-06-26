@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug scenario, provides minimal reproductions (with and without other parameters), shows the exact traceback and code location (parse_bits in library.py), and states the expected vs actual behavior. All necessary details are present to implement a fix, so the ticket is well-specified."
+}

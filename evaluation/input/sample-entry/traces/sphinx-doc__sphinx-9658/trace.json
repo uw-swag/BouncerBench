@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly defines the bug, lists exact Sphinx versions with differing behavior, shows reproduction steps, expected vs. actual output, project links, environment details, and screenshots. A developer can immediately reproduce and target the \u201cBases\u201d rendering logic, so the issue is well specified."
+}

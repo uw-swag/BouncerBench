@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states which part of the code to change (DatabaseIntrospection.get_relations), what it currently does (complex regex parsing of DDL), and what it should do instead (use PRAGMA foreign_key_list). This gives a concrete target and approach for implementation without major ambiguity."
+}

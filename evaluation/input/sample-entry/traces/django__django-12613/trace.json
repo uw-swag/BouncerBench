@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the failure point when the XML serializer encounters a JSONField (a Python object rather than a string), shows the traceback, and implies the need to serialize JSONField values to string (e.g. via json.dumps) before passing to xml.characters. While it doesn\u2019t spell out the exact code change, there is a straightforward, sensible fix in xml_serializer.handle_field to detect JSONField and call value_to_string or json.dumps. Thus it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly provides a minimal reproducible example (the exact ORM code), the error message and generated SQL, and a stated expectation for behavior. It\u2019s obvious what change is needed (handle negated empty IN lists by treating them as always true rather than emitting an empty WHEN clause)."
+}

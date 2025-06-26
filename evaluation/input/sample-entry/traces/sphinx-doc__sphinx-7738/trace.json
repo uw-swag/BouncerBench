@@ -1,0 +1,3 @@
+{
+  "trace": "The issue contains a clear description of the bug, minimal code to reproduce, explicit Sphinx config changes, exact commands to run, and the expected vs. actual behavior. A developer can directly attempt a fix from this information."
+}

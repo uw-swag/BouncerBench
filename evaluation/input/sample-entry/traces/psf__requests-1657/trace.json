@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a bug in how session and request hooks are combined (overwriting instead of merging their lists). It\u2019s evident the fix should involve merging the two hook lists rather than letting one overwrite the other. While minor details (e.g. ordering of hooks) could be clarified, there is a straightforward, sensible interpretation and implementation path."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the bug (X is modified despite copy_X=True when check_input=False), provides a minimal reproducer script, and defines the expected behavior (X should remain unchanged). The fix is straightforward: ensure an internal copy of X is made regardless of check_input. This is well-specified for a PR."
+}

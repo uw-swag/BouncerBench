@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a precise repro (configuration, pytest invocation, full stack trace), describes what changed (Pytest 7.3.2 behavior), and asks a clear question about whether this is user error or a bug\u2014and what the proper configuration should be. That is enough detail to implement or propose a fix."
+}

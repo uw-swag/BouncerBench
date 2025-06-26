@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (automatic masking of NaN values in Table.read), why that is problematic for pipeline code, and proposes a specific feature/API change (e.g. a mask=False keyword on Table.read) to disable that behavior. It\u2019s straightforward to implement and test, so the spec is sufficient for a meaningful solution."
+}

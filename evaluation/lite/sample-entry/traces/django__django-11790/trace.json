@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly states what is wrong (the username field on AuthenticationForm no longer sets the maxlength HTML attribute), points to the specific commit that regressed it, and links to discussion threads for context. A developer can locate the form in code, add the missing maxlength attribute (using the field\u2019s max_length), and write a test for it. This is sufficiently detailed for a meaningful fix.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/contrib/auth/forms.py b/django/contrib/auth/forms.py\n--- a/django/contrib/auth/forms.py\n+++ b/django/contrib/auth/forms.py\n@@ -191,7 +191,9 @@\n \n         # Set the max length and label for the \"username\" field.\n         self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)\n-        self.fields['username'].max_length = self.username_field.max_length or 254\n+        max_length = self.username_field.max_length or 254\n+        self.fields['username'].max_length = max_length\n+        self.fields['username'].widget.attrs['maxlength'] = max_length\n         if self.fields['username'].label is None:\n             self.fields['username'].label = capfirst(self.username_field.verbose_name)\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAuthenticationForm's username field doesn't set maxlength HTML attribute.\nDescription\n\t\nAuthenticationForm's username field doesn't render with maxlength HTML attribute anymore.\nRegression introduced in #27515 and 5ceaf14686ce626404afb6a5fbd3d8286410bf13.\n\u200bhttps://groups.google.com/forum/?utm_source=digest&utm_medium=email#!topic/django-developers/qnfSqro0DlA\n\u200bhttps://forum.djangoproject.com/t/possible-authenticationform-max-length-regression-in-django-2-1/241\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_a09mnzotu",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The issue was that AuthenticationForm stopped rendering the HTML maxlength attribute on its username input. The patch reinstates this by pulling the model\u2019s max_length (or defaulting to 254), assigning it to the form field and explicitly setting the widget\u2019s maxlength attribute. It\u2019s a minimal, focused fix that restores the HTML behavior without touching unrelated code.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

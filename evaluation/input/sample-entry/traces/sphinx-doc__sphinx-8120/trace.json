@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear description of the bug, shows exact reproduction steps with a sample repo, specifies expected vs. actual behavior, and includes environment details. It\u2019s unambiguous what success looks like (the local .po/.mo override being used), so it\u2019s well-specified."
+}

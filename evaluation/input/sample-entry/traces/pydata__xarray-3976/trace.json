@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, the exact error message, the expected behavior, and environment details. It is clear what\u2019s wrong (in-place addition doesn\u2019t align coords before combining) and what the correct behavior should be (A += B should mirror A + B), so it\u2019s well-specified."
+}

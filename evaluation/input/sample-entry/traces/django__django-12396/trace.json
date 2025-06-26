@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description of the bug, how to reproduce it (with sample settings and commands), the observed traceback, and the expected behavior (that all test databases should be prefixed with test_ even when running a subset of tests). A patch could be written to ensure DiscoveryRunner.setup_databases handles all aliases, so this is well-specified for a meaningful implementation."
+}

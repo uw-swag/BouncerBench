@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a small, reproducible snippet (with inputs and observed output), a clear statement of what\u2019s wrong, and even the Sympy version. It\u2019s straightforward to write a test expecting the two new columns inserted at position 3 and the remainder of the identity to stay aligned on the bottom half. That makes it well\u2010specified for a fix."
+}

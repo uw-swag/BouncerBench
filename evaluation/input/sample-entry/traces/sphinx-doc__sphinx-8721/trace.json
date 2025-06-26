@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug (viewcode still generates pages for the epub target even when viewcode_enable_epub=False), gives reproduction steps, and defines the expected behavior (no module pages in the epub). That is sufficient to write a patch in the viewcode extension to skip page generation when building epub with viewcode_enable_epub=False."
+}

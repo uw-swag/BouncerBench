@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with clear, reproducible examples showing current vs. expected behavior and pinpoints that RootOf is ignoring the substituted generator. It\u2019s obvious what needs to change (make RootOf use the correct generator after substitution), so it\u2019s well-specified for a solution."
+}

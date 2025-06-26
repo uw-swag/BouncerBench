@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a minimal repro, the exact traceback, the versions where it does/doesn\u2019t fail, and points out that passing non-byte data (floats or datetimes) with files now errors out. While they don\u2019t spell out \u201cwe expect datetime objects to be stringified (e.g. via isoformat()) as before,\u201d it\u2019s clear what broke and how to restore the previous behavior. This is enough detail to triage and implement a fix."
+}

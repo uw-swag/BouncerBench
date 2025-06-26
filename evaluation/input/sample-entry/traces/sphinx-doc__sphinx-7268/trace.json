@@ -1,0 +1,3 @@
+{
+  "trace": "The issue only states that the sphinx.ext.autodoc.typehints extension should be auto-loaded by autodoc once \"typehints have matured,\" without specifying any acceptance criteria (e.g. version thresholds, config options, or exact loading behavior). It\u2019s unclear when and how this should happen, so the task is too underspecified for a direct implementation."
+}

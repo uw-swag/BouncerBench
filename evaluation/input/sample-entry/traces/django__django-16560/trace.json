@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies the class and method to change (BaseConstraint.validate), what extra functionality is needed (pass a custom \u2018code\u2019 into the ValidationError), and roughly how it should work (add a new constructor parameter, update the error raise). While the exact parameter name and defaults might need to be agreed on in code review, there\u2019s a straightforward interpretation and path to implementation without needing further clarification."
+}

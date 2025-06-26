@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug, gives minimal repros, specifies desired vs actual output, and even points to the exact file and code change needed. A PR can be written directly from this information."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired change: when Min() or Max() are called with no arguments, they should return +\u221e and \u2212\u221e respectively instead of raising an error. While implementation details (e.g. which infinity constant to use, updating tests, backward compatibility) will need to be worked out, the functional requirement is unambiguous and implementable."
+}

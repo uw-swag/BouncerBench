@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly describes the current behavior (spellchecker flags text inside ``backticks``), the desired behavior (ignore backticked text), gives an example, and even suggests an implementation approach (add a filter like the Sphinx directive filter). There\u2019s enough detail to write a PR without further clarification."
+}

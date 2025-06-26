@@ -1,0 +1,3 @@
+{
+  "trace": "The issue points out that CountVectorizer\u2019s input parameter is ignored when a custom analyzer is provided, but it lacks clear reproduction steps for actual file inputs, a specified expected behavior (should custom analyzers override input? should files be read first?), and acceptance criteria for a fix or documentation change. Without concrete detail on the desired outcome, it\u2019s unclear how to implement a meaningful solution."
+}

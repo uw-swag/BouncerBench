@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (all man pages in a single `man/` directory), the desired behavior (split by section into `man/man1`, `man/man3`, etc.), and even points out where Sphinx already tracks the section for each page via its config. There\u2019s enough detail to implement the change in the man builder (just create subdirectories based on the section field) and update docs/tests accordingly. No further clarification is needed, so it\u2019s WELL_SPECIFIED."
+}

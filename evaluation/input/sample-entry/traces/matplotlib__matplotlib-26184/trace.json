@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, clear description of actual vs expected behavior, environment details, and even a known workaround. A developer can reproduce the bug, understand that AnnotationBbox\u2019s window extents are zero prior to draw, and implement the appropriate fix (e.g. computing or deferring extents or excluding it from constrained layout by default)."
+}

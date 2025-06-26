@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly calls for adding a `stratify` parameter to `utils.resample` (or a new `subsample` util) that behaves much like the stratification in `train_test_split`, but without failing when the requested sample size equals or is close to the dataset size. While the edge\u2010case behaviors (exact API signatures, error messages, replacement vs. no replacement) aren\u2019t spelled out in minute detail, there\u2019s an obvious reference implementation (the current `train_test_split` stratify logic) and a clear goal. This makes it reasonably specified: enough to start a PR and fill in minor details by following existing patterns."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description refers to an external link for the minimal example and details but does not include any inlined code or concrete repro steps. It\u2019s unclear what the shape and contents of the data are, how exactly `assign_coords` is being called, or what coordinate indices should be preserved. Without a self-contained code snippet and expected vs. actual outputs, the request is too vague to implement a fix."
+}

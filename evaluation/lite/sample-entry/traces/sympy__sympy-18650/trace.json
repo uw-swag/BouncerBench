@@ -1,0 +1,28 @@
+{
+  "input": "The issue clearly describes the unwanted behavior (sqrt(8)**Rational(2,3) yields 2**(1/3)*2**(2/3)) and the desired outcome (it should simplify to 2). It\u2019s unambiguous what change is needed\u2014apply exponent rules to combine the factors\u2014so it is well-specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/core/power.py b/sympy/core/power.py\nindex dcdbf63b8a..ceae0806df 100644\n--- a/sympy/core/power.py\n+++ b/sympy/core/power.py\n@@ -353,6 +353,14 @@ def _eval_power(self, other):\n         if b is S.NaN:\n             return (b**e)**other  # let __new__ handle it\n \n+        # Handle cases like sqrt(8)**Rational(2,3)\n+        if (b.is_Number and e.is_Rational and other.is_Rational and\n+            not e.is_Integer and not other.is_Integer):\n+            # Combine the exponents: (b**e)**other = b**(e*other)\n+            new_exp = e * other\n+            if new_exp.is_Integer:\n+                return b**new_exp\n+\n         s = None\n         if other.is_integer:\n             s = 1\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nsqrt(8)**Rational(2, 3) doesn't simplify\n```py\r\n>>> sqrt(8)**Rational(2, 3)\r\n2**(1/3)*2**(2/3)\r\n```\r\n\r\nThe results should just be `2`.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_na7ijbf9z",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe patch combines exponents only when the product e * other is an integer, but for sqrt(8)**(2/3) we get new_exp = 1/3, which is not an integer. The code therefore never returns the simplified b**new_exp, so sqrt(8)**(2/3) still won\u2019t simplify to 2. It misses the key case of rational-but-non-integer resulting exponents that do simplify (e.g., 8**(1/3) \u2192 2).\n</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

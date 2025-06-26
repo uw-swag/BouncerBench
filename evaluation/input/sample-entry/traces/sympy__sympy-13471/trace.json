@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the problem (Python 2\u21923 pickle of a Sympy expression with floats fails), provides a minimal reproducible example with exact commands, environment details (Sympy commit, Python versions), and shows the full error. A developer has all necessary information to reproduce and fix the issue, so it\u2019s well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly requests the collapse of nested Mod expressions under addition (and, by extension, linear combinations), e.g. Mod(Mod(x+1,2)+1,2) \u21d2 Mod(x,2), and recursively for expressions like foo*Mod(x+1,2) + non_mod_terms + 1. While it doesn\u2019t spell out every edge\u2010case, the goal\u2014flattening nested Mods and eliminating integer offsets mod n\u2014is clear enough to attempt an implementation."
+}

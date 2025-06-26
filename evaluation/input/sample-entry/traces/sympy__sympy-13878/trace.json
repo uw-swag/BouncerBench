@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a concrete task (adding internal _cdf methods for specific distributions whose CDFs currently fail), lists the exact distributions and test cases, and outlines success criteria (closed-form CDF, differentiation check, numeric tests). While the exact formulas must be sourced (e.g. from Wikipedia), the overall scope and requirements are well defined and actionable."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The requirement is clear: enforce that Blueprint names cannot be empty by validating the `name` argument (e.g. in the Blueprint constructor) and raising a `ValueError` if it is. An experienced engineer can locate the Blueprint class, add a simple check (`if not name: raise ValueError(...)`), and update tests accordingly, so the issue is well-specified."
+}

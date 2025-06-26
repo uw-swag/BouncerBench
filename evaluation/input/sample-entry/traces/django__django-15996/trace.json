@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly explains the problem (combined enum flags default rendering to an invalid name in migrations), the root cause (EnumSerializer uses .name but combined values have no single name), and a high-level solution (use enum._decompose to get names and generate an OR expression). While it doesn\u2019t give exact code locations or API signatures, there\u2019s a sensible interpretation of what to implement and how migration defaults should be rendered. Thus it\u2019s reasonably specified for a meaningful implementation attempt."
+}

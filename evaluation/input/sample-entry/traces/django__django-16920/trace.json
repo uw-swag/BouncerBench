@@ -1,0 +1,3 @@
+{
+  "trace": "This issue clearly describes the current rendering problem, the accessibility standards to meet, and shows concrete \u201cbefore\u201d and \u201cafter\u201d examples of the HTML changes (adding id attributes and aria-describedby). An engineer familiar with Django\u2019s form rendering or its widget templates can take those examples and update the default templates or renderer to emit the new IDs and aria attributes. The requirements and desired outcome are unambiguous and actionable."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the undesirable behavior, shows examples, and states a desired API change (default nulls_first/last to None, deprecate False). It\u2019s specific enough to implement in the ORM\u2019s OrderBy code, write a deprecation warning, update defaults, docs, and tests. Some low-level details (exact warning text, test cases) would need deciding, but there\u2019s a clear expected outcome."
+}

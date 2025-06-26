@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states that VotingClassifier and VotingRegressor should treat the string 'drop' exactly as they currently treat None (i.e., omit that estimator from the ensemble). It points to the specific classes and the existing behavior, so a developer can update the validation logic, docs, and tests accordingly without needing further clarification."
+}

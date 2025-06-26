@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the widget (FileInput), the existing method (use_required_attribute on ClearableFileInput), and the desired behavior (drop the required attribute when there is initial data). It even points to the exact source line. A developer has a concrete change to make, so the issue is well\u2010specified."
+}

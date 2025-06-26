@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes an existing workaround, the desired new API (`ContourSet.set_paths(transformed_paths)`), and why it\u2019s needed. While the exact internal steps of replacing the paths list and any redraw bookkeeping must be filled in by examining Matplotlib\u2019s ContourSet implementation, the scope and goal are clear enough to implement a setter method. Thus it\u2019s reasonably specified."
+}

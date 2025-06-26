@@ -1,0 +1,3 @@
+{
+  "trace": "The issue reads more like a discussion question (\u201cIs it worth special-casing this\u2026?\u201d) rather than a clear, actionable feature request or bug report. There\u2019s no defined scope or acceptance criteria, no precise description of how the warning should be suppressed for management forms, and no details on the code paths involved. It\u2019s unclear what a successful solution would entail, so the specification is too vague to implement immediately."
+}

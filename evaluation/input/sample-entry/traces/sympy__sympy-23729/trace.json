@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug\u2014Julia\u2019s parser chokes on sequences like \u201c2.*\u201d because it can\u2019t disambiguate a float literal from the broadcast operator\u2014and shows the erroneous output and the error message. It also proposes a robust, simple fix of emitting spaces around binary operators by default (e.g. \u201c2 .* y\u201d). While the exact list of operators to space and formatting conventions aren\u2019t spelled out in exhaustive detail, there\u2019s a straightforward, sensible path to a solution. Thus it\u2019s reasonably specified for a PR implementation."
+}

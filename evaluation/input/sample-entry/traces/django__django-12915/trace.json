@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the missing async entry point on StaticFilesHandlerMixin (so ASGIStaticFilesHandler lacks get_response_async), shows the resulting traceback, and implies the needed behavior (mirror the existing sync get_response). There\u2019s enough context to infer the correct implementation pattern (e.g. wrap or reimplement get_response_async) from similar Django handlers, even though it doesn\u2019t spell out every line of code. A PR can be drafted from this."
+}

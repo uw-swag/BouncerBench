@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproduction steps, a clear failure scenario (lambdify on Heaviside(Min(x,y))), the root cause (ITE inside Piecewise leads to nested numpy.select with invalid condlist entries), and even a suggested remedy (detect ITE in Piecewise and rewrite conditions using Boolean And/Or or apply simplify). While it doesn\u2019t prescribe exactly which function to patch, it gives all the context a developer needs to write a test, trace through the lambdify pipeline, and add a preprocessing step on Piecewise to simplify away ITE. That makes it reasonably specified for implementation."
+}

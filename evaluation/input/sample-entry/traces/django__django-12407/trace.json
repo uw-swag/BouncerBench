@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the desired behavior change (using select_template to allow fallbacks in the {% include %} tag), shows before/after shell examples, even points to the specific line to change, and notes minor complications. A developer can implement and test this without further clarification."
+}

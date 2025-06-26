@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states which class (codegen.ast String) needs to support the standard Basic invariance expr.func(*expr.args) == expr instead of only using **kwargs, and specifies the exact behavior to add. While it doesn\u2019t include code snippets or point to exact lines, it\u2019s straightforward to locate the String class in codegen/ast.py and adjust its constructor to treat its string value as a positional argument. There\u2019s no ambiguity about what must be done, so it\u2019s reasonably specified."
+}

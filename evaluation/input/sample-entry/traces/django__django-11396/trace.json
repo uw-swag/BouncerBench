@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows a runtime error when ordering by a constant annotation, but it doesn\u2019t spell out the expected SQL or desired behavior, nor give enough context (Django version, target behavior, edge cases) to directly implement a fix. There\u2019s ambiguity around how constants should be handled in ORDER BY, so it\u2019s unclear what a complete solution entails."
+}

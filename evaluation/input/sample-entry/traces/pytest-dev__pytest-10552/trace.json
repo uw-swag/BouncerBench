@@ -1,0 +1,3 @@
+{
+  "trace": "The user has provided a minimal reproducible example, current pytest behavior, and a clear statement of desired behavior (at least warn or error on uncollected classmethod tests). There\u2019s enough context to locate where collection happens in pytest and to add a warning for unsupported classmethod-decorated tests, even though the exact code changes aren\u2019t spelled out. Hence it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides detailed reproduction steps, stack traces, the exact SQL queries issued, and even points to the specific Django ORM files and methods involved (the cascading delete in deletion.py). They clearly state the desired change (\u201conly fetch required fields\u201d for delete cascading) and why it matters, so a developer can locate the code, understand what to modify (e.g. switch from a full-object QuerySet to a .only(\u2018pk\u2019) or .values_list call), and write a targeted patch. This is sufficient to begin work on a PR."
+}

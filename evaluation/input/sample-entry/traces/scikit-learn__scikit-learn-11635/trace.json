@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a general question rather than a concrete change request, doesn\u2019t specify exactly what behavior to change (e.g. remove the check vs add an option vs conditionally apply it), and doesn\u2019t scope the change to particular models or code paths. There isn\u2019t enough detail on the desired API or tests, so it\u2019s too vague to start an implementation."
+}

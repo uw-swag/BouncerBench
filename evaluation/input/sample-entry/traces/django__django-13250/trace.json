@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (nested JSONField __contains/__contained_by on SQLite doesn\u2019t work), provides a set of concrete failing examples (test cases), and outlines the desired behavior. While it doesn\u2019t prescribe the exact implementation approach (SQL vs. Python emulation) or performance constraints, the expected outcomes are clear from the tests. This makes it reasonably specified for someone familiar with Django\u2019s JSONField to attempt a solution."
+}

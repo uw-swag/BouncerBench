@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly lays out the steps to reproduce, the observed error, and the desired behavior (allow migrating to replaced migrations or at least stop prompting about migrations you can\u2019t actually run and surface a nicer error). An engineer familiar with Django\u2019s migration loader and executor could craft a PR to include replaced migrations in the node graph or adjust the ambiguity and error handling. While there\u2019s room for multiple implementation approaches, the requirements and failure modes are sufficiently detailed to get started."
+}

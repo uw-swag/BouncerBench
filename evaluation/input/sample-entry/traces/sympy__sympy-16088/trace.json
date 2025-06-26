@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the missing behavior (pulling constant factors out of an Integral in simplify()), gives analogous Sum behavior, example inputs and outputs, references a previous discussion (#7971), and even drafts release notes. While it doesn\u2019t spell out the exact code changes, it\u2019s straightforward for someone familiar with Sympy\u2019s simplify system to implement the same pattern used in Sum.simplify for Integral. Thus it is reasonably specified."
+}

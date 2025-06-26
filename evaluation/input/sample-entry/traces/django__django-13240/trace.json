@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the current behavior (raising ImproperlyConfigured at settings initialization if SECRET_KEY is missing) and the desired change (defer that exception until someone actually accesses Settings.SECRET_KEY). The use case is spelled out, and an experienced Django developer can locate the relevant code (in django/conf) and implement the deferred check. While it doesn\u2019t point to exact lines of code, it gives a precise change requirement that can be reasonably interpreted and implemented."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes concrete code examples showing that simplify() and expand() on matrix expressions do not collapse to the zero matrix as expected. It references a specific GitHub issue and demonstrates the faulty behavior. While it doesn\u2019t spell out the exact desired return value, it\u2019s clear that expressions like -(-A + B) - A + B should simplify to ZeroMatrix(m, n). This is enough for a developer familiar with SymPy\u2019s simplify/expand internals to implement a fix."
+}

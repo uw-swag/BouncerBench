@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows a reproducible code snippet, the exact discrepancy between actual and expected outputs, and the desired result. It\u2019s obvious what change is wanted (labels with no true/predicted samples should yield precision 1 rather than 0), but the report doesn\u2019t detail broader API implications or how to handle related edge cases. It\u2019s enough to start implementing a fix, but leaves some design choices implicit."
+}

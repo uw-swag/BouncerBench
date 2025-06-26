@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/polys/sqfreetools.py b/sympy/polys/sqfreetools.py\nindex fbdbcb2..3a514c8 100644\n--- a/sympy/polys/sqfreetools.py\n+++ b/sympy/polys/sqfreetools.py\n@@ -313,6 +313,7 @@ def dup_sqf_list(f, K, all=False):\n         return coeff, []\n \n     result, i = [], 1\n+    factor_dict = {}\n \n     h = dup_diff(f, 1, K)\n     g, p, q = dup_inner_gcd(f, h, K)\n@@ -322,17 +323,26 @@ def dup_sqf_list(f, K, all=False):\n         h = dup_sub(q, d, K)\n \n         if not h:\n-            result.append((p, i))\n+            if i in factor_dict:\n+                factor_dict[i] = dup_mul(factor_dict[i], p, K)\n+            else:\n+                factor_dict[i] = p\n             break\n \n         g, p, q = dup_inner_gcd(p, h, K)\n \n         if all or dup_degree(g) > 0:\n-            result.append((g, i))\n+            if i in factor_dict:\n+                factor_dict[i] = dup_mul(factor_dict[i], g, K)\n+            else:\n+                factor_dict[i] = g\n \n         i += 1\n \n-    return coeff, result\n+    for k, v in factor_dict.items():\n+        result.append((v, k))\n+\n+    return coeff, sorted(result, key=lambda x: x[1])\n \n \n def dup_sqf_list_include(f, K, all=False):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nsqf and sqf_list output is not consistant\nThe example below is wrong in the sense that we should have (x*_2 - 5_x + 6, 3) and not 2 factors of multiplicity 3.\n\n```\n>  sqf_list(  (x**2 + 1)  * (x - 1)**2 * (x - 2)**3 * (x - 3)**3  )\n\n>  (1, [(x**2 + 1, 1), (x - 1, 2), (x - 3, 3), (x - 2, 3)])\n```\n\nwhereas below is correct --- one factor of multiplicity 2\n\n```\n>  sqf_list( x**5 - 2*x**4 - 2*x**3 + 4*x**2 + x - 2 )\n\n>  (1, [(x - 2, 1), (x**2 - 1, 2)])\n```\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_8jfle9tcm",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch accumulates all irreducible factors of a given multiplicity into a single product and only emits one entry per multiplicity (sorted by increasing exponent). That exactly implements the \u201cgroup same-multiplicity factors into one squarefree cofactor\u201d behavior described in the issue, without touching unrelated code.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

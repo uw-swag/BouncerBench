@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear in intent\u2014add an add_indicator boolean parameter to existing imputers (especially SimpleImputer) that appends a MissingIndicator\u2019s output to the imputed data. It names the parameter, describes its behavior, and references the exact transformers involved. The remaining work is purely implementation detail within the codebase. Therefore it\u2019s reasonably specified."
+}

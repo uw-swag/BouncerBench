@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is very clearly described: there is reproducible code, a stack trace showing where the error occurs, the root cause is identified (legend handler\u2019s first_color assumes a numpy array but receives a tuple), and a simple proposed fix is provided. All necessary details are present for a developer to implement and test the solution."
+}

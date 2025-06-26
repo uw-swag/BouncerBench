@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the missing timezone conversion in the TruncDay implementation for DateField, points to the exact code path (as_sql), and shows the generated SQL vs. the desired behavior. While it doesn\u2019t spell out the exact patch in code, there\u2019s a straightforward, sensible way to add the tzinfo handling (e.g. by calling datetime_trunc_sql and then casting to date), so it\u2019s sufficiently specified to implement a fix."
+}

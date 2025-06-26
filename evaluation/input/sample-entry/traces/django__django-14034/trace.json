@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal but sufficient context: subclass code, actual vs. expected behavior, and a clear \u201cfail/pass\u201d example. It\u2019s clear what the user wants (respect per-subfield \u201crequired=True\u201d even when the parent field\u2019s required=False), and there\u2019s no ambiguity about the success criteria. While you\u2019d need to dig into Django\u2019s MultiValueField.clean logic to implement it, the ask itself is concrete and testable."
+}

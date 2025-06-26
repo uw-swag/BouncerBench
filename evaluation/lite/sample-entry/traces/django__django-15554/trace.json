@@ -1,0 +1,28 @@
+{
+  "input": "The user clearly describes the models and desired query, includes a complete code snippet showing two FilteredRelation aliases on the same relation, and explains the observed vs. expected SQL behavior. It\u2019s unambiguous what the desired fix is (produce two separate JOINs for the two filters), so the issue is well specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/sql/query.py b/django/db/models/sql/query.py\nindex 54f3258eac..eee1d2bbd1 100644\n--- a/django/db/models/sql/query.py\n+++ b/django/db/models/sql/query.py\n@@ -1818,7 +1818,8 @@ class Query(BaseExpression):\n                 nullable,\n                 filtered_relation=filtered_relation,\n             )\n-            reuse = can_reuse if join.m2m else None\n+            # Don't reuse joins when filtered relations are involved to ensure each filtered relation gets its own join\n+            reuse = None if filtered_relation else (can_reuse if join.m2m else None)\n             alias = self.join(connection, reuse=reuse)\n             joins.append(alias)\n             if filtered_relation:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nUsing multiple FilteredRelation with different filters but for same relation is ignored.\nDescription\n\t \n\t\t(last modified by lind-marcus)\n\t \nI have a relation that ALWAYS have at least 1 entry with is_all=True and then I have an optional entry that could have is_all=False but instead have zone set.\nI'm trying to use FilteredRelation together with Case(When()) to ensure that it use the zone level one (if exist) and fall back on \"All\" if zone do not exist.\nfrom django.db.models import FilteredRelation\nqs.alias(\n\trelation_zone=FilteredRelation(\n\t\t\"myrelation__nested\",\n\t\tcondition=Q(myrelation__nested__zone=F(\"zone\"))\n\t),\n\trelation_all=FilteredRelation(\n\t\t\"myrelation__nested\",\n\t\tcondition=Q(myrelation__nested__is_all=True)\n\t),\n\tprice_zone=F(\"relation_zone__price\")\n).annotate(\n\tprice_final=Case(\n\t\tWhen(\n\t\t\tprice_zone__isnull=True,\n\t\t\tthen=F(\"relation_all__price\"),\n\t\t),\n\t\tdefault=F(\"price_zone\")\n\t)\n)\nI noticed that when using multiple FilteredRelation with the same relation (myrelation__nested) it actually just generates a single SQL JOIN (if inspecting the raw SQL) and ignores the other. So in this case if I do print(str(qs.query)) I would only see a join for relation_zone. Not for relation_all.\nIs this intended behavior or should I be able to do the thing above?\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_cwnxakx0j",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe issue was that two FilteredRelation aliases on the same path were collapsing into a single JOIN because Django allowed reuse of m2m joins. By forcing `reuse=None` whenever `filtered_relation` is truthy, the patch guarantees each filtered relation creates its own JOIN with its own ON-clause, so you get two distinct joins with different conditions. It\u2019s a minimal, targeted change and doesn\u2019t touch unrelated code paths.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

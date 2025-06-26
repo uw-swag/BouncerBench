@@ -1,0 +1,3 @@
+{
+  "trace": "The issue just shows a failing test case without any background, reproduction steps, environment details, or clear statement of the intended behavior and root cause. While you can guess that byte-string field names are being repr-ed instead of decoded, there\u2019s no specification of how requests should treat bytes keys or under which versions this fails \u201csometimes.\u201d There\u2019s too much left ambiguous to start coding a fix with confidence."
+}

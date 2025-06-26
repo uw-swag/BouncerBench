@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states that the man_make_section_directory setting must be reverted to off by default (it currently breaks existing projects) and even calls out the directory\u2010naming issue (<builddir>/1 vs. <builddir>/man1). The desired change and its rationale are unambiguous, so a PR can be crafted directly to disable the option by default and adjust the naming scheme."
+}

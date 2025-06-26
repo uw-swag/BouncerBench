@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states a goal (disable all migrations during tests) and even suggests where to hook into the code (MigrationLoader.migrations_module()). However, it leaves out implementation details such as how to wire up the new setting in the DATABASES config, defaults, and test coverage. There\u2019s enough guidance to start a sensible implementation but some details will need to be defined."
+}

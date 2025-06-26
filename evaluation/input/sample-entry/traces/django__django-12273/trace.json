@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes concrete example code, a clear description of the unexpected behavior (resetting the PK on a multi-table inherited model does not cause a new record to be created), and the Django version. While it's not an end-to-end repro, there\u2019s enough detail to interpret the problem and propose a solution. Therefore it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible snippet, clearly identifies the root cause (constant column in Y causing a misleading \u2018contains nan\u2019 error), and implicitly asks for a more appropriate check/error message for zero\u2010variance features. It doesn\u2019t spell out exact wording of the new error or whether to drop such columns vs. error out, but there\u2019s a clear, reasonable interpretation for a fix."
+}

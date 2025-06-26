@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducer, clear description of expected vs actual behavior, and environment details. It\u2019s unambiguous what the VarianceThreshold should do and how it\u2019s failing here, so one can jump straight to diagnosing/fixing the bug."
+}

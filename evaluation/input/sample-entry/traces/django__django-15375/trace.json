@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the bug, provides exact reproduction steps (including Django version, database backend, code snippet), shows the erroneous SQL and error message, and even the expected workaround. This is sufficient to diagnose and fix the issue."
+}

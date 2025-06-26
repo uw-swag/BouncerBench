@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a clear problem statement, a minimal reproducible example showing actual vs expected behavior, root-cause analysis (floatformat converting Decimal to float), and even a reference PR. It\u2019s precise enough to start implementing or reviewing a fix."
+}

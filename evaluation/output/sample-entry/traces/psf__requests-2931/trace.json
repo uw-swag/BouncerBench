@@ -1,0 +1,129 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/requests/models.py b/requests/models.py\nindex 85fd980..abc4077 100644\n--- a/requests/models.py\n+++ b/requests/models.py\n@@ -444,7 +444,11 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):\n                 (body, content_type) = self._encode_files(files, data)\n             else:\n                 if data:\n-                    body = self._encode_params(data)\n+                    if isinstance(data, bytes):\n+                        body = data\n+                    else:\n+                        body = self._encode_params(data)\n+                    \n                     if isinstance(data, basestring) or hasattr(data, 'read'):\n                         content_type = None\n                     else:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nRequest with binary payload fails due to calling to_native_string\nIntroduced with https://github.com/kennethreitz/requests/issues/2844\n\n```\nimport requests\nrequests.put(\"http://httpbin.org/put\", data=u\"\u00f6\u00f6\u00f6\".encode(\"utf-8\"))\n```\n\nThis works with 2.8.1, but not with 2.9.\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_lbk55adv9",
+    "status": "completed",
+    "call_id": "call_v1zYSTd6RD4WSTM9Uj1pNdlf",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"class PreparedRequest\\\" -n requests/models.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_v1zYSTd6RD4WSTM9Uj1pNdlf",
+    "output": "{\"output\":\"254:class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_cvlhkrrzd",
+    "status": "completed",
+    "call_id": "call_seuXZOyaqb6ZshFGsoEgRBsZ",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '430,500p' requests/models.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_seuXZOyaqb6ZshFGsoEgRBsZ",
+    "output": "{\"output\":\"\\n        if is_stream:\\n            body = data\\n\\n            if files:\\n                raise NotImplementedError('Streamed bodies and files are mutually exclusive.')\\n\\n            if length:\\n                self.headers['Content-Length'] = builtin_str(length)\\n            else:\\n                self.headers['Transfer-Encoding'] = 'chunked'\\n        else:\\n            # Multi-part file uploads.\\n            if files:\\n                (body, content_type) = self._encode_files(files, data)\\n            else:\\n                if data:\\n                    body = self._encode_params(data)\\n                    if isinstance(data, basestring) or hasattr(data, 'read'):\\n                        content_type = None\\n                    else:\\n                        content_type = 'application/x-www-form-urlencoded'\\n\\n            self.prepare_content_length(body)\\n\\n            # Add content-type if it wasn't explicitly provided.\\n            if content_type and ('content-type' not in self.headers):\\n                self.headers['Content-Type'] = content_type\\n\\n        self.body = body\\n\\n    def prepare_content_length(self, body):\\n        if hasattr(body, 'seek') and hasattr(body, 'tell'):\\n            body.seek(0, 2)\\n            self.headers['Content-Length'] = builtin_str(body.tell())\\n            body.seek(0, 0)\\n        elif body is not None:\\n            l = super_len(body)\\n            if l:\\n                self.headers['Content-Length'] = builtin_str(l)\\n        elif (self.method not in ('GET', 'HEAD')) and (self.headers.get('Content-Length') is None):\\n            self.headers['Content-Length'] = '0'\\n\\n    def prepare_auth(self, auth, url=''):\\n        \\\"\\\"\\\"Prepares the given HTTP auth data.\\\"\\\"\\\"\\n\\n        # If no Auth is explicitly provided, extract it from the URL first.\\n        if auth is None:\\n            url_auth = get_auth_from_url(self.url)\\n            auth = url_auth if any(url_auth) else None\\n\\n        if auth:\\n            if isinstance(auth, tuple) and len(auth) == 2:\\n                # special-case basic HTTP auth\\n                auth = HTTPBasicAuth(*auth)\\n\\n            # Allow auth to make its changes.\\n            r = auth(self)\\n\\n            # Update self to reflect the auth changes.\\n            self.__dict__.update(r.__dict__)\\n\\n            # Recompute Content-Length\\n            self.prepare_content_length(self.body)\\n\\n    def prepare_cookies(self, cookies):\\n        \\\"\\\"\\\"Prepares the given HTTP cookie data.\\n\\n        This function eventually generates a ``Cookie`` header from the\\n        given cookies using cookielib. Due to cookielib's design, the header\\n        will not be regenerated if it already exists, meaning this function\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_yy67k4vvh",
+    "status": "completed",
+    "call_id": "call_zcxnzNNk8JwLIOKwcSRQYLsL",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def _encode_params\\\" -n requests/models.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_zcxnzNNk8JwLIOKwcSRQYLsL",
+    "output": "{\"output\":\"75:    def _encode_params(data):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_izzpeizvz",
+    "status": "completed",
+    "call_id": "call_9cIoaJsF1Jqp0wcFHDLeWO3O",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"basestring\\\" -n requests\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_9cIoaJsF1Jqp0wcFHDLeWO3O",
+    "output": "{\"output\":\"requests/adapters.py:19:from .compat import urlparse, basestring\\nrequests/adapters.py:200:            if not isinstance(cert, basestring):\\nrequests/packages/urllib3/response.py:12:from .packages.six import string_types as basestring, binary_type, PY3\\nrequests/packages/urllib3/response.py:117:        if body and isinstance(body, (basestring, binary_type)):\\nrequests/packages/urllib3/packages/six.py:42:    string_types = basestring,\\nrequests/packages/urllib3/packages/six.py:341:            if not isinstance(data, basestring):\\nrequests/models.py:33:    is_py2, chardet, builtin_str, basestring)\\nrequests/models.py:90:                if isinstance(vs, basestring) or not hasattr(vs, '__iter__'):\\nrequests/models.py:112:        elif isinstance(data, basestring):\\nrequests/models.py:120:            if isinstance(val, basestring) or not hasattr(val, '__iter__'):\\nrequests/models.py:423:            not isinstance(data, (basestring, list, tuple, dict))\\nrequests/models.py:448:                    if isinstance(data, basestring) or hasattr(data, 'read'):\\nrequests/compat.py:47:    basestring = basestring\\nrequests/compat.py:61:    basestring = (str, bytes)\\nrequests/utils.py:29:                     basestring)\\nrequests/utils.py:141:    if (name and isinstance(name, basestring) and name[0] != '<' and\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_0oz27vxnb",
+    "status": "completed",
+    "call_id": "call_a8j0sv2N1sfJ5lSElxuDa6eA",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,200p' requests/compat.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_a8j0sv2N1sfJ5lSElxuDa6eA",
+    "output": "{\"output\":\"# -*- coding: utf-8 -*-\\n\\n\\\"\\\"\\\"\\npythoncompat\\n\\\"\\\"\\\"\\n\\nfrom .packages import chardet\\n\\nimport sys\\n\\n# -------\\n# Pythons\\n# -------\\n\\n# Syntax sugar.\\n_ver = sys.version_info\\n\\n#: Python 2.x?\\nis_py2 = (_ver[0] == 2)\\n\\n#: Python 3.x?\\nis_py3 = (_ver[0] == 3)\\n\\ntry:\\n    import simplejson as json\\nexcept (ImportError, SyntaxError):\\n    # simplejson does not support Python 3.2, it throws a SyntaxError\\n    # because of u'...' Unicode literals.\\n    import json\\n\\n# ---------\\n# Specifics\\n# ---------\\n\\nif is_py2:\\n    from urllib import quote, unquote, quote_plus, unquote_plus, urlencode, getproxies, proxy_bypass\\n    from urlparse import urlparse, urlunparse, urljoin, urlsplit, urldefrag\\n    from urllib2 import parse_http_list\\n    import cookielib\\n    from Cookie import Morsel\\n    from StringIO import StringIO\\n    from .packages.urllib3.packages.ordered_dict import OrderedDict\\n\\n    builtin_str = str\\n    bytes = str\\n    str = unicode\\n    basestring = basestring\\n    numeric_types = (int, long, float)\\n\\nelif is_py3:\\n    from urllib.parse import urlparse, urlunparse, urljoin, urlsplit, urlencode, quote, unquote, quote_plus, unquote_plus, urldefrag\\n    from urllib.request import parse_http_list, getproxies, proxy_bypass\\n    from http import cookiejar as cookielib\\n    from http.cookies import Morsel\\n    from io import StringIO\\n    from collections import OrderedDict\\n\\n    builtin_str = str\\n    str = str\\n    bytes = bytes\\n    basestring = (str, bytes)\\n    numeric_types = (int, float)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_u4x2rqnsy",
+    "status": "completed",
+    "call_id": "call_QWZ4m3GZidSkTJuOEvbcf4uL",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '1,200p' requests/models.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_QWZ4m3GZidSkTJuOEvbcf4uL",
+    "output": "{\"output\":\"# -*- coding: utf-8 -*-\\n\\n\\\"\\\"\\\"\\nrequests.models\\n~~~~~~~~~~~~~~~\\n\\nThis module contains the primary objects that power Requests.\\n\\\"\\\"\\\"\\n\\nimport collections\\nimport datetime\\n\\nfrom io import BytesIO, UnsupportedOperation\\nfrom .hooks import default_hooks\\nfrom .structures import CaseInsensitiveDict\\n\\nfrom .auth import HTTPBasicAuth\\nfrom .cookies import cookiejar_from_dict, get_cookie_header, _copy_cookie_jar\\nfrom .packages.urllib3.fields import RequestField\\nfrom .packages.urllib3.filepost import encode_multipart_formdata\\nfrom .packages.urllib3.util import parse_url\\nfrom .packages.urllib3.exceptions import (\\n    DecodeError, ReadTimeoutError, ProtocolError, LocationParseError)\\nfrom .exceptions import (\\n    HTTPError, MissingSchema, InvalidURL, ChunkedEncodingError,\\n    ContentDecodingError, ConnectionError, StreamConsumedError)\\nfrom .utils import (\\n    guess_filename, get_auth_from_url, requote_uri,\\n    stream_decode_response_unicode, to_key_val_list, parse_header_links,\\n    iter_slices, guess_json_utf, super_len, to_native_string)\\nfrom .compat import (\\n    cookielib, urlunparse, urlsplit, urlencode, str, bytes, StringIO,\\n    is_py2, chardet, builtin_str, basestring)\\nfrom .compat import json as complexjson\\nfrom .status_codes import codes\\n\\n#: The set of HTTP status codes that indicate an automatically\\n#: processable redirect.\\nREDIRECT_STATI = (\\n    codes.moved,              # 301\\n    codes.found,              # 302\\n    codes.other,              # 303\\n    codes.temporary_redirect, # 307\\n    codes.permanent_redirect, # 308\\n)\\n\\nDEFAULT_REDIRECT_LIMIT = 30\\nCONTENT_CHUNK_SIZE = 10 * 1024\\nITER_CHUNK_SIZE = 512\\n\\n\\nclass RequestEncodingMixin(object):\\n    @property\\n    def path_url(self):\\n        \\\"\\\"\\\"Build the path URL to use.\\\"\\\"\\\"\\n\\n        url = []\\n\\n        p = urlsplit(self.url)\\n\\n        path = p.path\\n        if not path:\\n            path = '/'\\n\\n        url.append(path)\\n\\n        query = p.query\\n        if query:\\n            url.append('?')\\n            url.append(query)\\n\\n        return ''.join(url)\\n\\n    @staticmethod\\n    def _encode_params(data):\\n        \\\"\\\"\\\"Encode parameters in a piece of data.\\n\\n        Will successfully encode parameters when passed as a dict or a list of\\n        2-tuples. Order is retained if data is a list of 2-tuples but arbitrary\\n        if parameters are supplied as a dict.\\n        \\\"\\\"\\\"\\n\\n        if isinstance(data, (str, bytes)):\\n            return to_native_string(data)\\n        elif hasattr(data, 'read'):\\n            return data\\n        elif hasattr(data, '__iter__'):\\n            result = []\\n            for k, vs in to_key_val_list(data):\\n                if isinstance(vs, basestring) or not hasattr(vs, '__iter__'):\\n                    vs = [vs]\\n                for v in vs:\\n                    if v is not None:\\n                        result.append(\\n                            (k.encode('utf-8') if isinstance(k, str) else k,\\n                             v.encode('utf-8') if isinstance(v, str) else v))\\n            return urlencode(result, doseq=True)\\n        else:\\n            return data\\n\\n    @staticmethod\\n    def _encode_files(files, data):\\n        \\\"\\\"\\\"Build the body for a multipart/form-data request.\\n\\n        Will successfully encode files when passed as a dict or a list of\\n        2-tuples. Order is retained if data is a list of 2-tuples but arbitrary\\n        if parameters are supplied as a dict.\\n\\n        \\\"\\\"\\\"\\n        if (not files):\\n            raise ValueError(\\\"Files must be provided.\\\")\\n        elif isinstance(data, basestring):\\n            raise ValueError(\\\"Data must not be a string.\\\")\\n\\n        new_fields = []\\n        fields = to_key_val_list(data or {})\\n        files = to_key_val_list(files or {})\\n\\n        for field, val in fields:\\n            if isinstance(val, basestring) or not hasattr(val, '__iter__'):\\n                val = [val]\\n            for v in val:\\n                if v is not None:\\n                    # Don't call str() on bytestrings: in Py3 it all goes wrong.\\n                    if not isinstance(v, bytes):\\n                        v = str(v)\\n\\n                    new_fields.append(\\n                        (field.decode('utf-8') if isinstance(field, bytes) else field,\\n                         v.encode('utf-8') if isinstance(v, str) else v))\\n\\n        for (k, v) in files:\\n            # support for explicit filename\\n            ft = None\\n            fh = None\\n            if isinstance(v, (tuple, list)):\\n                if len(v) == 2:\\n                    fn, fp = v\\n                elif len(v) == 3:\\n                    fn, fp, ft = v\\n                else:\\n                    fn, fp, ft, fh = v\\n            else:\\n                fn = guess_filename(v) or k\\n                fp = v\\n\\n            if isinstance(fp, (str, bytes, bytearray)):\\n                fdata = fp\\n            else:\\n                fdata = fp.read()\\n\\n            rf = RequestField(name=k, data=fdata, filename=fn, headers=fh)\\n            rf.make_multipart(content_type=ft)\\n            new_fields.append(rf)\\n\\n        body, content_type = encode_multipart_formdata(new_fields)\\n\\n        return body, content_type\\n\\n\\nclass RequestHooksMixin(object):\\n    def register_hook(self, event, hook):\\n        \\\"\\\"\\\"Properly register a hook.\\\"\\\"\\\"\\n\\n        if event not in self.hooks:\\n            raise ValueError('Unsupported event specified, with event name \\\"%s\\\"' % (event))\\n\\n        if isinstance(hook, collections.Callable):\\n            self.hooks[event].append(hook)\\n        elif hasattr(hook, '__iter__'):\\n            self.hooks[event].extend(h for h in hook if isinstance(h, collections.Callable))\\n\\n    def deregister_hook(self, event, hook):\\n        \\\"\\\"\\\"Deregister a previously registered hook.\\n        Returns True if the hook existed, False if not.\\n        \\\"\\\"\\\"\\n\\n        try:\\n            self.hooks[event].remove(hook)\\n            return True\\n        except ValueError:\\n            return False\\n\\n\\nclass Request(RequestHooksMixin):\\n    \\\"\\\"\\\"A user-created :class:`Request <Request>` object.\\n\\n    Used to prepare a :class:`PreparedRequest <PreparedRequest>`, which is sent to the server.\\n\\n    :param method: HTTP method to use.\\n    :param url: URL to send.\\n    :param headers: dictionary of headers to send.\\n    :param files: dictionary of {filename: fileobject} files to multipart upload.\\n    :param data: the body to attach to the request. If a dictionary is provided, form-encoding will take place.\\n    :param json: json for the body to attach to the request (if files or data is not specified).\\n    :param params: dictionary of URL parameters to append to the URL.\\n    :param auth: Auth handler or (user, pass) tuple.\\n    :param cookies: dictionary or CookieJar of cookies to attach to this request.\\n    :param hooks: dictionary of callback hooks, for internal usage.\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_7xhmglymv",
+    "status": "completed",
+    "call_id": "call_9IG3Pk1MVVmCmY1jhXw5vKT6",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"to_native_string\\\" -n requests/utils.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_9IG3Pk1MVVmCmY1jhXw5vKT6",
+    "output": "{\"output\":\"686:def to_native_string(string, encoding='ascii'):\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "function_call",
+    "id": "msg_e9h5idimm",
+    "status": "completed",
+    "call_id": "call_7XOCJMZmbtdivnrl8CoQjatM",
+    "name": "shell",
+    "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '650,760p' requests/utils.py\"]}"
+  },
+  {
+    "type": "function_call_output",
+    "call_id": "call_7XOCJMZmbtdivnrl8CoQjatM",
+    "output": "{\"output\":\"    if nullcount == 3:\\n        if sample[:3] == _null3:\\n            return 'utf-32-be'\\n        if sample[1:] == _null3:\\n            return 'utf-32-le'\\n        # Did not detect a valid UTF-32 ascii-range character\\n    return None\\n\\n\\ndef prepend_scheme_if_needed(url, new_scheme):\\n    '''Given a URL that may or may not have a scheme, prepend the given scheme.\\n    Does not replace a present scheme with the one provided as an argument.'''\\n    scheme, netloc, path, params, query, fragment = urlparse(url, new_scheme)\\n\\n    # urlparse is a finicky beast, and sometimes decides that there isn't a\\n    # netloc present. Assume that it's being over-cautious, and switch netloc\\n    # and path if urlparse decided there was no netloc.\\n    if not netloc:\\n        netloc, path = path, netloc\\n\\n    return urlunparse((scheme, netloc, path, params, query, fragment))\\n\\n\\ndef get_auth_from_url(url):\\n    \\\"\\\"\\\"Given a url with authentication components, extract them into a tuple of\\n    username,password.\\\"\\\"\\\"\\n    parsed = urlparse(url)\\n\\n    try:\\n        auth = (unquote(parsed.username), unquote(parsed.password))\\n    except (AttributeError, TypeError):\\n        auth = ('', '')\\n\\n    return auth\\n\\n\\ndef to_native_string(string, encoding='ascii'):\\n    \\\"\\\"\\\"\\n    Given a string object, regardless of type, returns a representation of that\\n    string in the native string type, encoding and decoding where necessary.\\n    This assumes ASCII unless told otherwise.\\n    \\\"\\\"\\\"\\n    out = None\\n\\n    if isinstance(string, builtin_str):\\n        out = string\\n    else:\\n        if is_py2:\\n            out = string.encode(encoding)\\n        else:\\n            out = string.decode(encoding)\\n\\n    return out\\n\\n\\ndef urldefragauth(url):\\n    \\\"\\\"\\\"\\n    Given a url remove the fragment and the authentication part\\n    \\\"\\\"\\\"\\n    scheme, netloc, path, params, query, fragment = urlparse(url)\\n\\n    # see func:`prepend_scheme_if_needed`\\n    if not netloc:\\n        netloc, path = path, netloc\\n\\n    netloc = netloc.rsplit('@', 1)[-1]\\n\\n    return urlunparse((scheme, netloc, path, params, query, ''))\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+  },
+  {
+    "type": "message",
+    "id": "msg_z5whwqopx",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe change narrowly intercepts raw bytes so they aren\u2019t passed through `_encode_params` (which invokes `to_native_string` and fails on non-ASCII data). It leaves the content-type logic untouched and applies only to `bytes`, matching exactly the user\u2019s scenario (sending a UTF-8\u2013encoded byte string). No unrelated code is altered, and behavior for other data types remains the same. This directly fixes the regression without overreach.\n</EXPLANATION>\n<LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

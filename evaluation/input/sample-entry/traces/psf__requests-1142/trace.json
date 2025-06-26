@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the behavior (requests.get always adds a Content-Length header even when there\u2019s no body), provides a concrete example (Amazon returning 503), and suggests the desired outcome (omit the header or allow disabling it). While it doesn\u2019t detail every edge case or implementation approach, it\u2019s sufficiently scoped to implement or propose a change to skip Content-Length on GETs (or add an opt-out), making it reasonably specified."
+}

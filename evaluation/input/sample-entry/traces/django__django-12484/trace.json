@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states what the current behavior is, shows the config that triggers it, and specifies the desired hint text and context (Django\u2019s system check for auth.E002). While it doesn\u2019t include file paths or exact function signatures, it\u2019s a minor feature request with an unambiguous goal: add a hint pointing out which field needs to be removed from REQUIRED_FIELDS. That makes it reasonably specified for implementation."
+}

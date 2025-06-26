@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states that pretty(oo-oo) currently yields \"nan\" when evaluation is disabled, and the user is asking why. However, it never explicitly states what the correct behavior should be or what output is expected (for example, showing \"oo - oo\" or something else). Without a clear specification of the desired output or behavior, it\u2019s ambiguous what change is needed. Thus the report lacks sufficient detail to implement a solution unambiguously."
+}

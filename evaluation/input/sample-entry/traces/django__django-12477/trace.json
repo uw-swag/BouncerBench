@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (fields.E310/E311 checks ignore UniqueConstraint), provides a reproducible example, and specifies the desired change (make those checks consider UniqueConstraint without conditions). There\u2019s enough detail to implement and test the fix."
+}

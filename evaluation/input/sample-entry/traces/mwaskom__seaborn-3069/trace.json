@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly lists the three behaviors that nominal scales should adopt from categorical axes: margin offsets, grid suppression, and y-axis inversion. While it doesn\u2019t hand you the exact code changes or fully resolve theme-override questions, it\u2019s a well-bounded enhancement request with a sensible path (e.g. touching the scale class and Plotter._finalize_figure). An experienced contributor can fill in the implementation details by exploring those components. Therefore it\u2019s REASONABLY_SPECIFIED."
+}

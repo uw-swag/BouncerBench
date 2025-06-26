@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the API change (supporting '%(app_label)s' and '%(class)s' in the name of BaseConstraint/Index), how those placeholders should be resolved (lowercased model class name and app label), and the goal (allowing named constraints in abstract models). There aren\u2019t exhaustive details on every edge case or test, but it\u2019s a straightforward feature extension that a Django contributor could implement from this description alone."
+}

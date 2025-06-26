@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the missing behavior (__len__ on Pipeline), provides code to reproduce the error, and implicitly defines the expected behavior (len(pipe) should return the number of pipeline steps). Implementing __len__ to return len(self.steps) is an obvious fix. There\u2019s no ambiguity about what success looks like."
+}

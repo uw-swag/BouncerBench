@@ -1,0 +1,3 @@
+{
+  "trace": "The issue calls out a specific function (`__matmul__`) and a clear desired change (reject non\u2010Matrix operands, e.g. scalar @ Matrix should error).  While it doesn\u2019t specify the exact exception class, it\u2019s straightforward to add an isinstance check and raise (ValueError or TypeError) to mirror NumPy.  There\u2019s enough detail to proceed."
+}

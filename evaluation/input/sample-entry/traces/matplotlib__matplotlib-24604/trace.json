@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly describes the goal (support mosaic layouts of heterogeneous projections) and proposes a concrete API (`fig.gridspec_mosaic(...)` returning a dict of SubplotSpec objects). While the exact function signature and edge\u2010case behaviors aren\u2019t exhaustively defined, there is a straightfoward, sensible implementation path (mirror `subplot_mosaic` internals but return specs instead of axes), so the issue is reasonably specified."
+}

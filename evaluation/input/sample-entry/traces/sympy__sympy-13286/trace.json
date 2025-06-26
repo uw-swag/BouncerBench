@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows the incorrect behavior (Abs(sin(x)) returns 2*pi instead of pi) and the recursion error on relational expressions, and even specifies the expected outcomes (pi for Abs(sin(x)), None for relational inputs). While not exhaustively detailed for every edge case, it gives concrete examples and desired fixes/return values, making it possible to write a targeted patch."
+}

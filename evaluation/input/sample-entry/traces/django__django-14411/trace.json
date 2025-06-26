@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes exactly what\u2019s wrong (the \u2018for\u2019 attribute on the label is pointing at non\u2010labelable output) and what needs to change (remove or omit the \u2018for\u2019 attribute for ReadOnlyPasswordHashWidget). There\u2019s no ambiguity about the scope or desired behavior, so it\u2019s well\u2010specified."
+}

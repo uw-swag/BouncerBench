@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a minimal reproducible example, clear description of actual vs expected behavior, relevant traceback, Matplotlib versions tested, and even pointers to commits where the behavior changed. It\u2019s straightforward to identify and implement a fix or add handling in the MixedModeRenderer. Therefore it\u2019s well-specified."
+}

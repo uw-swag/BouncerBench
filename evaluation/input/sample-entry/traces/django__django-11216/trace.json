@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s happening (multiple hashed files accumulating), why it\u2019s a problem, and even suggests an API (a keep_intermediate_files flag on HashedFilesMixin) to control cleanup. The scope of the change is obvious: after writing the final hashed file, remove older intermediate hashes when the flag is False. While implementation details (exact code locations) aren\u2019t spelled out, the desired behavior is sufficiently defined for a meaningful PR."
+}

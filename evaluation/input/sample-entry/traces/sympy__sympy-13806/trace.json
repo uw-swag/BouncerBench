@@ -1,0 +1,3 @@
+{
+  "trace": "The request gives almost no context about the codebase, component, or expected behavior. It\u2019s unclear what \u201csupport\u201d means, where it should be added, or what system is being modified. Key details (framework, parser, renderer, tests) are missing, so it\u2019s too vague to implement."
+}

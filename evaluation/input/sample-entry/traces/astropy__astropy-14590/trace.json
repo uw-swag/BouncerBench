@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply reports a TypeError in masked-array support for np.fix under numpy-dev and notes a TODO comment about allowing writes to unmasked output. It does not specify exactly what behavior is expected, how to handle the 'where' keyword, or what the correct API contract is, so it\u2019s too vague to craft a precise fix without further clarification."
+}

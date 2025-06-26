@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior, the desired directory layout (man/man1, man/man3, etc.), and why it\u2019s needed. While implementation details (e.g. handling defaults or backwards\u2010compat flags) would need to be worked out, the core requirement is clear and actionable."
+}

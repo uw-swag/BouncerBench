@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear problem description, a minimal code example showing the incorrect output, and the precise expected LaTeX form. It\u2019s straightforward to understand what change in the LaTeX printer (grouping superscripts) is needed to satisfy the user\u2019s requirement."
+}

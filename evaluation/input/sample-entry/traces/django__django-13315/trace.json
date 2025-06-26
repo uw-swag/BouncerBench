@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a general problem (duplicate entries when using limit_choices_to with a Q object on a ForeignKey involving joins) but gives no concrete code examples, reproduction steps, or details on the failure mode beyond a vague regression test reference. It\u2019s not clear exactly where or how to apply a fix without further context or the actual test/patch. Thus it\u2019s too underspecified to act on directly."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, provides a minimal reproducible example archive, step-by-step repro instructions, sample output vs expected output, environment details (OS, Python, Sphinx versions), and the root cause hypothesis. A developer can reproduce and fix it without missing information."
+}

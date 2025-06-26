@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a clear description, minimal reproducible example with code, reproduction steps, expected behavior, environment (OS, Python/Sphinx versions), and even a sample repo. It\u2019s clear what a successful fix would entail (skip literal values in nitpick checks)."
+}

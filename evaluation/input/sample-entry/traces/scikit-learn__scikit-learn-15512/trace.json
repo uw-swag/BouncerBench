@@ -1,0 +1,3 @@
+{
+  "trace": "The report reproduces the mismatch between the documented behavior and the actual output, includes minimal code to reproduce it, states expected vs. actual results unambiguously, and even specifies the desired fix (either correct the behavior to return empty array/-1 labels on non\u2010convergence or add a \u2018converged_\u2019 flag). All necessary details (versions, exact API calls) are provided. This is WELL_SPECIFIED."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly defines the incorrect behavior (regression in groupby .groups output for a multi-index level), provides MCVE, expected vs actual outputs, version info, and notes it used to work in a prior release. There\u2019s a direct, unambiguous description of the bug and the desired result, so you can directly implement and test a fix."
+}

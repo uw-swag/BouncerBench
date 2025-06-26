@@ -1,0 +1,3 @@
+{
+  "trace": "The report describes a confusing stateful bug but lacks a concrete minimal reproducible example and clear steps to reproduce the transition that causes the AttributeError. Key details are placeholders (e.g. \u201cmy int number list\u201d), and the behavior depends on an unexplained sequence of operations in the IPython session. It\u2019s unclear how to trigger the error reliably or what the root cause should be, so the issue is too vague to act on without more information."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states which function is wrong, cites the RFC requirement, describes the existing hard-coded cutoff (0\u201369 \u2192 2000\u20132069, 70\u201399 \u2192 1970\u20131999) and specifies the correct behavior (interpret two\u2010digit years by comparing against the current date with a 50-year future window). There\u2019s no ambiguity about what needs to change or how to validate it."
+}

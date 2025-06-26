@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly asks for registering an \u201chtml\u201d output format for `Cosmology.write`, points to existing I/O examples and docs, and even outlines a rough API (`write_html()` calling `to_table()`, formatting with MathJax, then `QTable.write(..., format='html')`). While some implementation details (exact HTML/MathJax styling, Parameter metadata slots) will need filling in, a developer familiar with Astropy\u2019s I/O registry can make a sensible interpretation and proceed. Hence it\u2019s reasonably specified."
+}

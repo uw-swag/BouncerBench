@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly describes modifying the Sphinx \u201ccoverage\u201d builder to emit warnings (when coverage is missing) under a new config flag (e.g. `coverage_print_missing_as_warning`), so that a tox run with `-W` will fail on missing coverage. The location of the change (the Sphinx coverage extension), the desired behavior (warnings on missing items), and a proposed config name are all spelled out. While minor details (exact default value or log channel) can be sensibly inferred, the ticket gives enough information for a straightforward implementation."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a regression in xr.where with keep_attrs=True where coordinate attributes are replaced by variable attrs. It includes a minimal repro example, the observed vs. expected behavior, context on the PR that caused it, and environment details. There\u2019s a direct, testable failure and a clear expectation (coordinate attrs must be preserved), so it is well-specified."
+}

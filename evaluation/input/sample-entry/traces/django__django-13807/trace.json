@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the reproduction steps, shows the exact error and stack trace, pinpoints the faulty code lines in the SQLite backend (missing quoting of table names in PRAGMA statements), and even lists the affected versions. A patch can be written to properly quote the table names, so the issue is well\u2010specified."
+}

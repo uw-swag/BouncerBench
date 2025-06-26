@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example showing that calling diophantine with permute=True yields different results when the order of the syms tuple is reversed. It\u2019s clear that the expected behavior is to return the same full set of integer solutions regardless of symbol order. While the expected output isn\u2019t spelled out verbatim, there\u2019s a sensible interpretation (i.e. both calls should return the complete set of permutations). This provides enough information to attempt a fix."
+}

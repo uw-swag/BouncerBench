@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the bug location (duplicate copy_X parameters in __init__ and fit), shows the conflicting behavior, and proposes a concrete fix (make fit\u2019s copy_X default to None and only override when explicitly passed). The scope and expected change are unambiguous, so a PR can be implemented based solely on this description."
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/core/files/locks.py b/django/core/files/locks.py\nindex c46b00b..51940b0 100644\n--- a/django/core/files/locks.py\n+++ b/django/core/files/locks.py\n@@ -99,12 +99,18 @@ else:\n \n         # Dummy functions that don't do anything.\n         def lock(f, flags):\n-            # File is not locked\n-            return False\n+            ret = fcntl.flock(_fd(f), flags)\n+            if ret == 0:\n+                return True\n+            else:\n+                return False\n \n         def unlock(f):\n-            # File is unlocked\n-            return True\n+            ret = fcntl.flock(_fd(f), fcntl.LOCK_UN)\n+            if ret == 0:\n+                return True\n+            else:\n+                return False\n     else:\n         def lock(f, flags):\n             ret = fcntl.flock(_fd(f), flags)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nBug in posix implementation of django/core/files/locks.py\nDescription\n\t\nThe posix version of locks (the version which supports import fcntl) has a bug. The code attempts to return True to indicate success or failure acquiring a lock, but instead it always returns False. The reason is that cpython fcntl module returns None if successful, and raises an OSError to indicate failure (see \u200bhttps://docs.python.org/3/library/fcntl.html#fcntl.flock).\nAnyone interested in using the non-blocking (i.e. locks.LOCKS_NB) requires a valid return value to know if they have successfully acquired the lock.\nI believe the correct implementation should be the following:\ndiff --git a/django/core/files/locks.py b/django/core/files/locks.py\nindex c46b00b905..4938347ea7 100644\n--- a/django/core/files/locks.py\n+++ b/django/core/files/locks.py\n@@ -107,9 +107,15 @@ else:\n\t\t\t return True\n\t else:\n\t\t def lock(f, flags):\n-\t\t\tret = fcntl.flock(_fd(f), flags)\n-\t\t\treturn ret == 0\n+\t\t\ttry:\n+\t\t\t\tfcntl.flock(_fd(f), flags)\n+\t\t\t\treturn True\n+\t\t\texcept OSError:\n+\t\t\t\treturn False\n\t\t def unlock(f):\n-\t\t\tret = fcntl.flock(_fd(f), fcntl.LOCK_UN)\n-\t\t\treturn ret == 0\n+\t\t\ttry:\n+\t\t\t\tfcntl.flock(_fd(f), fcntl.LOCK_UN)\n+\t\t\t\treturn True\n+\t\t\texcept OSError:\n+\t\t\t\treturn False\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_kxuaceihn",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch continues to call fcntl.flock and check for a return value of 0, but in CPython flock returns None on success (and raises on failure). As a result ret == 0 is still always False and the fix doesn\u2019t catch the OSError exception. It fails to address the bug described.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

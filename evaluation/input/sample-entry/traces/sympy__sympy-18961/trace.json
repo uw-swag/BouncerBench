@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the desired feature (adding a `bits` argument to `digits` for zero-padding), provides a concrete diff illustrating exactly where and how to change the code, and even indicates that tests should be added. There\u2019s a straightforward, unambiguous task to implement and verify this behavior."
+}

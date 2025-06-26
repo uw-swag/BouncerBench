@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is extremely minimal\u2014there is no context about where or how the warning should be emitted, what code paths are involved, what the expected message is, or under what conditions exactly it should trigger. Without at least pointers to the relevant code or usage scenarios, it\u2019s unclear what constitutes a successful implementation."
+}

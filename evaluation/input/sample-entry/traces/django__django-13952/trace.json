@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies that the migrate command\u2019s pre/post signal emitters don\u2019t take a stdout parameter, so their verbose output always goes to sys.stdout (polluting it in tests). It indicates where the bug happens, what behavior is expected (signals should write to the provided stdout), and even points to a related PR discussion. While you\u2019ll need to look at the signal\u2010emitting functions and the call_command implementation to apply the change, there\u2019s a clear, actionable scope. Hence it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes the duplicate scripts in detail and points to the setup.py inputs causing them, but it never specifies which of the two scripts should be kept (or under what conditions), how to handle backward compatibility, or what the exact desired packaging change is. Without clear acceptance criteria or a concrete decision on which entry to drop, it\u2019s ambiguous what a correct solution would be."
+}

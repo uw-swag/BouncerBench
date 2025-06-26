@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (relax input validation for X in ensemble methods like AdaBoost to allow non-numeric inputs that the base estimator can handle) and points to the relevant component (AdaBoost, and by extension other ensemble methods). While it doesn\u2019t give exact code changes, it\u2019s a reasonably scoped enhancement request and can be implemented by someone familiar with the codebase. Therefore it is REASONABLY_SPECIFIED."
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/backends/sqlite3/schema.py b/django/db/backends/sqlite3/schema.py\nindex b3a2f4282b..92b90626fe 100644\n--- a/django/db/backends/sqlite3/schema.py\n+++ b/django/db/backends/sqlite3/schema.py\n@@ -353,6 +353,16 @@ class DatabaseSchemaEditor(BaseDatabaseSchemaEditor):\n         # Fix any PK-removed field\n         if restore_pk_field:\n             restore_pk_field.primary_key = True\n+            # Add this code to explicitly set the PRIMARY KEY constraint\n+            if restore_pk_field.column != self.quote_name(restore_pk_field.column):\n+                quoted_column = self.quote_name(restore_pk_field.column)\n+            else:\n+                quoted_column = restore_pk_field.column\n+            self.execute(\n+                f\"ALTER TABLE {self.quote_name(model._meta.db_table)} \"\n+                f\"ADD PRIMARY KEY ({quoted_column})\"\n+            )\n+\n \n     def delete_model(self, model, handle_autom2m=True):\n         if handle_autom2m:\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nMigrations changes to implicit primary key when primary key is altered on SQLite.\nDescription\n\t\nMigrations drops explicit primary key defined on a model when it's altered.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_g8hf6x6hr",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>The patch attempts to re-add a PRIMARY KEY constraint on SQLite via \u201cALTER TABLE \u2026 ADD PRIMARY KEY\u201d, but SQLite does not support adding or altering primary key constraints with ALTER TABLE (only simple ADD COLUMN is allowed). Additionally, the quoting logic is backwards and unnecessary. As a result, this change will not work to restore the explicit primary key as intended.</EXPLANATION><LABEL>INCORRECT</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

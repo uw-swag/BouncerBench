@@ -1,0 +1,25 @@
+[
+  {
+    "role": "user",
+    "content": [
+      {
+        "type": "input_text",
+        "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/src/flask/blueprints.py b/src/flask/blueprints.py\nindex 678f5f0..7dc18fd 100644\n--- a/src/flask/blueprints.py\n+++ b/src/flask/blueprints.py\n@@ -190,6 +190,8 @@ class Blueprint(Scaffold):\n             root_path=root_path,\n         )\n \n+        if not name:\n+            raise ValueError(\"'name' cannot be empty.\")\n         if \".\" in name:\n             raise ValueError(\"'name' may not contain a dot '.' character.\")\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nRequire a non-empty name for Blueprints\nThings do not work correctly if a Blueprint is given an empty name (e.g. #4944).\r\nIt would be helpful if a `ValueError` was raised when trying to do that.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+      }
+    ],
+    "type": "message"
+  },
+  {
+    "type": "message",
+    "id": "msg_57un1d6sa",
+    "status": "completed",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "output_text",
+        "text": "<EXPLANATION>\nThe patch inserts a guard immediately before the existing dot\u2010check so that creating a Blueprint with an empty name now raises a ValueError, exactly as requested. It\u2019s minimal, targets only the empty\u2010name issue, and doesn\u2019t introduce unrelated changes.  \n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+        "annotations": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue suggests adding support for detecting and listing @functools.singledispatch overloads in documentation, but it doesn\u2019t specify the context (which documentation tool or codebase), the desired output format, or how the links should be generated. Without knowing the environment, existing plugin architecture, or user expectations, there\u2019s too much ambiguity to implement a solution."
+}

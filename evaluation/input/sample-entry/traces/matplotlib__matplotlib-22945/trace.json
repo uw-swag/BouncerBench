@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is accompanied by a minimal reproducible example, full traceback, the exact commit SHA where the regression appeared, environment details (OS, Python version, backend), and a clear description of actual vs. expected behaviour. That makes it straightforward to reproduce and diagnose, so it is well-specified."
+}

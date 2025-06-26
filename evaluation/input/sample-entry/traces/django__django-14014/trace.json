@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is too brief and lacks any context or details about the environment, the specific introspection tool or code in use, examples of current vs. expected behavior, steps to reproduce, or SQLite version. Without that information it\u2019s unclear what changes would satisfy the request or how to verify a solution."
+}

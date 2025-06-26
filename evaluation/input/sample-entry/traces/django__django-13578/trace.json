@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the exact location in django/forms/formsets.py, describes the current behavior and the desired change (include form._errors in the raised ValidationError message), and even supplies example errors. A developer can jump in and implement this enhancement without needing further clarification."
+}

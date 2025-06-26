@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, a minimal reproduction repository with step-by-step instructions, the exact warning message, software versions, and even the bisected commit that introduced the issue. This is fully sufficient to attempt a solution."
+}

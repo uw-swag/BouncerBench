@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the goal (dropping support for Python 3.6 and 3.7) and points to the relevant policy and version timelines. However, it doesn\u2019t spell out the exact steps or scope (e.g., updating setup/config, CI, documentation, code removal). A contributor can infer the necessary changes but will need to fill in those details. Thus it\u2019s reasonably specified."
+}

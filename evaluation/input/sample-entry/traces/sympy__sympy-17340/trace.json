@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is extremely terse and provides no context, file references, test failures, or examples. It simply notes that \"Permutation args\" have been changed from a list subtype to a Tuple subtype, but does not specify where in the code this occurs, what the expected behavior is, or any details about related tests or modules. There\u2019s insufficient information to form a concrete implementation plan without exploring the entire codebase and guessing at intent. Therefore the description is too vague for a meaningful solution."
+}

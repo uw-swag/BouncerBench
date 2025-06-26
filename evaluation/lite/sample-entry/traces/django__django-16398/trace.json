@@ -1,0 +1,28 @@
+{
+  "input": "The issue gives a very terse pointer to a commit and a code line, but no reproduction steps, expected vs actual behavior, or concrete patch context. It\u2019s unclear what the symptom is, how to reproduce it, or exactly what change is needed (beyond a vague suggestion to use partial). More detail is needed for a meaningful fix.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/sql/compiler.py b/django/db/models/sql/compiler.py\nindex 5423f20f1f..eea9e02f5b 100644\n--- a/django/db/models/sql/compiler.py\n+++ b/django/db/models/sql/compiler.py\n@@ -1291,7 +1291,7 @@ class SQLCompiler:\n                         \"model\": model,\n                         \"field\": final_field,\n                         \"reverse\": True,\n-                        \"local_setter\": local_setter,\n+                        \"local_setter\": partial(local_setter),\n                         \"remote_setter\": partial(remote_setter, name),\n                         \"from_parent\": from_parent,\n                     }\n@@ -2052,3 +2052,4 @@ def cursor_iter(cursor, sentinel, col_count, itersize):\n             yield rows if col_count is None else [r[:col_count] for r in rows]\n     finally:\n         cursor.close()\n+\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nQuerySet.select_related() with multiple filtered relations to the OneToOneField sets the last one.\nDescription\n\t\n\u200bhttps://github.com/django/django/commit/e1ae2b00504ba30481285b2bd767d1ad561bf4be\n\u200bhttps://github.com/django/django/blob/0bd2c0c9015b53c41394a1c0989afbfd94dc2830/django/db/models/sql/compiler.py#L1290\nshould use partial, just like the remote_setter\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_db8z2n2f5",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>The patch wraps the local_setter in functools.partial just like remote_setter, matching the issue\u2019s request and fixing the wrong setter binding. No unrelated changes were made.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is very high-level and lacks concrete details: it states an intention to deprecate index_together in favor of indexes but does not specify which code paths to change, how to handle backwards compatibility, what warnings or errors to raise, migration steps, timelines, or impacted components. There\u2019s insufficient information for a clear implementation plan without further clarification."
+}

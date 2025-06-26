@@ -1,0 +1,3 @@
+{
+  "trace": "The report identifies the symptom (request cookies being persisted), points to the exact line of code where it occurs, and references the related test (#1630). However, it does not include a minimal reproduction, expected vs. actual behavior, or clear instructions on how cookies should be handled instead. Without knowing the existing test case or desired behavior, it\u2019s ambiguous how to change that line without breaking other functionality."
+}

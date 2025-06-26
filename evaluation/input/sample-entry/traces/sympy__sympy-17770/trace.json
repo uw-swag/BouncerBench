@@ -1,0 +1,3 @@
+{
+  "trace": "The issue merely states that some internal methods (`_eval_is_real`, `_eval_is_finite`) were \u201ccorrected\u201d but still incomplete, without specifying what the current behavior is, what cases are missing, or any desired test cases or specifications. It gives no concrete examples or requirements to guide implementation. This makes it too vague to act on meaningfully."
+}

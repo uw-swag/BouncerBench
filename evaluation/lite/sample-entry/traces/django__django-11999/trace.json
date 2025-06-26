@@ -1,0 +1,28 @@
+{
+  "input": "The report clearly shows the behavior change (get_FIELD_display no longer overridden by a user method), includes a minimal reproducer, and states the expected behavior. While you\u2019ll need to dig into Django\u2019s ModelBase/Field contribute_to_class logic to implement the fix, the goal and reproduction are unambiguous. Thus it\u2019s reasonably specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/db/models/base.py b/django/db/models/base.py\nindex e63da1b..a233de9 100644\n--- a/django/db/models/base.py\n+++ b/django/db/models/base.py\n@@ -939,6 +939,10 @@ class Model(metaclass=ModelBase):\n     delete.alters_data = True\n \n     def _get_FIELD_display(self, field):\n+        # Check if the method is explicitly defined in the instance\n+        user_defined_method = getattr(self, f'get_{field.name}_display', None)\n+        if user_defined_method and callable(user_defined_method):\n+            return user_defined_method()\n         value = getattr(self, field.attname)\n         # force_str() to coerce lazy strings.\n         return force_str(dict(field.flatchoices).get(value, value), strings_only=True)\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nCannot override get_FOO_display() in Django 2.2+.\nDescription\n\t\nI cannot override the get_FIELD_display function on models since version 2.2. It works in version 2.1.\nExample:\nclass FooBar(models.Model):\n\tfoo_bar = models.CharField(_(\"foo\"), choices=[(1, 'foo'), (2, 'bar')])\n\tdef __str__(self):\n\t\treturn self.get_foo_bar_display() # This returns 'foo' or 'bar' in 2.2, but 'something' in 2.1\n\tdef get_foo_bar_display(self):\n\t\treturn \"something\"\nWhat I expect is that I should be able to override this function.\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_b9mzhqufu",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe patch tries to detect and call a \u201cuser\u2010defined\u201d get_FOO_display by simply doing getattr(self, f'get_{field.name}_display') inside _get_FIELD_display. But that name always resolves to the auto\u2010generated method from ModelBase (or will have been overwritten), so:\n\n1. User overrides in the class are already clobbered by the contrib hook, so there\u2019s no real \u201cuser\u201d method to pick up here.\n2. getattr(self, 'get_foo_bar_display') will always find the generated method, leading to an immediate recursive loop.\n3. It doesn\u2019t actually prevent the class\u2010level override in ModelBase, so the core problem (contrib clobbering user methods) remains unaddressed.\n\nHence the patch neither restores class\u2010level overrides nor safely detects real user overrides.\n</EXPLANATION><LABEL>INCORRECT</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

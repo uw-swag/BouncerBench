@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes an intermittent autoreloader failure after upgrading to Django 2.2 but provides no concrete repro steps, environment details (host OS/inotify config), logs, or minimal example. The root cause is unclear, and it\u2019s ambiguous what change in the Django codebase must be addressed, so you can\u2019t confidently propose or implement a fix."
+}

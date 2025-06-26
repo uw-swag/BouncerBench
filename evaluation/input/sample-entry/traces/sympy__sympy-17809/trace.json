@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the two changes required: (1) in the cosh function, override is_positive to return True when its argument is real; and (2) in the Abs class, have the constructor return the argument itself if it\u2019s known positive or its negation if known negative. Example REPL sessions and expected simplify results are provided to verify the behavior. A SymPy contributor can implement these two small, scoped modifications and write the corresponding tests\u2014this is well\u2010specified."
+}

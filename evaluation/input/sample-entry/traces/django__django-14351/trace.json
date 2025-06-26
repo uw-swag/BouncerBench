@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear, reproducible example of the bug (Django 3.2\u2019s Q(...__in) generating a multi\u2010column subquery instead of a single\u2010column PK subquery), shows the broken vs. working SQL, and describes the desired behavior (mirror __id__in semantics). All necessary context is provided to craft a fix in Django\u2019s query compiler, so it is well\u2010specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly lists four concrete action items (add a warning example, link the warning to the docs, provide a before/after code snippet, and remove config/session support in from_parent). While it doesn\u2019t specify exact file paths, a developer familiar with the codebase can locate the deprecation docs and warning code to implement these changes. Thus it\u2019s reasonably specified for a meaningful solution."
+}

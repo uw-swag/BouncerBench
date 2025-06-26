@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes current vs. expected behavior, provides a minimal repro case and example code, and specifies the intended marker\u2010merging semantics. It leaves out only the exact touchpoints in pytest\u2019s internal API (which a contributor would discover in code), but the goal and repro are unambiguous. This makes it reasonably specified for someone familiar with pytest internals to implement."
+}

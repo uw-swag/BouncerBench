@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is too brief and lacks critical context: it doesn\u2019t specify the framework (e.g., Django?), where and how the mixin should be applied, what the success message API should look like, or any acceptance criteria. There\u2019s no information on existing code or expected behavior beyond the high-level goal, so it\u2019s unclear how to proceed without clarification."
+}

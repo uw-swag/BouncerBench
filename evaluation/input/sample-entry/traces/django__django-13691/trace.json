@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the environment (Django 3.1.3, SQLite only), the exact operation (`.values('my_json_field__position')`), the failure mode (TypeError when the JSON path value is numeric), and shows the full traceback. You can identify the broken code path (JSONField.from_db_value always calling json.loads on whatever is returned, even floats) and craft a patch to handle non-string values. This is well-scoped and actionable."
+}

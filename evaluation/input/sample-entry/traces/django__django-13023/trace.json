@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the bug (TypeError raised instead of ValidationError when passing a dict to DecimalField.to_python()), explains why it\u2019s a problem, and even points to a PR that shows the intended fix (catch TypeError and wrap it as a ValidationError). There\u2019s little ambiguity about the desired behavior or scope of the change."
+}

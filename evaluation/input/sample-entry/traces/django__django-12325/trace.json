@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible code snippet, the exact exception message, the variant that triggers the error versus the one that works, and a clear question about expected behavior (field order shouldn\u2019t matter when parent_link=True). A developer can meaningfully reproduce, diagnose, and propose a fix from this description."
+}

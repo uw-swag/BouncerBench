@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (Django migrations serializing enum.value instead of enum.name), provides minimal reproducible code, shows the broken migration output and the desired output, and specifies why it matters (translations break enum lookup). A fix is straightforward: adjust the migration serializer to use Enum.name (e.g. Status['GOOD']) instead of Enum.value. The goal and scope are unambiguous."
+}

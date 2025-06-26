@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear problem description, exact reproduction steps (with code snippets), environment and version details, the actual vs expected behavior, and minimal example. A maintainer can reproduce the bug and know exactly what a successful fix looks like (the specified warnings should be silenced), so the issue is well-specified."
+}

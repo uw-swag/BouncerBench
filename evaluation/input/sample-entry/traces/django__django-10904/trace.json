@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to be done\u2014search for all uses of the legacy OSError aliases (IOError, EnvironmentError, WindowsError, mmap.error, socket.error, select.error, and SMTPException) and replace them with OSError\u2014but it doesn\u2019t spell out the precise files or call sites. You can sensibly interpret and implement a global codemod or manual refactor, but some details (e.g. test adjustments, exact scope) will need to be filled in."
+}

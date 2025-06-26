@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates that the wspace/hspace parameters passed to Figure.subfigures are ignored, provides minimal reproducing code, shows actual vs expected behavior, and even references the code location to fix (merging wspace/hspace into the internal GridSpec). The requirements for a solution are unambiguous."
+}

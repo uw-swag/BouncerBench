@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the offending code line, provides a minimal reproducible example, specifies the expected behavior (only pop the first entry when it\u2019s '', '.', or cwd), and includes version info. That gives enough detail to implement and test the change."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with complete repro code, environment details, and the exact error in VotingClassifier\u2019s hard voting when mixing regressors and a classifier. It\u2019s clear that using LinearRegression and Ridge (continuous outputs) in a hard-voting classifier causes the TypeError in np.bincount, and that the user must either use classification estimators (e.g. RidgeClassifier/LogisticRegression variants) or switch to VotingRegressor. You can directly propose the fix. Hence it\u2019s well-specified."
+}

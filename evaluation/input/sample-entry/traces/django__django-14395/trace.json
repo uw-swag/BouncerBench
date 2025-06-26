@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a regression in CacheHandler.all that now forces creation of every cache even if unneeded, describes the old vs new behavior, and even provides a minimal patch showing the desired \u201cexists_only\u201d approach. While it doesn\u2019t include formal tests or full API discussion, it\u2019s straightforward to interpret: revert .all to only return already\u2010created caches (or use an exists_only flag) to restore the prior behavior. That makes it reasonably specified for a PR."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear reproduction case (Tuple[()]), full stack trace, expected behavior, environment details, Sphinx version, and even a minimal snippet/project link. A developer can write a fix that guards against empty args in unparse()."
+}

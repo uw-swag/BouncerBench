@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the problem (Message-ID header crashes on non-ASCII hostname with non-Unicode encoding), gives steps to reproduce, points to the exact code locations, shows the traceback, and even suggests the expected behavior and a test case. It\u2019s unambiguous what change is needed (convert the domain to punycode before header generation)."
+}

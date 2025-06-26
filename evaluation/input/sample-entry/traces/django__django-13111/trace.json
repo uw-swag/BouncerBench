@@ -1,0 +1,3 @@
+{
+  "trace": "The request is focused and actionable: add support for the ISO week-number specifier (%V) in WeekArchiveView by updating the list of accepted week formatters and adjusting _date_from_string error handling or year directive handling. While it leaves some implementation details (e.g. whether to remap %Y to %G or just improve the error message), there\u2019s a clear precedent in the code (other archive views) and a specific change to make, so it\u2019s reasonably specified."
+}

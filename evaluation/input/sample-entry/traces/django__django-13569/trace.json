@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a clear minimal reproduction with models, sample data, expected vs. actual behavior, dumped SQL, and even a proposed patch. It\u2019s unambiguous what\u2019s wrong and how to test a fix, so it\u2019s well-specified."
+}

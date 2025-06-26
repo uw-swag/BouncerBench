@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, expected vs. actual behavior, environment details, and a clear statement of what\u2019s wrong (the x-axis gets reversed when using pd.NA) and what the fix should be (preserve the original order rather than sorting to descending). That is sufficient to start coding a solution (e.g., adjust default sorting behavior in seaborn.lineplot or FacetGrid to respect input order)."
+}

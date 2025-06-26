@@ -1,0 +1,3 @@
+{
+  "trace": "The issue includes a concise repro case, the exact error, and a clear high-level fix (add a ValueError in scorer.py when the estimator isn\u2019t a classifier or y has only one class). While it doesn\u2019t spell out the precise function or line changes, there\u2019s a sensible interpretation of where and how to implement the check. You can meaningfully attempt a solution based on this information."
+}

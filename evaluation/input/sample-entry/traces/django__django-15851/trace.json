@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a specific bug: extra psql flags passed after the database name are being ignored and need to be reordered so that flags precede the database name. It even gives a concrete example of the command, output, and the expected adjustment. This is sufficient detail to implement a fix in the dbshell command wrapper."
+}

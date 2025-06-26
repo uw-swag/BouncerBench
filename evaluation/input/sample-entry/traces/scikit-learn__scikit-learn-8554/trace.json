@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the discrepancy (doc vs. behavior), shows the exact error, points to the offending `check_array` calls in specific files/lines, and even suggests the concrete change (add `accept_sparse=True`), so a developer can immediately propose a PR. This makes the issue WELL_SPECIFIED."
+}

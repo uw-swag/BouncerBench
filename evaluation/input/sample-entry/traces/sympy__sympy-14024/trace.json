@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives clear minimal examples demonstrating the inconsistent results, shows the intended simplified form (\u20131)**x, and highlights the specific case that breaks. While it doesn\u2019t spell out every implementation detail, it\u2019s straightforward to interpret the goal (make numeric bases follow the same positive\u2010integer assumption logic as symbols) and write a meaningful fix and test. Thus it is reasonably specified."
+}

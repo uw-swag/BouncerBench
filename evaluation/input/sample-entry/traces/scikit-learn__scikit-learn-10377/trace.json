@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a discrepancy in f1_score\u2019s macro\u2010averaging when using multilabel indicator arrays and the labels parameter (specifically when 0 is included). It provides a minimal reproducible example, the expected versus actual output, and the desired behavior. From this, one can directly locate the averaging logic in scikit-learn\u2019s metrics implementation, write a fix, and add a regression test. All necessary detail is included."
+}

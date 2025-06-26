@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear description of the bug, minimal reproducible code, observed versus expected behavior, pointers to the relevant lines in the codebase, and even a concrete suggested change. A developer can jump straight to the comparison logic in `axes/_axes.py` and adjust the `mincnt` check for the `C != None` path. This is well-specified for a meaningful implementation."
+}

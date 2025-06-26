@@ -1,0 +1,3 @@
+{
+  "trace": "The issue merely states that count_ops is slow for large expressions and shows a hanging example, but it lacks any concrete requirements, performance targets, or guidance on approach. There is no specification of expected behavior or acceptance criteria (how fast is fast enough, what algorithms to improve, test cases, etc.). As such it is too vague to action directly."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the discrepancy between the built-in .mean() call (which respects center=True) and the manual iterator (which currently ignores center). It provides minimal reproducible code, shows expected vs. actual results, and states the desired behavior: manual iteration should yield center-justified windows. The requirements for fixing it (i.e. adjusting the iterator to honor the center offset) are unambiguous."
+}

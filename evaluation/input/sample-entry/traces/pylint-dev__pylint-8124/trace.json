@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a reproducible false positive in pylint (the \u2018useless-import-alias\u2019 warning), shows minimal example code, the exact error messages, the versions used, and the expected behavior (no warning for explicit re\u2010exports via \u201cimport X as X\u201d). It\u2019s immediately clear what change is needed in the checker logic, so the ticket is well specified."
+}

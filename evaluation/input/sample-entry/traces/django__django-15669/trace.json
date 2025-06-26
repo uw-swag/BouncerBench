@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the feature request: add a --update flag to Django\u2019s makemigrations command that behaves like South\u2019s schemamigration --update, updating the latest migration instead of creating a new file. While it omits low-level implementation details and edge-case handling, the core behavior is unambiguous and one can sensibly start a PR to replicate South\u2019s functionality. Thus it\u2019s reasonably specified."
+}

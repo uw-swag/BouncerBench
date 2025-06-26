@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly identifies what\u2019s missing (an `assert_warnings()` helper on RunResult), why it\u2019s needed (to check only warnings without doing a full dict compare), and even gives a minimal API example (`result.assert_warnings(count=1)`). While implementation details (exact signature, message matching, etc.) are left open, there\u2019s a sensible interpretation and enough to begin work. You can locate the existing `RunResult`, inspect how it stores warnings, and add this new assertion accordingly."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the specific typing conflict between MessagesHandlerMixIn and PyLinter, points to the relevant code and branch, and proposes merging the mix-in into PyLinter (or alternatively retyping self). While the exact merge steps aren\u2019t spelled out, there\u2019s a well-defined goal and pointers to the code, so it\u2019s reasonably specified for someone familiar with the codebase."
+}

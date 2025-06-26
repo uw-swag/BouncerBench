@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives only a minimal code snippet and an error, but doesn\u2019t specify the desired behavior (e.g. should NULL ** NULL return NULL?), the SQLite/Django versions, or any context around how to handle NULLs in custom SQL functions. It\u2019s unclear what the expected outcome is or what constraints apply. As written, it\u2019s too ambiguous to implement a precise fix."
+}

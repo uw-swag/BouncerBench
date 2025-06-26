@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly points out an inconsistency: r2_score\u2019s default multioutput changed to \u201cuniform_average\u201d in v0.19, but base.RegressorMixin still hard-codes \u201cvariance_weighted\u201d. The task\u2014unify the defaults to avoid this mismatch\u2014is evident, and code locations are linked. While not an exhaustive spec, it\u2019s straightforward enough to implement, making it reasonably specified."
+}

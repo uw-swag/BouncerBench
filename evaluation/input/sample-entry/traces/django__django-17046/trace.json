@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example (models, admin setup), clear reproduction steps, the exact error and stack trace, Django versions involved, and a suspected root cause. A developer has enough context to write a fix or regression test, so the issue is well\u2010specified."
+}

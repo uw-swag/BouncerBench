@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes minimal reproducible examples showing the issue, the exact unexpected and expected outputs, clear problem description, and environment details. It is immediately clear what behavior needs fixing (preserve original dim order on concat)."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the desired feature (show units in the Dataset repr) and gives an illustrative before/after example. While it doesn\u2019t spell out every API detail (e.g. where units live in attrs), it\u2019s straightforward to infer that units would be pulled from a standard .attrs['units'] field on coordinates and data variables and then injected into the repr logic. The scope is clear and there\u2019s no major ambiguity about what a successful implementation should look like."
+}

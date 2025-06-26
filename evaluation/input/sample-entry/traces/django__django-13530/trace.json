@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a concrete model setup, a precise code snippet showing how to reproduce the invalid SQL, and the actual versus expected behavior (it worked before Django 3.1). You can reproduce the bug, write a test, and implement a fix for KeyTransform ordering SQL generation. While it doesn\u2019t spell out the exact SQL to be generated, it\u2019s clear enough what\u2019s going wrong and what needs to be fixed."
+}

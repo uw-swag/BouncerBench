@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines adding a new optional boolean flag `nulls_distinct` to the `UniqueConstraint` API, preserving existing default behavior when `None` and emitting either `NULLS DISTINCT`/`NULLS NOT DISTINCT` clauses for backends that support SQL:F292 (e.g. PostgreSQL 15). It specifies default handling for other backends and points to concrete SQL standard behavior. An engineer could directly extend `UniqueConstraint`, carry the new attribute into the DDL compiler, guard clause emission by dialect/version, and add tests. This is sufficiently detailed and unambiguous."
+}

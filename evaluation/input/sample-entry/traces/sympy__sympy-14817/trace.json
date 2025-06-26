@@ -1,0 +1,3 @@
+{
+  "trace": "The report shows a traceback and complains about using sympify on string args in MatrixSymbol, and questions why MatAdd printing omits the \u2018+\u2019 for negative terms. However, it never defines the desired behavior, provides a minimal failing test or outlines a clear fix path. The symptoms are noted but the concrete requirements and scope of the change are not specified. Without an expected output or instructions on how to alter the printer, it\u2019s too ambiguous to act on."
+}

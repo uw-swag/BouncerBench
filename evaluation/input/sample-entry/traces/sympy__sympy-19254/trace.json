@@ -1,0 +1,3 @@
+{
+  "trace": "The issue states a high-level goal of replacing the Mignotte bound with the Knuth\u2013Cohen bound in two functions, but gives no details or formulas for the new bound, no pointers to the implementation or tests, and no concrete spec for multi-variable handling. It\u2019s too vague to implement without further information."
+}

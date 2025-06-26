@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly explains the scenario (missing/incorrect middleware order), shows the existing errors, and describes the desired change (add a hint to the E410 message advising to insert 'django.contrib.sessions.middleware.SessionMiddleware' before 'django.contrib.auth.middleware.AuthenticationMiddleware'). While it doesn\u2019t provide exact wording or code locations, it\u2019s straightforward to infer where and how to update the system check, so it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, clearly describes the unexpected versus expected behavior, and pinpoints the source (__getattr__ in SkyCoord) needing adjustment. It\u2019s straightforward to implement a fix so that missing attributes inside properties raise correctly. Therefore it is well-specified."
+}

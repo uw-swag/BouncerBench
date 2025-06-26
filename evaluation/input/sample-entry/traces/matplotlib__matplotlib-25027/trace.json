@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a high\u2010level goal (add RGB(A) support to pcolor to match pcolormesh and satisfy Cartopy) and points to a dependency issue, but offers no concrete implementation details or requirements. It lacks specifics on how #25027 relates, what changes are needed in pcolor, data shapes expected, or test coverage. Without further clarification or design guidance, it\u2019s too vague for a direct solution."
+}

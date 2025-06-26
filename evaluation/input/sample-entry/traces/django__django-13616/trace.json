@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a vague desire to improve an error message or adjust default LOCALE_PATHS behavior but does not specify exactly what change is required or where. There\u2019s no concrete acceptance criterion or code location, only general ideas (better wording, include manage.py directory). This leaves too much ambiguity about the intended solution."
+}

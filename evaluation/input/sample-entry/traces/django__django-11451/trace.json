@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the specific unwanted database query in ModelBackend.authenticate when username is None, shows the existing code, explains why it\u2019s a problem, and proposes an exact fix (early return when username or password is None). The requirements for a successful solution are unambiguous."
+}

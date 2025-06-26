@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (rendering combined parameters as separate unnamed items), gives minimal reproducer code, shows the incorrect output, states expected behavior, and lists environment and extension setup. There\u2019s enough detail to attempt a fix in Sphinx/napoleon rendering. "
+}

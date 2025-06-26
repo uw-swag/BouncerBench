@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the bug, a minimal reproduction test case (with file and method to add), the exact error thrown, and the expected behavior. There\u2019s no significant ambiguity about what needs to change (i.e. clear out extra selected fields when building the IN subquery), so you can write a targeted fix and verify it against the provided test. Thus it\u2019s well-specified."
+}

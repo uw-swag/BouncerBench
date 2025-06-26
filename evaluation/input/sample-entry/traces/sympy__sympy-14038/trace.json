@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates the incorrect behavior (the product wrongly returns 0) and states the mathematically correct result (sinc(a)). There\u2019s no ambiguity about the desired outcome or context\u2014this is a straight Sympy bug report with an explicit example and expected output."
+}

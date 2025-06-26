@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states which function (`load_sample_images`) is triggering a known deprecation warning (`scipy.imread`) and even identifies the versions where it is deprecated/removed. The required fix\u2014replacing `imread` with a supported alternative (e.g. `imageio.imread` or `skimage.io.imread`)\u2014is obvious, and no additional context is needed. This is a straightforward, well-scoped task."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal reproducer, points out exactly which representation is wrong (DMP([0],EX,None) vs DMP([],EX,None)), and describes the undesirable downstream effects and the expected behavior. From this you can write a failing test and a fix (strip the leading zero in clear_denoms or in DMP initialization). Everything needed for a patch is present."
+}

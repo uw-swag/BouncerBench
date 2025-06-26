@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies that compressed file suffixes \u201c.Z\u201d and \u201c.br\u201d are currently treated as raw extensions, causing the mime-type guesser to use them instead of stripping them off and falling back to the underlying extension (e.g. \u201c.html\u201d). It\u2019s obvious that we need to treat \u201c.Z\u201d and \u201c.br\u201d analogously to \u201c.gz\u201d and \u201c.bz2\u201d: detect them as content\u2010encoding, strip them, then run the mime\u2010type lookup on the remainder. The ask is concrete and unambiguous enough to implement."
+}

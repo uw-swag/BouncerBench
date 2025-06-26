@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly defines the problem (module\u2010level use of __file__), enumerates the exact modules affected, and even proposes specific fixes (with linked commits). The scope is well\u2010delimited and the required changes are detailed, so it is well\u2010specified."
+}

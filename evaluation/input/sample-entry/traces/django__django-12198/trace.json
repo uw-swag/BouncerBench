@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what\u2019s broken (the sensitive_variables decorator isn\u2019t preserving the wrapped function\u2019s signature, causing inspect.getcallargs to misbehave and break custom backends) and what the desired outcome is (decorate authenticate without altering its signature). While implementation details aren\u2019t spelled out, the goal and context are clear enough to craft a targeted fix, so this is REASONABLY_SPECIFIED."
+}

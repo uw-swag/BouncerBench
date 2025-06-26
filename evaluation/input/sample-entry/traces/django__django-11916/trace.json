@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies a performance bottleneck in Django\u2019s prefetch_related implementation (the eager creation of related QuerySets via manager.all()), provides profiling data, and outlines two high-level strategies (assigning to a list or lazy-instantiating the QuerySet). The desired outcome\u2014introducing a proxy or lazy QuerySet so that manager.all() calls during prefetch don\u2019t build full QuerySet objects until needed\u2014is clear. While the precise API or class changes aren\u2019t spelled out in code, there\u2019s enough context and direction to formulate a concrete implementation plan. Therefore this ticket is reasonably specified for an engineer familiar with the codebase to draft a PR."
+}

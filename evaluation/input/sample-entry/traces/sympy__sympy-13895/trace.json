@@ -1,0 +1,3 @@
+{
+  "trace": "The report reproduces a clear Sympy bug in `simplify` on power expressions: it shows the precise input, the incorrect simplified form, and a counterexample numeric evaluation. The desired behavior (no inequivalent rewrite) is implicit. This is enough to write a failing test and implement a fix in `simplify`'s power\u2010rewriting logic."
+}

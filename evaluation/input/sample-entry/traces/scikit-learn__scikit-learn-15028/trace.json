@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what to change (deprecate/remove the public `classes_` attribute on DecisionTreeRegressor by renaming it to `_classes`, remove it from the docstring, and add a corresponding test) but leaves some implementation details (exact deprecation warning style and target version, code locations) to the contributor. It\u2019s specific enough to act on while still requiring some interpretation, so it\u2019s REASONABLY_SPECIFIED."
+}

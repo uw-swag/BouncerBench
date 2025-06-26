@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly describes the unexpected behavior, provides minimal reproducible examples, explains why the current canonicalization using Float modulo is wrong, and even sketches the desired approach (skip modulo for Floats). There\u2019s no ambiguity about what needs to change in SymPy\u2019s ImageSet canonicalization logic. This is WELL_SPECIFIED."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states what needs to change (make empty elements self-closing by passing the new XMLGenerator argument) and where (the SimplerXMLGenerator used in syndication feeds). It even links to a PR showing the exact patch. There\u2019s little ambiguity about the desired behavior or implementation steps."
+}

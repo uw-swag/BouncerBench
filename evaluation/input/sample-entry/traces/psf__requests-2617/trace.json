@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal, reproducible example, specifies the exact environment (Python2 with unicode_literals), shows the full traceback and contrasts the behavior with/without unicode_literals and with unprepared vs. prepared requests. It\u2019s clear what\u2019s wrong (binary bodies are being treated as Unicode) and what a fix should accomplish. This is sufficient to implement and test a solution."
+}

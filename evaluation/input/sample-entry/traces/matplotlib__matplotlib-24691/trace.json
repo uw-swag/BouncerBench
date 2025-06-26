@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly defines the problem (one global alpha for patches) and the desired API change (accept a two\u2010element tuple for separate edge and face alpha, analogous to imshow). An implementer can write the patch methods to unpack the tuple and apply the two alpha values appropriately, update docs, and add tests. The goal and scope are unambiguous."
+}

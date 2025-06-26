@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the broken link URL, shows the relevant code snippet in UserChangeForm, explains why the relative path is wrong when using a non\u2010PK to_field, and even outlines the precise change needed (using self.instance.pk in the relative path). A maintainer can implement and verify this fix without further clarification."
+}

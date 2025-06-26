@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states that the partitions() generator reuses the same dict for each yielded value and that this is confusing. The requested change\u2014making partitions() yield a fresh copy of the dict rather than the same object\u2014is straightforward. While you still need to locate the function in sympy.utilities.iterables and update the yield calls and docstring, there\u2019s no ambiguity about what constitutes a correct fix."
+}

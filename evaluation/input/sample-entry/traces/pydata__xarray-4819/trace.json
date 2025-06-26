@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the desired behavior\u2014a new `drop_isel` method that mirrors `drop_sel` but works on integer positions (like `isel`)\u2014and even provides an example use case. The high-level API is unambiguous and there\u2019s a straightforward implementation strategy (compute the complement of the specified indices and call `isel`). While some finer details (e.g. handling of slices or negative indices) aren\u2019t spelled out, the core requirement is clear enough for a meaningful PR."
+}

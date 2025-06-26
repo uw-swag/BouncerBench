@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (biweight_location returns NaN on zero-variance input), shows a concrete example, diagnoses the cause (0/0 division when MAD=0), and proposes an expected behavior (return the median, e.g., 1 for a constant array). The requirements and success criteria are unambiguous."
+}

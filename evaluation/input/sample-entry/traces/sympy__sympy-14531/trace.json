@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the unexpected behavior, provides minimal reproducible examples (with inputs and both actual and expected outputs), and identifies where the printer settings are not being propagated. With knowledge of the StrPrinter implementation, one can trace how subexpressions are rendered and adjust the code so that sympy_integers (and other settings) are honored recursively. This is actionable and unambiguous."
+}

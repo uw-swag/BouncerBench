@@ -1,0 +1,3 @@
+{
+  "trace": "The issue points out cosmetic defects (an extra blank line, too wide/fat \u220f, possibly adjusting the top bar) but doesn\u2019t specify the exact target formatting rules or metrics. It reads as a request for feedback rather than a concrete spec (e.g. \u201cremove the blank line,\u201d \u201cmatch the width of Sum,\u201d use specific character patterns). As written it\u2019s open-ended and leaves too much to interpretation for a definitive implementation."
+}

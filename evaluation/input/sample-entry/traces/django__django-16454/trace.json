@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, gives example code, shows current vs. expected behavior, and even points out exactly where to change (in the subparser action returned by add_subparsers). It\u2019s straightforward to implement by copying the CommandParser\u2019s formatting/error arguments into each subparser, so it\u2019s well specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear description of the bug, reproduction steps, expected vs. actual rendering, environment details and even a minimal test project. That makes it straightforward to implement and verify a fix."
+}

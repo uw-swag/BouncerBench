@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the models involved, the expected vs. actual SQL behavior when force_insert=True is passed, a minimal reproducible example, and the root cause (force_insert isn\u2019t forwarded to parent saves). It even mentions a local patch that works. All necessary details for implementing and testing a fix are provided."
+}

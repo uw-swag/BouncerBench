@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (ConditionalGetMiddleware always returns 304 due to a stale ETag for x-sendfile responses) and the desired behavior (don\u2019t return 304 when the Last-Modified timestamp has changed). While the exact code changes aren\u2019t spelled out step by step, the scope and fix are well defined, making it reasonably specified."
+}

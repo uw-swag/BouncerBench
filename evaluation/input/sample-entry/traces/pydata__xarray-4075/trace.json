@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, the observed vs. expected behavior, a clear description of the underlying bug (boolean arrays in dot yield a single boolean), and even a suggested fix (cast weights to numeric). It\u2019s straightforward to implement and verify, so the issue is well-specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides the model definition, the exact queryset code they\u2019re running, the full traceback with the SQL error, and the specific Django and database versions. They describe the expected behavior versus the actual error and give a minimal reproducible example. That makes it well-specified and actionable."
+}

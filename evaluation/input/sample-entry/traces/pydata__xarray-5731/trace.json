@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a clear description of the failure, a minimal reproducible example, the full traceback, environment and version details, and a statement of expected behavior. It\u2019s straightforward to identify that a missing `import dask` or optional-dask guard in `map_blocks` is needed. This is well-specified."
+}

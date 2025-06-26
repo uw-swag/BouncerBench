@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly describes the enhancement: in Django\u2019s deletion Collector, detect multiple fast-path DELETE queries targeting the same DB table and merge them into a single DELETE with OR\u2019d conditions (or IN for PKs). It gives model examples and before/after SQL. While you must dig into Django\u2019s Collector logic to implement, the goal and behavior are unambiguous, so it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the faulty code location, describes the incorrect use of np.abs for windows with negative values, provides a reproducible example, compares to a known-good implementation in SciPy, and states the expected behavior. This gives all necessary details to implement and verify the fix."
+}

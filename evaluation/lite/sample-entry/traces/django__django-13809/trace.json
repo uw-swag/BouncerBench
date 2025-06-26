@@ -1,0 +1,28 @@
+{
+  "input": "The request to add a `--skip-checks` flag to the `runserver` command is clear in intent (skip the built-in system checks), and points to exactly where the change lives and why it\u2019s needed. However, it doesn\u2019t spell out the precise API contract (short/long flag names, docs/tests updates, reload behavior, etc.), leaving some implementation details to the contributor. This makes it reasonably specified rather than fully precise.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/django/core/management/commands/runserver.py b/django/core/management/commands/runserver.py\nindex d29af1e522..5e2e434176 100644\n--- a/django/core/management/commands/runserver.py\n+++ b/django/core/management/commands/runserver.py\n@@ -51,6 +51,10 @@\n             '--noreload', action='store_false', dest='use_reloader',\n             help='Tells Django to NOT use the auto-reloader.',\n         )\n+        parser.add_argument(\n+            '--skip-checks', action='store_true', dest='skip_checks',\n+            help='Tells Django to skip system checks.',\n+        )\n \n     def execute(self, *args, **options):\n         if options['no_color']:\n@@ -114,11 +118,12 @@\n         shutdown_message = options.get('shutdown_message', '')\n         quit_command = 'CTRL-BREAK' if sys.platform == 'win32' else 'CONTROL-C'\n \n-        self.stdout.write(\"Performing system checks...\\n\\n\")\n-        self.check(display_num_errors=True)\n-        # Need to check migrations here, so can't use the\n-        # requires_migrations_check attribute.\n-        self.check_migrations()\n+        if not options['skip_checks']:\n+            self.stdout.write(\"Performing system checks...\\n\\n\")\n+            self.check(display_num_errors=True)\n+            self.check_migrations()\n+        else:\n+            self.stdout.write(\"Skipping system checks...\\n\\n\")\n         now = datetime.utcnow().strftime('%B %d, %Y - %X')\n         self.stdout.write(now)\n         self.stdout.write((\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nAdd --skip-checks option to the runserver command.\nDescription\n\t\nRationale:\nIt would be consistent with other management commands performing system checks\nIt would help people like me who would rather have checks enabled exclusively in CI/CD than wait 15-20 seconds for each project reload during development\nRelated StackOverflow question:\n\u200bhttps://stackoverflow.com/questions/41438593/skip-system-checks-on-django-server-in-debug-mode-in-pycharm/41725866\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_3yesy95g1",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe patch cleanly adds a `--skip-checks` flag to the `runserver` command, wires it up in `add_arguments`, and then conditionally short-circuits both the system checks and migration checks while preserving the original behavior when the flag is absent. It doesn\u2019t introduce any unrelated changes and matches the issue\u2019s request precisely.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

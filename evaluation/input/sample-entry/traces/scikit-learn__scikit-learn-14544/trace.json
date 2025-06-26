@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is seeking a design discussion (an RFC) around ColumnTransformer\u2019s API and behavior (input validation, handling extra columns, n_features_in_) rather than specifying clear, implementable requirements or acceptance criteria. It poses questions rather than defining a concrete change, making it too vague for a straightforward implementation task."
+}

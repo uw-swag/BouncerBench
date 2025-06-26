@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear: extend pytest\u2019s logging plugin to honor the strftime \u2018%f\u2019 (microsecond) specifier in its date-format options. The problem is well explained with examples of current vs. desired output, a workaround, and exactly which command-line flags need changing. A developer familiar with pytest\u2019s logging code can implement this without further clarification."
+}

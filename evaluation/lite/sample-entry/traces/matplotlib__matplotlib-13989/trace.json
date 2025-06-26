@@ -1,0 +1,80 @@
+{
+  "input": "The report clearly states the bug (density=True ignores the given range), provides minimal reproducible code, shows actual vs expected output, and even bisects the problematic commit. It\u2019s fully actionable.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/lib/matplotlib/axes/_axes.py b/lib/matplotlib/axes/_axes.py\nindex 4b73d52..9ed36f8 100644\n--- a/lib/matplotlib/axes/_axes.py\n+++ b/lib/matplotlib/axes/_axes.py\n@@ -6687,7 +6687,8 @@ optional.\n         density = bool(density) or bool(normed)\n         if density and not stacked:\n             hist_kwargs = dict(density=density)\n-\n+            if bin_range is not None:\n+                hist_kwargs['range'] = bin_range\n         # List to store all the top coordinates of the histograms\n         tops = []\n         mlast = None\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nhist() no longer respects range=... when density=True\n<!--To help us understand and resolve your issue, please fill out the form to the best of your ability.-->\r\n<!--You can feel free to delete the sections that do not apply.-->\r\n\r\n### Bug report\r\n\r\n**Bug summary**\r\n\r\n<!--A short 1-2 sentences that succinctly describes the bug-->\r\n\r\n**Code for reproduction**\r\n\r\n<!--A minimum code snippet required to reproduce the bug.\r\nPlease make sure to minimize the number of dependencies required, and provide\r\nany necessary plotted data.\r\nAvoid using threads, as Matplotlib is (explicitly) not thread-safe.-->\r\n\r\n```python\r\n_, bins, _ = plt.hist(np.random.rand(10), \"auto\", range=(0, 1), density=True)\r\nprint(bins)\r\n```\r\n\r\n**Actual outcome**\r\n\r\n<!--The output produced by the above code, which may be a screenshot, console output, etc.-->\r\n\r\n```\r\n[0.00331535 0.18930174 0.37528813 0.56127453 0.74726092 0.93324731]\r\n```\r\n\r\n**Expected outcome**\r\n\r\nSome array where the first value is 0 and the last one is 1.\r\n\r\nNote that this bug doesn't happen if density=False.\r\n\r\nBisects to https://github.com/matplotlib/matplotlib/pull/8638/commits/239be7b18e311c57a1393b6eeefc62b7cc629339 (#8638).\r\n\r\n**Matplotlib version**\r\n<!--Please specify your platform and versions of the relevant libraries you are using:-->\r\n  * Operating system: linux\r\n  * Matplotlib version: master\r\n  * Matplotlib backend (`print(matplotlib.get_backend())`): any\r\n  * Python version: 37\r\n  * Jupyter version (if applicable): no\r\n  * Other libraries: numpy 1.16.2\r\n\r\n<!--Please tell us how you installed matplotlib and python e.g., from source, pip, conda-->\r\n<!--If you installed from conda, please specify which channel you used if not the default-->\r\n\r\n\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_sowwx0ymy",
+      "status": "completed",
+      "call_id": "call_xIwnmZRrOh52d9cFvyozEzLQ",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '6670,6750p' lib/matplotlib/axes/_axes.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_xIwnmZRrOh52d9cFvyozEzLQ",
+      "output": "{\"output\":\"            if not np.isnan([xmin, xmax]).any() and not (xmin > xmax):\\n                bin_range = (xmin, xmax)\\n\\n        # If bins are not specified either explicitly or via range,\\n        # we need to figure out the range required for all datasets,\\n        # and supply that to np.histogram.\\n        if not input_empty and len(x) > 1:\\n            if weights is not None:\\n                _w = np.concatenate(w)\\n            else:\\n                _w = None\\n\\n            bins = histogram_bin_edges(np.concatenate(x),\\n                                       bins, bin_range, _w)\\n        else:\\n            hist_kwargs['range'] = bin_range\\n\\n        density = bool(density) or bool(normed)\\n        if density and not stacked:\\n            hist_kwargs = dict(density=density)\\n\\n        # List to store all the top coordinates of the histograms\\n        tops = []\\n        mlast = None\\n        # Loop through datasets\\n        for i in range(nx):\\n            # this will automatically overwrite bins,\\n            # so that each histogram uses the same bins\\n            m, bins = np.histogram(x[i], bins, weights=w[i], **hist_kwargs)\\n            m = m.astype(float)  # causes problems later if it's an int\\n            if mlast is None:\\n                mlast = np.zeros(len(bins)-1, m.dtype)\\n            if stacked:\\n                m += mlast\\n                mlast[:] = m\\n            tops.append(m)\\n\\n        # If a stacked density plot, normalize so the area of all the stacked\\n        # histograms together is 1\\n        if stacked and density:\\n            db = np.diff(bins)\\n            for m in tops:\\n                m[:] = (m / db) / tops[-1].sum()\\n        if cumulative:\\n            slc = slice(None)\\n            if isinstance(cumulative, Number) and cumulative < 0:\\n                slc = slice(None, None, -1)\\n\\n            if density:\\n                tops = [(m * np.diff(bins))[slc].cumsum()[slc] for m in tops]\\n            else:\\n                tops = [m[slc].cumsum()[slc] for m in tops]\\n\\n        patches = []\\n\\n        # Save autoscale state for later restoration; turn autoscaling\\n        # off so we can do it all a single time at the end, instead\\n        # of having it done by bar or fill and then having to be redone.\\n        _saved_autoscalex = self.get_autoscalex_on()\\n        _saved_autoscaley = self.get_autoscaley_on()\\n        self.set_autoscalex_on(False)\\n        self.set_autoscaley_on(False)\\n\\n        if histtype.startswith('bar'):\\n\\n            totwidth = np.diff(bins)\\n\\n            if rwidth is not None:\\n                dr = np.clip(rwidth, 0, 1)\\n            elif (len(tops) > 1 and\\n                  ((not stacked) or rcParams['_internal.classic_mode'])):\\n                dr = 0.8\\n            else:\\n                dr = 1.0\\n\\n            if histtype == 'bar' and not stacked:\\n                width = dr * totwidth / nx\\n                dw = width\\n                boffset = -0.5 * dr * totwidth * (1 - 1 / nx)\\n            elif histtype == 'barstacked' or stacked:\\n                width = dr * totwidth\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_54znbrfkc",
+      "status": "completed",
+      "call_id": "call_tfhfigGQO23hW7AdLRM2rRql",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"hist_kwargs\\\" -n lib/matplotlib/axes/_axes.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_tfhfigGQO23hW7AdLRM2rRql",
+      "output": "{\"output\":\"6654:        hist_kwargs = dict()\\n6685:            hist_kwargs['range'] = bin_range\\n6689:            hist_kwargs = dict(density=density)\\n6698:            m, bins = np.histogram(x[i], bins, weights=w[i], **hist_kwargs)\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_5b5fqgk9l",
+      "status": "completed",
+      "call_id": "call_SOGndVgjAuYOg8eabiRRUbA2",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"grep -R \\\"def hist\\\" -n lib/matplotlib/axes/_axes.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_SOGndVgjAuYOg8eabiRRUbA2",
+      "output": "{\"output\":\"43:    def histogram_bin_edges(arr, bins, range=None, weights=None):\\n6366:    def hist(self, x, bins=None, range=None, density=None, weights=None,\\n6903:    def hist2d(self, x, y, bins=10, range=None, density=False, weights=None,\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_y69ty5lfs",
+      "status": "completed",
+      "call_id": "call_xVPNLz7dX2z8zXiceUgVYUhu",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '6360,6460p' lib/matplotlib/axes/_axes.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_xVPNLz7dX2z8zXiceUgVYUhu",
+      "output": "{\"output\":\"        return CS.clabel(*args, **kwargs)\\n    clabel.__doc__ = mcontour.ContourSet.clabel.__doc__\\n\\n    #### Data analysis\\n\\n    @_preprocess_data(replace_names=[\\\"x\\\", 'weights'], label_namer=\\\"x\\\")\\n    def hist(self, x, bins=None, range=None, density=None, weights=None,\\n             cumulative=False, bottom=None, histtype='bar', align='mid',\\n             orientation='vertical', rwidth=None, log=False,\\n             color=None, label=None, stacked=False, normed=None,\\n             **kwargs):\\n        \\\"\\\"\\\"\\n        Plot a histogram.\\n\\n        Compute and draw the histogram of *x*.  The return value is a tuple\\n        (*n*, *bins*, *patches*) or ([*n0*, *n1*, ...], *bins*, [*patches0*,\\n        *patches1*,...]) if the input contains multiple data.  See the\\n        documentation of the *weights* parameter to draw a histogram of\\n        already-binned data.\\n\\n        Multiple data can be provided via *x* as a list of datasets\\n        of potentially different length ([*x0*, *x1*, ...]), or as\\n        a 2-D ndarray in which each column is a dataset.  Note that\\n        the ndarray form is transposed relative to the list form.\\n\\n        Masked arrays are not supported at present.\\n\\n        Parameters\\n        ----------\\n        x : (n,) array or sequence of (n,) arrays\\n            Input values, this takes either a single array or a sequence of\\n            arrays which are not required to be of the same length.\\n\\n        bins : int or sequence or str, optional\\n            If an integer is given, ``bins + 1`` bin edges are calculated and\\n            returned, consistent with `numpy.histogram`.\\n\\n            If `bins` is a sequence, gives bin edges, including left edge of\\n            first bin and right edge of last bin.  In this case, `bins` is\\n            returned unmodified.\\n\\n            All but the last (righthand-most) bin is half-open.  In other\\n            words, if `bins` is::\\n\\n                [1, 2, 3, 4]\\n\\n            then the first bin is ``[1, 2)`` (including 1, but excluding 2) and\\n            the second ``[2, 3)``.  The last bin, however, is ``[3, 4]``, which\\n            *includes* 4.\\n\\n            Unequally spaced bins are supported if *bins* is a sequence.\\n\\n            With Numpy 1.11 or newer, you can alternatively provide a string\\n            describing a binning strategy, such as 'auto', 'sturges', 'fd',\\n            'doane', 'scott', 'rice' or 'sqrt', see\\n            `numpy.histogram`.\\n\\n            The default is taken from :rc:`hist.bins`.\\n\\n        range : tuple or None, optional\\n            The lower and upper range of the bins. Lower and upper outliers\\n            are ignored. If not provided, *range* is ``(x.min(), x.max())``.\\n            Range has no effect if *bins* is a sequence.\\n\\n            If *bins* is a sequence or *range* is specified, autoscaling\\n            is based on the specified bin range instead of the\\n            range of x.\\n\\n            Default is ``None``\\n\\n        density : bool, optional\\n            If ``True``, the first element of the return tuple will\\n            be the counts normalized to form a probability density, i.e.,\\n            the area (or integral) under the histogram will sum to 1.\\n            This is achieved by dividing the count by the number of\\n            observations times the bin width and not dividing by the total\\n            number of observations. If *stacked* is also ``True``, the sum of\\n            the histograms is normalized to 1.\\n\\n            Default is ``None`` for both *normed* and *density*. If either is\\n            set, then that value will be used. If neither are set, then the\\n            args will be treated as ``False``.\\n\\n            If both *density* and *normed* are set an error is raised.\\n\\n        weights : (n, ) array_like or None, optional\\n            An array of weights, of the same shape as *x*.  Each value in *x*\\n            only contributes its associated weight towards the bin count\\n            (instead of 1).  If *normed* or *density* is ``True``,\\n            the weights are normalized, so that the integral of the density\\n            over the range remains 1.\\n\\n            Default is ``None``.\\n\\n            This parameter can be used to draw a histogram of data that has\\n            already been binned, e.g. using `np.histogram` (by treating each\\n            bin as a single point with a weight equal to its count) ::\\n\\n                counts, bins = np.histogram(data)\\n                plt.hist(bins[:-1], bins, weights=counts)\\n\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_g10p2oyy4",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>In the single\u2010dataset path (len(x)==1), the original code put `hist_kwargs['range']=bin_range` only before the density block, so when density=True the `hist_kwargs` dict got reinitialized and the user\u2010supplied `range` was dropped. That causes `np.histogram` to use its default data\u2010range instead of the requested one. The patch restores `hist_kwargs['range']` immediately after reinitializing for density, exactly in the branch where it was lost, and does so only when a range was given. This directly fixes the reported bug without touching unrelated code.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

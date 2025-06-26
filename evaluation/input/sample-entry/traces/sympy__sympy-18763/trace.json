@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the incorrect LaTeX output for a Subs with a negative argument, shows the input/output examples, and states the desired parenthesization. Implementing it simply requires updating the LaTeX printer for Subs to wrap the inner expression in parentheses when needed. This is a concrete, well-scoped change."
+}

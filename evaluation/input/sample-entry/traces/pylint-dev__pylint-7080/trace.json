@@ -1,0 +1,3 @@
+{
+  "trace": "The user clearly describes a reproducible bug: when invoking pylint with --recursive=y the ignore-paths setting in pyproject.toml is ignored, causing files under src/gen/ to still be linted. They provide the minimal config, the exact command, actual output, expected behavior, pylint version, and environment. There\u2019s no ambiguity about what needs to change\u2014recursive scanning should respect the ignore-paths regex\u2014so the issue is well scoped and actionable."
+}

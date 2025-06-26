@@ -1,0 +1,3 @@
+{
+  "trace": "The issue is more of a high-level design discussion than a concrete implementation plan. It outlines a desire to reorganize the imputer classes into a new module structure (e.g. sklearn.impute, neighbors, etc.) but does not specify exactly which files to move, how to handle imports and deprecations, or cover compatibility, tests, and documentation changes. There\u2019s room for interpretation on the specific steps, file organization, and backward\u2010compatibility strategy, making it too vague for a straightforward pull request."
+}

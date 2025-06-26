@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior, the gap (no way to convert CCDData to an ImageHDU), gives motivating examples and parallels to existing Table\u2192BinTableHDU APIs, and even proposes concrete interface options. That makes it straightforward to implement and test a solution."
+}

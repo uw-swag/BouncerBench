@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the existing behavior of the join filter, provides minimal repro code and failing tests, and states the expected behavior under autoescape off. You can directly write or adjust the join implementation to skip escaping the separator when autoescape is disabled. This is enough detail for a concrete fix and verification via the provided test cases."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies a regression in DecimalValidator (accepted in Django 1.11 but failing in 2.0), shows the exact inputs (\u20180E+1\u2019, \u20180E+2\u2019), points out the commit where behavior changed, provides a concise failing test case, and even suggests the minimal change (normalize zero before validation). There\u2019s no ambiguity about what needs to be fixed or how success is measured (the provided test must pass)."
+}

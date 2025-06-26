@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes what\u2019s wrong (Django\u2019s Argon2PasswordHasher is pinned to argon2i with outdated cost/parallelism parameters) and what needs to be done (add support for argon2id, make it the default variety, and bump memory_cost to 102400 and parallelism to 8 in line with upstream argon2-cffi changes). All the necessary context, links, and expected outcomes are provided."
+}

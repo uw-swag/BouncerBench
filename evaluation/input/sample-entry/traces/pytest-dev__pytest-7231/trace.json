@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description is too vague to act on: it doesn\u2019t specify the testing framework or context, what \u201cwarn when logging fails\u201d precisely means, or where the warning should be emitted. There\u2019s no clear definition of the desired behavior or where to implement it, so it\u2019s ambiguous what a successful solution would entail."
+}

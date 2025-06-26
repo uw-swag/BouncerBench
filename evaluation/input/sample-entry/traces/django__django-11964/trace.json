@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a reproducible bug, provides minimal code and failing tests, and specifies the desired behavior (the enum\u2019s string conversion should yield its .value). While it doesn\u2019t pinpoint exactly which method to patch, it\u2019s straightforward to interpret and implement a fix, so it\u2019s reasonably specified."
+}

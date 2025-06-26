@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the problem (evalf isn\u2019t applied recursively to the result of _imp_), gives a minimal repro example, and even points to the specific method to change (Function._eval_evalf). There is a straightforward fix\u2014call .evalf() on the output of _imp_\u2014so it is well specified."
+}

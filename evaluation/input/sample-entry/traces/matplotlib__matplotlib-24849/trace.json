@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (missing gapcolor support on LineCollection), provides minimal reproducible code, shows the actual error and expected behavior, points to the relevant code location, and even suggests the needed API additions (get_gapcolor/set_gapcolor). This is enough detail to implement a fix."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug, gives a minimal reproducible example with expected vs. actual output, and references related issues, so there is enough information to write a test and investigate the factor extension logic. However, it doesn\u2019t include any implementation hints or a proposed fix, so it isn\u2019t fully specified but is sufficient to begin development."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem with reproducible steps, minimal code examples, actual vs. expected output, environment details, and a project link. It\u2019s obvious what needs to be fixed: allow short type names imported in the module to resolve as cross-reference links rather than requiring fully qualified names."
+}

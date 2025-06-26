@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug, provides minimal reproducible code, shows the expected versus actual behavior, and specifies the environment. It\u2019s immediately actionable: ensure that OneHotEncoder passes the user-specified dtype through when building the sparse output. This is sufficiently detailed for an engineer to implement and test a fix."
+}

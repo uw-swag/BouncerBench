@@ -1,0 +1,3 @@
+{
+  "trace": "The issue description clearly outlines the problem scenario (cached redirects based on Accept-Language), identifies the root cause (missing Vary header), and even suggests the fix (add a Vary header). There is no ambiguity about what a successful solution entails."
+}

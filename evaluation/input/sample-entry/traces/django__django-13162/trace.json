@@ -1,0 +1,3 @@
+{
+  "trace": "The request is clear in intent (use the merged migration names instead of a timestamp) and gives concrete examples. While there are minor open choices (separator character, whether to strip numeric prefixes), there\u2019s a straightforward, \u201ceasiest\u201d implementation path: simply join the conflicting migration filenames with underscores. Thus it\u2019s reasonably specified for a developer to start coding without further clarification."
+}

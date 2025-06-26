@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly shows the failing input (a 4\u00d72 zero matrix), the traceback, the offending code snippet, and pinpoints that the inner loop runs j up to i even when i \u2265 number of columns. It\u2019s obvious that the solution is to cap j by self.cols (e.g. iterate over range(min(i, self.cols))). There\u2019s no ambiguity about the desired behavior (a tall zero matrix should return True) or how to fix it."
+}

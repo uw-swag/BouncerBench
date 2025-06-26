@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear description of the bug (mode includes a \u2018b\u2019 that misleads upstream code into writing bytes), supplies a minimal reproducible example, shows the traceback, versions, and desired behavior (mode should not include \u2018b\u2019). It\u2019s obvious what needs to change in EncodedFile.mode for a successful fix."
+}

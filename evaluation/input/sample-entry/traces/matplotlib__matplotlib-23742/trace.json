@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly states the component that\u2019s failing (the toolbar trait in the notebook Canvas), the exact exception and types involved, and even points to the CI failure. Although the minimal reproducer isn\u2019t fully boiled down to standalone code yet, there\u2019s enough context (error message, trait definition expectations, backend instantiation path) to meaningfully track down and fix the type mismatch in the traitlets declaration or toolbar factory. Hence the issue is reasonably specified for an experienced engineer to attempt a PR."
+}

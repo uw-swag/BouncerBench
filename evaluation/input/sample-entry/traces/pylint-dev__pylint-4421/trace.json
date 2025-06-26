@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives clear repro steps (venv setup, pip install, command to run), the exact stack trace, the offending code location and even a probable cause (version comparison now being a string). You can directly write a patch around the get_offset comparison or normalize the version type. This is fully actionable."
+}

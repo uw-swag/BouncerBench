@@ -1,0 +1,3 @@
+{
+  "trace": "The report provides a minimal repro (two code snippets), the unexpected behavior, the error message, and even points to the utility function involved. It\u2019s clear what the desired behavior is (DataArray.transpose should accept an Ellipsis argument the same way Dataset.transpose does) and where to start looking. While it doesn\u2019t prescribe the exact code change, the bug is well scoped and reproducible."
+}

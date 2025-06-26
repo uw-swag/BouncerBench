@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is too brief and lacks context: there\u2019s no mention of the specific code or module where unicode printing is implemented, no reproduction steps or environment details, and no guidance on how the subscript handling should be integrated or tested. Without that information, it\u2019s unclear how to proceed toward a concrete fix."
+}

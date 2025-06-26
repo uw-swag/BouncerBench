@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a crash scenario with nested multi-table inheritance (MTI), includes the exact model definitions, the failing test case, the expected behavior (creating the object without error), and the traceback pinpointing the bug (`.attname` on a OneToOneField). A developer familiar with Django\u2019s internals can reproduce and fix it directly."
+}

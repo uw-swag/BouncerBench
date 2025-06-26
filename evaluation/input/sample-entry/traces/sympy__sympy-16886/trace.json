@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the incorrect mapping in simpy.crypto.crypto, specifies the wrong entry (`\"----\": \"1\"`) and the correct one (`\".----\": \"1\"`). A straightforward code change to update the mapping is all that\u2019s needed. This is well-specified for implementation."
+}

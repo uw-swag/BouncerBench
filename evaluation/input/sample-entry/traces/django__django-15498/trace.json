@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states the expected behavior (empty string for If-Modified-Since should be ignored rather than raising an exception) and even references the commit that introduced the breakage, so it\u2019s straightforward to locate the parsing logic and add a guard for empty input. While it lacks code snippets and tests, the required change is unambiguous and can be sensibly implemented."
+}

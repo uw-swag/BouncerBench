@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the exact regex in django/utils/dateparse, explains why negative durations aren\u2019t matching (the lookahead lacks `-?`), and even provides the corrected pattern. This is sufficient to implement the fix and add corresponding tests."
+}

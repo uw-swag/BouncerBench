@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows the current vs expected behavior, provides a minimal repro, and states exactly what needs to change (have modelform_factory pick up Meta.formfield_callback from the base form when none is passed explicitly). This is enough to implement and test a fix."
+}

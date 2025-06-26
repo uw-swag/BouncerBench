@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a concrete, minimal reproducible example with models, shell commands, the generated SQL, and the observed vs. expected behavior. It\u2019s clear what\u2019s going wrong (the wrong PK is used in the UPDATE clause) and what the fix should accomplish (apply the update to the Child instances\u2019 parent record via the correct FK). That is enough detail for a developer to locate the relevant QuerySet.update code and implement a patch."
+}

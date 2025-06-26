@@ -1,0 +1,3 @@
+{
+  "trace": "The issue comes with a minimal reproducible example and clearly pinpoints that the error message is outdated (referring to \u201cn_values\u201d instead of categories) and confusing when a single list of categories is passed. It even suggests improving detection for this misuse. While it doesn\u2019t spell out the exact new wording, it\u2019s clear where in the code (`OrdinalEncoder`\u2019s input validation) the fix should occur and what the end goal is. This is sufficiently specified to implement a solution."
+}

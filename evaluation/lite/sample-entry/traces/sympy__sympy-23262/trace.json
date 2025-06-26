@@ -1,0 +1,28 @@
+{
+  "input": "The report includes a minimal reproducible example, clearly states the regression between SymPy 1.9 and 1.10, shows actual vs expected output, and defines the desired behavior (including the trailing comma for single\u2010element tuples). It is clear what needs to be changed in the code printer, so the issue is well-specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/printing/lambdarepr.py b/sympy/printing/lambdarepr.py\nindex a38ffef..b5678fc 100644\n--- a/sympy/printing/lambdarepr.py\n+++ b/sympy/printing/lambdarepr.py\n@@ -25,6 +25,11 @@ class LambdaPrinter(PythonCodePrinter):\n     printmethod = \"_lambdacode\"\n \n \n+    def _print_Tuple(self, expr):\n+        if len(expr) == 1:\n+            return f'({self._print(expr[0])},)'\n+        return f\"({', '.join([self._print(arg) for arg in expr])})\"\n+\n     def _print_And(self, expr):\n         result = ['(']\n         for arg in sorted(expr.args, key=default_sort_key):\n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nPython code printer not respecting tuple with one element\nHi,\r\n\r\nThanks for the recent updates in SymPy! I'm trying to update my code to use SymPy 1.10 but ran into an issue with the Python code printer. MWE:\r\n\r\n\r\n```python\r\nimport inspect\r\nfrom sympy import lambdify\r\n\r\ninspect.getsource(lambdify([], tuple([1])))\r\n```\r\nSymPy 1.9 and under outputs:\r\n```\r\n'def _lambdifygenerated():\\n    return (1,)\\n'\r\n```\r\n\r\nBut SymPy 1.10 gives\r\n\r\n```\r\n'def _lambdifygenerated():\\n    return (1)\\n'\r\n```\r\nNote the missing comma after `1` that causes an integer to be returned instead of a tuple. \r\n\r\nFor tuples with two or more elements, the generated code is correct:\r\n```python\r\ninspect.getsource(lambdify([], tuple([1, 2])))\r\n```\r\nIn SymPy  1.10 and under, outputs:\r\n\r\n```\r\n'def _lambdifygenerated():\\n    return (1, 2)\\n'\r\n```\r\nThis result is expected.\r\n\r\nNot sure if this is a regression. As this breaks my program which assumes the return type to always be a tuple, could you suggest a workaround from the code generation side? Thank you. \n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "message",
+      "id": "msg_ltjrsapic",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>\nThe added _print_Tuple override in LambdaPrinter special-cases single-element Tuples to include the trailing comma, restoring the \u201c(1,)\u201d output. It leaves multi-element and empty Tuples unaffected. This directly fixes the regression in SymPy 1.10\u2019s lambdify code printer, without touching unrelated behavior.\n</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducible example, actual versus expected behavior, version information, and even points to the exact code lines to change in legend.py. It\u2019s crystal-clear what change is needed (broaden the isinstance check to include SubFigure/FigureBase), making it fully actionable."
+}

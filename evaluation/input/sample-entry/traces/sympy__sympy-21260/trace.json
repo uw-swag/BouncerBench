@@ -1,0 +1,3 @@
+{
+  "trace": "The report comes with a minimal reproducer, shows actual vs. expected behavior (simplify(s\u2013x) should give 0 even if s was unpickled and hence a different object), and points out exactly where the logic breaks (simplify is using object identity rather than Symbol.__eq__). That is enough to write a concrete PR to fix the simplify/add logic or the unpickling of Symbol, so it\u2019s well-specified."
+}

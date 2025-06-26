@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the starting models, the desired change (FK \u2192 M2M), the unique_together constraint that must be removed, and the exact migration error encountered, along with a minimal reproduction. While it could use explicit Django version details, it gives enough context and code (and even a project attachment) to attempt a solution unambiguously."
+}

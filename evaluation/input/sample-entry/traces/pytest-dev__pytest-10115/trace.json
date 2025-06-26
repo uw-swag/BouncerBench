@@ -1,0 +1,3 @@
+{
+  "trace": "The issue outlines a desire to remove the unmaintained atomicwrites dependency and suggests inlining its functionality into pytest, but it lacks clear requirements (which functions to copy, how to organize code, how to handle edge cases, tests, Windows specifics, API stability, etc.). It\u2019s more a discussion prompt than a concrete specification of work to be done."
+}

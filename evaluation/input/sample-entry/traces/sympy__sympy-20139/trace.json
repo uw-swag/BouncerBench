@@ -1,0 +1,3 @@
+{
+  "trace": "The issue merely states \u201cUse Str instead of Symbol for name of MatrixSymbol\u201d and has no detail on what to change where, how to handle conversions, tests, or existing behavior. Key sections (description, examples, tests) are empty, so it\u2019s unclear what a complete solution should look like."
+}

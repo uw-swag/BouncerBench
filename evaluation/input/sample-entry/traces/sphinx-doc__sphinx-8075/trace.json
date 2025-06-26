@@ -1,0 +1,3 @@
+{
+  "trace": "The reporter provides a concrete minimal reproducible example, shows the exact errors in HTML and LaTeX, and states clear goals (produce valid LaTeX, allow references to uncaptioned figures, improve the warning). While there is some room for interpretation around exactly how to handle uncaptioned figures (e.g. default caption text vs. configuration option), the scope and expected outcome are well defined enough to attempt a fix."
+}

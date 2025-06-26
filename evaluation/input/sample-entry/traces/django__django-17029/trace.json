@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies the missing cache clear for get_swappable_settings_name in Apps.clear_cache, points to the exact method to modify, and even suggests the precise line to add (self.get_swappable_settings_name.cache_clear()). It\u2019s unambiguous what change is needed and how to verify it, so it\u2019s well-specified."
+}

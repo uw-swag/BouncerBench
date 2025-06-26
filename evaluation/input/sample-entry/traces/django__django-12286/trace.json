@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the unexpected behavior (E004 raised for sublanguages like de-at despite a base language being available), provides reproducible settings and error messages, references expected behavior per Django docs, and even contrasts with a working case. It\u2019s straightforward to locate and adjust the E004 check logic accordingly, so the request is well-specified."
+}

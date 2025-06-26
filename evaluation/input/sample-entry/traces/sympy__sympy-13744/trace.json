@@ -1,0 +1,3 @@
+{
+  "trace": "The issue simply reports a stack overflow during the coset_table doctests, but it doesn\u2019t show which specific doctest is failing, what the expected behavior is, or where in the code the recursion should be curtailed. There\u2019s no minimal reproduction, no description of the intended output, and no guidance on how to fix the infinite recursion. As a result, it\u2019s unclear what a successful resolution would entail without additional details."
+}

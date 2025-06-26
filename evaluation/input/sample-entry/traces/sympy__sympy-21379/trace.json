@@ -1,0 +1,3 @@
+{
+  "trace": "The report comes with a minimal reproducible example, clear Sympy version, exact steps to reproduce the error, expected versus actual behavior, and notes on which variations do or do not trigger the bug. A developer can directly run the MWE, inspect the `subs` code paths for `Piecewise` and hyperbolic functions, and verify the conditions. That makes it well-specified for a fix."
+}

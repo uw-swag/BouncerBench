@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the inconsistency (Window.order_by not supporting the dash\u2010prefix syntax), points to the existing OrderableAggMixin logic, and even suggests reusing that code in Window.__init__. The desired behavior and a straightforward implementation approach are specified, making it actionable without further clarification."
+}

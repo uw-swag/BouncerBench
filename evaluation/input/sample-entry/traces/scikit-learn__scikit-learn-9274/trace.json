@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the bug (using maxfun instead of maxiter), provides reproduction code, expected vs. actual behavior, and even a starting patch. The scope and fix are unambiguous and actionable."
+}

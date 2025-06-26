@@ -1,0 +1,3 @@
+{
+  "trace": "The report includes a minimal reproducer, clear description of expected vs actual behavior, full traceback, and even pinpoints the likely cause (Zero instead of ZeroMatrix blocks). A developer can jump in and address the block multiplication logic directly. It\u2019s well-scoped and actionable."
+}

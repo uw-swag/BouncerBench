@@ -1,0 +1,3 @@
+{
+  "trace": "The issue describes a user question (\u201chow do I update selector colors now that the old API is gone?\u201d) and requests improving a deprecation warning, but it never specifies what the replacement API should be or what the final behavior/implementation should look like. There isn\u2019t enough detail on the intended new selector interface or how to migrate the code, so it\u2019s too vague to implement a PR against the codebase without further specification from maintainers."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes a bug (forced decoding of a redirect\u2019s body leading to a gzip error), shows the failing code path in `resolve_redirects`, and suggests the desired behavior (don\u2019t decode or even read the body on redirect). While it doesn\u2019t spell out the exact patch, there\u2019s a straightforward, sensible interpretation of what needs to change. Hence it\u2019s reasonably specified."
+}

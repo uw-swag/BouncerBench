@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the problem (reusing deleted msgids/symbols), gives examples, and defines the expected behavior (\u201cimpossible to use an old message id or symbol\u201d). While it doesn\u2019t spell out the exact code locations or data structures to change, there\u2019s a straightforward, sensible interpretation for a Pylint contributor (track removed IDs and reject duplicates)."
+}

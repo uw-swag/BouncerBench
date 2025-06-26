@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly identifies the broken behavior (the middleware caches a pylibmc client at init and then fails under concurrent access), points to the exact code location, shows a repro, and describes the root cause (thread\u2010unsafe client reuse). You can immediately write a PR that moves the .cache lookup out of __init__ (or otherwise instantiates a fresh client per thread/request). There\u2019s enough here to design and implement a fix without further clarification, though the precise API change can be scoped by reading the referenced code."
+}

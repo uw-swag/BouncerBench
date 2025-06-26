@@ -1,0 +1,3 @@
+{
+  "trace": "The ticket clearly lays out the incorrect behavior (update/delete silently ignores part of a combined QuerySet) and the desired remedy (raise a descriptive error when calling update()/delete() on a union/intersection/difference QuerySet). While it doesn\u2019t specify exact exception class or message text, it gives a concrete repro and the precise operations to guard against. That provides enough to implement a meaningful fix without further clarification."
+}

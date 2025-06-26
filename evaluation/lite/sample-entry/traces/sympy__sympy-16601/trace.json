@@ -1,0 +1,41 @@
+{
+  "input": "The report gives a clear reproducible example, pinpoints where the boolean comparison fails under symbolic inputs, and the correct geometric result (the midpoint) is easily inferred. However, it doesn\u2019t explicitly state the expected symbolic return, so some geometric insight is needed. This makes it reasonably, but not fully, specified.",
+  "output": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Imagine you are an experienced software engineer reviewing a code patch submitted to address a GitHub issue. You have the full issue description, the original codebase before the fix, and the proposed patch. \n\nYou have full access to the codebase which you can browse freely as required. Do not attempt to make any changes to the codebase or execute any code.\n\nYou cannot test the patch directly; you must evaluate solely based on the supplied information and by reviewing the codebase.\n\nYour objective is to determine if the patch correctly addresses the issue described.\n\nPlease explain your reasoning and choose one of the following labels based on your evaluation:\n\nCORRECT_AND_PRECISE: The patch addresses the described issue without unnecessary changes.\n\nCORRECT_BUT_INCOMPLETE: The patch addresses the described issue but may fail to catch certain edge cases.\n\nBROAD_MISSING_KEY_ASPECTS: The patch misses some key aspects described in the issue or makes additional unrelated changes that are irrelevant to the issue.\n\nINCORRECT: The patch fails to address the issue or fundamentally misunderstands the requirements.\n\nPatches labeled BROAD_MISSING_KEY_ASPECTS or INCORRECT are considered insufficient and will be discarded.\n\n<PATCH>\ndiff --git a/sympy/geometry/parabola.py b/sympy/geometry/parabola.py\nindex ac669102bc..8926b8daf8 100644\n--- a/sympy/geometry/parabola.py\n+++ b/sympy/geometry/parabola.py\n@@ -368,18 +368,19 @@ def p_parameter(self):\n         -4\n \n         \"\"\"\n+        from sympy import Piecewise\n         if (self.axis_of_symmetry.slope == 0):\n             x = -(self.directrix.coefficients[2])\n-            if (x < self.focus.args[0]):\n-                p = self.focal_length\n-            else:\n-                p = -self.focal_length\n+            p = Piecewise(\n+                (self.focal_length, x < self.focus.args[0]),\n+                (-self.focal_length, True)\n+            )\n         else:\n             y = -(self.directrix.coefficients[2])\n-            if (y > self.focus.args[1]):\n-                p = -self.focal_length\n-            else:\n-                p = self.focal_length\n+            p = Piecewise(\n+                (-self.focal_length, y > self.focus.args[1]),\n+                (self.focal_length, True)\n+            )\n \n         return p\n \n\n</PATCH>\n\nDoes this patch correctly address the issue described below?\n\n<ISSUE_DESCRIPTION>\nParabola vertex can not be determined if Parabola is declared symbolically.\n```\r\n>>> from sympy import *\r\n>>> a = symbols('a')\r\n>>> l = Line((-a, 0), slope=oo)\r\n>>> p = Parabola((a, 0), l)\r\n>>> p.vertex\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\n  File \"sympy/geometry/parabola.py\", line 412, in vertex\r\n    vertex = Point(focus.args[0] - self.p_parameter, focus.args[1])\r\n  File \"sympy/geometry/parabola.py\", line 374, in p_parameter\r\n    if (x < self.focus.args[0]):\r\n  File \"sympy/core/relational.py\", line 229, in __nonzero__\r\n    raise TypeError(\"cannot determine truth value of Relational\")\r\nTypeError: cannot determine truth value of Relational\r\n```\n\n</ISSUE_DESCRIPTION>\n\nPlease first provide a concise reasoning for your classification, and then clearly state your classification in the format: <EXPLANATION>reasoning</EXPLANATION><LABEL>label</LABEL>."
+        }
+      ],
+      "type": "message"
+    },
+    {
+      "type": "function_call",
+      "id": "msg_hb8dnhx0k",
+      "status": "completed",
+      "call_id": "call_hyBaaq0b7DXVrUqzzXPwQ45E",
+      "name": "shell",
+      "arguments": "{\"command\": [\"bash\", \"-lc\", \"sed -n '340,430p' sympy/geometry/parabola.py\"]}"
+    },
+    {
+      "type": "function_call_output",
+      "call_id": "call_hyBaaq0b7DXVrUqzzXPwQ45E",
+      "output": "{\"output\":\"        \\\"\\\"\\\"P is a parameter of parabola.\\n\\n        Returns\\n        =======\\n\\n        p : number or symbolic expression\\n\\n        Notes\\n        =====\\n\\n        The absolute value of p is the focal length. The sign on p tells\\n        which way the parabola faces. Vertical parabolas that open up\\n        and horizontal that open right, give a positive value for p.\\n        Vertical parabolas that open down and horizontal that open left,\\n        give a negative value for p.\\n\\n\\n        See Also\\n        ========\\n\\n        http://www.sparknotes.com/math/precalc/conicsections/section2.rhtml\\n\\n        Examples\\n        ========\\n\\n        >>> from sympy import Parabola, Point, Line\\n        >>> p1 = Parabola(Point(0, 0), Line(Point(5, 8), Point(7, 8)))\\n        >>> p1.p_parameter\\n        -4\\n\\n        \\\"\\\"\\\"\\n        if (self.axis_of_symmetry.slope == 0):\\n            x = -(self.directrix.coefficients[2])\\n            if (x < self.focus.args[0]):\\n                p = self.focal_length\\n            else:\\n                p = -self.focal_length\\n        else:\\n            y = -(self.directrix.coefficients[2])\\n            if (y > self.focus.args[1]):\\n                p = -self.focal_length\\n            else:\\n                p = self.focal_length\\n\\n        return p\\n\\n    @property\\n    def vertex(self):\\n        \\\"\\\"\\\"The vertex of the parabola.\\n\\n        Returns\\n        =======\\n\\n        vertex : Point\\n\\n        See Also\\n        ========\\n\\n        sympy.geometry.point.Point\\n\\n        Examples\\n        ========\\n\\n        >>> from sympy import Parabola, Point, Line\\n        >>> p1 = Parabola(Point(0, 0), Line(Point(5, 8), Point(7, 8)))\\n        >>> p1.vertex\\n        Point2D(0, 4)\\n\\n        \\\"\\\"\\\"\\n        focus = self.focus\\n        if (self.axis_of_symmetry.slope == 0):\\n            vertex = Point(focus.args[0] - self.p_parameter, focus.args[1])\\n        else:\\n            vertex = Point(focus.args[0], focus.args[1] - self.p_parameter)\\n\\n        return vertex\\n\",\"metadata\":{\"exit_code\":0,\"duration_seconds\":0}}"
+    },
+    {
+      "type": "message",
+      "id": "msg_zl0i19oip",
+      "status": "completed",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "<EXPLANATION>By replacing the hard\u2010if tests that try to do Python boolean comparisons on symbolic inequalities with SymPy\u2019s Piecewise, the patch prevents the `TypeError` when `x < a` (or `y > a`) cannot be decided at Python\u2010level. It still yields the same numeric result for concrete parabolas (Piecewise collapses for numeric booleans) and produces a symbolic piecewise expression when parameters are symbolic, so the `vertex` property can now be built without hitting a boolean test. The change is minimal, directly targets the failing comparisons, and doesn\u2019t introduce unrelated edits.</EXPLANATION><LABEL>CORRECT_AND_PRECISE</LABEL>",
+          "annotations": []
+        }
+      ]
+    }
+  ]
+}

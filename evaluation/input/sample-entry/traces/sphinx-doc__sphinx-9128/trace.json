@@ -1,0 +1,3 @@
+{
+  "trace": "The bug report includes a minimal reproducible example, environment details, exact warning text, and clear expected behavior (no warning when documenting an alias). There\u2019s no ambiguity about what needs to change (suppress duplicate warnings for aliased objects), so it is well-specified."
+}

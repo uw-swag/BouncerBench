@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a minimal repro (with code and current vs. expected output) and clearly states that `collect_const` should factor out rational numbers (e.g. 1/2) when Numbers=True. An engineer familiar with the SymPy codebase can locate the `collect_const` implementation and extend it to handle Rational constants accordingly. While it doesn\u2019t detail the exact code changes, the goal is unambiguous and actionable."
+}

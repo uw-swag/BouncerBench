@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly shows a reproducible snippet, the unexpected behavior (the FieldError choices list omits annotation aliases), and the intended fix (include annotation names in the list of valid choices). There\u2019s no ambiguity about what needs to be changed."
+}

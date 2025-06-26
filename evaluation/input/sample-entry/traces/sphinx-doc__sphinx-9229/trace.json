@@ -1,0 +1,3 @@
+{
+  "trace": "The issue provides a minimal reproducible example, clear reproduction steps, actual vs expected behavior, environment details, and related context. It\u2019s clear what a successful solution should do (consistently render type-alias docstrings instead of the default \u201calias of\u2026\u201d text), so it\u2019s well-specified."
+}

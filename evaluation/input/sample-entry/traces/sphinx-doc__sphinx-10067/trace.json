@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior (no language setting in conf.py), the accessibility impact, the existing sphinx-quickstart prompt for language, and the desired change (have quickstart write the chosen language into conf.py). The scope is well defined (modify quickstart template/logic), so it\u2019s actionable without further clarification."
+}

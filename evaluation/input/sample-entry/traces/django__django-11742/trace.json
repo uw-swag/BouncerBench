@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly states the problem (no validation that max_length covers the longest choice value) and what\u2019s needed (a check to enforce max_length \u2265 longest choice). While it doesn\u2019t name the exact file or API hook\u2014e.g. adding a system check in Field.check()\u2014that is common knowledge in the Django codebase. A developer can sensibly implement the required check, so it\u2019s reasonably specified."
+}

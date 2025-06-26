@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly describes the current behavior, the desired behavior, points to the exact code location in xarray to change, shows example inputs/outputs, and even suggests the precise conditional to add. It\u2019s fully specified and ready for a PR."
+}

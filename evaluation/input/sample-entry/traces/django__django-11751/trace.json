@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly identifies exactly which security settings need to be turned on by default (SECURE_CONTENT_TYPE_NOSNIFF, SECURE_BROWSER_XSS_FILTER, and X_FRAME_OPTIONS='DENY') in the project template, and even suggests updating the global defaults through a deprecation period. There\u2019s no ambiguity around what code needs to change (the startproject settings template and default settings), so it\u2019s well-specified."
+}

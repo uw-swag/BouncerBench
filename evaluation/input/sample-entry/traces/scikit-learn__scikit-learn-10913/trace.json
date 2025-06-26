@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes current behavior (KeyError on unseen labels) and the desired behavior (add an `ignore_unseen` flag that maps unseen labels to zeros). It includes example code, expected output, and a use case reference. This is sufficient to implement and test the feature without further clarification."
+}

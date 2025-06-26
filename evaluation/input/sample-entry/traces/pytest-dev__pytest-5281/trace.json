@@ -1,0 +1,3 @@
+{
+  "trace": "The issue gives a clear environment (Jython 2.7.1 + pytest 4.5.0), full traceback, the exact offending literal (`u\"\\uD83D\"` in `_get_line_with_reprcrash_message`), and even a proposed workaround (dropping the `u` prefix) that makes Jython happy. You could write a PR to replace the unicode literal with a plain string literal (or handle the surrogate in a cross\u2010platform way). While you may want to verify broader unicode handling (e.g. non\u2010BMP characters) across CPython/PyPy/Jython, there\u2019s enough concrete detail here to attempt a fix."
+}

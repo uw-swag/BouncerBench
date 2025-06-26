@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly demonstrates a reproducible bug with minimal code, shows the actual vs expected outcome, and includes environment details (OS, Python, Matplotlib version). While the backend is not specified, the default QtAgg setup can be assumed, and the core problem (pickling failure due to GUI canvas references in draggable legends) is well defined. This is enough to make a meaningful attempt at a solution."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report reproduces a concrete error with minimal code, shows the failing and passing cases, and clearly states the desired outcome (allow Q(x__in=dict_keys) to work). There\u2019s enough detail to locate the bug in Q\u2019s combination logic and implement a fix, even though the exact patch isn\u2019t prescribed. Hence it\u2019s reasonably specified."
+}

@@ -1,0 +1,3 @@
+{
+  "trace": "The report gives a clear description of the error (TypeError in autodoc.mock._make_subclass when encountering TypeVar), steps to reproduce (clone repo, install deps, make html), expected behavior (docs build with generics), environment details, and even an attached log. This provides sufficient information to diagnose and implement a fix in Sphinx\u2019s autodoc mocking logic."
+}

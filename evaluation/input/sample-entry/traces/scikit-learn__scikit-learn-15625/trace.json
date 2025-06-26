@@ -1,0 +1,3 @@
+{
+  "trace": "The request clearly states what needs to be done (add a normalize parameter to confusion_matrix for direct normalization) and even references existing similar functionality for guidance. While it doesn\u2019t enumerate every implementation detail (like exact normalization modes), there\u2019s a straightforward, sensible way to proceed by mirroring the normalize behavior in other metrics. Thus it\u2019s reasonably specified for a first implementation."
+}

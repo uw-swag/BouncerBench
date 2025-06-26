@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly describes the incorrect behavior (ln is being rendered as \\log) and the desired output (use the LaTeX \\ln command). It\u2019s unambiguous what needs to change in the converter\u2019s mapping rules."
+}

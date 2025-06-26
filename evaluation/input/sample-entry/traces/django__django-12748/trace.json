@@ -1,0 +1,3 @@
+{
+  "trace": "The issue statement is very minimal: it simply says \u201cAdd support to reset sequences on SQLite\u201d with a link to the internal sqlite_sequence table, but gives no context on where or how sequences are currently managed in the codebase, what interfaces or APIs to modify, what behavior or tests are expected, or any examples. Without knowledge of the existing code structure or requirements, the request is ambiguous and under-specified."
+}

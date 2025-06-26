@@ -1,0 +1,3 @@
+{
+  "trace": "The report clearly outlines the bug: custom subclasses of BigAutoField/SmallAutoField aren\u2019t recognized by DEFAULT_AUTO_FIELD\u2019s subclass check. It includes reproduction steps, error traceback, and even pinpoints the faulty method (AutoFieldMeta.__subclasscheck__) and suggests the needed change (allow BigAutoField/SmallAutoField subclasses). This is precise enough for a direct fix."
+}

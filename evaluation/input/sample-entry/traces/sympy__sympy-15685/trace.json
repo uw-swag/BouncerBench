@@ -1,0 +1,3 @@
+{
+  "trace": "The issue clearly explains the user\u2010facing problem (ohm scale_factor is wrong) and the desired goal (hide the internal workaround by making .scale_factor private), but it does not spell out exactly how to refactor the API (e.g. rename the attribute, introduce a new property, preserve backwards compatibility, update docs/tests). There is a sensible interpretation for a solution, but some implementation details are left to the developer."
+}
