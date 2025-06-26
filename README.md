@@ -74,7 +74,14 @@ Please refer to the [Codex CLI documentation](https://github.com/openai/codex) f
 
 ### Fetching latest SWE-Bench Submissions (Optional)
 
-    This can take a few hours / reasonable amount of disk space, you may skip this step and use the pre-fetched data in this repository. "all_patches.csv" contains all patches from every submission to SWE-Bench considered in the paper (Until April 4th 2025)
+    This can take a few hours / reasonable amount of disk space, you may skip this step and use the pre-fetched data directly. Download the file from our release:
+
+    ```bash
+    # Download the pre-fetched all_patches.csv (987MB)
+    wget https://github.com/uw-swag/BouncerBench/releases/download/paper/all_patches.csv -O ./data/all_patches.csv
+    ```
+
+    The file contains all patches from every submission to SWE-Bench considered in the paper (Until April 4th 2025)
 
 NOTE: The following steps will overwrite the "./data/all_patches.csv" file with newer data than we considered (if it exists).
 

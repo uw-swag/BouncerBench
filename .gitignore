@@ -1,5 +1,5 @@
-*.csv
 .env
 .venv
 repo_cache
 config.yaml
+.DS_Store
