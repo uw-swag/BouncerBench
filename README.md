@@ -2,7 +2,7 @@
 <div align="center">
   
 [![Website](https://img.shields.io/badge/Website-Visit-blue?style=for-the-badge)](https://wwww.bouncerbench.com)
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red?style=for-the-badge)](https://arxiv.org/abs/_)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-red?style=for-the-badge)](https://arxiv.org/abs/2506.17812)
 [![Dataset](https://img.shields.io/badge/Dataset-HuggingFace-yellow?style=for-the-badge)](https://huggingface.co/collections/uw-swag/bouncerbench-68570e7beb2f154502a92286)
 
 </div>
